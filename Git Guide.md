@@ -35,7 +35,6 @@
 
 参考资料：
 [图文详解如何利用Git+Github进行团队协作开发](https://www.cnblogs.com/yhaing/p/8473746.html)
-[Git Commit Log的小型团队最佳实践](https://segmentfault.com/a/1190000015434246)
 
 
 ## Commit log 标准
@@ -59,8 +58,8 @@ type：commit的类型
 + refactor: 重构代码 
 + test: 增加修改测试用例
 
-
-
+参考资料：
+[Git Commit Log的小型团队最佳实践](https://segmentfault.com/a/1190000015434246)
 
 ## 未上传的文件
 
