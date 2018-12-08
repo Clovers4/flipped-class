@@ -40,7 +40,7 @@
                             登录
                         </button>
                         <div class="container">
-                            <a id="login" class="btn btn-default btn-link btn-lg">
+                            <a id="login" class="btn btn-default btn-link btn-lg" onclick="window.location = '/forgetPassword'">
                                 忘记密码
                             </a>
                         </div>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/forgetPassword.js"></script>
+    <script src="/static/js/modifyPassword.js"></script>
     <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -24,30 +24,23 @@
                     <div class="row">
                         <div class="col-9 flex-center ml-auto mr-auto">
                             <h4 class="card-title"
-                                style="color: #FFFFFF; font-size: 20px; margin-top: 0; font-weight: 500">找回密码</h4>
+                                style="color: #FFFFFF; font-size: 20px; margin-top: 0; font-weight: 500">设置密码</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="container">
                         <div class="col-md-8 ml-auto mr-auto">
-                            <form id="forgetPwdForm">
+                            <form id="resetPwdForm">
                                 <div class="form-group">
-                                    <label for="account">学号/教工号</label>
-                                    <input name="account" type="text" class="form-control empty-verify" id="account" autocomplete="off"
-                                           data-emptyMessage="请输入学号/教工号">
+                                    <label for="password">密码</label>
+                                    <input name="password" id="password" type="password" class="form-control empty-verify" autocomplete="off"
+                                           data-emptyMessage="请输入密码">
                                 </div>
-                                <div class="form-row" style="margin-left: 0;margin-right:0; ">
-                                    <div class="form-group col-7">
-                                        <label for="captcha">验证码</label>
-                                        <input name="captcha" class="form-control empty-verify" id="captcha" autocomplete="off"
-                                               data-emptyMessage="请输入验证码">
-                                    </div>
-                                    <div class="form-group col-5 flex-center">
-                                        <button id="getCaptchaBtn" type="button" class="btn btn-sm btn-inline bg-dark captcha-btn">
-                                            发送验证码
-                                        </button>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="confirmPwd">确认密码</label>
+                                    <input id="confirmPwd" type="password" class="form-control empty-verify" autocomplete="off"
+                                           data-emptyMessage="请输入确认密码">
                                 </div>
                             </form>
                         </div>
@@ -59,7 +52,7 @@
                             <i class="material-icons">chevron_left</i>
                         </button>
                         <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="confirmBtn">
-                            <i class="material-icons">chevron_right</i>
+                            <i class="material-icons">check</i>
                         </button>
                     </div>
                 </div>
