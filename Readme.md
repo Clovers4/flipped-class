@@ -44,11 +44,15 @@
 
 #### 类库等其他相关
 
+后端：
 + Springboot （Spring，SpringMVC，MyBatis）
 + druid
-+ Shiro
++ Spring Security
 + Websocket
-+ html、css、js、vue、freemarker
+前端：
++ html、css、js
++ freemarker
++ bootstrap、material-kit、stomp、jquery、popper
 
 #### MyBatis-Generator的使用
 
@@ -56,7 +60,10 @@
 
 参考资料：[springboot集成mybatis及mybatis generator工具使用](https://blog.csdn.net/travellersy/article/details/78620247)
 
+#### 插件（Idea支持）
 
++ p3c
++ lombok
 
 ## 目录结构
 
