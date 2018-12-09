@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Random;
 
+@tk.mybatis.spring.annotation.MapperScan(basePackages = "online.templab.flippedclass.mapper")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FlippedClassApplicationTest {

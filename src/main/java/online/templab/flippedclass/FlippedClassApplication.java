@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author wk
  */
+@tk.mybatis.spring.annotation.MapperScan(basePackages = "online.templab.flippedclass.mapper")
 @SpringBootApplication
 public class FlippedClassApplication {
 
