@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.TeacherMapper">
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Teacher">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="activative" jdbcType="BIT" property="activative"/>
+    </resultMap>
+
+    <select id="getPassword" parameterType="java.lang.String" resultType="java.lang.String">
+        select `password`
+        from teacher
+        where account = #{account}
+    </select>
+</mapper>
