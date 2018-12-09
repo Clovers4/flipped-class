@@ -37,7 +37,7 @@ public class TeacherMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    @Repeat(13)
+    @Repeat(3)
     public void insertSelective() {
         Teacher teacher = createRandomTeacher();
         try {

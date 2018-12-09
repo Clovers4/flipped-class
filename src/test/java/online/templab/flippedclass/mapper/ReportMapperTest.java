@@ -36,7 +36,7 @@ public class ReportMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    @Repeat(47)
+    @Repeat(3)
     public void insert() {
         Report report = createRandomReport();
         reportMapper.insert(report);
