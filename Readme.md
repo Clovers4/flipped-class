@@ -35,7 +35,7 @@
 注：{version} ~ 表示此版本后均可接受。
 
 + JDK 8
-+ Git 2.18 ~    GUI：sourceTree（Mac推荐）/ totoriseGit（win推荐）
++ Git 2.18 ~    GUI：sourceTree
 + Maven 3.5.4 ~
 + IDE：Idea 2018 ~
 + Mysql：5.7.22 ~
@@ -44,11 +44,15 @@
 
 #### 类库等其他相关
 
+后端：
 + Springboot （Spring，SpringMVC，MyBatis）
 + druid
-+ Shiro
++ Spring Security
 + Websocket
-+ html、css、js、vue、freemarker
+前端：
++ html、css、js
++ freemarker
++ bootstrap、material-kit、stomp、jquery、popper
 
 #### MyBatis-Generator的使用
 
@@ -56,7 +60,10 @@
 
 参考资料：[springboot集成mybatis及mybatis generator工具使用](https://blog.csdn.net/travellersy/article/details/78620247)
 
+#### 插件（Idea支持）
 
++ p3c
++ lombok
 
 ## 目录结构
 
@@ -100,7 +107,16 @@
 
 参考资料：[spring boot 项目开发常用目录结构](https://blog.csdn.net/Auntvt/article/details/80381756)
 
+## 任务
 
+#### Entity
++ 将@Getter，@Setter，@ToString去除，加上@Data
++ 有必要的话，加上一些List<XXX>
+
+#### Mapper
++ 在接口上加上@Component注解
++ 在接口上加上增加自定义方法
++ 在XML上加上对应的sql语句
 
 ## 代码规范 
 
