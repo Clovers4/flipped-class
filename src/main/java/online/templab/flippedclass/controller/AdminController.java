@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 管理员 Controller
+ * 管理员 API
  *
  * @author wk
  */
@@ -46,7 +46,7 @@ public class AdminController {
      */
     @PostMapping(value = "/login")
     @ResponseBody
-    public ResponseEntity<Object> login(HttpServletResponse response, @RequestParam String account, @RequestParam String password) {
+    public ResponseEntity<Object> login(String account, String password) {
         if (adminService.login(account, password)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
