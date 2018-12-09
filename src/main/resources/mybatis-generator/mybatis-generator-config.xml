@@ -20,6 +20,7 @@
         <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
         <!--<plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
 
+        <!--通用 Mapper 插件-->
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
             <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
             <property name="beginningDelimiter" value="`"/>
