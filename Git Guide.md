@@ -36,6 +36,18 @@
 参考资料：
 [图文详解如何利用Git+Github进行团队协作开发](https://www.cnblogs.com/yhaing/p/8473746.html)
 
+## Github PR流程
+1. fork 组长的repo。
+2. clone 自己的repo。git clone git@github.com:xxx/xxx.git
+3. remote 添加组长的repo。git remote add upstream https://github.com/xxx/xxx.git
+4. 这一步骤与上面的多人开发步骤相同，只不过origin其实是自己的仓库。
+5. git pull upstream   // 这里可能组长的repo有更新，因此可能有冲突等等，参考上面的方式解决
+6. 去Github创建PR
+
+参考资料：
+[在GitHub创建和处理PR](https://boxueio.com/series/git-essential/ebook/459)
+[向github的开源项目提交PR的步骤](https://blog.csdn.net/u010857876/article/details/79035876)
+[git学习--GitHub上如何进行PR(Pull Request)操作](https://blog.csdn.net/qq_33429968/article/details/62219783)
 
 ## Commit log 标准
 
