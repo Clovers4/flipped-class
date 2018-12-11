@@ -7,37 +7,44 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Repeat;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * @author wk
+ */
 @Transactional
 public class TeacherMapperTest extends FlippedClassApplicationTest {
 
     @Autowired
     TeacherMapper teacherMapper;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     private Teacher createTeacher() {
         Teacher teacher = new Teacher()
-                .setAccount("test")
+                .setAccount("teacher_test")
                 .setActivative(false)
                 .setName("超人")
-                .setPassword("sss");
+                .setPassword(passwordEncoder.encode("sss"));
         return teacher;
     }
 
     private Teacher createRandomTeacher() {
         Teacher teacher = new Teacher()
-                .setAccount("test_" + random.nextInt(10000))
+                .setAccount("teacher" + random.nextInt(10000))
                 .setActivative(false)
                 .setName("随机_" + random.nextInt(100))
-                .setPassword("random");
+                .setPassword(passwordEncoder.encode("123456"));
         return teacher;
     }
 
     @Test
-    @Repeat(3)
+    @Repeat(4)
     public void insertSelective() {
         Teacher teacher = createRandomTeacher();
         try {
@@ -48,11 +55,14 @@ public class TeacherMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void getPassword() {
-        String passwordDB = teacherMapper.getPassword("test_2246");
-        logger.info(passwordDB);
-        Assert.assertEquals("random", passwordDB);
+    public void getOne() {
+        //  String username="" 会查出很多，要注意这个坑
+        String username = "test_6231";
+        Teacher teacher = teacherMapper.selectOne(new Teacher().setAccount(username));
+        Assert.assertNotNull(teacher);
+        logger.info(teacher.toString());
     }
+
 
     @Test
     public void getPage() {
