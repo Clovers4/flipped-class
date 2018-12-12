@@ -1,5 +1,6 @@
 package online.templab.flippedclass.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -11,18 +12,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * 验证通过的处理
+ * 验证通过的处理器
  *
  * @author wk
  */
 @Component
+@Slf4j
 public class AjaxAuthSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
         String authorities = auth.getPrincipal().toString();
         // FIXME 跳转不对
-        System.out.println("Auth Success : " + authorities);
+        log.info("Auth Success : " + authorities);
 
         PrintWriter writer = response.getWriter();
         writer.write(authorities);

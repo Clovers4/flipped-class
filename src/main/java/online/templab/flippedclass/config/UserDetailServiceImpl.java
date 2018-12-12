@@ -17,8 +17,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 自定义的UserDetailsService，用于判断用户是否登录成功。
+ * <br/>若成功，则置入ROLE_XXX，生成User，跳转AjaxAuthSuccessHandler
+ * <br/>若失败，则跳转跳转AjaxAuthFailureHandler
+ *
+ * @author wk
+ */
 @Service
-public class CustomUserDetailService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     private AdminMapper adminMapper;
@@ -28,7 +35,6 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Autowired
     private StudentMapper studentMapper;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -99,6 +105,5 @@ public class CustomUserDetailService implements UserDetailsService {
                 .setRole("ROLE_STUDENT");
         return userWithRole;
     }
-
 
 }
