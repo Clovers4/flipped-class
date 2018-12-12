@@ -12,10 +12,4 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="activative" jdbcType="BIT" property="activative"/>
     </resultMap>
-
-    <select id="getPassword" parameterType="java.lang.String" resultType="java.lang.String">
-        select `password`
-        from teacher
-        where account = #{account}
-    </select>
 </mapper>

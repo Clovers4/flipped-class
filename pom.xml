@@ -110,6 +110,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Spring Boot Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- 6. Other -->
         <!--spring actuator 监控-->
         <dependency>
