@@ -27,6 +27,7 @@ public class EmailServiceTest extends FlippedClassApplicationTest {
     public void send() throws Exception {
         Email email = createEmail();
         emailService.send(email);
+        System.out.println(logger.toString());
     }
 
 } 

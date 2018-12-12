@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service;
 
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.entity.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @author wk
  */
 @Service
+@Slf4j
 public class EmailService {
 
     @Autowired
@@ -30,8 +32,8 @@ public class EmailService {
         message.setTo(email.getToAddress());
         message.setSubject(email.getSubject());
         message.setText(email.getContent());
+
         mailSender.send(message);
-        // TODO: 改成logger
-        System.out.println("简单邮件发送成功！");
+        log.info("简单邮件发送成功!  " + message);
     }
 }

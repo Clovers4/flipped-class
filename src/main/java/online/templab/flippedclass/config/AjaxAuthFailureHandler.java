@@ -1,5 +1,6 @@
 package online.templab.flippedclass.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -15,12 +16,12 @@ import java.io.IOException;
  * @author wk
  */
 @Component
+@Slf4j
 public class AjaxAuthFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        //TODO
-        System.out.println("Auth Failure : " + e.getMessage());
+        log.info("Auth Failure : " + e.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "验证失败");
     }
 }

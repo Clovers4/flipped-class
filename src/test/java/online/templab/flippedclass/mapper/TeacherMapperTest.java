@@ -57,7 +57,7 @@ public class TeacherMapperTest extends FlippedClassApplicationTest {
     @Test
     public void getOne() {
         //  String username="" 会查出很多，要注意这个坑
-        String username = "test_6231";
+        String username = "teacher1376";
         Teacher teacher = teacherMapper.selectOne(new Teacher().setAccount(username));
         Assert.assertNotNull(teacher);
         logger.info(teacher.toString());

@@ -29,7 +29,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private StudentMapper studentMapper;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO:修正
@@ -99,6 +98,5 @@ public class CustomUserDetailService implements UserDetailsService {
                 .setRole("ROLE_STUDENT");
         return userWithRole;
     }
-
 
 }
