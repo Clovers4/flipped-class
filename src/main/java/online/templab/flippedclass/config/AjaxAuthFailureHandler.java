@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 验证失败的处理
+ * 验证失败的处理器
  *
  * @author wk
  */
