@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author wk
  */
-//@Transactional
+@Transactional
 public class StudentMapperTest extends FlippedClassApplicationTest {
 
     @Autowired

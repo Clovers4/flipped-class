@@ -37,13 +37,13 @@ public class LoginController {
     public ResponseEntity<Object> login(String account, String password) {
         // TODO: 请使用service
         System.out.println(account + "," + password);
-        if ("teacher1".equals(account)) {
+//        if ("teacher1".equals(account)) {
             return ResponseEntity.status(HttpStatus.OK).body("[ROLE_teacher]");
-        }
-        if ("student1".equals(account)) {
-            return ResponseEntity.status(HttpStatus.OK).body("[ROLE_student]");
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//        }
+//        if ("student1".equals(account)) {
+//            return ResponseEntity.status(HttpStatus.OK).body("[ROLE_student]");
+//        }
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     /**
