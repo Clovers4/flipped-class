@@ -1,7 +1,11 @@
 package online.templab.flippedclass;
 
+import online.templab.flippedclass.multipart.StorageProperties;
+import online.templab.flippedclass.multipart.StorageService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,11 +16,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @tk.mybatis.spring.annotation.MapperScan(basePackages = "online.templab.flippedclass.mapper")
 @SpringBootApplication
+@EnableConfigurationProperties(StorageProperties.class)
 public class FlippedClassApplication {
 
     @Bean()
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+        //    storageService.deleteAll();
+            storageService.init();
+        };
     }
 
     public static void main(String[] args) {
