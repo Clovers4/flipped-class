@@ -2,6 +2,9 @@
 /target/
 /out/
 
+# upload #
+/upload/
+
 ### Maven ###
 .mvn
 mvnw
