@@ -1,4 +1,4 @@
-package online.templab.flippedclass.config;
+package online.templab.flippedclass.security;
 
 import online.templab.flippedclass.entity.Admin;
 import online.templab.flippedclass.entity.Student;
