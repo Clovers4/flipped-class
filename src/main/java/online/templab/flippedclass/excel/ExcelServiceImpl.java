@@ -30,19 +30,10 @@ public class ExcelServiceImpl implements ExcelService {
             Sheet sheet = workbook.getSheetAt(0);
 
             // 从第三行开始是数据
-            for (int i = 2; i < sheet.getLastRowNum(); i++) {
+            for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) {
                 Row row = sheet.getRow(i);
                 String account = row.getCell(0).getStringCellValue();
                 String name = row.getCell(1).getStringCellValue();
-
-                // 已经没数据了
-                if (account == null && name == null) {
-                    break;
-                }
-                // 有空行/N行连在一起
-                if ("".equals(account) && "name".equals(name)) {
-                    continue;
-                }
 
                 Student record = new Student()
                         .setAccount(account)
@@ -72,7 +63,7 @@ public class ExcelServiceImpl implements ExcelService {
                 row.createCell(1).setCellValue("姓名");
                 continue;
             }
-            Student student = students.get(i-1);
+            Student student = students.get(i - 1);
             row.createCell(0).setCellValue(student.getAccount());
             row.createCell(1).setCellValue(student.getName());
         }
