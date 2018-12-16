@@ -1,4 +1,4 @@
-package online.templab.flippedclass.security;
+package online.templab.flippedclass.common.security;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

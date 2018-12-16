@@ -1,4 +1,4 @@
-package online.templab.flippedclass.entity;
+package online.templab.flippedclass.common.email;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

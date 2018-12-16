@@ -1,4 +1,4 @@
-package online.templab.flippedclass.security;
+package online.templab.flippedclass.common.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

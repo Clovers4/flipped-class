@@ -1,4 +1,4 @@
-package online.templab.flippedclass.multipart.excp;
+package online.templab.flippedclass.common.multipart.excp;
 
 /**
  * 编码操作异常

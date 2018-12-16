@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.stream.Collectors;
 
-import online.templab.flippedclass.multipart.StorageService;
-import online.templab.flippedclass.multipart.excp.EncodeException;
-import online.templab.flippedclass.multipart.excp.StorageFileNotFoundException;
+import online.templab.flippedclass.common.multipart.StorageService;
+import online.templab.flippedclass.common.multipart.excp.EncodeException;
+import online.templab.flippedclass.common.multipart.excp.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

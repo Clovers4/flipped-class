@@ -1,4 +1,4 @@
-package online.templab.flippedclass.excel;
+package online.templab.flippedclass.common.excel;
 
 import online.templab.flippedclass.entity.Student;
 

@@ -1,4 +1,4 @@
-package online.templab.flippedclass.multipart;
+package online.templab.flippedclass.common.multipart;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

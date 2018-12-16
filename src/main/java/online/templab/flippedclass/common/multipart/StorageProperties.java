@@ -1,4 +1,4 @@
-package online.templab.flippedclass.multipart;
+package online.templab.flippedclass.common.multipart;
 
 import lombok.Getter;
 import lombok.Setter;
