@@ -1,4 +1,4 @@
-package online.templab.flippedclass.config;
+package online.templab.flippedclass.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
