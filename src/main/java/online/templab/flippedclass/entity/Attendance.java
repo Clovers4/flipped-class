@@ -34,13 +34,13 @@ public class Attendance implements Serializable {
      * 该队伍顺序
      */
     @Column(name = "`team_order`")
-    private Byte teamOrder;
+    private Integer teamOrder;
 
     /**
      * 是否正在进行
      */
     @Column(name = "`is_present`")
-    private Byte isPresent;
+    private Boolean present;
 
     /**
      * 提交的报告文件名
