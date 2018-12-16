@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <script src="/static/js/teacher/course/klassList.js"></script>
+    <title>班级</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">账户设置</div>
+            <div class="navbar-brand brand-title">班级</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -48,65 +48,55 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised info-main">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="profile">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="avatar">
-                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
+<div class="main main-raised no-footer">
+    <#if klasses?size == 0>
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">portable_wifi_off</i>
+                </div>
+                <h4 class="info-title">这里空荡荡的</h4>
+            </div>
+        </div>
+    <#else >
+        <div class="container">
+            <div class="row">
+                <#list klasses as klass>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body" data-klassID="${klass.id}" data-toggle="modal" data-target="#klassModal">
+                            <div class="body-header">
+                                <div class="body-title">${klass.klassName}</div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>讨论课时间</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${klass.time}</div>
+                                </div>
+                                <div class="line">
+                                    <label>讨论课地点</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${klass.location}</div>
                                 </div>
                             </div>
-                            <div class="col-8 avatar-side">
-                                <h3 class="title">${teacher.teacherName}</h3>
-                                <hr>
-                                <h4 class="title">${teacher.teacherNum}</h4>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <hr>
-        <div class="row options" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="flex-space-between">
-                            <span>电子邮箱：${teacher.email}</span>
-                            <span>
-                            <a class="btn btn-link btn-fab-mini btn-fab btn-round btn-rose"
-                               style="margin-top: 0;margin-bottom: 0;">
-                            <i class="material-icons">edit</i>
-                            </a>
-                        </span>
-                        </div>
-                    </div>
+                </#list>
+                <div class="col-lg-4 col-md-6">
+                    <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/klass/create'"
+                       style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
+                        <i class="material-icons add-icon">add_circle</i>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="row options" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn btn-round bg-dark" style="width: 100%">
-                    修改密码
-                </button>
-            </div>
-        </div>
-    </div>
+    </#if>
 </div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
-        <i class="material-icons">exit_to_app</i>
-        退出登录
-    </button>
-</div>
-<form hidden id="courseIdForm">
-    <input id="courseIdInput" name="courseId" title="">
-</form>
-<div class="modal fade" id="courseModal" data-courseID="">
+
+<div class="modal fade" id="klassModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,19 +106,13 @@
                 </button>
             </div>
             <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row" style="margin-bottom: 40px">
+                <div class="row">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="infoNav">
+                            <li class="nav-item">
                                 <a class="nav-link">
-                                    <i class="material-icons">description</i>
-                                    课程信息
-                                </a>
-                            </li>
-                            <li class="nav-item" id="gradeNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">equalizer</i>
-                                    成绩
+                                    <i class="material-icons">save_alt</i>
+                                    导入名单
                                 </a>
                             </li>
                         </ul>
@@ -137,16 +121,10 @@
                 <div class="row">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="optionNav">
+                            <li class="nav-item" id="deleteKlass">
                                 <a class="nav-link">
-                                    <i class="material-icons">tune</i>
-                                    讨论课设置
-                                </a>
-                            </li>
-                            <li class="nav-item" id="shareNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">share</i>
-                                    课程共享
+                                    <i class="material-icons" style="color: #f44336">delete</i>
+                                    删除班级
                                 </a>
                             </li>
                         </ul>

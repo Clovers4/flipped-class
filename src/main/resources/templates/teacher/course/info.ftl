@@ -11,20 +11,6 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script>
-        var csIdForm;
-        $(function () {
-            csIdForm=$("#csIdForm");
-            $("#enrollBtn").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/enrollList");
-                csIdForm.submit();
-            });
-            $("#enterSeminar").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/progressing");
-                csIdForm.submit();
-            })
-        });
-    </script>
     <title>课程信息</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -64,17 +50,10 @@
 <div class="container" style="margin-top: 40px">
     <div class="row">
         <div class="col-md-10 ml-auto mr-auto">
-            <div class="card seminar-card">
+            <div class="card seminar-card" style="height: 77%;">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-9" style="display: flex;align-items: center">
-                            <h4 class="card-title" style="margin-top: 0">${course.courseName}</h4>
-                        </div>
-                        <div class="col-3">
-                            <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn">
-                                <i class="material-icons">library_books</i>
-                            </button>
-                        </div>
+                    <div class="container flex-center">
+                        <h4 class="card-title">${course.courseName}</h4>
                     </div>
                 </div>
                 <div class="card-body">
@@ -103,10 +82,10 @@
                                 <div class="content">${course.teamStartDate?date}</div>
                             </div>
                             <div class="line content-line">
-                            <label>组队结束时间</label>
-                            <div class="sep"></div>
-                            <div class="content">${course.teamEndDate?date}</div>
-                        </div>
+                                <label>组队结束时间</label>
+                                <div class="sep"></div>
+                                <div class="content">${course.teamEndDate?date}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,9 +94,12 @@
     </div>
 </div>
 
-<form hidden id="courseIdForm" method="get">
-    <input id="courseIdInput" name="courseId" title="" value="${course.id}">
-</form>
+<div class="container foot-container flex-center">
+    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+        <i class="material-icons">delete</i>
+        删除课程
+    </button>
+</div>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

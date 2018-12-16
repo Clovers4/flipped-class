@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <div class="container">
                         <div class="col-md-8 ml-auto mr-auto">
-                            <form id="resetPwdForm">
+                            <form id="modifyPwdForm">
                                 <div class="form-group">
                                     <label for="password">密码</label>
                                     <input name="password" id="password" type="password" class="form-control empty-verify" autocomplete="off"

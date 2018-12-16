@@ -63,7 +63,7 @@
                 <#list teams as team>
                 <div class="col-lg-4 col-md-6">
                     <div class="card content-card">
-                        <div class="card-body" data-courseID="${team.id}" data-toggle="modal" data-target="#courseModal">
+                        <div class="card-body" data-courseID="${team.id}" data-toggle="modal" data-target="#teamModal${team.id}">
                             <div class="body-header">
                                 <div class="body-title">${team.teamName}</div>
                             </div>
@@ -77,7 +77,7 @@
                                 <div class="line">
                                     <label>队长</label>
                                     <div class="sep"></div>
-                                    <div class="content">${team.leaderId}</div>
+                                    <div class="content">${team.leader.studentName}</div>
                                 </div>
                                 <div class="line">
                                     <label>合法性</label>
@@ -93,6 +93,54 @@
         </div>
     </#if>
 </div>
+
+<#list teams as team>
+<div class="modal fade" id="teamModal${team.id}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">${team.teamName}</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card content-card">
+                        <div class="card-body">
+                            <div class="body-content">
+                                队长：${team.leader.studentName}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card content-card">
+                        <div class="card-body">
+                            <div class="body-content">
+                            <#if (team.students?size > 0)>
+                                <#list team.students as student>
+                                    <#if team.leader.studentNum != student.studentNum>
+                                    <div>队员：${student.studentName}</div>
+                                    </#if>
+                                </#list>
+                            <#else>
+                                <div class="empty-tag" style="height: 200px;">
+                                    <div class="info">
+                                        <div class="icon icon-rose flex-center">
+                                            <i class="material-icons color-grey">portable_wifi_off</i>
+                                        </div>
+                                        <h4 class="info-title">没有队员</h4>
+                                    </div>
+                                </div>
+                            </#if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</#list>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

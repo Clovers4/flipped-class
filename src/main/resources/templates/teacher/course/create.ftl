@@ -63,6 +63,14 @@
                         <textarea id="intro" name="intro" type="text" rows="4" autocomplete="off"
                                class="form-control empty-verify" data-emptyMessage="请输入课程简介"></textarea>
                     </div>
+                    <div class="form-group bmd-form-group">
+                        <input id="teamStartDate" name="teamStartDate" type="text" autocomplete="off" placeholder="组队开始时间"
+                               class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队开始时间">
+                    </div>
+                    <div class="form-group bmd-form-group">
+                        <input id="teamEndDate" name="teamEndDate" type="text" autocomplete="off" placeholder="组队结束时间"
+                               class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队结束时间">
+                    </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div id="gradeCard" class="card form-card dropdown-card">
@@ -116,7 +124,7 @@
                             <div id="groupCard" class="card form-card dropdown-card">
                                 <div class="card-body">
                                     <div class="body-header">
-                                        <div class="body-title">小组规则</div>
+                                        <div class="body-title">人数限制</div>
                                         <div class="flex-center">
                                             <div class="triangle rightward"></div>
                                         </div>
@@ -140,26 +148,6 @@
                                                 <div class="form-group bmd-form-group" style="display: inline">
                                                     <input id="teamMin" name="teamMin" type="text" autocomplete="off"
                                                            class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="line">
-                                            <label for="teamStartDate">组队开始时间</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="teamStartDate" name="teamStartDate" type="text" autocomplete="off"
-                                                           class="form-control datetimepicker empty-verify" data-emptyMessage="请输入课堂提问权重">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="line">
-                                            <label for="teamEndDate">组队结束时间</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="teamEndDate" name="teamEndDate" type="text" autocomplete="off"
-                                                           class="form-control datetimepicker empty-verify" data-emptyMessage="请输入书面报告权重">
                                                 </div>
                                             </div>
                                         </div>

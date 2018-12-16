@@ -132,7 +132,7 @@ $(function () {
     $(createModal.find(".confirm")).click(function () {
         var btn = $(this);
         var form = createModal.find(".form");
-        if(util.verify(form)) {
+        if(util.verifyWithPop(form)) {
             $.ajax({
                 type: "put",
                 url: "/admin/student",
@@ -145,11 +145,11 @@ $(function () {
                         sendDataRequest(defaultFilter);
                         form.get(0).reset();
                     } else if (xhr.status === 204) {
-                        util.popWithDelay(btn, "创建失败，学号已存在", 3);
+                        btn.delayedPop("创建失败，学号已存在", 3);
                     }
                 },
                 error: function () {
-                    util.popWithDelay(btn, "创建失败，未知错误", 3);
+                    btn.delayedPop("创建失败，未知错误", 3);
                 }
             });
         }
@@ -176,7 +176,7 @@ $(function () {
                 sendDataRequest(defaultFilter);
             },
             error:function () {
-                util.popWithDelay($(deleteItemsModal.find(".confirm")), "删除失败", 3);
+                $(deleteItemsModal.find(".confirm")).delayedPop("删除失败", 3);
             }
         });
     });

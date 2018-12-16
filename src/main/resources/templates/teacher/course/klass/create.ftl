@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/createClbum.js"></script>
+    <script src="/static/js/teacher/course/createKlass.js"></script>
     <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -19,7 +19,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/clbumList'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">创建班级</div>
@@ -52,9 +52,9 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row flex-center">
-            <div class="col-md-6">
-                <form class="form" id="createClbumForm">
-                    <input hidden name="courseId" value="${courseId}" title="">
+            <div class="col-md-8">
+                <form class="form" id="createKlassForm">
+                    <input hidden id="courseId" name="courseId" title="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
                             <label style="margin-bottom: 0;">班级名称：</label>
@@ -64,45 +64,22 @@
                                    class="form-control empty-verify" data-emptyMessage="请输入年级">
                         </div>
                         <div class="col">
-                            <input id="clbumNum" name="clbumNum" type="text" placeholder="班级" autocomplete="off"
+                            <input id="klassNum" name="klassNum" type="text" placeholder="班级" autocomplete="off"
                                    class="form-control empty-verify" data-emptyMessage="请输入班级">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="introCard" class="card form-card dropdown-card">
-                                <div class="card-body">
-                                    <div class="body-header">
-                                        <div class="body-title">班级简介</div>
-                                        <div class="flex-center">
-                                            <div class="triangle downward"></div>
-                                        </div>
-                                    </div>
-                                    <div class="body-content">
-                                        <hr>
-                                        <div class="line">
-                                            <label for="clbumTime">讨论课时间</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="clbumTime" name="clbumTime" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="line">
-                                            <label for="location">讨论课地点</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="location" name="location" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <div class="container">
+                        <div class="form-group bmd-form-group">
+                            <input id="klassTime" name="klassTime" type="text" autocomplete="off" placeholder="讨论课时间"
+                                   class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="form-group bmd-form-group">
+                            <input id="location" name="location" type="text" autocomplete="off" placeholder="讨论课地点"
+                                   class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
                         </div>
                     </div>
                     <div class="row">
@@ -130,12 +107,16 @@
         </button>
     </div>
     <div class="right-button">
-        <button class="btn btn-danger btn-round cancel" onclick="window.location='/teacher/course/clbum'" style="margin: 0">
+        <button class="btn btn-danger btn-round cancel" style="margin: 0">
             <i class="material-icons">clear</i>
             取消
         </button>
     </div>
 </div>
+
+<form id="returnForm" action="/teacher/course/klassList" method="post">
+    <input id="returnCourseId" name="courseId" title="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

@@ -48,7 +48,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
+<div class="main main-raised no-footer">
     <#if courses?size ==0>
         <div class="empty-tag">
             <div class="info">
@@ -79,7 +79,7 @@
                                                 讨论课
                                             </a>
                                         </li>
-                                        <li class="nav-item clbum-nav">
+                                        <li class="nav-item klass-nav">
                                             <a class="nav-link">
                                                 <i class="material-icons">class</i>
                                                 班级
@@ -94,73 +94,45 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12 ml-auto mr-auto">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item info-nav">
+                                            <a class="nav-link">
+                                                <i class="material-icons">description</i>
+                                                课程信息
+                                            </a>
+                                        </li>
+                                        <li class="nav-item grade-nav">
+                                            <a class="nav-link">
+                                                <i class="material-icons">equalizer</i>
+                                                成绩
+                                            </a>
+                                        </li>
+                                        <li class="nav-item share-nav">
+                                            <a class="nav-link">
+                                                <i class="material-icons">share</i>
+                                                课程共享
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             </#list>
+                <div class="col-md-6">
+                    <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-bottom: 10px">
+                        <i class="material-icons add-icon">add_circle</i>
+                    </a>
+                </div>
             </div>
         </div>
     </#if>
 </div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/teacher/course/create'" class="btn btn-dark btn-round bg-dark" style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建课程
-    </button>
-</div>
-
-<div class="modal fade" id="courseModal" data-courseID="">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row" style="margin-bottom: 40px">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="infoNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">description</i>
-                                    课程信息
-                                </a>
-                            </li>
-                            <li class="nav-item" id="gradeNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">equalizer</i>
-                                    成绩
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="optionNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">tune</i>
-                                    讨论课设置
-                                </a>
-                            </li>
-                            <li class="nav-item" id="shareNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">share</i>
-                                    课程共享
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<form hidden id="courseIdForm">
+<form hidden id="courseIdForm" method="post">
     <input id="courseIdInput" name="courseId" title="">
 </form>
 <!--   Core JS Files   -->

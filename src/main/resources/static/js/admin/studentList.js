@@ -49,7 +49,7 @@ $(function () {
     modifyModal.modal.find(".confirm").click(function () {
         var btn = $(this);
         var form = modifyModal.modal.find(".form");
-        if(util.verify(form)) {
+        if(util.verifyWithPop(form)) {
             $.ajax({
                 type: "patch",
                 url: "/admin/student",
@@ -61,11 +61,11 @@ $(function () {
                         parentFrame.trigger("showNotification", ["修改成功", "success"]);
                         location.reload();
                     } else if (xhr.status === 204) {
-                        util.popWithDelay(btn, "修改失败，学号不存在", 3);
+                        btn.delayedPop("修改失败，学号不存在", 3);
                     }
                 },
                 error: function () {
-                    util.popWithDelay(btn, "修改失败，未知错误", 3);
+                    btn.delayedPop("修改失败，未知错误", 3);
                 }
             });
         }
@@ -80,7 +80,7 @@ $(function () {
                 location.reload();
             },
             error:function () {
-                util.popWithDelay($(resetPwdModal.find(".confirm")), "删除失败", 3);
+                $(resetPwdModal.find(".confirm")).delayedPop("删除失败", 3);
             }
         });
     });
@@ -94,7 +94,7 @@ $(function () {
                 location.reload();
             },
             error:function () {
-                util.popWithDelay($(deleteItemModal.find(".confirm")), "删除失败", 3);
+                $(deleteItemModal.find(".confirm")).delayedPop("删除失败", 3);
             }
         });
     });

@@ -71,14 +71,8 @@
                                 我的课程
                             </a>
                         </li>
-                        <li class="nav-item" hidden>
-                            <a class="nav-link" onclick="window.location='/teacher/notifications'">
-                                <i class="material-icons">notifications</i>
-                                待办
-                            </a>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="window.location='/teacher/option'">
+                            <a class="nav-link" onclick="window.location='/teacher/setting'">
                                 <i class="material-icons">settings</i>
                                 账户设置
                             </a>

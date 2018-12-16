@@ -5,19 +5,47 @@ var util = {
         warning:"warning",
         danger:"clear"
     },
-    popWithDelay: function (pop, message, s) {
-        pop.attr("data-content", message);
-        pop.popover("show");
-        setTimeout(function () {
-            pop.popover("hide");
-        }, s * 1000);
+    singleVerifyWithPop:function(input){
+        if(input.hasClass("empty-verify")){
+            if(input.val() == null || input.val() ===""){
+                input.delayedPop(input.attr("data-emptyMessage"), 3);
+                input.focus();
+                return false;
+            }
+        }
+        if(input.hasClass("reg-verify")){
+            if(!(new RegExp(input.attr("data-reg")).test(input.val()))){
+                input.delayedPop(input.attr("data-regMessage"), 3);
+                input.focus();
+                return false;
+            }
+        }
+        return true;
     },
-    verify:function (form) {
+    singleVerifyWithAlert:function(input){
+        if(input.hasClass("empty-verify")){
+            if(input.val() == null || input.val() ===""){
+                this.showAlert("warning", input.attr("data-emptyMessage"), 3);
+                input.registerDanger();
+                return false;
+            }
+        }
+        if(input.hasClass("reg-verify")){
+            if(!(new RegExp(input.attr("data-reg")).test(input.val()))){
+                this.showAlert("warning", input.attr("data-regMessage"), 3);
+                input.registerDanger();
+                return false;
+            }
+        }
+        return true;
+    },
+    //TODO:Refine this verify function. Make it to be lazy-handled
+    verifyWithPop:function (form) {
         var emptyVerifies = form.find(".empty-verify");
         for(var i = 0 ; i < emptyVerifies.length; ++i){
             var emptyVerify = $(emptyVerifies.get(i));
             if(emptyVerify.val() == null || emptyVerify.val() ===""){
-                this.popWithDelay(emptyVerify, emptyVerify.attr("data-emptyMessage"), 3);
+                emptyVerify.delayedPop(emptyVerify.attr("data-emptyMessage"), 3);
                 emptyVerify.focus();
                 return false;
             }
@@ -26,13 +54,33 @@ var util = {
         for(i = 0 ; i < regVerifies.length; ++i){
             var regVerify = $(regVerifies.get(i));
             if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
-                this.popWithDelay(regVerify, regVerify.attr("data-regMessage"), 3);
-                regVerify.focus();
+                regVerify.delayedPop(regVerify.attr("data-regMessage"), 3);
+                regVerify.registerDanger();
                 return false;
             }
         }
         return true;
     },
+    verifyWithAlert:function(form){
+        var emptyVerifies = form.find(".empty-verify");
+        for(var i = 0 ; i < emptyVerifies.length; ++i){
+            var emptyVerify = $(emptyVerifies.get(i));
+            if(emptyVerify.val() == null || emptyVerify.val() ===""){
+                this.showAlert("warning", emptyVerify.attr("data-emptyMessage"), 3);
+                return emptyVerify;
+            }
+        }
+        var regVerifies = form.find(".reg-verify");
+        for(i = 0 ; i < regVerifies.length; ++i){
+            var regVerify = $(regVerifies.get(i));
+            if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
+                this.showAlert("warning", regVerify.attr("data-regMessage"), 3);
+                return regVerify;
+            }
+        }
+        return null;
+    },
+
     _generateAlertDom:function (type, message) {
         var iconDOM = $("<div class='alert-icon'><i class='material-icons'>"+ this._iconMapper[type]+ "</i></div>");
         var messageDOM = $("<b>" + message + "</b>");
@@ -56,38 +104,37 @@ var util = {
             });
         }, second * 1000);
     },
-    verifyWithAlert:function(form){
-        var emptyVerifies = form.find(".empty-verify");
-        for(var i = 0 ; i < emptyVerifies.length; ++i){
-            var emptyVerify = $(emptyVerifies.get(i));
-            if(emptyVerify.val() == null || emptyVerify.val() ===""){
-                this.showAlert("warning", emptyVerify.attr("data-emptyMessage"), 3);
-                return emptyVerify;
-            }
-        }
-        var regVerifies = form.find(".reg-verify");
-        for(i = 0 ; i < regVerifies.length; ++i){
-            var regVerify = $(regVerifies.get(i));
-            if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
-                this.showAlert("warning", regVerify.attr("data-regMessage"), 3);
-                return regVerify;
-            }
-        }
-        return null;
-    }
+    //Not useful. Just for warning eliminate
+    popover:function () {}
 };
 $.fn.serializeObject = function() {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name]) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
+    var obj = {};
+    var arr = this.serializeArray();
+    $.each(arr, function() {
+        if (obj[this.name]) {
+            if (!obj[this.name].push) {
+                obj[this.name] = [obj[this.name]];
             }
-            o[this.name].push(this.value || '');
+            obj[this.name].push(this.value || '');
         } else {
-            o[this.name] = this.value || '';
+            obj[this.name] = this.value || '';
         }
     });
-    return o;
+    return obj;
+};
+$.fn.delayedPop = function (message, s) {
+    var pop = this;
+    pop.attr("data-content", message);
+    pop.popover("show");
+    setTimeout(function () {
+        pop.popover("hide");
+    }, s * 1000);
+};
+$.fn.registerDanger = function () {
+    var dom = this;
+    dom.parent().addClass("has-danger");
+    dom.focus();
+    dom.keydown(function () {
+        dom.parent().removeClass("has-danger");
+    })
 };

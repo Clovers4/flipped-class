@@ -62,18 +62,16 @@
         <div class="container">
             <div class="row">
             <#list rounds as round>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-md-6">
                     <div class="card content-card">
                         <div class="card-body">
                             <div class="body-header">
-                                <div class="body-title">第${round.roundIns.roundNum}轮</div>
+                                <div class="body-title">第${round.roundNum}轮</div>
                             </div>
                             <div class="body-content">
                                 <hr>
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item" data-toggle="modal"
-                                        data-target="#round${round.roundIns.id}Modal">
-                                    <#--TODO:Change the icon-->
+                                    <li class="nav-item" data-toggle="modal" data-target="#round${round.id}Modal">
                                         <a class="nav-link" style="padding-bottom: 0;">
                                             <i class="material-icons">ballot</i>
                                             讨论课
@@ -91,31 +89,36 @@
                     </div>
                 </div>
             </#list>
+                <div class="col-md-6">
+                    <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-top: 10px;margin-bottom: 10px;">
+                        <i class="material-icons add-icon">add_circle</i>
+                    </a>
+                </div>
             </div>
         </div>
     </#if>
 </div>
 
 <#list rounds as round>
-<div class="modal seminar-modal fade" id="round${round.roundIns.id}Modal" data-roundId="${round.roundIns.id}">
+<div class="modal seminar-modal fade" id="round${round.id}Modal" data-roundId="${round.id}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">第${round.roundIns.roundNum}轮</h5>
+                <h5 class="modal-title">第${round.roundNum}轮</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="material-icons">clear</i>
                 </button>
             </div>
             <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
                 <#if round.seminars?size == 0>
-                <div class="empty-tag modal-tag">
-                    <div class="info">
-                        <div class="icon icon-rose flex-center">
-                            <i class="material-icons color-grey">portable_wifi_off</i>
+                    <div class="empty-tag modal-tag">
+                        <div class="info">
+                            <div class="icon icon-rose flex-center">
+                                <i class="material-icons color-grey">portable_wifi_off</i>
+                            </div>
+                            <h4 class="info-title">这里空荡荡的</h4>
                         </div>
-                        <h4 class="info-title">这里空荡荡的</h4>
                     </div>
-                </div>
                 <#else >
                 <div class="container">
                     <div class="row">
@@ -148,9 +151,9 @@
                                 </#list>
                             </div>
                             <div class="container">
-                                <#list clbums as clbum>
-                                    <button type="button" class="btn btn-round bg-dark clbum-btn"
-                                            data-clbumId="${clbum.id}">${clbum.clbumName}</button>
+                                <#list klasses as klass>
+                                    <button type="button" class="btn btn-round bg-dark klass-btn"
+                                            data-klassId="${klass.id}">${klass.klassName}</button>
                                 </#list>
                             </div>
                         </div>
@@ -164,24 +167,19 @@
 </#list>
 
 <div class="container foot-container flex-space-between">
-    <div class="left-button">
-        <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
-                style="margin: 0">
-            <i class="material-icons">add_circle</i>
-            轮次
-        </button>
-    </div>
-    <div class="right-button">
-        <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
-                style="margin: 0">
-            <i class="material-icons">add_circle</i>
-            讨论课
-        </button>
-    </div>
+    <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
+            style="margin: 0">
+        <i class="material-icons">add_circle</i>
+        讨论课
+    </button>
 </div>
-<form hidden id="seminarForm" action="/teacher/course/seminar/info">
+
+<form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
     <input id="seminarIdInput" name="seminarId" title="">
-    <input id="clbumIdInput" name="clbumId" title="">
+    <input id="klassIdInput" name="klassId" title="">
+</form>
+<form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
+    <input id="courseIdInput" name="courseId" title="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
