@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.SeminarMapper">
+  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Seminar">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="round_id" jdbcType="BIGINT" property="roundId" />
+    <result column="seminar_name" jdbcType="VARCHAR" property="seminarName" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="max_team" jdbcType="TINYINT" property="maxTeam" />
+    <result column="is_visible" jdbcType="TINYINT" property="visible" />
+    <result column="seminar_serial" jdbcType="TINYINT" property="seminarSerial" />
+    <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartTime" />
+    <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndTime" />
+  </resultMap>
+</mapper>

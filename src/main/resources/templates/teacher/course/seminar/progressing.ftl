@@ -20,7 +20,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/course/seminar/info'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">讨论课</div>
@@ -50,7 +50,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised" id="main" data-csId="${csId}">
+<div class="main main-raised" id="main" data-ksId="${ksId}">
     <form class="form" id="loginForm">
         <div class="container">
             <div class="row" style="margin-top: 30px;">
@@ -90,6 +90,11 @@
         </button>
     </div>
 </div>
+
+<form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
+    <input id="seminarIdInput" name="seminarId" title="">
+    <input id="klassIdInput" name="klassId" title="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

@@ -12,16 +12,20 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script>
-        var csIdForm;
+        var ksIdForm;
         $(function () {
-            csIdForm=$("#csIdForm");
+            ksIdForm=$("#ksIdForm");
+            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
             $("#enrollBtn").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/enrollList");
-                csIdForm.submit();
+                ksIdForm.attr("action", "/teacher/course/seminar/enrollList");
+                ksIdForm.submit();
             });
             $("#enterSeminar").click(function () {
-                csIdForm.attr("action", "/teacher/course/seminar/progressing");
-                csIdForm.submit();
+                ksIdForm.attr("action", "/teacher/course/seminar/progressing");
+                ksIdForm.submit();
+            });
+            $("#backBtn").click(function () {
+                $("#courseIdForm").submit();
             })
         });
     </script>
@@ -31,7 +35,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-fab-mini btn-round" onclick="window.location='/teacher/course/seminarList'">
+            <a class="btn btn-link btn-fab btn-fab-mini btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">讨论课信息</div>
@@ -68,7 +72,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-9" style="display: flex;align-items: center">
-                            <h4 class="card-title" style="margin-top: 0">${clbumSeminar.seminar.theme}</h4>
+                            <h4 class="card-title" style="margin-top: 0">${klassSeminar.seminar.theme}</h4>
                         </div>
                         <div class="col-3">
                             <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enrollBtn">
@@ -80,35 +84,18 @@
                 <div class="card-body">
                     <div class="container">
                         <div class="col-md-6 ml-auto mr-auto">
-                            <div class="line">
-                                <label>轮次</label>
-                                <div class="sep"></div>
-                            <#--TODO:{}-->
-                                <div class="content">｛第二轮｝</div>
-                            </div>
-                            <div class="line">
-                                <label>班级</label>
-                                <div class="sep"></div>
-                            <#--TODO:{}-->
-                                <div class="content">｛2016(1)｝</div>
-                            </div>
-                            <div class="line">
-                                <label>课次序号</label>
-                                <div class="sep"></div>
-                                <div class="content" style="margin-left: 10px">${clbumSeminar.seminar.serial}</div>
-                            </div>
                             <div class="line content-line">
                                 <label>课程要求</label>
                                 <div class="sep"></div>
-                                <div class="content">${clbumSeminar.seminar.content}</div>
+                                <div class="content">${klassSeminar.seminar.content}</div>
                             </div>
                             <div class="line status-line">
                                 <label>状态</label>
                                 <div class="sep"></div>
                                 <div class="content">
-                                    <#if clbumSeminar.state == 0>
+                                    <#if klassSeminar.state == 0>
                                         尚未开始
-                                    <#elseif clbumSeminar.state == 1>
+                                    <#elseif klassSeminar.state == 1>
                                         正在进行
                                     <#else>
                                         已经结束
@@ -130,8 +117,11 @@
     </div>
 </div>
 
-<form hidden id="csIdForm" method="get">
-    <input id="csIdInput" name="clbumSeminarId" title="" value="${clbumSeminar.id}">
+<form hidden id="ksIdForm" method="post">
+    <input id="ksIdInput" name="klassSeminarId" title="" value="${klassSeminar.id}">
+</form>
+<form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
+    <input id="courseIdInput" name="courseId" title="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

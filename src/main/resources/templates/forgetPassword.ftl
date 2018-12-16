@@ -34,17 +34,18 @@
                             <form id="forgetPwdForm">
                                 <div class="form-group">
                                     <label for="account">学号/教工号</label>
-                                    <input name="account" type="text" class="form-control empty-verify" id="account" autocomplete="off"
-                                           data-emptyMessage="请输入学号/教工号">
+                                    <input name="account" type="text" id="account" autocomplete="off"
+                                           class="form-control empty-verify" data-emptyMessage="请输入学号/教工号">
                                 </div>
                                 <div class="form-row" style="margin-left: 0;margin-right:0; ">
                                     <div class="form-group col-7">
                                         <label for="captcha">验证码</label>
-                                        <input name="captcha" class="form-control empty-verify" id="captcha" autocomplete="off"
-                                               data-emptyMessage="请输入验证码">
+                                        <input name="captcha" id="captcha" autocomplete="off"
+                                               class="form-control empty-verify" data-emptyMessage="请输入验证码">
                                     </div>
                                     <div class="form-group col-5 flex-center">
-                                        <button id="getCaptchaBtn" type="button" class="btn btn-sm btn-inline bg-dark captcha-btn">
+                                        <button id="getCaptchaBtn" type="button"
+                                                class="btn btn-sm btn-inline bg-dark captcha-btn">
                                             发送验证码
                                         </button>
                                     </div>
@@ -55,7 +56,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/login'">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn">
                             <i class="material-icons">chevron_left</i>
                         </button>
                         <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="confirmBtn">

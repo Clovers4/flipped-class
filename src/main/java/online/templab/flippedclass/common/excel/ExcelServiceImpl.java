@@ -33,7 +33,7 @@ public class ExcelServiceImpl implements ExcelService {
 
                 Student record = new Student()
                         .setAccount(account)
-                        .setName(name);
+                        .setStudentName(name);
                 students.add(record);
             }
         } catch (IOException e) {
@@ -61,7 +61,7 @@ public class ExcelServiceImpl implements ExcelService {
             }
             Student student = students.get(i - 1);
             row.createCell(0).setCellValue(student.getAccount());
-            row.createCell(1).setCellValue(student.getName());
+            row.createCell(1).setCellValue(student.getStudentName());
         }
 
         // 将数据写入文件

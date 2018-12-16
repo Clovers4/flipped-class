@@ -1,36 +1,28 @@
-var courseModal;
-var courseIdForm = {};
+    var courseIdForm = {};
 $(function () {
-    courseModal = $("#courseModal");
     courseIdForm.form = $("#courseIdForm");
     courseIdForm.courseIdInput = $("#courseIdInput");
 
-    courseModal.on("show.bs.modal",function (event) {
-        var item = $(event.relatedTarget);
-        courseModal.attr("data-courseID", item.attr("data-courseID"));
-        $(courseModal.find(".modal-title")).html($(item.find(".body-title")).html());
+    $("#addRound").click(function () {
+        window.location='/teacher/course/create';
     });
-    $(".clbum-nav").click({url:'/teacher/course/clbumList'},courseCardNavClick);
-    $(".team-nav").click({url:'/teacher/course/teamList'},courseCardNavClick);
-    $(".seminar-nav").click({url:'/teacher/course/seminarList'},courseCardNavClick);
-    $("#gradeNav");
-    $("#infoNav").click({url:'/teacher/course/info'},modalCardNavClick);
-    $("#optionNav");
-    $("#shareNav");
+    $(".klass-nav").click({url:'/teacher/course/klassList'},navClick);
+    $(".team-nav").click({url:'/teacher/course/teamList'},navClick);
+    $(".seminar-nav").click({url:'/teacher/course/seminarList'},navClick);
+    $(".grade-nav").click({url:'/teacher/course/grade'},navClick);
+    $(".info-nav").click({url:'/teacher/course/info'},navClick);
+    $(".share-nav").click({url:'/teacher/course/share'},navClick);
 
     $(".nav-item").click(function (ev) {
         ev.stopPropagation();//Prevent ev to be cached by upper dom
     });
 });
 
-function courseCardNavClick(e) {
-    postCourseId(e.data.url,$(this).parents(".card-body").attr("data-courseId"));
-}
-function modalCardNavClick(e) {
-    postCourseId(e.data.url,courseModal.attr("data-courseID"));
-}
-function postCourseId(url,id) {
-    courseIdForm.form.attr("action", url);
-    courseIdForm.courseIdInput.val(id);
+function navClick(e) {
+    var courseId = $(this).parents(".card-body").attr("data-courseId");
+    sessionStorage.setItem("courseId" , courseId);
+
+    courseIdForm.form.attr("action", e.data.url);
+    courseIdForm.courseIdInput.val(courseId);
     courseIdForm.form.submit();
 }

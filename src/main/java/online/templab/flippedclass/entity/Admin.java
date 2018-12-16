@@ -16,11 +16,17 @@ public class Admin implements Serializable {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    /**
+     * 账号
+     */
     @Column(name = "`account`")
     private String account;
 
+    /**
+     * 密码
+     */
     @Column(name = "`password`")
     private String password;
 

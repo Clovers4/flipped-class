@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.RoundMapper">
+  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Round">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="round_serial" jdbcType="TINYINT" property="roundSerial" />
+    <result column="presentation_score_method" jdbcType="TINYINT" property="presentationScoreMethod" />
+    <result column="report_score_method" jdbcType="TINYINT" property="reportScoreMethod" />
+    <result column="question_score_method" jdbcType="TINYINT" property="questionScoreMethod" />
+  </resultMap>
+</mapper>

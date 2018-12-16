@@ -5,11 +5,11 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="is_active" jdbcType="TINYINT" property="active" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="activative" jdbcType="BIT" property="activative" />
   </resultMap>
 </mapper>

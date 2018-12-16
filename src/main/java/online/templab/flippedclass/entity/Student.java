@@ -16,22 +16,37 @@ public class Student implements Serializable {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    /**
+     * 学生账户
+     */
     @Column(name = "`account`")
     private String account;
 
+    /**
+     * 账户密码
+     */
     @Column(name = "`password`")
     private String password;
 
-    @Column(name = "`name`")
-    private String name;
+    /**
+     * 账号是否激活
+     */
+    @Column(name = "`is_active`")
+    private Boolean active;
 
+    /**
+     * 学生姓名
+     */
+    @Column(name = "`student_name`")
+    private String studentName;
+
+    /**
+     * 邮箱地址
+     */
     @Column(name = "`email`")
     private String email;
-
-    @Column(name = "`activative`")
-    private Boolean activative;
 
     private static final long serialVersionUID = 1L;
 }

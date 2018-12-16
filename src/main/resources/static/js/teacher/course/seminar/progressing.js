@@ -2,13 +2,13 @@ var client = null;
 var msgList;
 var socketAddr = "/seminar-socket";
 var clientAddr = '/topic/client/';
-var serverAddr = "/app/teacher/clbumSeminar/";
-var csId;
+var serverAddr = "/app/teacher/klassSeminar/";
+var ksId;
 $(function () {
     msgList = $("#msgList");
-    csId = $("#main").attr("data-csId");
-    serverAddr += csId;
-    clientAddr += csId;
+    ksId = $("#main").attr("data-ksId");
+    serverAddr += ksId;
+    clientAddr += ksId;
     $("#connect").click(function () {
         var socket = new SockJS(socketAddr);
         client = Stomp.over(socket);
@@ -43,5 +43,13 @@ function appendMessage(user, msg) {
     msgList.append($("<hr>"));
 }
 
+
+$(function () {
+    $("#seminarIdInput").val(sessionStorage.getItem("seminarId"));
+    $("#klassIdInput").val(sessionStorage.getItem("klassId"));
+    $("#backBtn").click(function () {
+        $("#seminarForm").submit();
+    })
+});
 
 

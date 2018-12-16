@@ -27,7 +27,7 @@
                     <p class="description text-center">用户登录</p>
                     <div class="card-body">
                         <div class="form-group bmd-form-group">
-                            <input id="username" name="username" type="text" placeholder="学号/教工号" autocomplete="off"
+                            <input id="account" name="account" type="text" placeholder= "学号/教工号" autocomplete="off"
                                    class="form-control empty-verify" data-emptyMessage="请输入学号/教工号">
                         </div>
                         <div class="form-group bmd-form-group">
@@ -40,7 +40,7 @@
                             登录
                         </button>
                         <div class="container">
-                            <a id="login" class="btn btn-default btn-link btn-lg" onclick="window.location = '/forgetPassword'">
+                            <a id="forgetPwd" class="btn btn-default btn-link btn-lg">
                                 忘记密码
                             </a>
                         </div>
