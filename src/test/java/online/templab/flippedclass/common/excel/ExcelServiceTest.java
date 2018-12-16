@@ -35,10 +35,10 @@ public class ExcelServiceTest extends FlippedClassApplicationTest {
     @Test
     public void generateExcel() {
         List<Student> students = new ArrayList<>();
-        students.add(new Student().setAccount("" + random.nextInt(100)).setName("张三"));
-        students.add(new Student().setAccount("" + random.nextInt(100)).setName("张三"));
-        students.add(new Student().setAccount("" + random.nextInt(100)).setName("张三"));
-        students.add(new Student().setAccount("" + random.nextInt(100)).setName("张三"));
+        students.add(new Student().setAccount("" + random.nextInt(100)).setStudentName("张三"));
+        students.add(new Student().setAccount("" + random.nextInt(100)).setStudentName("张三"));
+        students.add(new Student().setAccount("" + random.nextInt(100)).setStudentName("张三"));
+        students.add(new Student().setAccount("" + random.nextInt(100)).setStudentName("张三"));
         String filename = "D:/students.xlsx";
         logger.info(filename);
         excelService.generateStudentExcel(students, filename);
