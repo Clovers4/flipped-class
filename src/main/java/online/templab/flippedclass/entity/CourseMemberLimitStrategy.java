@@ -11,24 +11,30 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString
 @Accessors(chain = true)
-@Table(name = "`admin`")
-public class Admin implements Serializable {
+@Table(name = "`course_member_limit_strategy`")
+public class CourseMemberLimitStrategy implements Serializable {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * 账号
+     * 课程id
      */
-    @Column(name = "`account`")
-    private String account;
+    @Column(name = "`course_id`")
+    private Long courseId;
 
     /**
-     * 密码
+     * 队伍中选该课程最少人数
      */
-    @Column(name = "`password`")
-    private String password;
+    @Column(name = "`min_member`")
+    private Byte minMember;
+
+    /**
+     * 队伍中选该课程最多人数
+     */
+    @Column(name = "`max_member`")
+    private Byte maxMember;
 
     private static final long serialVersionUID = 1L;
 }

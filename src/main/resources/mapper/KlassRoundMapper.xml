@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.KlassRoundMapper">
+  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.KlassRound">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="klass_id" jdbcType="BIGINT" property="klassId" />
+    <id column="round_id" jdbcType="BIGINT" property="roundId" />
+    <result column="enroll_number" jdbcType="TINYINT" property="enrollNumber" />
+  </resultMap>
+</mapper>

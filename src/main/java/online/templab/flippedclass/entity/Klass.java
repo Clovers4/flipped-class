@@ -11,42 +11,42 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString
 @Accessors(chain = true)
-@Table(name = "`student`")
-public class Student implements Serializable {
+@Table(name = "`klass`")
+public class Klass implements Serializable {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * 学生账户
+     * 课程id
      */
-    @Column(name = "`account`")
-    private String account;
+    @Column(name = "`course_id`")
+    private Long courseId;
 
     /**
-     * 账户密码
+     * 年级
      */
-    @Column(name = "`password`")
-    private String password;
+    @Column(name = "`grade`")
+    private Integer grade;
 
     /**
-     * 账号是否激活
+     * 班级序号
      */
-    @Column(name = "`is_active`")
-    private Byte isActive;
+    @Column(name = "`klass_serial`")
+    private Byte klassSerial;
 
     /**
-     * 学生姓名
+     * 上课时间
      */
-    @Column(name = "`student_name`")
-    private String studentName;
+    @Column(name = "`klass_time`")
+    private String klassTime;
 
     /**
-     * 邮箱地址
+     * 上课地点
      */
-    @Column(name = "`email`")
-    private String email;
+    @Column(name = "`klass_location`")
+    private String klassLocation;
 
     private static final long serialVersionUID = 1L;
 }

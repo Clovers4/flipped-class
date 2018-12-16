@@ -11,24 +11,24 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString
 @Accessors(chain = true)
-@Table(name = "`admin`")
-public class Admin implements Serializable {
+@Table(name = "`conflict_course_strategy`")
+public class ConflictCourseStrategy implements Serializable {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * 账号
+     * 冲突课程1
      */
-    @Column(name = "`account`")
-    private String account;
+    @Column(name = "`course_1_id`")
+    private Long course1Id;
 
     /**
-     * 密码
+     * 冲突课程2
      */
-    @Column(name = "`password`")
-    private String password;
+    @Column(name = "`course_2_id`")
+    private Long course2Id;
 
     private static final long serialVersionUID = 1L;
 }

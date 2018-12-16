@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.ShareTeamApplicationMapper">
+  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.ShareTeamApplication">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="main_course_id" jdbcType="BIGINT" property="mainCourseId" />
+    <result column="sub_course_id" jdbcType="BIGINT" property="subCourseId" />
+    <result column="sub_course_teacher_id" jdbcType="BIGINT" property="subCourseTeacherId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+</mapper>
