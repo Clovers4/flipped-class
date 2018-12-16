@@ -21,10 +21,14 @@ public class EmailServiceTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void send() throws Exception {
+    public void testSend() throws Exception {
         Email email = createEmail();
         emailService.send(email);
-        System.out.println(logger.toString());
     }
 
+
+    @Test
+    public void testSendCaptcha() throws Exception {
+        emailService.sendCaptcha("wkay2016@163.com", "AS12");
+    }
 } 

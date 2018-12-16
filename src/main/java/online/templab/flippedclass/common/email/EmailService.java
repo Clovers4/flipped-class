@@ -35,4 +35,12 @@ public class EmailService {
         mailSender.send(message);
         log.info("简单邮件发送成功!  " + message);
     }
+
+    public void sendCaptcha(String toAddress, String captcha) {
+        Email email = new Email()
+                .setToAddress(toAddress)
+                .setSubject("翻转课堂系统 - 验证码")
+                .setContent("验证码 : " + captcha);
+        send(email);
+    }
 }
