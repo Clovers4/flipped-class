@@ -1,4 +1,4 @@
-package online.templab.flippedclass.excel;
+package online.templab.flippedclass.common.excel;
 
 /**
  * excel文件加载失败异常

@@ -1,4 +1,4 @@
-package online.templab.flippedclass.multipart;
+package online.templab.flippedclass.common.multipart;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +10,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
-import online.templab.flippedclass.multipart.excp.StorageException;
-import online.templab.flippedclass.multipart.excp.StorageFileNotFoundException;
+import online.templab.flippedclass.common.multipart.excp.StorageException;
+import online.templab.flippedclass.common.multipart.excp.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

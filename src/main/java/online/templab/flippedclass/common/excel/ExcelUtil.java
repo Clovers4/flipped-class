@@ -1,4 +1,4 @@
-package online.templab.flippedclass.excel;
+package online.templab.flippedclass.common.excel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;

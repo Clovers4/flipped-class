@@ -1,7 +1,6 @@
-package online.templab.flippedclass.service;
+package online.templab.flippedclass.common.email;
 
 import lombok.extern.slf4j.Slf4j;
-import online.templab.flippedclass.entity.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;

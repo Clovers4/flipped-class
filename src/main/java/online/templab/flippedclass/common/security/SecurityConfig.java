@@ -1,4 +1,4 @@
-package online.templab.flippedclass.security;
+package online.templab.flippedclass.common.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

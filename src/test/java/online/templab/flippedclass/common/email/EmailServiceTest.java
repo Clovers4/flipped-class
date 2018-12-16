@@ -1,10 +1,7 @@
-package online.templab.flippedclass.service;
+package online.templab.flippedclass.common.email;
 
 import online.templab.flippedclass.FlippedClassApplicationTest;
-import online.templab.flippedclass.entity.Email;
 import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
