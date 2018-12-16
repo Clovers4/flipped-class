@@ -9,7 +9,7 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
-    <result column="is_active" jdbcType="TINYINT" property="isActive" />
+    <result column="is_active" jdbcType="TINYINT" property="active" />
     <result column="email" jdbcType="VARCHAR" property="email" />
   </resultMap>
 </mapper>

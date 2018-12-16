@@ -11,7 +11,7 @@
     <result column="seminar_name" jdbcType="VARCHAR" property="seminarName" />
     <result column="introduction" jdbcType="VARCHAR" property="introduction" />
     <result column="max_team" jdbcType="TINYINT" property="maxTeam" />
-    <result column="is_visible" jdbcType="TINYINT" property="isVisible" />
+    <result column="is_visible" jdbcType="TINYINT" property="visible" />
     <result column="seminar_serial" jdbcType="TINYINT" property="seminarSerial" />
     <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartTime" />
     <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndTime" />

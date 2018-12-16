@@ -31,7 +31,7 @@ public class KlassRound implements Serializable {
      * 某班级，某轮次队伍报名次数限制
      */
     @Column(name = "`enroll_number`")
-    private Byte enrollNumber;
+    private Integer enrollNumber;
 
     private static final long serialVersionUID = 1L;
 }

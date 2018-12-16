@@ -40,7 +40,7 @@ public class Teacher implements Serializable {
      * 账号是否激活
      */
     @Column(name = "`is_active`")
-    private Byte isActive;
+    private Boolean active;
 
     /**
      * 邮箱地址

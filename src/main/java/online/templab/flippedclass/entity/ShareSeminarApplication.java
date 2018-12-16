@@ -40,7 +40,7 @@ public class ShareSeminarApplication implements Serializable {
      * 请求状态，同意1、不同意0、未处理null
      */
     @Column(name = "`status`")
-    private Byte status;
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 }

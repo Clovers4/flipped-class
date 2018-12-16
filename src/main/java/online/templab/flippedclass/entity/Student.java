@@ -34,7 +34,7 @@ public class Student implements Serializable {
      * 账号是否激活
      */
     @Column(name = "`is_active`")
-    private Byte isActive;
+    private Boolean active;
 
     /**
      * 学生姓名

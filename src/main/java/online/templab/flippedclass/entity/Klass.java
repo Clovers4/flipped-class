@@ -34,7 +34,7 @@ public class Klass implements Serializable {
      * 班级序号
      */
     @Column(name = "`klass_serial`")
-    private Byte klassSerial;
+    private Integer klassSerial;
 
     /**
      * 上课时间

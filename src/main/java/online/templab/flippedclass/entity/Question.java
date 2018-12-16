@@ -44,7 +44,7 @@ public class Question implements Serializable {
      * 是否被选中
      */
     @Column(name = "`is_selected`")
-    private Byte isSelected;
+    private Integer isSelected;
 
     /**
      * 提问分数

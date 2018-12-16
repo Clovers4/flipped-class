@@ -46,13 +46,13 @@ public class Team implements Serializable {
      * 队伍序号
      */
     @Column(name = "`team_serial`")
-    private Byte teamSerial;
+    private Integer teamSerial;
 
     /**
      * 队伍状态，不合法0、合法1、审核中2
      */
     @Column(name = "`status`")
-    private Byte status;
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 }

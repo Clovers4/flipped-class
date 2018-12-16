@@ -47,19 +47,19 @@ public class Seminar implements Serializable {
      * 报名讨论课最多组数
      */
     @Column(name = "`max_team`")
-    private Byte maxTeam;
+    private Integer maxTeam;
 
     /**
      * 是否可见
      */
     @Column(name = "`is_visible`")
-    private Byte isVisible;
+    private Boolean visible;
 
     /**
      * 讨论课序号
      */
     @Column(name = "`seminar_serial`")
-    private Byte seminarSerial;
+    private Integer seminarSerial;
 
     /**
      * 讨论课报名开始时间

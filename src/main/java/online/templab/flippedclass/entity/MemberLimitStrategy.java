@@ -22,13 +22,13 @@ public class MemberLimitStrategy implements Serializable {
      * 最少人数
      */
     @Column(name = "`min_member`")
-    private Byte minMember;
+    private Integer minMember;
 
     /**
      * 最多人数
      */
     @Column(name = "`max_member`")
-    private Byte maxMember;
+    private Integer maxMember;
 
     private static final long serialVersionUID = 1L;
 }

@@ -42,7 +42,7 @@ public class KlassSeminar implements Serializable {
      * 讨论课所处状态，未开始0，正在进行1，已结束2，暂停3
      */
     @Column(name = "`status`")
-    private Byte status;
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 }

@@ -28,25 +28,25 @@ public class Round implements Serializable {
      * 轮次序号
      */
     @Column(name = "`round_serial`")
-    private Byte roundSerial;
+    private Integer roundSerial;
 
     /**
      * 本轮展示分数计算方法
      */
     @Column(name = "`presentation_score_method`")
-    private Byte presentationScoreMethod;
+    private Integer presentationScoreMethod;
 
     /**
      * 本轮报告分数计算方法
      */
     @Column(name = "`report_score_method`")
-    private Byte reportScoreMethod;
+    private Integer reportScoreMethod;
 
     /**
      * 本轮提问分数计算方法
      */
     @Column(name = "`question_score_method`")
-    private Byte questionScoreMethod;
+    private Integer questionScoreMethod;
 
     private static final long serialVersionUID = 1L;
 }

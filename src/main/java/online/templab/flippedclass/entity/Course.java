@@ -41,19 +41,19 @@ public class Course implements Serializable {
      * 展示分数占比
      */
     @Column(name = "`presentation_percentage`")
-    private Byte presentationPercentage;
+    private Integer presentationPercentage;
 
     /**
      * 提问分数占比
      */
     @Column(name = "`question_percentage`")
-    private Byte questionPercentage;
+    private Integer questionPercentage;
 
     /**
      * 报告分数占比
      */
     @Column(name = "`report_percentage`")
-    private Byte reportPercentage;
+    private Integer reportPercentage;
 
     /**
      * 开始组队时间
