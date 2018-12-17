@@ -1,5 +1,6 @@
 package online.templab.flippedclass.mapper;
 
+import com.github.pagehelper.Page;
 import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.Attendance;
 import org.apache.ibatis.session.RowBounds;
@@ -45,7 +46,7 @@ public class AttendanceMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testGetPage() {
-        List<Attendance> records = attendanceMapper.selectByRowBounds(new Attendance(), new RowBounds(1, 5));
+        Page<Attendance> records = (Page<Attendance>) attendanceMapper.selectByRowBounds(new Attendance(), new RowBounds(1, 5));
         Assert.assertNotNull(records);
         logger.info(records.toString());
         for (Attendance record : records) {
