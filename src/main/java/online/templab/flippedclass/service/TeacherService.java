@@ -37,7 +37,7 @@ public interface TeacherService {
      * @param teacher
      * @return 成功则返回 true ,失败则返回 false
      */
-    Boolean update(Teacher teacher);
+    Boolean updateById(Teacher teacher);
 
     /**
      * 激活某个 Teacher 账号
