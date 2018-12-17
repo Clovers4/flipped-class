@@ -38,12 +38,31 @@ public interface StudentService {
     Boolean update(Student student);
 
     /**
+     * 根据输入邮箱激活某个 student 的账户
+     *
+     * @param id
+     * @param password
+     * @param email
+     * @return
+     */
+    Boolean activate(Long id,String password, String email);
+
+    /**
      * 根据 account 重置某个 Student 的密码
      *
      * @param account
      * @return
      */
-    Boolean resetPassword(String account);
+    Boolean resetPassword(String account,String password);
+
+    /**
+     * 根据 id 修改某个账号的密码
+     *
+     * @param id
+     * @param password
+     * @return
+     */
+    Boolean modifyPassword(Long id, String password);
 
     /**
      * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Student>

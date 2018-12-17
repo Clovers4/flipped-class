@@ -21,7 +21,7 @@ public class TeacherServiceImplTest extends FlippedClassApplicationTest {
                 .setPassword("test")
                 .setActive(false)
                 .setEmail("test" + random.nextInt(1000) + "@163.com")
-                .setTeacherName("帅哥");
+                .setTeacherName("teacher");
     }
 
     @Test
@@ -48,7 +48,7 @@ public class TeacherServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testResetPassword() throws Exception {
-        Boolean success = teacherService.resetPassword("test72");
+        Boolean success = teacherService.resetPassword("test27");
         Assert.assertEquals(true, success);
     }
 
