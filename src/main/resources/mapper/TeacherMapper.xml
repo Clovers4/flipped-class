@@ -17,13 +17,13 @@
         update teacher
         <set>
             <if test="password != null">
-                `password` = #{password}
+                `password` = #{password},
             </if>
             <if test="teacherName != null">
-                teacher_name = #{teacherName}
+                teacher_name = #{teacherName},
             </if>
             <if test="active != null">
-                is_active = #{active}
+                is_active = #{active},
             </if>
             <if test="email != null">
                 email = #{email}

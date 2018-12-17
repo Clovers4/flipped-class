@@ -15,8 +15,9 @@ public class TeacherMapperTest extends FlippedClassApplicationTest {
     public void testUpdateByAccountSelective() {
         int line = teacherMapper.updateByAccountSelective(
                 new Teacher()
-                        .setAccount("teacher123")
+                        .setAccount("test72")
                         .setEmail("testemail@163.com")
+                        .setActive(true)
         );
         Assert.assertEquals(1, line);
     }
