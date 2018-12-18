@@ -12,7 +12,7 @@ import java.util.List;
 public class TeamDaoImpl implements TeamDao {
 
     @Autowired
-    TeamMapper teamMapper;
+    private TeamMapper teamMapper;
 
     @Override
     public List<Team> selectByCourseId(Long courseId){
