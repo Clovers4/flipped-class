@@ -53,7 +53,7 @@ public interface StudentService {
      * @param account
      * @return
      */
-    Boolean resetPassword(String account,String password);
+    Boolean resetPassword(String account);
 
     /**
      * 根据 id 修改某个账号的密码

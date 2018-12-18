@@ -33,52 +33,52 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testInsert() throws Exception {
         Boolean success = studentService.insert(createStudent());
-        Assert.assertEquals(true,success);
+        Assert.assertEquals(true, success);
     }
 
     @Test
-    public void testDelete() throws Exception{
+    public void testDelete() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
 
         System.out.println(student);
         Boolean success = studentService.delete(student.getAccount());
 
-        Assert.assertEquals(true,success);
+        Assert.assertEquals(true, success);
     }
 
     @Test
-    public void testActive()throws Exception{
+    public void testActive() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
-        Boolean success = studentService.activate(student.getId(),student.getPassword(),student.getEmail());
+        Boolean success = studentService.activate(student.getId(), student.getPassword(), student.getEmail());
 
-        Assert.assertEquals(true,success);
+        Assert.assertEquals(true, success);
     }
 
     @Test
-    public void resetPassword()throws Exception{
+    public void resetPassword() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
-        Boolean success = studentService.resetPassword(student.getAccount(),student.getPassword());
+        Boolean success = studentService.resetPassword(student.getAccount());
 
-        Assert.assertEquals(true,success);
+        Assert.assertEquals(true, success);
     }
 
     @Test
-    public void testModifyPassword()throws Exception{
+    public void testModifyPassword() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
-        student.setPassword(passwordEncoder.encode("test"+random.nextInt(1000)));
+        student.setPassword(passwordEncoder.encode("test" + random.nextInt(1000)));
         System.out.println(student);
 
-        Boolean success = studentService.modifyPassword(student.getId(),student.getPassword());
-        Assert.assertEquals(true,success);
+        Boolean success = studentService.modifyPassword(student.getId(), student.getPassword());
+        Assert.assertEquals(true, success);
     }
 
     @Test
-    public void testGetPage()throws Exception{
-        Page<Student> page = studentService.getPage(new RowBounds(1,5));
+    public void testGetPage() throws Exception {
+        Page<Student> page = studentService.getPage(new RowBounds(1, 5));
         Assert.assertNotNull(page);
     }
 

@@ -12,13 +12,7 @@ import org.springframework.stereotype.Component;
  * @author fj
  */
 @Component
-public class StudentDao {
-
-    @Autowired
-    StudentMapper studentMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+public interface StudentDao {
 
     /**
      * 插入一个 Student
@@ -26,9 +20,7 @@ public class StudentDao {
      * @param student
      * @return
      */
-    public int insert(Student student){
-        return studentMapper.insertSelective(student);
-    }
+    int insert(Student student);
 
     /**
      * 删除某个 account 对应的学生
@@ -36,67 +28,23 @@ public class StudentDao {
      * @param account
      * @return
      */
-    public int delete(String account){
-        return studentMapper.delete(new Student().setAccount(account));
-    }
+    int deleteByAccount(String account);
 
     /**
-     * 根据 id 更新一个 Student
+     * 根据 primary key 更新学生（非空属性才更新）
      *
      * @param student
      * @return
      */
-    public int update(Student student){
-        return studentMapper.updateByPrimaryKeySelective(student);
-    }
+    int updateByPrimaryKeySelective(Student student);
 
     /**
-     * 根据输入邮箱激活某个 student 的账户
+     * 根据 account 更新学生（非空属性才更新）
      *
-     * @param id
-     * @param password
-     * @param email
+     * @param student
      * @return
      */
-    public int activate(Long id, String password, String email){
-        return studentMapper.updateByPrimaryKeySelective(
-                new Student()
-                        .setId(id)
-                        .setPassword(passwordEncoder.encode(password))
-                        .setEmail(email)
-                        .setActive(true)
-        );
-    }
-
-    /**
-     * 根据 account 重置某个 Student 的密码
-     *
-     * @param account
-     * @param password
-     * @return
-     */
-    public int resetPassword(String account, String password){
-        return studentMapper.updateByAccountSelective(
-                new Student()
-                        .setAccount(account)
-                        .setPassword(passwordEncoder.encode(password))
-        );
-    }
-
-    /**
-     * 根据 id 修改某个账号的密码
-     *
-     * @param id
-     * @param password
-     * @return
-     */
-    public int modifyPassword(Long id, String password){
-        return  studentMapper.updateByPrimaryKeySelective(
-                new Student()
-                        .setId(id)
-                        .setPassword(passwordEncoder.encode(password))
-        );
-    }
+    int updateByAccountSelective(Student student);
 
     /**
      * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Student>
@@ -104,8 +52,6 @@ public class StudentDao {
      * @param rowBounds
      * @return
      */
-    public Page<Student> getPage(RowBounds rowBounds){
-        return (Page<Student>) studentMapper.selectByRowBounds(new Student(), rowBounds);
-    }
+    Page<Student> getPage(RowBounds rowBounds);
 
 }

@@ -22,6 +22,8 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private static final String DEFAULT_PASSWORD = "123456";
+
     @Override
     public Boolean insert(Student student) {
         student.setPassword(passwordEncoder.encode(student.getPassword()));
@@ -36,31 +38,45 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Boolean delete(String account) {
-        int line = studentDao.delete(account);
+        int line = studentDao.deleteByAccount(account);
         return line == 1;
     }
 
     @Override
     public Boolean update(Student student) {
-        int line = studentDao.update(student);
+        int line = studentDao.updateByPrimaryKeySelective(student);
         return line == 1;
     }
 
     @Override
     public Boolean activate(Long id, String password, String email) {
-        int line = studentDao.activate(id,password,email);
+        int line = studentDao.updateByPrimaryKeySelective(
+                new Student()
+                        .setId(id)
+                        .setPassword(password)
+                        .setActive(true)
+                        .setEmail(email)
+        );
         return line == 1;
     }
 
     @Override
-    public Boolean resetPassword(String account, String password) {
-        int line = studentDao.resetPassword(account,password);
+    public Boolean resetPassword(String account) {
+        int line = studentDao.updateByAccountSelective(
+                new Student()
+                        .setAccount(account)
+                        .setPassword(DEFAULT_PASSWORD)
+        );
         return line == 1;
     }
 
     @Override
     public Boolean modifyPassword(Long id, String password) {
-        int line =studentDao.modifyPassword(id,password);
+        int line = studentDao.updateByPrimaryKeySelective(
+                new Student()
+                        .setId(id)
+                        .setPassword(password)
+        );
         return line == 1;
     }
 
