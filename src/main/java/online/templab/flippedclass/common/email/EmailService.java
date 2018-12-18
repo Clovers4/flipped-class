@@ -1,46 +1,32 @@
 package online.templab.flippedclass.common.email;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 
-/**
- * @author wk
- */
-@Service
-@Slf4j
-public class EmailService {
-
-    @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    private JavaMailSender mailSender;
+public interface EmailService {
 
     /**
-     * 发送者
+     * 发送一封 Email
+     *
+     * @param email
+     * @throws MailException
      */
-    @Value("${spring.mail.username}")
-    private String username;
+    void send(Email email) throws MailException;
 
-    public void send(Email email) throws MailException {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(username);
-        message.setTo(email.getToAddress());
-        message.setSubject(email.getSubject());
-        message.setText(email.getContent());
 
-        mailSender.send(message);
-        log.info("简单邮件发送成功!  " + message);
-    }
+    /**
+     * 发送验证码
+     *
+     * @param toAddress
+     * @param captcha
+     */
+    void sendCaptcha(String toAddress, String captcha);
 
-    public void sendCaptcha(String toAddress, String captcha) {
-        Email email = new Email()
-                .setToAddress(toAddress)
-                .setSubject("翻转课堂系统 - 验证码")
-                .setContent("验证码 : " + captcha);
-        send(email);
-    }
+    /**
+     * 发送一个通知
+     *
+     * @param toAddress 目的邮箱
+     * @param subject 邮件主题,主题前会自动携带系统名作为前缀,如: 翻转课堂 - 通知
+     * @param content 邮件内容
+     */
+    void sendMessage(String toAddress,String subject,String content);
 }

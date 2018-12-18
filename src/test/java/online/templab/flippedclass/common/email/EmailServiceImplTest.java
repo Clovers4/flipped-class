@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author wk
  */
-public class EmailServiceTest extends FlippedClassApplicationTest {
+public class EmailServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     private EmailService emailService;
@@ -30,5 +30,10 @@ public class EmailServiceTest extends FlippedClassApplicationTest {
     @Test
     public void testSendCaptcha() throws Exception {
         emailService.sendCaptcha("wkay2016@163.com", "AS12");
+    }
+
+    @Test
+    public void testSendMessage() {
+        emailService.sendMessage("wkay2016@163.com", "测试", "这是一个测试邮件");
     }
 } 
