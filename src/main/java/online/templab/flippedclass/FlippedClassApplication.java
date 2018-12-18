@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableConfigurationProperties(StorageProperties.class)
 public class FlippedClassApplication {
 
+    @SuppressWarnings("deprecation")
     @Bean()
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
