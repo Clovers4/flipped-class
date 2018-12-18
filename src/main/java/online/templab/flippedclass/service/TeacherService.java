@@ -61,6 +61,7 @@ public interface TeacherService {
      * 根据 id 修改某个账号的密码
      *
      * @param id
+     * @param password
      * @return
      */
     Boolean modifyPassword(Long id, String password);
@@ -72,5 +73,13 @@ public interface TeacherService {
      * @return
      */
     Page<Teacher> getPage(RowBounds rowBounds);
+
+    /**
+     * 根据 account 获得一个 Teacher
+     *
+     * @param account
+     * @return
+     */
+    Teacher getByAccount(String account);
 
 }

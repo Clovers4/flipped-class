@@ -11,6 +11,14 @@ import java.util.List;
  */
 public interface RoundService {
 
+    /**
+     * 插入一个 Round。
+     *
+     * @param round
+     * @return 成功则返回 true ,失败则返回 false
+     */
+    Boolean insert(Round round);
+
 
     /**
      * 根据 courseId 查找该 course 的所有 round
