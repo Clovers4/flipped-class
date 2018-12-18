@@ -9,4 +9,12 @@ import tk.mybatis.mapper.common.Mapper;
  */
 @Component
 public interface StudentMapper extends Mapper<Student> {
+
+    /**
+     * 根据 account 更新属性不为 null 的值
+     *
+     * @param student
+     * @return
+     */
+    int updateByAccountSelective(Student student);
 }
