@@ -1,6 +1,7 @@
 package online.templab.flippedclass.service.impl;
 
 import com.github.pagehelper.Page;
+import online.templab.flippedclass.dao.TeacherDao;
 import online.templab.flippedclass.entity.Teacher;
 import online.templab.flippedclass.mapper.TeacherMapper;
 import online.templab.flippedclass.service.TeacherService;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
-    private TeacherMapper teacherMapper;
+    private TeacherDao teacherDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,7 +33,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
         int line = 0;
         try {
-            line = teacherMapper.insertSelective(teacher);
+            line = teacherDao.insertSelective(teacher);
         } catch (DuplicateKeyException e) {
             return false;
         }
@@ -41,19 +42,19 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Boolean delete(String account) {
-        int line = teacherMapper.delete(new Teacher().setAccount(account));
+        int line = teacherDao.deleteByAccount(account);
         return line == 1;
     }
 
     @Override
-    public Boolean update(Teacher teacher) {
-        int line = teacherMapper.updateByPrimaryKeySelective(teacher);
+    public Boolean updateById(Teacher teacher) {
+        int line = teacherDao.updateByPrimaryKeySelective(teacher);
         return line == 1;
     }
 
     @Override
     public Boolean activate(Long id, String password, String email) {
-        int line = teacherMapper.updateByPrimaryKeySelective(
+        int line = teacherDao.updateByPrimaryKeySelective(
                 new Teacher()
                         .setId(id)
                         .setPassword(password)
@@ -65,7 +66,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Boolean resetPassword(String account) {
-        int line = teacherMapper.updateByAccountSelective(
+        int line = teacherDao.updateByAccountSelective(
                 new Teacher()
                         .setAccount(account)
                         .setPassword(passwordEncoder.encode(DEFAULT_PASSWORD))
@@ -75,7 +76,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Boolean modifyPassword(Long id, String password) {
-        int line = teacherMapper.updateByAccountSelective(
+        int line = teacherDao.updateByPrimaryKeySelective(
                 new Teacher()
                         .setId(id)
                         .setPassword(passwordEncoder.encode(password))
@@ -85,6 +86,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Page<Teacher> getPage(RowBounds rowBounds) {
-        return (Page<Teacher>) teacherMapper.selectByRowBounds(new Teacher(), rowBounds);
+        return (Page<Teacher>) teacherDao.selectByRowBounds(new Teacher(), rowBounds);
     }
 }
