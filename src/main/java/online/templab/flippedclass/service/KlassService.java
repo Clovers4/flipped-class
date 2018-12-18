@@ -1,6 +1,7 @@
 package online.templab.flippedclass.service;
 
 import online.templab.flippedclass.entity.Klass;
+import online.templab.flippedclass.entity.Student;
 
 import java.util.List;
 
@@ -36,6 +37,14 @@ public interface KlassService {
     Boolean update(Klass klass);
 
     /**
+     * 根据 id 获得一个 Klass
+     *
+     * @param id
+     * @return
+     */
+    Klass get(Long id);
+
+    /**
      * 根据 courseId 查找该 course 的所有 klass
      *
      * @param courseId
@@ -43,5 +52,12 @@ public interface KlassService {
      */
     List<Klass> listByCourseId(Long courseId);
 
-
+    /**
+     * 将学生名单录入到该班级中
+     *
+     * @param id
+     * @param students
+     * @return 成功则返回 true ,失败则返回 false
+     */
+    Boolean resetStudentList(Long id,List<Student> students);
 }

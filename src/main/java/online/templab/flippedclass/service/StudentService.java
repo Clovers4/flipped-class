@@ -72,4 +72,12 @@ public interface StudentService {
      */
     Page<Student> getPage(RowBounds rowBounds);
 
+    /**
+     * 根据 account 获得一个 Student
+     *
+     * @param account
+     * @return
+     */
+    Student getByAccount(String account);
+
 }
