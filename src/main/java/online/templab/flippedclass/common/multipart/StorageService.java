@@ -28,10 +28,25 @@ public interface StorageService {
      *
      * @param file
      */
-    void store(MultipartFile file);
+    void store(MultipartFile file, String fileType);
+
+    /**
+     * 存储 ppt
+     *
+     * @param file
+     */
+    void storePpt(MultipartFile file);
+
+    /**
+     * 存储 report
+     *
+     * @param file
+     */
+    void storeReport(MultipartFile file);
 
     /**
      * 导出所有的存在的文件的Stream
+     *
      * @return
      */
     Stream<Path> loadAll();

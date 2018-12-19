@@ -2,6 +2,7 @@ package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,16 @@ public class KlassSeminar implements Serializable {
      */
     @Column(name = "`status`")
     private Integer status;
+
+    /**
+     * 报名的展示
+     */
+    private List<Attendance> attendances;
+
+    /**
+     * 讨论课本体
+     */
+    private Seminar seminar;
 
     private static final long serialVersionUID = 1L;
 }

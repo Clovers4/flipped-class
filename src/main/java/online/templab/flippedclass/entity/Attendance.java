@@ -66,5 +66,10 @@ public class Attendance implements Serializable {
     @Column(name = "`ppt_url`")
     private String pptUrl;
 
+    /**
+     * 对应的队伍
+     */
+    private Team team;
+
     private static final long serialVersionUID = 1L;
 }
