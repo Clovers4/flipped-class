@@ -8,11 +8,11 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="klass_seminar_id" jdbcType="BIGINT" property="klassSeminarId" />
     <result column="team_id" jdbcType="BIGINT" property="teamId" />
-    <result column="team_order" jdbcType="TINYINT" property="teamOrder" />
+    <result column="team_order" jdbcType="TINYINT" property="sn" />
     <result column="is_present" jdbcType="TINYINT" property="present" />
     <result column="report_name" jdbcType="VARCHAR" property="reportName" />
-    <result column="report_url" jdbcType="VARCHAR" property="reportUrl" />
+    <result column="report_url" jdbcType="VARCHAR" property="reportFile" />
     <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
-    <result column="ppt_url" jdbcType="VARCHAR" property="pptUrl" />
+    <result column="ppt_url" jdbcType="VARCHAR" property="preFile" />
   </resultMap>
 </mapper>

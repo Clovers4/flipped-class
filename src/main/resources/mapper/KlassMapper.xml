@@ -8,8 +8,8 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
     <result column="grade" jdbcType="INTEGER" property="grade" />
-    <result column="klass_serial" jdbcType="TINYINT" property="klassSerial" />
-    <result column="klass_time" jdbcType="VARCHAR" property="klassTime" />
-    <result column="klass_location" jdbcType="VARCHAR" property="klassLocation" />
+    <result column="klass_serial" jdbcType="TINYINT" property="serial" />
+    <result column="klass_time" jdbcType="VARCHAR" property="time" />
+    <result column="klass_location" jdbcType="VARCHAR" property="location" />
   </resultMap>
 </mapper>

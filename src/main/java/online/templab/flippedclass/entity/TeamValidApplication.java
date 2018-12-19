@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Table(name = "`team_valid_application`")
 public class TeamValidApplication implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +35,7 @@ public class TeamValidApplication implements Serializable {
      * 申请理由
      */
     @Column(name = "`reason`")
-    private String reason;
+    private String content;
 
     /**
      * 请求状态，同意1、不同意0、未处理null

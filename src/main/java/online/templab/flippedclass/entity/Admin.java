@@ -2,17 +2,18 @@ package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.Data;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+/**
+ * @author wk
+ */
+@Data
 @Accessors(chain = true)
 @Table(name = "`admin`")
 public class Admin implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,7 @@ public class Admin implements Serializable {
      * 账号
      */
     @Column(name = "`account`")
-    private String account;
+    private String adminName;
 
     /**
      * 密码

@@ -14,6 +14,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Table(name = "`team`")
 public class Team implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +48,7 @@ public class Team implements Serializable {
      * 队伍序号
      */
     @Column(name = "`team_serial`")
-    private Integer teamSerial;
+    private Integer serial;
 
     /**
      * 队伍状态，不合法0、合法1、审核中2
@@ -63,7 +64,7 @@ public class Team implements Serializable {
     /**
      *  队伍成员（不包括队长）
      */
-    private List<Student> members;
+    private List<Student> students;
 
     private static final long serialVersionUID = 1L;
 }

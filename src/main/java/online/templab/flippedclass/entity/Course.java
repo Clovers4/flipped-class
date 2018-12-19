@@ -3,17 +3,18 @@ package online.templab.flippedclass.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.Data;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+/**
+ * @author wk
+ */
+@Data
 @Accessors(chain = true)
 @Table(name = "`course`")
 public class Course implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +42,13 @@ public class Course implements Serializable {
      * 展示分数占比
      */
     @Column(name = "`presentation_percentage`")
-    private Integer presentationPercentage;
+    private Integer prePercentage;
 
     /**
      * 提问分数占比
      */
     @Column(name = "`question_percentage`")
-    private Integer questionPercentage;
+    private Integer quesPercentage;
 
     /**
      * 报告分数占比
@@ -59,13 +60,13 @@ public class Course implements Serializable {
      * 开始组队时间
      */
     @Column(name = "`team_start_time`")
-    private Date teamStartTime;
+    private Date teamStartDate;
 
     /**
      * 截止组队时间
      */
     @Column(name = "`team_end_time`")
-    private Date teamEndTime;
+    private Date teamEndDate;
 
     /**
      * 共享分组，主课程id
@@ -78,6 +79,8 @@ public class Course implements Serializable {
      */
     @Column(name = "`seminar_main_course_id`")
     private Long seminarMainCourseId;
+
+    // TODO: private 分组规则
 
     private static final long serialVersionUID = 1L;
 }

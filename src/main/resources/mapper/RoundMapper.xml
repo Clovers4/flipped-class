@@ -7,9 +7,9 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
-    <result column="round_serial" jdbcType="TINYINT" property="roundSerial" />
-    <result column="presentation_score_method" jdbcType="TINYINT" property="presentationScoreMethod" />
-    <result column="report_score_method" jdbcType="TINYINT" property="reportScoreMethod" />
-    <result column="question_score_method" jdbcType="TINYINT" property="questionScoreMethod" />
+    <result column="round_serial" jdbcType="TINYINT" property="roundNum" />
+    <result column="presentation_score_method" jdbcType="TINYINT" property="preScoreType" />
+    <result column="report_score_method" jdbcType="TINYINT" property="reportScoreType" />
+    <result column="question_score_method" jdbcType="TINYINT" property="quesScoreType" />
   </resultMap>
 </mapper>

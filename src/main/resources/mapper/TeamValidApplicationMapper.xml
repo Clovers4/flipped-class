@@ -8,7 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="team_id" jdbcType="BIGINT" property="teamId" />
     <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
-    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="reason" jdbcType="VARCHAR" property="content" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
 </mapper>
