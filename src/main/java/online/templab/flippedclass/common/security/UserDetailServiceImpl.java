@@ -68,13 +68,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     private UserWithRole loadAdmin(String username) {
-        Admin admin = adminMapper.selectOne(new Admin().setAccount(username));
+        Admin admin = adminMapper.selectOne(new Admin().setAdminName(username));
         if (admin == null) {
             return null;
         }
 
         UserWithRole userWithRole = new UserWithRole()
-                .setUsername(admin.getAccount())
+                .setUsername(admin.getAdminName())
                 .setPassword(admin.getPassword())
                 .setRole("ROLE_ADMIN");
         return userWithRole;

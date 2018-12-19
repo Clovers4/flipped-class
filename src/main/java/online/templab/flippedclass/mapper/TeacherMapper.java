@@ -11,11 +11,11 @@ import tk.mybatis.mapper.common.Mapper;
 public interface TeacherMapper extends Mapper<Teacher> {
 
     /**
-     * 根据 account 更新属性不为 null 的值
+     * 根据 teacherNum 更新属性不为 null 的值
      *
      * @param teacher
      * @return
      */
-    int updateByAccountSelective(Teacher teacher);
+    int updateByTeacherNumSelective(Teacher teacher);
 
 }
