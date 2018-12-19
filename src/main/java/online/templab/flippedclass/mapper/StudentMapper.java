@@ -1,8 +1,11 @@
 package online.templab.flippedclass.mapper;
 
 import online.templab.flippedclass.entity.Student;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * @author wk
@@ -17,4 +20,29 @@ public interface StudentMapper extends Mapper<Student> {
      * @return
      */
     int updateByAccountSelective(Student student);
+
+    /**
+     * 根据 courseId 查出该课程下所有未组队学生
+     *
+     * @param courseId
+     * @return
+     */
+    List<Student> selectUnTeamedStudentByCourseId(Long courseId);
+
+    /**
+     * 根据 teamId 获取队伍成员
+     *
+     * @param courseId
+     * @param teamId
+     * @return
+     */
+    List<Student> selectTeamMemberByTeamId(@Param("courseId") Long courseId,@Param("teamId") Long teamId);
+
+    /**
+     * 根据 account 查询一个学生
+     *
+     * @param account
+     * @return
+     */
+    Student selectByAccount(String account);
 }
