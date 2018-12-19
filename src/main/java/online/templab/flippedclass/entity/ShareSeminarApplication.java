@@ -7,12 +7,14 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+// TODO: 未与hzy组同步
 @Getter
 @Setter
 @ToString
 @Accessors(chain = true)
 @Table(name = "`share_seminar_application`")
 public class ShareSeminarApplication implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

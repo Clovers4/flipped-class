@@ -8,7 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="klass_id" jdbcType="BIGINT" property="klassId" />
     <result column="seminar_id" jdbcType="BIGINT" property="seminarId" />
-    <result column="report_ddl" jdbcType="TIMESTAMP" property="reportDdl" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="report_ddl" jdbcType="TIMESTAMP" property="reportDeadline" />
+    <result column="status" jdbcType="TINYINT" property="state" />
   </resultMap>
 </mapper>

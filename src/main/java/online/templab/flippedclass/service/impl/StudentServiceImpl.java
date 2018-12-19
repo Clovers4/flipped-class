@@ -54,7 +54,7 @@ public class StudentServiceImpl implements StudentService {
                 new Student()
                         .setId(id)
                         .setPassword(password)
-                        .setActive(true)
+                        .setActivated(true)
                         .setEmail(email)
         );
         return line == 1;
@@ -64,7 +64,7 @@ public class StudentServiceImpl implements StudentService {
     public Boolean resetPassword(String account) {
         int line = studentDao.updateByAccountSelective(
                 new Student()
-                        .setAccount(account)
+                        .setStudentNum(account)
                         .setPassword(DEFAULT_PASSWORD)
         );
         return line == 1;

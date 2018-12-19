@@ -19,44 +19,44 @@ public class CourseServiceImplTest extends FlippedClassApplicationTest {
     @Autowired
     CourseService courseService;
 
-    private Course createCourse(){
+    private Course createCourse() {
         return new Course()
-                .setCourseName("test"+random.nextInt(1000))
+                .setCourseName("test" + random.nextInt(1000))
                 .setIntroduction("test")
-                .setTeacherId((long)1)
-                .setPresentationPercentage(30)
-                .setQuestionPercentage(30)
+                .setTeacherId((long) 1)
+                .setPrePercentage(30)
+                .setQuesPercentage(30)
                 .setReportPercentage(40)
-                .setTeamStartTime(new Date())
-                .setTeamEndTime(new Date())
-                .setTeamMainCourseId((long)1)
-                .setSeminarMainCourseId((long)1);
+                .setTeamStartDate(new Date())
+                .setTeamEndDate(new Date())
+                .setTeamMainCourseId((long) 1)
+                .setSeminarMainCourseId((long) 1);
     }
 
     @Test
-    public void insert(){
+    public void insert() {
         Course course = createCourse();
         logger.info(course.toString());
         Boolean success = courseService.insert(course);
-        Assert.assertEquals(true,success);
+        Assert.assertEquals(true, success);
     }
 
     @Test
-    public void testlistByStudentId()throws Exception{
+    public void testlistByStudentId() throws Exception {
         /**
          * 使用简单的本地测试
          */
-        List<Course> courseList = courseService.listByStudentId((long)1);
+        List<Course> courseList = courseService.listByStudentId((long) 1);
         logger.info(courseList.toString());
         Assert.assertNotNull(courseList);
     }
 
     @Test
-    public void testUpdate()throws Exception{
+    public void testUpdate() throws Exception {
         Course course = createCourse();
-        course.setId((long)1);
+        course.setId((long) 1);
         Boolean success = courseService.update(course);
         logger.info(course.toString());
-        Assert.assertEquals(true,success);
+        Assert.assertEquals(true, success);
     }
 }

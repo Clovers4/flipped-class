@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Repeat;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Transactional
 public class AttendanceMapperTest extends FlippedClassApplicationTest {
 
@@ -24,10 +22,10 @@ public class AttendanceMapperTest extends FlippedClassApplicationTest {
                 .setTeamId((long) 1)
                 .setPresent(true)
                 .setPptName("pptname")
-                .setPptUrl("ppturl")
+                .setPreFile("ppturl")
                 .setReportName("reportname")
-                .setReportUrl("reporturl")
-                .setTeamOrder(3);
+                .setReportFile("reporturl")
+                .setSn(3);
         return attendance;
     }
 

@@ -3,17 +3,18 @@ package online.templab.flippedclass.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.Data;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+/**
+ * @author wk
+ */
+@Data
 @Accessors(chain = true)
 @Table(name = "`question`")
 public class Question implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

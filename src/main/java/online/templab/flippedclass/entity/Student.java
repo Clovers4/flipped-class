@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Table(name = "`student`")
 public class Student implements Serializable {
+
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,7 @@ public class Student implements Serializable {
      * 学生账户
      */
     @Column(name = "`account`")
-    private String account;
+    private String studentNum;
 
     /**
      * 账户密码
@@ -34,7 +35,7 @@ public class Student implements Serializable {
      * 账号是否激活
      */
     @Column(name = "`is_active`")
-    private Boolean active;
+    private Boolean activated;
 
     /**
      * 学生姓名

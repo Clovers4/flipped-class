@@ -10,7 +10,7 @@
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
     <result column="leader_id" jdbcType="BIGINT" property="leaderId" />
     <result column="team_name" jdbcType="VARCHAR" property="teamName" />
-    <result column="team_serial" jdbcType="TINYINT" property="teamSerial" />
+    <result column="team_serial" jdbcType="TINYINT" property="serial" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
 </mapper>

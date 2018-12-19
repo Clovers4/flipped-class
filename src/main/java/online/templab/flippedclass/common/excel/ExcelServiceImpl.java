@@ -32,7 +32,7 @@ public class ExcelServiceImpl implements ExcelService {
                 String name = row.getCell(1).getStringCellValue();
 
                 Student record = new Student()
-                        .setAccount(account)
+                        .setStudentNum(account)
                         .setStudentName(name);
                 students.add(record);
             }
@@ -60,7 +60,7 @@ public class ExcelServiceImpl implements ExcelService {
                 continue;
             }
             Student student = students.get(i - 1);
-            row.createCell(0).setCellValue(student.getAccount());
+            row.createCell(0).setCellValue(student.getStudentNum());
             row.createCell(1).setCellValue(student.getStudentName());
         }
 

@@ -6,14 +6,14 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="account" jdbcType="VARCHAR" property="studentNum"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="is_active" jdbcType="TINYINT" property="active"/>
+        <result column="is_active" jdbcType="TINYINT" property="activated"/>
         <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
     </resultMap>
 
-    <update id="updateByAccountSelective" parameterType="Student">
+    <update id="updateByStudentNumSelective" parameterType="Student">
         update student
         <set>
             <if test="password !=null">
@@ -22,14 +22,14 @@
             <if test="studentName != null">
                 student_name = #{studentName},
             </if>
-            <if test="active != null">
-                is_active = #{active},
+            <if test="activated != null">
+                is_active = #{activated},
             </if>
             <if test="email != null">
                 email = #{email}
             </if>
         </set>
-        where `account` = #{account}
+        where `account` = #{studentNum}
     </update>
 
 </mapper>

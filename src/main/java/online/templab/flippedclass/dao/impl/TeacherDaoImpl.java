@@ -21,7 +21,7 @@ public class TeacherDaoImpl implements TeacherDao {
 
     @Override
     public int updateByAccountSelective(Teacher record) {
-        return teacherMapper.updateByAccountSelective(record);
+        return teacherMapper.updateByTeacherNumSelective(record);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class TeacherDaoImpl implements TeacherDao {
 
     @Override
     public int deleteByAccount(String account) {
-        return teacherMapper.delete(new Teacher().setAccount(account));
+        return teacherMapper.delete(new Teacher().setTeacherNum(account));
     }
 
     @Override

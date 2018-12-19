@@ -23,9 +23,9 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
 
     private Student createStudent() {
         return new Student()
-                .setAccount("test" + random.nextInt(1000))
+                .setStudentNum("test" + random.nextInt(1000))
                 .setPassword("test")
-                .setActive(false)
+                .setActivated(false)
                 .setEmail("test" + random.nextInt(10) + "@163.com")
                 .setStudentName("student");
     }
@@ -42,7 +42,7 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
         studentService.insert(student);
 
         System.out.println(student);
-        Boolean success = studentService.delete(student.getAccount());
+        Boolean success = studentService.delete(student.getStudentNum());
 
         Assert.assertEquals(true, success);
     }
@@ -60,7 +60,7 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
     public void resetPassword() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
-        Boolean success = studentService.resetPassword(student.getAccount());
+        Boolean success = studentService.resetPassword(student.getStudentNum());
 
         Assert.assertEquals(true, success);
     }

@@ -9,11 +9,11 @@
         <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
         <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
         <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
-        <result column="presentation_percentage" jdbcType="TINYINT" property="presentationPercentage"/>
-        <result column="question_percentage" jdbcType="TINYINT" property="questionPercentage"/>
+        <result column="presentation_percentage" jdbcType="TINYINT" property="prePercentage"/>
+        <result column="question_percentage" jdbcType="TINYINT" property="quesPercentage"/>
         <result column="report_percentage" jdbcType="TINYINT" property="reportPercentage"/>
-        <result column="team_start_time" jdbcType="TIMESTAMP" property="teamStartTime"/>
-        <result column="team_end_time" jdbcType="TIMESTAMP" property="teamEndTime"/>
+        <result column="team_start_time" jdbcType="TIMESTAMP" property="teamStartDate"/>
+        <result column="team_end_time" jdbcType="TIMESTAMP" property="teamEndDate"/>
         <result column="team_main_course_id" jdbcType="BIGINT" property="teamMainCourseId"/>
         <result column="seminar_main_course_id" jdbcType="BIGINT" property="seminarMainCourseId"/>
     </resultMap>

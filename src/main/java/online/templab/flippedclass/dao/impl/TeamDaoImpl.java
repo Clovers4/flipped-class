@@ -58,7 +58,7 @@ public class TeamDaoImpl implements TeamDao {
         }
         // 组装 team
         team.setLeader(leader);
-        team.setMembers(member);
+        team.setStudents(member);
         return team;
     }
 
@@ -86,7 +86,7 @@ public class TeamDaoImpl implements TeamDao {
                 .setKlassId(klassId)
                 .setTeamName(teamName)
                 .setCourseId(klassStudent.getCourseId())
-                .setTeamSerial(33)
+                .setSerial(33)
                 .setStatus(1);
         // 插入队伍
         int lineTeam = teamMapper.insert(team);

@@ -14,12 +14,12 @@ import java.util.List;
 public interface StudentMapper extends Mapper<Student> {
 
     /**
-     * 根据 account 更新属性不为 null 的值
+     * 根据 studentNum 更新属性不为 null 的值
      *
      * @param student
      * @return
      */
-    int updateByAccountSelective(Student student);
+    int updateByStudentNumSelective(Student student);
 
     /**
      * 根据 courseId 查出该课程下所有未组队学生

@@ -21,9 +21,9 @@ public class TeacherServiceImplTest extends FlippedClassApplicationTest {
 
     private Teacher createTeacher() {
         return new Teacher()
-                .setAccount("test" + random.nextInt(1000))
+                .setTeacherNum("test" + random.nextInt(1000))
                 .setPassword("test")
-                .setActive(false)
+                .setActivated(false)
                 .setEmail("test" + random.nextInt(1000) + "@163.com")
                 .setTeacherName("teacher");
     }
