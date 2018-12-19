@@ -1,6 +1,7 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,16 @@ public class Round implements Serializable {
      */
     @Column(name = "`question_score_method`")
     private Integer questionScoreMethod;
+
+    /**
+     * 这一轮包含的讨论课
+     */
+    private List<Seminar> seminars;
+
+    /**
+     * 这一轮包含的 KlassRound , 内含每一个班级报名次数限制
+     */
+    private List<KlassRound> klassRounds;
 
     private static final long serialVersionUID = 1L;
 }
