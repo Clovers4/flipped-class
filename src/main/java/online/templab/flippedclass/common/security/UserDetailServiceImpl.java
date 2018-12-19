@@ -81,26 +81,26 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     private UserWithRole loadTeacher(String username) {
-        Teacher teacher = teacherMapper.selectOne(new Teacher().setAccount(username));
+        Teacher teacher = teacherMapper.selectOne(new Teacher().setTeacherNum(username));
         if (teacher == null) {
             return null;
         }
 
         UserWithRole userWithRole = new UserWithRole()
-                .setUsername(teacher.getAccount())
+                .setUsername(teacher.getTeacherNum())
                 .setPassword(teacher.getPassword())
                 .setRole("ROLE_TEACHER");
         return userWithRole;
     }
 
     private UserWithRole loadStudent(String username) {
-        Student student = studentMapper.selectOne(new Student().setAccount(username));
+        Student student = studentMapper.selectOne(new Student().setStudentNum(username));
         if (student == null) {
             return null;
         }
 
         UserWithRole userWithRole = new UserWithRole()
-                .setUsername(student.getAccount())
+                .setUsername(student.getStudentNum())
                 .setPassword(student.getPassword())
                 .setRole("ROLE_STUDENT");
         return userWithRole;

@@ -13,11 +13,11 @@ public class TeacherMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testUpdateByAccountSelective() {
-        int line = teacherMapper.updateByAccountSelective(
+        int line = teacherMapper.updateByTeacherNumSelective(
                 new Teacher()
-                        .setAccount("test72")
+                        .setTeacherNum("test72")
                         .setEmail("testemail@163.com")
-                        .setActive(true)
+                        .setActivated(true)
         );
         Assert.assertEquals(1, line);
     }

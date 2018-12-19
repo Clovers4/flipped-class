@@ -22,7 +22,7 @@
             <if test="teacherName != null">
                 teacher_name = #{teacherName},
             </if>
-            <if test="active != null">
+            <if test="activated != null">
                 is_active = #{activated},
             </if>
             <if test="email != null">

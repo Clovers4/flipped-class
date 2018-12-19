@@ -20,11 +20,11 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
     @Test
     @Transactional
     public void testUpdateByAccountSelective()throws Exception{
-        int line = studentMapper.updateByAccountSelective(
+        int line = studentMapper.updateByStudentNumSelective(
                 new Student()
-                        .setAccount("test394")
+                        .setStudentNum("test394")
                         .setEmail("testemail@163.com")
-                        .setActive(true)
+                        .setActivated(true)
         );
         Assert.assertEquals(1, line);
     }

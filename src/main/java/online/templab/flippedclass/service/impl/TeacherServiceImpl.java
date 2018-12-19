@@ -59,7 +59,7 @@ public class TeacherServiceImpl implements TeacherService {
                         .setId(id)
                         .setPassword(password)
                         .setEmail(email)
-                        .setActive(true)
+                        .setActivated(true)
         );
         return line == 1;
     }
@@ -68,7 +68,7 @@ public class TeacherServiceImpl implements TeacherService {
     public Boolean resetPassword(String account) {
         int line = teacherDao.updateByAccountSelective(
                 new Teacher()
-                        .setAccount(account)
+                        .setTeacherNum(account)
                         .setPassword(passwordEncoder.encode(DEFAULT_PASSWORD))
         );
         return line == 1;

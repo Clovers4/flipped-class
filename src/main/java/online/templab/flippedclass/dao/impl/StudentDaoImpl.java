@@ -27,7 +27,7 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public int deleteByAccount(String account) {
-        return studentMapper.delete(new Student().setAccount(account));
+        return studentMapper.delete(new Student().setStudentNum(account));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public int updateByAccountSelective(Student student) {
-        return studentMapper.updateByAccountSelective(student);
+        return studentMapper.updateByStudentNumSelective(student);
     }
 
     @Override
