@@ -54,8 +54,8 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public void store(MultipartFile file, String fileType) {
+        String filename = fileType + " - " + StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
@@ -73,6 +73,16 @@ public class StorageServiceImpl implements StorageService {
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
+    }
+
+    @Override
+    public void storePpt(MultipartFile file) {
+        store(file,"ppt");
+    }
+
+    @Override
+    public void storeReport(MultipartFile file) {
+        store(file,"report");
     }
 
     @Override
