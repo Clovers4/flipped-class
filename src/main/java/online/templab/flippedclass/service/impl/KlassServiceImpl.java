@@ -2,6 +2,7 @@ package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.dao.KlassDao;
 import online.templab.flippedclass.entity.Klass;
+import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Teacher;
 import online.templab.flippedclass.mapper.KlassMapper;
 import online.templab.flippedclass.service.KlassService;
@@ -38,7 +39,19 @@ public class KlassServiceImpl implements KlassService {
     }
 
     @Override
+    public Klass get(Long id) {
+        // TODO
+        return null;
+    }
+
+    @Override
     public List<Klass> listByCourseId(Long courseId) {
         return klassDao.selectByCourseId(courseId);
+    }
+
+    @Override
+    public Boolean resetStudentList(Long id, List<Student> students) {
+        // TODO
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +54,16 @@ public class Team implements Serializable {
      */
     @Column(name = "`status`")
     private Integer status;
+
+    /**
+     * 队长
+     */
+    private Student leader;
+
+    /**
+     *  队伍成员（不包括队长）
+     */
+    private List<Student> members;
 
     private static final long serialVersionUID = 1L;
 }

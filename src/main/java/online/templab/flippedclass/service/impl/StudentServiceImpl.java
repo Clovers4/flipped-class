@@ -84,4 +84,10 @@ public class StudentServiceImpl implements StudentService {
     public Page<Student> getPage(RowBounds rowBounds) {
         return studentDao.getPage(rowBounds);
     }
+
+    @Override
+    public Student getByAccount(String account) {
+        // TODO
+        return null;
+    }
 }

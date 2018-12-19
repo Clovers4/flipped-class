@@ -88,4 +88,10 @@ public class TeacherServiceImpl implements TeacherService {
     public Page<Teacher> getPage(RowBounds rowBounds) {
         return (Page<Teacher>) teacherDao.selectByRowBounds(new Teacher(), rowBounds);
     }
+
+    @Override
+    public Teacher getByAccount(String account) {
+        // TODO
+        return null;
+    }
 }
