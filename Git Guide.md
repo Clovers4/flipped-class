@@ -9,14 +9,14 @@
 
 #### 平时的开发流程
 
-以下步骤，除了commit以外，均在命令行中进行，因为这样可控性更高，而且更清晰，熟练了之后效率更高。
+以下步骤，commit、checkout、创建、删除分支这些命令可以在GUI（如sourceTree中完成，效率更高），其他命令（如rebase、merge）均在命令行中进行，因为这样可控性更高，而且更清晰，熟练了之后效率更高。
 
 1. 打开git bash
 2. git checkout -b feature-xxx develop    # 从develop分支新建并检出feature分支
 3. 在idea里进行开发，完成自己的任务，不断地commit   # 请继续参考下文的 commit log 标准
 4. git checkout develop    # 切换回develop分支
 5. git pull origin develop    # 更新远端代码，看develop分支是否有更新
-若没有更新，则一定没有冲突。
+若没有更新，则一定没有冲突，因此跳至第11步
 若有更新，可能会发生冲突。（在多人修改同个文件时会冲突）
 6. git checkout feature-xxx    # 切换回feature分支
 7. git rebase develop    # 合并develop分支到feature分支，并解决冲突。
