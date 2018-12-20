@@ -88,8 +88,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Page<Student> getPage(RowBounds rowBounds) {
-        return studentDao.getPage(rowBounds);
+    public Page<Student> getPage(Student target, RowBounds rowBounds) {
+        return studentDao.selectByRowBounds(target, rowBounds);
     }
 
     @Override

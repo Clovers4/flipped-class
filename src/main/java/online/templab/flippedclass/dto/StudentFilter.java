@@ -10,11 +10,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class StudentFilter {
 
-    private boolean newFilter = false;
+    private Boolean newFilter = false;
 
-    private int page = 0;
+    private Integer page = 0;
 
-    private int count = 0;
+    private Integer count = 0;
 
     private String name = null;
 

@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Repeat;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
                 .setStudentNum("test" + random.nextInt(1000))
                 .setPassword("test")
                 .setActivated(false)
-                .setEmail("test" + random.nextInt(10) + "@163.com")
+                .setEmail("test" + random.nextInt(1000) + "@163.com")
                 .setStudentName("student");
     }
 
@@ -80,7 +81,11 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testGetPage() throws Exception {
-        Page<Student> page = studentService.getPage(new RowBounds(1, 5));
+        Page<Student> page = studentService.getPage(new Student(), new RowBounds(3, 5));
+        logger.info(page.toString());
+        for (Student record : page) {
+            logger.info(record.toString());
+        }
         Assert.assertNotNull(page);
     }
 

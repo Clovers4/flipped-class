@@ -74,12 +74,15 @@ public interface StudentService {
     Boolean modifyPassword(Long id, String password);
 
     /**
-     * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Student>
+     * 获得一个分页:
+     * 传入查询条件,封装到 Student 对象,根据非 null 属性进行条件查询
+     * 还要传入分页信息（）封装到 rowBounds(pageNum,limit) ,返回一个{@code List<Student>}
      *
+     * @param target
      * @param rowBounds
      * @return
      */
-    Page<Student> getPage(RowBounds rowBounds);
+    Page<Student> getPage(Student target, RowBounds rowBounds);
 
     /**
      * 根据 account 获得一个 Student

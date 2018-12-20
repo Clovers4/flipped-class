@@ -44,8 +44,8 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Page<Student> getPage(RowBounds rowBounds) {
-        return (Page<Student>) studentMapper.selectByRowBounds(new Student(), rowBounds);
+    public Page<Student> selectByRowBounds(Student record, RowBounds rowBounds) {
+        return (Page<Student>) studentMapper.selectByRowBounds(record, rowBounds);
     }
 
     @Override
