@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Repeat;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+//@Transactional
 public class TeacherServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
@@ -25,10 +25,11 @@ public class TeacherServiceImplTest extends FlippedClassApplicationTest {
                 .setPassword("test")
                 .setActivated(false)
                 .setEmail("test" + random.nextInt(1000) + "@163.com")
-                .setTeacherName("teacher");
+                .setTeacherName("大天才");
     }
 
     @Test
+    @Repeat(33)
     public void testInsert() throws Exception {
         Boolean success = teacherService.insert(createTeacher());
         Assert.assertEquals(true, success);
@@ -66,7 +67,7 @@ public class TeacherServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testGetPage() throws Exception {
-        Page<Teacher> page = teacherService.getPage(new RowBounds(1, 5));
+        Page<Teacher> page = teacherService.getPage(new Teacher(),new RowBounds(1, 5));
         Assert.assertNotNull(page);
     }
 

@@ -85,8 +85,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Page<Teacher> getPage(RowBounds rowBounds) {
-        return (Page<Teacher>) teacherDao.selectByRowBounds(new Teacher(), rowBounds);
+    public Page<Teacher> getPage(Teacher target,RowBounds rowBounds) {
+        return (Page<Teacher>) teacherDao.selectByRowBounds(target, rowBounds);
     }
 
     @Override

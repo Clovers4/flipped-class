@@ -67,12 +67,15 @@ public interface TeacherService {
     Boolean modifyPassword(Long id, String password);
 
     /**
-     * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Teacher>
+     * 获得一个分页:
+     * 传入查询条件,封装到 Teacher 对象,根据非 null 属性进行条件查询
+     * 还要传入分页信息（）封装到 rowBounds(pageNum,limit) ,返回一个{@code List<Teacher>}
      *
+     * @param target
      * @param rowBounds
      * @return
      */
-    Page<Teacher> getPage(RowBounds rowBounds);
+    Page<Teacher> getPage(Teacher target,RowBounds rowBounds);
 
     /**
      * 根据 account 获得一个 Teacher
