@@ -39,14 +39,6 @@ public interface StudentMapper extends Mapper<Student> {
     List<Student> selectTeamMemberByTeamId(@Param("courseId") Long courseId,@Param("teamId") Long teamId);
 
     /**
-     * 根据 account 查询一个学生
-     *
-     * @param studentNum
-     * @return
-     */
-    Student selectByStudentNum(String studentNum);
-
-    /**
      * 根据 studentName 选择一个或多个学生
      *
      * @param studentName

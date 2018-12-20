@@ -42,7 +42,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Team selectTeam(Long courseId, Long studentId) {
         // 获取队伍id
-        KlassStudent klassStudent = klassStudentMapper.selectByCourseIdAndStudentId(courseId, studentId);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId));
         // 获取队伍成员
         List<Student> member = studentMapper.selectTeamMemberByTeamId(courseId, klassStudent.getTeamId());
         // 通过 teamId 获取 team
@@ -68,10 +68,10 @@ public class TeamDaoImpl implements TeamDao {
         // 如果退组的是队长，整个队伍删除
         if (team.getLeaderId().equals(studentId)) {
             int deleteTeam = teamMapper.delete(team);
-            int deleteRelation = klassStudentMapper.deleteByTeamId(teamId);
+            int deleteRelation = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId));
             return (deleteTeam * deleteRelation) > 0;
         } else { // 如果是组员 删除组员就好了
-            int deleteRelation = klassStudentMapper.deleteByTeamIdAndStudentId(teamId, studentId);
+            int deleteRelation = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId).setStudentId(studentId));
             return deleteRelation > 0;
         }
     }
@@ -79,7 +79,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Boolean insert(Long studentId, Long klassId, String teamName, List<Long> studentNum) {
         // 获取 courseId
-        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndKlassId(klassId, studentId);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setKlassId(klassId).setStudentId(studentId));
         // 创建队伍
         Team team = new Team()
                 .setLeaderId(studentId)
@@ -99,7 +99,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Boolean deleteByStudentNum(Long teamId, String studentNum) {
         Student student = studentMapper.selectByStudentNum(studentNum);
-        int line = klassStudentMapper.deleteByTeamIdAndStudentId(teamId, student.getId());
+        int line = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId).setStudentId(student.getId()));
         return line == 1;
     }
 
@@ -112,7 +112,7 @@ public class TeamDaoImpl implements TeamDao {
             studentIdList.add(student.getId());
         }
         // 获取 courseId 和 klassId
-        KlassStudent klassStudent = klassStudentMapper.selectByTeamIdAndStudentId(teamId, studentId);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setTeamId(teamId).setStudentId(studentId));
         int line = klassStudentMapper.insertList(klassStudent.getCourseId(), klassStudent.getKlassId(), teamId, studentIdList);
         return line > 0;
     }
@@ -120,7 +120,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Boolean delete(Long teamId, Long studentId) {
         int deleteTeam = teamMapper.deleteByPrimaryKey(teamId);
-        int deleteKlassStudent = klassStudentMapper.deleteByTeamId(teamId);
+        int deleteKlassStudent = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId));
         return (deleteTeam * deleteKlassStudent) > 0;
     }
 }

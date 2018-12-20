@@ -5,6 +5,7 @@ import online.templab.flippedclass.entity.KlassStudent;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -21,14 +22,14 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testSelectByCourseIdAndStudentId() throws Exception {
-        KlassStudent klassStudent = klassStudentMapper.selectByCourseIdAndStudentId((long) 1, (long) 1);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setCourseId((long) 1).setStudentId((long) 1));
         logger.info(klassStudent.toString());
         Assert.assertNotNull(klassStudent);
     }
 
     @Test
     public void testDeleteByTeamId() throws Exception {
-        int line = klassStudentMapper.deleteByTeamId((long) 1);
+        int line = klassStudentMapper.delete(new KlassStudent().setTeamId((long) 1));
         logger.info(String.valueOf(line));
         Boolean success = line > 0 ? true : false;
         logger.info(success.toString());
@@ -37,7 +38,7 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testDeleteByTeamIdAndStudentId() throws Exception {
-        int line = klassStudentMapper.deleteByTeamIdAndStudentId((long) 1, (long) 8);
+        int line = klassStudentMapper.delete(new KlassStudent().setStudentId((long) 1).setTeamId((long) 8));
         logger.info(String.valueOf(line));
         Boolean success = line > 0 ? true : false;
         logger.info(success.toString());
@@ -46,7 +47,7 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testSelectByStudentIdAndKlassId()throws Exception{
-        KlassStudent klassStudent = klassStudentMapper.selectByStudentIdAndKlassId((long)1,(long)1);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setStudentId((long)1).setKlassId((long)1));
         logger.info(klassStudent.toString());
         Assert.assertNotNull(klassStudent.getCourseId());
     }
@@ -66,7 +67,7 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testSelectByTeamIdAndStudentId()throws Exception{
-        KlassStudent klassStudent = klassStudentMapper.selectByTeamIdAndStudentId((long)1,(long)1);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setTeamId((long)1).setStudentId((long)1));
         logger.info(klassStudent.toString());
         Assert.assertNotNull(klassStudent.getCourseId());
         Assert.assertNotNull(klassStudent.getKlassId());
