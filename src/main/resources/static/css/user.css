@@ -154,8 +154,13 @@
     width: 100%;
 }
 
-.card-body .line label {
+.card-body .line label:not(.form-check-label) {
     width: 100px; /*fixation of the course card*/
+    margin-bottom: 0;
+}
+
+.card-body .line label.form-check-label {
+    width: 70px; /*fixation of the course card*/
     margin-bottom: 0;
 }
 
@@ -300,6 +305,10 @@
 }
 
 /*Modal*/
+.modal .modal-dialog {
+    margin-top: 24vh;
+}
+
 .modal .modal-header {
     border-bottom: #e6e6e6;
 }
@@ -493,7 +502,58 @@
     margin-bottom: 8px;
 }
 
+/*Websocket page*/
+.side-raised{
+    margin-top: 20px;
+    padding-top: 10px;
 
+    padding-left: 8px;
+    padding-right: 8px;
+    width: 80px;
+
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    background-color: #FFFFFF;
+}
+.left-side{
+    position: absolute;
+    left: 0;
+
+    height: 72%;
+    border-radius: 0 6px 6px 0;
+}
+.right-upper-side{
+    padding-top: 4px;
+    position: absolute;
+    right: 0;
+    height: 80px;
+    border-radius: 6px 0 0 6px;
+}
+.right-downer-side{
+    position: absolute;
+    top: 160px;
+    right: 0;
+    height: calc(72% - 115px);
+    border-radius: 6px 0 0 6px;
+}
+.btn.btn-fab.btn-team {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+
+}
+
+.foot-operation{
+    position: fixed;
+    bottom: 10px;
+}
+.btn.btn-fab.next-team{
+    width: 80px;
+    height: 80px;
+}
+.btn.btn-fab.next-team .material-icons{
+    position: relative;
+    font-size: 40px;
+}
 /*Responsive style*/
 @media screen and  (min-width: 992px) {
     .navbar-translate .brand-title{
@@ -544,10 +604,6 @@
         left: 0;
         top: 0;
         content: "";
-    }
-
-    .modal .modal-dialog {
-        margin-top: 90px;
     }
 
     .nav-pills-icons {

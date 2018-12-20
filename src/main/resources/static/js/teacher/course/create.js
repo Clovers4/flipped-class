@@ -4,7 +4,18 @@ $(function () {
     datetimepicker = $(".datetimepicker");
     createCourseForm = $("#createCourseForm");
     datetimepicker.datetimepicker({
-        format: 'L'
+        format: 'YYYY-MM-D H:mm',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
     });
 
     $(".confirm").click(function () {
@@ -29,7 +40,6 @@ $(function () {
         }
     });
     datetimepicker.bind("focus",function () {
-        console.log($(this).parent());
         $(this).parent().addClass("on-date")
     });
     datetimepicker.bind("blur",function () {

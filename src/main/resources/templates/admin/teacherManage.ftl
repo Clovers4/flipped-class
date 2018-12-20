@@ -46,8 +46,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false" id="filter-choice" data-filter="name">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="filter-choice" data-filter="name">
                         姓名
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -96,11 +95,11 @@
             <div class="card-body">
                 <div class="table-content">
                     <form hidden id="teacherFilter" action="/admin/teacherList" method="post" target="tableIframe">
-                        <input id="newFilter" name="newFilter" title="newFilter">
-                        <input id="nameFilter" name="name" title="name">
-                        <input id="tnFilter" name="teacherNum" title="teacherNum">
-                        <input id="pageFilter" name="page" title="page">
-                        <input id="countFilter" name="count" title="count">
+                        <input id="newFilter" name="newFilter" title="newFilter" placeholder="">
+                        <input id="nameFilter" name="name" title="name" placeholder="">
+                        <input id="tnFilter" name="teacherNum" title="teacherNum" placeholder="">
+                        <input id="pageFilter" name="page" title="page" placeholder="">
+                        <input id="countFilter" name="count" title="count" placeholder="">
                     </form>
                     <table class="table">
                         <colgroup>

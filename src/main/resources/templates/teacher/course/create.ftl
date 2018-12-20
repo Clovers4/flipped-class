@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/create.js"></script>
+    <script src="/static/js/teacher/course/create.js"></script>
     <title>创建课程</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -54,100 +55,102 @@
         <div class="row flex-center">
             <div class="col-md-6">
                 <form class="form" id="createCourseForm">
-                    <div class="form-group bmd-form-group">
-                        <input id="courseName" name="courseName" type="text" placeholder="课程名称" autocomplete="off"
-                               class="form-control empty-verify" data-emptyMessage="请输入课程名称">
-                    </div>
-                    <div class="form-group bmd-form-group">
-                        <label for="intro" class="bmd-label">课程简介</label>
-                        <textarea id="intro" name="intro" type="text" rows="4" autocomplete="off"
-                               class="form-control empty-verify" data-emptyMessage="请输入课程简介"></textarea>
-                    </div>
-                    <div class="form-group bmd-form-group">
-                        <input id="teamStartDate" name="teamStartDate" type="text" autocomplete="off" placeholder="组队开始时间"
-                               class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队开始时间">
-                    </div>
-                    <div class="form-group bmd-form-group">
-                        <input id="teamEndDate" name="teamEndDate" type="text" autocomplete="off" placeholder="组队结束时间"
-                               class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队结束时间">
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <div id="gradeCard" class="card form-card dropdown-card">
-                                <div class="card-body">
-                                    <div class="body-header">
-                                        <div class="body-title">成绩权重</div>
-                                        <div class="flex-center">
-                                            <div class="triangle rightward"></div>
-                                        </div>
-                                    </div>
-                                    <div class="body-content" style="display: none">
-                                        <hr>
-                                        <div class="line">
-                                            <label for="prePer">课堂展示</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="prePer" name="prePer" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
-                                                </div>
+                    <div class="container">
+                        <div class="form-group bmd-form-group">
+                            <input id="courseName" name="courseName" type="text" placeholder="课程名称" autocomplete="off"
+                                   class="form-control empty-verify" data-emptyMessage="请输入课程名称">
+                        </div>
+                        <div class="form-group bmd-form-group">
+                            <label for="intro" class="bmd-label">课程简介</label>
+                            <textarea id="intro" name="intro" type="text" rows="4" autocomplete="off"
+                                   class="form-control empty-verify" data-emptyMessage="请输入课程简介"></textarea>
+                        </div>
+                        <div class="form-group bmd-form-group">
+                            <input id="teamStartDate" name="teamStartDate" type="text" autocomplete="off" placeholder="组队开始时间"
+                                   class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队开始时间">
+                        </div>
+                        <div class="form-group bmd-form-group">
+                            <input id="teamEndDate" name="teamEndDate" type="text" autocomplete="off" placeholder="组队结束时间"
+                                   class="form-control datetimepicker empty-verify" data-emptyMessage="请输入组队结束时间">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12">
+                                <div id="gradeCard" class="card form-card dropdown-card">
+                                    <div class="card-body">
+                                        <div class="body-header">
+                                            <div class="body-title">成绩权重</div>
+                                            <div class="flex-center">
+                                                <div class="triangle rightward"></div>
                                             </div>
-                                            <div class="gadget">%</div>
                                         </div>
-                                        <div class="line">
-                                            <label for="quePer">课堂提问</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="quePer" name="quePer" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入课堂提问权重">
+                                        <div class="body-content" style="display: none">
+                                            <hr>
+                                            <div class="line">
+                                                <label for="prePer">课堂展示</label>
+                                                <div class="sep"></div>
+                                                <div class="content">
+                                                    <div class="form-group bmd-form-group">
+                                                        <input id="prePer" name="prePer" type="text" autocomplete="off"
+                                                               class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                                    </div>
                                                 </div>
+                                                <div class="gadget">%</div>
                                             </div>
-                                            <div class="gadget">%</div>
-                                        </div>
-                                        <div class="line">
-                                            <label for="repPer">书面报告</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group">
-                                                    <input id="repPer" name="repPer" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入书面报告权重">
+                                            <div class="line">
+                                                <label for="quePer">课堂提问</label>
+                                                <div class="sep"></div>
+                                                <div class="content">
+                                                    <div class="form-group bmd-form-group">
+                                                        <input id="quePer" name="quePer" type="text" autocomplete="off"
+                                                               class="form-control empty-verify" data-emptyMessage="请输入课堂提问权重">
+                                                    </div>
                                                 </div>
+                                                <div class="gadget">%</div>
                                             </div>
-                                            <div class="gadget">%</div>
+                                            <div class="line">
+                                                <label for="repPer">书面报告</label>
+                                                <div class="sep"></div>
+                                                <div class="content">
+                                                    <div class="form-group bmd-form-group">
+                                                        <input id="repPer" name="repPer" type="text" autocomplete="off"
+                                                               class="form-control empty-verify" data-emptyMessage="请输入书面报告权重">
+                                                    </div>
+                                                </div>
+                                                <div class="gadget">%</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div id="groupCard" class="card form-card dropdown-card">
-                                <div class="card-body">
-                                    <div class="body-header">
-                                        <div class="body-title">人数限制</div>
-                                        <div class="flex-center">
-                                            <div class="triangle rightward"></div>
-                                        </div>
-                                    </div>
-                                    <div class="body-content" style="display: none">
-                                        <hr>
-                                        <div class="line">
-                                            <label for="teamMax">人数上限</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group" style="display: inline">
-                                                    <input id="teamMax" name="teamMax" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
-                                                </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div id="groupCard" class="card form-card dropdown-card">
+                                    <div class="card-body">
+                                        <div class="body-header">
+                                            <div class="body-title">人数限制</div>
+                                            <div class="flex-center">
+                                                <div class="triangle rightward"></div>
                                             </div>
                                         </div>
-                                        <div class="line">
-                                            <label for="teamMin">人数下限</label>
-                                            <div class="sep"></div>
-                                            <div class="content">
-                                                <div class="form-group bmd-form-group" style="display: inline">
-                                                    <input id="teamMin" name="teamMin" type="text" autocomplete="off"
-                                                           class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                        <div class="body-content" style="display: none">
+                                            <hr>
+                                            <div class="line">
+                                                <label for="teamMax">人数上限</label>
+                                                <div class="sep"></div>
+                                                <div class="content">
+                                                    <div class="form-group bmd-form-group" style="display: inline">
+                                                        <input id="teamMax" name="teamMax" type="text" autocomplete="off"
+                                                               class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="line">
+                                                <label for="teamMin">人数下限</label>
+                                                <div class="sep"></div>
+                                                <div class="content">
+                                                    <div class="form-group bmd-form-group" style="display: inline">
+                                                        <input id="teamMin" name="teamMin" type="text" autocomplete="off"
+                                                               class="form-control empty-verify" data-emptyMessage="请输入课堂展示权重">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

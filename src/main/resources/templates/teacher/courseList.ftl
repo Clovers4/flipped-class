@@ -66,7 +66,7 @@
                 <div class="card content-card">
                     <div class="card-body" data-courseID="${course.id}" data-toggle="modal" data-target="#courseModal">
                         <div class="body-header">
-                            <div class="body-title">${course.courseName}</div>
+                            <div class="body-title" style="text-align: center;font-size: 20cpx">${course.courseName}</div>
                         </div>
                         <div class="body-content">
                             <hr>
@@ -133,7 +133,7 @@
     </#if>
 </div>
 <form hidden id="courseIdForm" method="post">
-    <input id="courseIdInput" name="courseId" title="">
+    <input id="courseIdInput" name="courseId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

@@ -72,6 +72,7 @@
                                 <div class="line">
                                     <label>序号</label>
                                     <div class="sep"></div>
+                                    <#--TODO:???There are no klass info here.-->
                                     <div class="content">${team.serial}</div>
                                 </div>
                                 <div class="line">
@@ -82,7 +83,7 @@
                                 <div class="line">
                                     <label>合法性</label>
                                     <div class="sep"></div>
-                                    <div class="content">${team.valid?string("合法","不合法")}</div>
+                                    <div class="content">${team.status}</div>
                                 </div>
                             </div>
                         </div>

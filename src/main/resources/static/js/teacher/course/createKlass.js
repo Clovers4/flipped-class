@@ -1,6 +1,8 @@
 var createKlassForm;
+var file;
 $(function () {
     createKlassForm = $("#createKlassForm");
+    file = $("#file");
 
     var courseId = sessionStorage.getItem("courseId");
     $("#courseId").val(courseId);
@@ -8,22 +10,28 @@ $(function () {
 
     $(".cancel").click(back);
     $("#backBtn").click(back);
+    $("#fileProxy").click(function () {
+        file.trigger("click");
+    });
+    file.on("input propertychange", function () {
+        console.log(file.val());
+    });
     $(".confirm").click(function () {
         var verify = util.verifyWithAlert($(".form"));
         if(verify == null){
-            console.log(createKlassForm.serialize());
             $.ajax({
                 type: "put",
                 url: "/teacher/course/klass",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(createKlassForm.serializeObject()),
+                contentType: false,
+                processData: false,
+                data: new FormData(createKlassForm.get(0)),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
-                        window.location = "/teacher/course/klassList";
+                        back();
                     }
                 },
                 error: function (xhr) {//xhr, textStatus, errorThrown
-                    if (xhr.status === 400) {
+                    if (xhr.status === 409) {
                         util.showAlert("danger", "创建失败，班级相同", 3);
                     }else{
                         util.showAlert("danger", "创建失败，未知错误", 3);

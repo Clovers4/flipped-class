@@ -53,8 +53,8 @@
     <div class="container">
         <div class="row flex-center">
             <div class="col-md-8">
-                <form class="form" id="createKlassForm">
-                    <input hidden id="courseId" name="courseId" title="">
+                <form class="form" id="createKlassForm" enctype="multipart/form-data">
+                    <input hidden id="courseId" name="courseId" placeholder="">
                     <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
                         <div class="col flex-center">
                             <label style="margin-bottom: 0;">班级名称：</label>
@@ -84,11 +84,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 ml-auto mr-auto">
+                            <input hidden id="file" name="file" type="file" autocomplete="off" class="form-control empty-verify" data-emptyMessage="请上传名单">
                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                <li class="nav-item">
+                                <li class="nav-item" id="fileProxy">
                                     <a class="nav-link">
                                         <i class="material-icons">save_alt</i>
-                                        导入名单
+                                        上传名单
                                     </a>
                                 </li>
                             </ul>
@@ -115,7 +116,7 @@
 </div>
 
 <form id="returnForm" action="/teacher/course/klassList" method="post">
-    <input id="returnCourseId" name="courseId" title="">
+    <input id="returnCourseId" name="courseId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

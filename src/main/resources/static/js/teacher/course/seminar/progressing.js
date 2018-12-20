@@ -6,7 +6,7 @@ var serverAddr = "/app/teacher/klassSeminar/";
 var ksId;
 $(function () {
     msgList = $("#msgList");
-    ksId = $("#main").attr("data-ksId");
+    ksId = $("body").attr("data-ksId");
     serverAddr += ksId;
     clientAddr += ksId;
     $("#connect").click(function () {

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/course/seminar/create.js"></script>
+    <script src="/static/js/teacher/course/seminar/option.js"></script>
     <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -54,41 +54,58 @@
     <div class="container">
         <div class="row flex-center">
             <div class="col-md-8">
-                <form class="form" id="createSeminarForm">
-                    <input hidden id="courseId" name="courseId" placeholder="">
+                <form class="form" id="updateSeminarForm">
+                    <input hidden id="id" name="id" value="${seminar.id}" placeholder="">
+                    <input hidden id="courseId" name="courseId" value="${seminar.courseId}" placeholder="">
                     <div class="container" style="margin-top: 20px">
                         <div class="form-row" style="margin-top: 20px;">
                             <div class="form-group col-2" style="padding-left: 0;">
                                 <label for="serial">序号</label>
-                                <input id="serial" name="serial" type="text" autocomplete="off" value="${maxSerial + 1}"
+                                <input id="serial" name="serial" type="text" autocomplete="off"
+                                       value="${seminar.serial}"
                                        class="form-control empty-verify" data-emptyMessage="请输入讨论课序号">
                             </div>
-                            <div class="form-group col-10">
+                            <div class="form-group col-8">
                                 <label for="theme" style="padding-left: 5px;">讨论课主题</label>
-                                <input id="theme" name="theme" type="text" autocomplete="off"
+                                <input id="theme" name="theme" type="text" autocomplete="off" value="${seminar.theme}"
                                        class="form-control empty-verify" data-emptyMessage="请输入讨论课主题">
+                            </div>
+                            <div class="form-group col-2 flex-center" style="padding: 0;margin-top: 10px">
+                                <a id="deleteBtn" class="btn btn-link btn-fab btn-round btn-danger">
+                                    <i class="material-icons" style="font-size: 32px">delete_outline</i>
+                                </a>
                             </div>
                         </div>
                         <div class="form-group bmd-form-group">
                             <label for="content" class="bmd-label">讨论课主要内容</label>
                             <textarea id="content" name="content" type="text" rows="4" autocomplete="off"
-                                      class="form-control empty-verify" data-emptyMessage="请输入讨论课主要内容"></textarea>
+                                      class="form-control empty-verify"
+                                      data-emptyMessage="请输入讨论课主要内容">${seminar.content}</textarea>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="maxTeam">报名组数</label>
                                     <input id="maxTeam" name="maxTeam" type="text" autocomplete="off"
-                                           class="form-control empty-verify" data-emptyMessage="请输入报名组数" style="margin-top: 5px">
+                                           value="${seminar.maxTeam}"
+                                           class="form-control empty-verify" data-emptyMessage="请输入报名组数"
+                                           style="margin-top: 5px">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group" style="padding-top: 5px">
                                     <label for="roundId">所属Round</label>
-                                    <input hidden id="roundId" name="roundId">
+                                    <input hidden id="roundId" name="roundId" value="${seminar.roundId}">
                                     <ul class="nav nav-pills">
                                         <li class="nav-item dropdown" style="width: 100%">
-                                            <a id="roundNum" class="nav-link dropdown-toggle" data-toggle="dropdown" style="padding-top: 5px">新建</a>
+                                            <a id="roundNum" class="nav-link dropdown-toggle"
+                                               data-toggle="dropdown" style="padding-top: 5px">
+                                                <#list rounds as round>
+                                                    <#if round.id == seminar.roundId>
+                                                        ${round.roundNum}
+                                                    </#if>
+                                                </#list>
+                                            </a>
                                             <div class="dropdown-menu">
                                                 <#list rounds as round>
                                                     <a class="dropdown-item round-num" data-roundId="${round.id}">${round.roundNum}</a>
@@ -104,16 +121,19 @@
                         <div class="form-group">
                             <label for="enrollStartDate">报名开始时间</label>
                             <input id="enrollStartDate" name="enrollStartDate" type="text" autocomplete="off"
+                                   value="${seminar.enrollStartDate?datetime}"
                                    class="form-control datetimepicker empty-verify" data-emptyMessage="请输入报名开始时间">
                         </div>
                         <div class="form-group">
                             <label for="enrollEndDate">报名结束时间</label>
                             <input id="enrollEndDate" name="enrollEndDate" type="text" autocomplete="off"
+                                   value="${seminar.enrollEndDate?datetime}"
                                    class="form-control datetimepicker empty-verify" data-emptyMessage="请输入报名结束时间">
                         </div>
                         <div class="form-check" style="margin-top: 30px">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="visible" value="true">
+                                <input class="form-check-input" type="checkbox" name="visible" value="true"
+                                       <#if seminar.visible>checked</#if>>
                                 讨论课是否可见
                                 <span class="form-check-sign">
                                     <span class="check"></span>
@@ -129,14 +149,14 @@
 <div class="container foot-container flex-center">
     <div class="left-button">
         <button class="btn btn-dark btn-round bg-dark confirm" style="margin: 0">
-            <i class="material-icons">add_circle</i>
-            发布
+            <i class="material-icons">arrow_upward</i>
+            更新
         </button>
     </div>
     <div class="right-button">
         <button class="btn btn-danger btn-round cancel" style="margin: 0">
-            <i class="material-icons">clear</i>
-            取消
+            <i class="material-icons">arrow_back</i>
+            返回
         </button>
     </div>
 </div>

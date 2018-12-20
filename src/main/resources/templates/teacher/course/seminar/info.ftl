@@ -118,10 +118,10 @@
 </div>
 
 <form hidden id="ksIdForm" method="post">
-    <input id="ksIdInput" name="klassSeminarId" title="" value="${klassSeminar.id}">
+    <input id="ksIdInput" name="klassSeminarId" value="${klassSeminar.id}">
 </form>
 <form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId" title="">
+    <input id="courseIdInput" name="courseId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
