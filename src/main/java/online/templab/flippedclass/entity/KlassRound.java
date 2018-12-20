@@ -39,6 +39,9 @@ public class KlassRound implements Serializable {
     @Column(name = "`enroll_number`")
     private Integer enrollLimit;
 
+    /**
+     * 对应的班级
+     */
     private Klass klass;
 
     private static final long serialVersionUID = 1L;
