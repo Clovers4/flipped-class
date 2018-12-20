@@ -49,8 +49,8 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student selectByStudentNum(String studentNum) {
-        return studentMapper.selectByStudentNum(studentNum);
+    public Student selectByStudentNum(String studentNum){
+        return studentMapper.selectOne(new Student().setStudentNum(studentNum));
     }
 
     @Override

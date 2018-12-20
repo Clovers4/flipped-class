@@ -21,7 +21,7 @@ public interface KlassService {
     Boolean insert(Klass klass);
 
     /**
-     * 删除某个 id 对应的课程
+     * 删除某个 id 对应的班级
      *
      * @param id
      * @return 成功则返回 true ,失败则返回 false
