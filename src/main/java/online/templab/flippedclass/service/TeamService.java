@@ -59,20 +59,20 @@ public interface TeamService {
     Boolean create(Long studentId,Long klassId,String teamName,List<Long> studentNum);
 
     /**
-     * 根据 account 删除组员（合法性判断缺失）
+     * 根据 studentNum 删除组员（合法性判断缺失）
      *
      * @param teamId
-     * @param account
+     * @param studentNum
      * @return
      */
-    Boolean removeMember(Long teamId,String account);
+    Boolean removeMember(Long teamId,String studentNum);
 
     /**
      * 添加组员（合法性判断缺失）
      *
-     * @param teamId 队伍id
-     * @param studentId 队长id
-     * @param studentNum 学生account
+     * @param teamId 队伍 id
+     * @param studentId 队长 id
+     * @param studentNum 学生 studentNum
      * @return
      */
     Boolean addMember(Long teamId,Long studentId,List<String> studentNum);

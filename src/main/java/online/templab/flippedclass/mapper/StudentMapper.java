@@ -41,8 +41,8 @@ public interface StudentMapper extends Mapper<Student> {
     /**
      * 根据 account 查询一个学生
      *
-     * @param account
+     * @param studentNum
      * @return
      */
-    Student selectByAccount(String account);
+    Student selectByStudentNum(String studentNum);
 }

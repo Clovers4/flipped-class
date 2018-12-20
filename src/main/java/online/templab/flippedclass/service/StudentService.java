@@ -24,10 +24,10 @@ public interface StudentService {
     /**
      * 删除某个 account 对应的学生
      *
-     * @param account
+     * @param studentNum
      * @return
      */
-    Boolean delete(String account);
+    Boolean delete(String studentNum);
 
     /**
      * 根据 id 更新一个 Student
@@ -48,12 +48,12 @@ public interface StudentService {
     Boolean activate(Long id,String password, String email);
 
     /**
-     * 根据 account 重置某个 Student 的密码
+     * 根据 studentNum 重置某个 Student 的密码
      *
-     * @param account
+     * @param studentNum
      * @return
      */
-    Boolean resetPassword(String account);
+    Boolean resetPassword(String studentNum);
 
     /**
      * 根据 id 修改某个账号的密码
@@ -75,9 +75,9 @@ public interface StudentService {
     /**
      * 根据 account 获得一个 Student
      *
-     * @param account
+     * @param studentNum
      * @return
      */
-    Student getByAccount(String account);
+    Student getByStudentNum(String studentNum);
 
 }

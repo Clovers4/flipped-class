@@ -97,18 +97,18 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Boolean deleteByAccount(Long teamId, String account) {
-        Student student = studentMapper.selectByAccount(account);
+    public Boolean deleteByStudentNum(Long teamId, String studentNum) {
+        Student student = studentMapper.selectByStudentNum(studentNum);
         int line = klassStudentMapper.deleteByTeamIdAndStudentId(teamId, student.getId());
         return line == 1;
     }
 
     @Override
-    public Boolean updateByAccount(Long teamId, Long studentId, List<String> account) {
+    public Boolean updateByStudentNum(Long teamId, Long studentId, List<String> studentNum) {
         // 找学生所有id
         List<Long> studentIdList = new ArrayList<>();
-        for (String studentAccount : account) {
-            Student student = studentMapper.selectByAccount(studentAccount);
+        for (String studentAccount : studentNum) {
+            Student student = studentMapper.selectByStudentNum(studentAccount);
             studentIdList.add(student.getId());
         }
         // 获取 courseId 和 klassId

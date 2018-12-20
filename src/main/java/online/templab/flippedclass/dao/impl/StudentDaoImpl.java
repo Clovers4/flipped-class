@@ -26,8 +26,8 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public int deleteByAccount(String account) {
-        return studentMapper.delete(new Student().setStudentNum(account));
+    public int deleteByStudentNum(String studentNum) {
+        return studentMapper.delete(new Student().setStudentNum(studentNum));
     }
 
     @Override
@@ -36,12 +36,17 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public int updateByAccountSelective(Student student) {
+    public int updateByStudentNumSelective(Student student) {
         return studentMapper.updateByStudentNumSelective(student);
     }
 
     @Override
     public Page<Student> getPage(RowBounds rowBounds) {
         return (Page<Student>) studentMapper.selectByRowBounds(new Student(), rowBounds);
+    }
+
+    @Override
+    public Student selectByStudentNum(String studentNum){
+        return studentMapper.selectByStudentNum(studentNum);
     }
 }
