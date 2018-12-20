@@ -21,6 +21,19 @@
             </tr>
         </table>
     </form>
+    <form method="POST" enctype="multipart/form-data" action="/multipart/loadStudentList">
+        <table>
+            <tr>
+                <td>导入名单文件:</td>
+                <td><input type="file" name="file"/></td>
+                <td><input type="hidden" name="klassId" value="14"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Upload"/></td>
+            </tr>
+        </table>
+    </form>
 </div>
 
 <div>
