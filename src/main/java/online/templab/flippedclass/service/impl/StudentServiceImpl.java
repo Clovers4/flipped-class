@@ -10,6 +10,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author fj
  */
@@ -61,6 +63,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student getByPrimaryKey(Long id) {
+        return studentDao.selectByPrimaryKey(id);
+    }
+
+    @Override
     public Boolean resetPassword(String studentNum) {
         int line = studentDao.updateByStudentNumSelective(
                 new Student()
@@ -88,5 +95,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getByStudentNum(String studentNum) {
         return studentDao.selectByStudentNum(studentNum);
+    }
+
+    @Override
+    public List<Student> search(String keyWord) {
+        return studentDao.selectByKeyWord(keyWord);
     }
 }

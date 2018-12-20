@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author fj
  */
@@ -46,7 +49,24 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student selectByStudentNum(String studentNum){
+    public Student selectByStudentNum(String studentNum) {
         return studentMapper.selectByStudentNum(studentNum);
+    }
+
+    @Override
+    public List<Student> selectByKeyWord(String keyWord) {
+        List<Student> studentList = new ArrayList<>();
+        Student byStudentNum = selectByStudentNum(keyWord);
+        if (byStudentNum != null) {
+            studentList.add(byStudentNum);
+            return studentList;
+        }
+        studentList = studentMapper.selectByStudentName(keyWord);
+        return studentList;
+    }
+
+    @Override
+    public Student selectByPrimaryKey(Long id) {
+        return studentMapper.selectByPrimaryKey(id);
     }
 }

@@ -24,7 +24,12 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<Team> listByCourseId(Long courseId) {
-        return teamDao.selectByCourseId(courseId);
+        List<Team> teamList = teamDao.selectByCourseId(courseId);
+        for (int i = 0; i < teamList.size(); i++) {
+            Team tmp = get(courseId, teamList.get(i).getLeaderId());
+            teamList.set(i, tmp);
+        }
+        return teamList;
     }
 
     @Override

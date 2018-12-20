@@ -45,4 +45,12 @@ public interface StudentMapper extends Mapper<Student> {
      * @return
      */
     Student selectByStudentNum(String studentNum);
+
+    /**
+     * 根据 studentName 选择一个或多个学生
+     *
+     * @param studentName
+     * @return
+     */
+    List<Student> selectByStudentName(String studentName);
 }

@@ -50,13 +50,13 @@ public interface TeamService {
     /**
      * 队长创建队伍（合法性判断缺失）
      *
-     * @param studentId 队长id
-     * @param klassId 班级id
-     * @param teamName 队伍名称
+     * @param studentId  队长id
+     * @param klassId    班级id
+     * @param teamName   队伍名称
      * @param studentNum 成员id list
      * @return
      */
-    Boolean create(Long studentId,Long klassId,String teamName,List<Long> studentNum);
+    Boolean create(Long studentId, Long klassId, String teamName, List<Long> studentNum);
 
     /**
      * 根据 studentNum 删除组员（合法性判断缺失）
@@ -65,17 +65,17 @@ public interface TeamService {
      * @param studentNum
      * @return
      */
-    Boolean removeMember(Long teamId,String studentNum);
+    Boolean removeMember(Long teamId, String studentNum);
 
     /**
      * 添加组员（合法性判断缺失）
      *
-     * @param teamId 队伍 id
-     * @param studentId 队长 id
+     * @param teamId     队伍 id
+     * @param studentId  队长 id
      * @param studentNum 学生 studentNum
      * @return
      */
-    Boolean addMember(Long teamId,Long studentId,List<String> studentNum);
+    Boolean addMember(Long teamId, Long studentId, List<String> studentNum);
 
     /**
      * 组长解散小组
@@ -84,6 +84,5 @@ public interface TeamService {
      * @param studentId
      * @return
      */
-    Boolean dissolve(Long teamId,Long studentId);
-
+    Boolean dissolve(Long teamId, Long studentId);
 }

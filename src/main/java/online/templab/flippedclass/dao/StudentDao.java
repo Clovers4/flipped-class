@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author fj
  */
@@ -61,4 +63,20 @@ public interface StudentDao {
      * @return
      */
     Student selectByStudentNum(String studentNum);
+
+    /**
+     * 根据 keyWord 搜索一个学生
+     *
+     * @param keyWord
+     * @return
+     */
+    List<Student> selectByKeyWord(String keyWord);
+
+    /**
+     * 根据 id 获取 一个学生信息
+     *
+     * @param id
+     * @return
+     */
+    Student selectByPrimaryKey(Long id);
 }
