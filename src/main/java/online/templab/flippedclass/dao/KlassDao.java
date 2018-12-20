@@ -1,6 +1,7 @@
 package online.templab.flippedclass.dao;
 
 import online.templab.flippedclass.entity.Klass;
+import online.templab.flippedclass.entity.Student;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,4 +43,21 @@ public interface KlassDao {
      * @return
      */
     List<Klass> selectByCourseId(Long courseId);
+
+    /**
+     * 根据id得到一个klass
+     *
+     * @param id
+     * @return
+     */
+    Klass select(Long id);
+
+    /**
+     * 插入该班级下student名单
+     *
+     * @param id
+     * @param students
+     * @return
+     */
+    Boolean intsertList(Long id, List<Student> students);
 }

@@ -51,4 +51,12 @@ public interface CourseService {
      * @return
      */
     List<Course> listByStudentId(Long studentId);
+
+    /**
+     * 根据 courseId删除该课程和相关内容
+     *
+     * @param id
+     * @return
+     */
+    Boolean delete(Long id);
 }

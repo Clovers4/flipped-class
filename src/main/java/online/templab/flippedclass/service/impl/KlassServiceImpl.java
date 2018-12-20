@@ -40,8 +40,7 @@ public class KlassServiceImpl implements KlassService {
 
     @Override
     public Klass get(Long id) {
-        // TODO
-        return null;
+        return klassDao.select(id);
     }
 
     @Override
@@ -51,7 +50,6 @@ public class KlassServiceImpl implements KlassService {
 
     @Override
     public Boolean resetStudentList(Long id, List<Student> students) {
-        // TODO
-        return null;
+        return klassDao.intsertList(id,students);
     }
 }

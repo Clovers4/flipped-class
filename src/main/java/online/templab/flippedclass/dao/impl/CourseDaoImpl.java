@@ -16,6 +16,9 @@ public class CourseDaoImpl implements CourseDao {
     @Autowired
     private CourseMapper courseMapper;
 
+    @Autowired
+    private KlassStudentMapper klassStudentMapper;
+
     @Override
     public Course selectOne(Long id) {
         return courseMapper.selectByPrimaryKey(id);
