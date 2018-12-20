@@ -49,4 +49,12 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
         logger.info(student.toString());
         Assert.assertNotNull(student.getId());
     }
+
+    @Test
+    public void testSelectByStudentName()throws Exception{
+        List<Student> studentList = studentMapper.selectByStudentName("hello");
+        logger.info(studentList.toString());
+        Assert.assertNotNull(studentList);
+    }
+
 }

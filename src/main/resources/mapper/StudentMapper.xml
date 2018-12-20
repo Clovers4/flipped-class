@@ -43,16 +43,23 @@
 
     <select id="selectTeamMemberByTeamId" resultMap="BaseResultMap">
         select student.id, student.account, student.password, student.is_active, student.student_name, student.email
-        from student,klass_student
+        from student,
+             klass_student
         where student.id = klass_student.student_id
           and team_id = #{teamId}
           and course_id = #{courseId}
     </select>
 
     <select id="selectByStudentNum" resultMap="BaseResultMap">
-        select id
+        select id, account, password, is_active, student_name, email
         from student
         where account = #{studentNum}
+    </select>
+
+    <select id="selectByStudentName" resultMap="BaseResultMap">
+        select id, account, password, is_active, student_name, email
+        from student
+        where student_name = #{studentName}
     </select>
 
 </mapper>

@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 /**
  * @author fj
  */
@@ -80,6 +82,21 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
     public void testGetPage() throws Exception {
         Page<Student> page = studentService.getPage(new RowBounds(1, 5));
         Assert.assertNotNull(page);
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        List<Student> studentList = studentService.search("hello");
+        logger.info(studentList.toString());
+        Assert.assertNotNull(studentList);
+
+        studentList = studentService.search("5");
+        logger.info(studentList.toString());
+        Assert.assertNotNull(studentList);
+
+        studentList = studentService.search("-1");
+        logger.info(studentList.toString());
+        Assert.assertNotNull(studentList);
     }
 
 }

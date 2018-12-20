@@ -10,6 +10,7 @@ import java.util.List;
  * Student 业务 接口类
  *
  * @author wk
+ * @author fj
  */
 public interface StudentService {
 
@@ -38,17 +39,25 @@ public interface StudentService {
     Boolean update(Student student);
 
     /**
-     * 根据输入邮箱激活某个 student 的账户
+     * 根据输入邮箱激活某个 student 的账户（激活账户部分、修改邮箱部分）
      *
      * @param id
      * @param password
      * @param email
      * @return
      */
-    Boolean activate(Long id,String password, String email);
+    Boolean activate(Long id, String password, String email);
 
     /**
-     * 根据 studentNum 重置某个 Student 的密码
+     * 根据 id 获取一个学生（账户设置部分）
+     *
+     * @param id
+     * @return
+     */
+    Student getByPrimaryKey(Long id);
+
+    /**
+     * 根据 studentNum 重置某个 Student 的密码（管理员重置学生密码为默认密码）
      *
      * @param studentNum
      * @return
@@ -56,7 +65,7 @@ public interface StudentService {
     Boolean resetPassword(String studentNum);
 
     /**
-     * 根据 id 修改某个账号的密码
+     * 根据 id 修改某个账号的密码（学生修改密码部分）
      *
      * @param id
      * @param password
@@ -80,4 +89,11 @@ public interface StudentService {
      */
     Student getByStudentNum(String studentNum);
 
+    /**
+     * 根据 keyWord 搜索一个学生
+     *
+     * @param keyWord
+     * @return
+     */
+    List<Student> search(String keyWord);
 }
