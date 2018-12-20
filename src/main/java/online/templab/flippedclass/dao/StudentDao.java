@@ -25,10 +25,10 @@ public interface StudentDao {
     /**
      * 删除某个 account 对应的学生
      *
-     * @param account
+     * @param studentNum
      * @return
      */
-    int deleteByAccount(String account);
+    int deleteByStudentNum(String studentNum);
 
     /**
      * 根据 primary key 更新学生（非空属性才更新）
@@ -44,7 +44,7 @@ public interface StudentDao {
      * @param student
      * @return
      */
-    int updateByAccountSelective(Student student);
+    int updateByStudentNumSelective(Student student);
 
     /**
      * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Student>
@@ -54,4 +54,11 @@ public interface StudentDao {
      */
     Page<Student> getPage(RowBounds rowBounds);
 
+    /**
+     * 根据 studentNum 获取一个学生
+     *
+     * @param studentNum
+     * @return
+     */
+    Student selectByStudentNum(String studentNum);
 }

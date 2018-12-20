@@ -37,8 +37,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean delete(String account) {
-        int line = studentDao.deleteByAccount(account);
+    public Boolean delete(String studentNum) {
+        int line = studentDao.deleteByStudentNum(studentNum);
         return line == 1;
     }
 
@@ -61,10 +61,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean resetPassword(String account) {
-        int line = studentDao.updateByAccountSelective(
+    public Boolean resetPassword(String studentNum) {
+        int line = studentDao.updateByStudentNumSelective(
                 new Student()
-                        .setStudentNum(account)
+                        .setStudentNum(studentNum)
                         .setPassword(DEFAULT_PASSWORD)
         );
         return line == 1;
@@ -86,8 +86,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getByAccount(String account) {
-        // TODO
-        return null;
+    public Student getByStudentNum(String studentNum) {
+        return studentDao.selectByStudentNum(studentNum);
     }
 }

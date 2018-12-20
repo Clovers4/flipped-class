@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * @author fj
  */
+@Transactional
 public class KlassStudentMapperTest extends FlippedClassApplicationTest {
 
     @Autowired
@@ -26,7 +27,6 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteByTeamId() throws Exception {
         int line = klassStudentMapper.deleteByTeamId((long) 1);
         logger.info(String.valueOf(line));
@@ -36,7 +36,6 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteByTeamIdAndStudentId() throws Exception {
         int line = klassStudentMapper.deleteByTeamIdAndStudentId((long) 1, (long) 8);
         logger.info(String.valueOf(line));
@@ -53,7 +52,6 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    @Transactional
     public void testInsertList()throws Exception{
         List<Long> studentNum = new ArrayList<>();
         studentNum.add((long)9);

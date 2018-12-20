@@ -20,7 +20,6 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     TeamService teamService;
-
     @Test
     public void listUnTeamedStudentByCourseId()throws Exception{
         List<Student> studentList = teamService.listUnTeamedStudentByCourseId((long)1);
@@ -29,7 +28,6 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         Boolean success = size > 0 ? true : false;
         Assert.assertEquals(true,success);
     }
-
     @Test
     public void testSelectTeam()throws Exception{
         Team team =teamService.get((long)1,(long)1);
@@ -59,7 +57,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void testDeleteByAccount()throws Exception{
+    public void testDeleteByStudentNum()throws Exception{
         Boolean success = teamService.removeMember((long)2,"9");
         logger.info(success.toString());
         Assert.assertEquals(true,success);
@@ -67,12 +65,12 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testAddMember()throws Exception{
-        List<String> studentNum = new ArrayList<>();
-        studentNum.add("15");
-        studentNum.add("16");
-        studentNum.add("17");
-        Boolean success = teamService.addMember((long)3,(long)6,studentNum);
-        logger.info(studentNum.toString());
+        List<String> studentNumList = new ArrayList<>();
+        studentNumList.add("15");
+        studentNumList.add("16");
+        studentNumList.add("17");
+        Boolean success = teamService.addMember((long)3,(long)6,studentNumList);
+        logger.info(studentNumList.toString());
         logger.info(success.toString());
         Assert.assertEquals(true,success);
     }

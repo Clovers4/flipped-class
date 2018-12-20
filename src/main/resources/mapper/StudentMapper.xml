@@ -32,4 +32,27 @@
         where `account` = #{studentNum}
     </update>
 
+    <select id="selectUnTeamedStudentByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        select student.id, student.account, student.password, student.is_active, student.student_name, student.email
+        from student,
+             klass_student
+        where klass_student.course_id = #{courseId}
+          and klass_student.team_id is null
+          and student.id = klass_student.student_id
+    </select>
+
+    <select id="selectTeamMemberByTeamId" resultMap="BaseResultMap">
+        select student.id, student.account, student.password, student.is_active, student.student_name, student.email
+        from student,klass_student
+        where student.id = klass_student.student_id
+          and team_id = #{teamId}
+          and course_id = #{courseId}
+    </select>
+
+    <select id="selectByStudentNum" resultMap="BaseResultMap">
+        select id
+        from student
+        where account = #{studentNum}
+    </select>
+
 </mapper>

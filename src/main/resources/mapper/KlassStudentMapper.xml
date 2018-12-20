@@ -10,4 +10,47 @@
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
     <result column="team_id" jdbcType="BIGINT" property="teamId" />
   </resultMap>
+
+  <select id="selectByCourseIdAndStudentId" resultMap="BaseResultMap">
+    select team_id
+    from klass_student
+    where student_id = #{studentId}
+      and course_id = #{courseId}
+  </select>
+
+  <delete id="deleteByTeamIdAndStudentId">
+    delete
+    from klass_student
+    where team_id = #{teamId}
+      and student_id = #{studentId}
+  </delete>
+
+  <delete id="deleteByTeamId">
+    delete
+    from klass_student
+    where team_id = #{teamId}
+  </delete>
+
+  <select id="selectByStudentIdAndKlassId" resultMap="BaseResultMap">
+    select course_id
+    from klass_student
+    where klass_id = #{klassId}
+      and student_id = #{studentId}
+  </select>
+
+  <insert id="insertList">
+    insert into klass_student(klass_id,student_id,course_id,team_id)
+    values
+    <foreach collection="studentNum" item="stuId" separator=",">
+      (#{klassId},#{stuId},#{courseId},#{teamId})
+    </foreach>
+  </insert>
+
+  <select id="selectByTeamIdAndStudentId" resultMap="BaseResultMap">
+    select course_id, klass_id
+    from klass_student
+    where student_id = #{studentId}
+      and team_id = #{teamId}
+  </select>
+
 </mapper>

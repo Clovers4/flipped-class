@@ -67,20 +67,20 @@ public interface TeamDao {
      * 根据 account 删除组员
      *
      * @param teamId
-     * @param account
+     * @param studentNum
      * @return
      */
-    Boolean deleteByAccount(Long teamId,String account);
+    Boolean deleteByStudentNum(Long teamId,String studentNum);
 
     /**
      * 添加组员
      *
      * @param teamId
      * @param studentId
-     * @param account
+     * @param studentNum
      * @return
      */
-    Boolean updateByAccount(Long teamId,Long studentId,List<String> account);
+    Boolean updateByStudentNum(Long teamId,Long studentId,List<String> studentNum);
 
     /**
      * 队长解散队伍

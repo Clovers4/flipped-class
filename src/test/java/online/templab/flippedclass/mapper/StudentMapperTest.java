@@ -19,7 +19,7 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
 
     @Test
     @Transactional
-    public void testUpdateByAccountSelective()throws Exception{
+    public void testUpdateByStudentNumSelective()throws Exception{
         int line = studentMapper.updateByStudentNumSelective(
                 new Student()
                         .setStudentNum("test394")
@@ -44,8 +44,8 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void testSelectByAccount()throws Exception{
-        Student student = studentMapper.selectByAccount("4");
+    public void testSelectByStudentNum()throws Exception{
+        Student student = studentMapper.selectByStudentNum("4");
         logger.info(student.toString());
         Assert.assertNotNull(student.getId());
     }
