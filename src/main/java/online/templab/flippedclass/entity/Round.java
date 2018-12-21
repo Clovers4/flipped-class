@@ -3,14 +3,16 @@ package online.templab.flippedclass.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-
-@Getter
-@Setter
-@ToString
+/**
+ * @author chenr
+ */
+@Data
 @Accessors(chain = true)
 @Table(name = "`round`")
 public class Round implements Serializable {

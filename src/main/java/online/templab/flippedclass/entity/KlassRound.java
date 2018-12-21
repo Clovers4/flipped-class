@@ -2,14 +2,20 @@ package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+/**
+ *
+ * @author chenr
+ *
+ * 增加klass属性
+ */
+@Data
 @Accessors(chain = true)
 @Table(name = "`klass_round`")
 public class KlassRound implements Serializable {
@@ -31,7 +37,9 @@ public class KlassRound implements Serializable {
      * 某班级，某轮次队伍报名次数限制
      */
     @Column(name = "`enroll_number`")
-    private Integer enrollNumber;
+    private Integer enrollLimit;
+
+    private Klass klass;
 
     private static final long serialVersionUID = 1L;
 }

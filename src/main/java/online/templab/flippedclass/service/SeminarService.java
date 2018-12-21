@@ -46,7 +46,7 @@ public interface SeminarService {
     Integer getMaxSeminarSerialByCourseId(Long courseId);
 
     /**
-     * 根据 id 获得一个 Student
+     * 根据 id 获得一个 Seminar
      *
      * @param id
      * @return
