@@ -76,7 +76,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         UserWithRole userWithRole = new UserWithRole()
                 .setUsername(admin.getAdminName())
                 .setPassword(admin.getPassword())
-                .setRole("ROLE_ADMIN");
+                .setRole("ROLE_admin");
         return userWithRole;
     }
 
@@ -89,7 +89,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         UserWithRole userWithRole = new UserWithRole()
                 .setUsername(teacher.getTeacherNum())
                 .setPassword(teacher.getPassword())
-                .setRole("ROLE_TEACHER");
+                .setRole("ROLE_teacher");
         return userWithRole;
     }
 
@@ -102,7 +102,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         UserWithRole userWithRole = new UserWithRole()
                 .setUsername(student.getStudentNum())
                 .setPassword(student.getPassword())
-                .setRole("ROLE_STUDENT");
+                .setRole("ROLE_student");
         return userWithRole;
     }
 

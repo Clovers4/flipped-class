@@ -48,15 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .anyRequest().permitAll();
-//                .antMatchers("/", "/login", "/admin", "/admin/login").permitAll()
-//                .antMatchers("/admin/**").hasRole("ADMIN");
-//                .antMatchers("/student/**").hasRole("STUDENT")
-//                .antMatchers("/teacher/**").hasRole("TEACHER")
+                .antMatchers("/", "/login", "/admin", "/admin/login").permitAll()
+//                .antMatchers("/admin/**").hasRole("admin");
+                .antMatchers("/student/**").hasRole("student")
+                .antMatchers("/teacher/**").hasRole("teacher");
 
         http.formLogin()
-                .loginPage("/admin/login")
-                .loginProcessingUrl("/admin/login")
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
                 .usernameParameter("account")
                 .passwordParameter("password")
                 .successHandler(ajaxAuthSuccessHandler)
