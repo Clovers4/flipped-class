@@ -16,4 +16,12 @@
     <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartDate" />
     <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndDate" />
   </resultMap>
+
+  <select id="selectMaxSeminarSerialByCourseId" resultType="Integer">
+    select max(seminar_serial)
+            as serial
+    from seminar
+    where course_id = #{courseId}
+  </select>
+
 </mapper>
