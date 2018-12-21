@@ -22,7 +22,7 @@ $(function () {
                 data: modifyEmailForm.serialize(),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
-                        window.location="/teacher/option";
+                        window.location="/teacher/setting";
                     }
                 },
                 error: function (xhr) {

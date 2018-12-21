@@ -3,6 +3,7 @@ package online.templab.flippedclass.common.excel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,13 +22,13 @@ public class ExcelUtil {
         return filePath.matches("^.+\\.(?i)(xlsx)$");
     }
 
-    public static Workbook loadFile(File file) {
+    public static Workbook loadFile(MultipartFile file) {
         Workbook workbook = null;
         try {
-            if (ExcelUtil.isExcel2007(file.getPath())) {
-                workbook = new XSSFWorkbook(new FileInputStream(file));
-            } else if (ExcelUtil.isExcel2003(file.getPath())) {
-                workbook = new HSSFWorkbook(new FileInputStream(file));
+            if (ExcelUtil.isExcel2007(file.getOriginalFilename())) {
+                workbook = new XSSFWorkbook(file.getInputStream());
+            } else if (ExcelUtil.isExcel2003(file.getOriginalFilename())) {
+                workbook = new HSSFWorkbook(file.getInputStream());
             }
         } catch (IOException e) {
             throw new LoadExcelException(e.getMessage());

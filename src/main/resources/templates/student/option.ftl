@@ -104,7 +104,7 @@
     </button>
 </div>
 <form hidden id="courseIdForm">
-    <input id="courseIdInput" name="courseId" title="">
+    <input id="courseIdInput" name="courseId">
 </form>
 <div class="modal fade" id="courseModal" data-courseID="">
     <div class="modal-dialog">

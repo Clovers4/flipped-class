@@ -16,7 +16,7 @@
     <script src="/static/js/teacher/course/seminar/progressing.js"></script>
     <title>讨论课报名</title>
 </head>
-<body class="card-page sidebar-collapse">
+<body class="card-page sidebar-collapse" data-ksId="${ksId}">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -50,50 +50,38 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised" id="main" data-ksId="${ksId}">
-    <form class="form" id="loginForm">
-        <div class="container">
-            <div class="row" style="margin-top: 30px;">
-                <div class="col-8">
-                    <div class="form-group bmd-form-group" style="padding-top: 10px;">
-                        <input id="toServer" name="toServer" type="text" placeholder="消息" autocomplete="off"
-                               class="form-control empty-verify" data-emptyMessage="请输入消息">
-                    </div>
-                </div>
-                <div class="col-4 flex-right" style="padding-right: 3%;">
-                    <button type="button" id="send" class="btn bg-dark">
-                        Send
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <div class="container">
-        <div class="card"  style="height: calc(100% - 140px);">
-            <div id="msgList" class="card-body" style="overflow: scroll;flex-wrap: wrap">
-
-            </div>
-        </div>
-    </div>
+<div class="left-side side-raised">
+<#list enrollList as enroll>
+    <#if enroll??>
+    <button class="btn btn-fab btn-round bg-dark btn-team">
+        ${enroll.team.serial}
+    </button>
+    </#if>
+</#list>
 </div>
-
-<div class="container foot-container flex-center">
-    <div class="left-button">
-        <button class="btn bg-dark" id="connect" style="margin: 0">
-            Connect
-        </button>
-    </div>
-    <div class="right-button">
-        <button class="btn bg-dark" id="disconnect" style="margin: 0">
-            Disconnect
-        </button>
-    </div>
+<div class="right-upper-side side-raised">
+    <button class="btn btn-fab btn-round bg-dark btn-team" disabled>
+    5
+    </button>
+</div>
+<div class="right-downer-side side-raised">
+<#list enrollList as enroll>
+    <#if enroll??>
+    <i>${enroll.team.teamName}</i>
+    </#if>
+</#list>
+</div>
+<div class="container foot-operation">
+    <button class="btn btn-fab btn-round bg-dark next-team">
+        <i class="material-icons">
+            arrow_forward_ios
+        </i>
+    </button>
 </div>
 
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId" title="">
-    <input id="klassIdInput" name="klassId" title="">
+    <input id="seminarIdInput" name="seminarId">
+    <input id="klassIdInput" name="klassId">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

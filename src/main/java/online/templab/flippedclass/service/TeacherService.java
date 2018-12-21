@@ -58,28 +58,31 @@ public interface TeacherService {
     Boolean resetPassword(String account);
 
     /**
-     * 根据 id 修改某个账号的密码
+     * 根据 teacherNum 修改某个账号的密码
      *
-     * @param id
+     * @param teacherNum
      * @param password
      * @return
      */
-    Boolean modifyPassword(Long id, String password);
+    Boolean modifyPassword(String teacherNum, String password);
 
     /**
-     * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Teacher>
+     * 获得一个分页:
+     * 传入查询条件,封装到 Teacher 对象,根据非 null 属性进行条件查询
+     * 还要传入分页信息（）封装到 rowBounds(pageNum,limit) ,返回一个{@code List<Teacher>}
      *
+     * @param target
      * @param rowBounds
      * @return
      */
-    Page<Teacher> getPage(RowBounds rowBounds);
+    Page<Teacher> getPage(Teacher target,RowBounds rowBounds);
 
     /**
-     * 根据 account 获得一个 Teacher
+     * 根据 teacherNum 获得一个 Teacher
      *
-     * @param account
+     * @param teacherNum
      * @return
      */
-    Teacher getByAccount(String account);
+    Teacher getByTeacherNum(String teacherNum);
 
 }

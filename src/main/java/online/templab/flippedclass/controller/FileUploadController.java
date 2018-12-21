@@ -2,11 +2,15 @@ package online.templab.flippedclass.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+import online.templab.flippedclass.common.excel.ExcelService;
 import online.templab.flippedclass.common.multipart.StorageService;
 import online.templab.flippedclass.common.multipart.excp.EncodeException;
 import online.templab.flippedclass.common.multipart.excp.StorageFileNotFoundException;
+import online.templab.flippedclass.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -24,16 +28,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author wk
  */
+@Slf4j
 @Controller
 @RequestMapping(value = "/multipart")
 public class FileUploadController {
 
-    private final StorageService storageService;
+    @Autowired
+    private StorageService storageService;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
-        this.storageService = storageService;
-    }
+    private ExcelService excelService;
 
     @GetMapping(value = "")
     public String listUploadedFiles(Model model) throws IOException {
@@ -62,10 +66,25 @@ public class FileUploadController {
                 "attachment; filename=\"" + encodedFilename + "\"").body(file);
     }
 
+    @PostMapping(value = "loadStudentList")
+    public String loadStudentList(@RequestParam("file") MultipartFile file, Long klassId,
+                                  RedirectAttributes redirectAttributes) {
+        List<Student> records = excelService.loadStudentList(file);
+        log.info("klassId : " + klassId);
+        log.info(records.toString());
+        for (Student record : records) {
+            log.info(record.toString());
+        }
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "redirect:/multipart";
+    }
+
     @PostMapping(value = "")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
         storageService.storeReport(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");

@@ -4,6 +4,7 @@ import online.templab.flippedclass.entity.Student;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,7 +19,7 @@ import java.util.List;
 public class ExcelServiceImpl implements ExcelService {
 
     @Override
-    public List<Student> loadStudentList(File file) {
+    public List<Student> loadStudentList(MultipartFile file) {
         List<Student> students = new ArrayList<>();
 
         try (Workbook workbook = ExcelUtil.loadFile(file)) {

@@ -1,40 +1,35 @@
 var seminarModalNavs;
 var seminarModals;
-var klassButtons;
 var seminarForm = {};
+var seminarIdOptionInput;
 var courseIdForm;
 
 $(function () {
     seminarModals = $(".seminar-modal");
     seminarModalNavs = $(seminarModals.find(".nav-link"));
-    klassButtons = $(".klass-btn");
 
     seminarForm.form = $("#seminarForm");
     seminarForm.seminarIdInput = $("#seminarIdInput");
     seminarForm.klassIdInput = $("#klassIdInput");
+    seminarIdOptionInput = $("#seminarIdOptionInput");
     courseIdForm = $("#courseIdForm");
 
     $("#courseIdInput").val(sessionStorage.getItem("courseId"));
-    klassButtons.click(function () {
+    $(".klass-btn").click(function () {
         seminarForm.klassIdInput.val($(this).attr("data-klassId"));
         sessionStorage.setItem("klassId", seminarForm.klassIdInput.val());
         sessionStorage.setItem("seminarId", seminarForm.seminarIdInput.val());
         seminarForm.form.submit();
     });
-    $("#addRound").click(function () {
-        $.ajax({
-            type: "post",
-            url: "/teacher/course/round/add",
-            data: courseIdForm.serialize(),
-            success: function (result, status, xhr) {
-                if (xhr.status === 200) {
-                    courseIdForm.submit();
-                }
-            },
-            error: function () {
-                util.showAlert("danger", "创建失败，未知错误", 3);
-            }
-        })
+    $(".option-btn").click(function () {
+        $("#seminarOptionForm").submit();
+    });
+    $("#createButton").click(function () {
+        courseIdForm.submit();
+    });
+    $(".round-setting").click(function () {
+        $("#roundIdInput").val($(this).attr("data-roundId"));
+        $("#roundSettingForm").submit();
     });
     seminarModals.on("hidden.bs.modal", function () {
         var navCol = $(this).find(".nav-col");
@@ -63,5 +58,6 @@ $(function () {
             tabCol.removeClass("show");
         }
         seminarForm.seminarIdInput.val($(this).attr("data-seminarId"));
+        seminarIdOptionInput.val($(this).attr("data-seminarId"));
     });
 });

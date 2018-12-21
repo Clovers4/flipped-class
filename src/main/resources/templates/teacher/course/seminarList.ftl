@@ -48,7 +48,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
+<div class="main main-raised no-footer">
     <#if rounds?size ==0>
         <div class="empty-tag">
             <div class="info">
@@ -79,7 +79,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" style="padding-bottom: 0;">
-                                            <i class="material-icons">settings</i>
+                                            <i class="material-icons round-setting" data-roundId="${round.id}">settings</i>
                                             轮次设置
                                         </a>
                                     </li>
@@ -90,7 +90,7 @@
                 </div>
             </#list>
                 <div class="col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-top: 10px;margin-bottom: 10px;">
+                    <a class="btn bg-transparent add-card-btn" id="createButton" style="margin-top: 10px;margin-bottom: 10px;">
                         <i class="material-icons add-icon">add_circle</i>
                     </a>
                 </div>
@@ -109,7 +109,7 @@
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
+            <div class="modal-body" style="margin-top: 10px;margin-bottom: 10px;">
                 <#if round.seminars?size == 0>
                     <div class="empty-tag modal-tag">
                         <div class="info">
@@ -136,25 +136,37 @@
                                 </#list>
                             </ul>
                         </div>
-                        <div class="col-8 tab-col">
+                        <div class="col-8 tab-col" style="margin-top: -20px">
                             <div class="tab-content">
                                 <#list round.seminars as seminar>
                                     <div class="tab-pane" id="pane${seminar.id}">
                                         <div class="info">
-                                        <#--TODO:Change color here-->
                                             <div class="icon icon-rose flex-space-between">
                                                 <i class="material-icons">group_work</i>
+                                                <span class="info-title" style="padding-right: 20px">${seminar.theme}</span>
                                             </div>
-                                            <h4 class="info-title">${seminar.theme}</h4>
                                         </div>
                                     </div>
                                 </#list>
                             </div>
                             <div class="container">
-                                <#list klasses as klass>
-                                    <button type="button" class="btn btn-round bg-dark klass-btn"
-                                            data-klassId="${klass.id}">${klass.klassName}</button>
-                                </#list>
+                                <#if klasses?size == 0>
+                                    <div class="empty-tag" style="height: 200px;padding-top: 20px;">
+                                        <div class="info">
+                                            <div class="icon icon-rose flex-center">
+                                                <i class="material-icons color-grey">portable_wifi_off</i>
+                                            </div>
+                                            <h4 class="info-title">这里空荡荡的</h4>
+                                        </div>
+                                    </div>
+                                <#else >
+                                    <#list klasses as klass>
+                                        <button type="button" class="btn btn-round bg-dark klass-btn"
+                                        data-klassId="${klass.id}">${klass.klassName}</button>
+                                    </#list>
+                                </#if>
+                                <hr>
+                                <button type="button" class="btn btn-round bg-dark option-btn" style="width: 100%">设置</button>
                             </div>
                         </div>
                     </div>
@@ -165,21 +177,18 @@
     </div>
 </div>
 </#list>
-
-<div class="container foot-container flex-space-between">
-    <button onclick="window.location='/teacher/course/seminar/create'" class="btn btn-dark btn-round bg-dark"
-            style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        讨论课
-    </button>
-</div>
-
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId" title="">
-    <input id="klassIdInput" name="klassId" title="">
+    <input id="seminarIdInput" name="seminarId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
 </form>
-<form hidden id="courseIdForm" action="/teacher/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId" title="">
+<form hidden id="seminarOptionForm" action="/teacher/course/seminar/option" method="post">
+    <input id="seminarIdOptionInput" name="seminarId" placeholder="">
+</form>
+<form hidden id="roundSettingForm" action="/teacher/course/round/setting" method="post">
+    <input id="roundIdInput" name="roundId" placeholder="">
+</form>
+<form hidden id="courseIdForm" action="/teacher/course/seminar/create" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

@@ -65,21 +65,24 @@ public interface StudentService {
     Boolean resetPassword(String studentNum);
 
     /**
-     * 根据 id 修改某个账号的密码（学生修改密码部分）
+     * 根据 StudentNum 修改某个账号的密码（学生修改密码部分）
      *
-     * @param id
+     * @param studentNum
      * @param password
      * @return
      */
-    Boolean modifyPassword(Long id, String password);
+    Boolean modifyPassword(String studentNum, String password);
 
     /**
-     * 获得一个分页: 传入 rowBounds(pageNum,limit) ,返回一个 List<Student>
+     * 获得一个分页:
+     * 传入查询条件,封装到 Student 对象,根据非 null 属性进行条件查询
+     * 还要传入分页信息（）封装到 rowBounds(pageNum,limit) ,返回一个{@code List<Student>}
      *
+     * @param target
      * @param rowBounds
      * @return
      */
-    Page<Student> getPage(RowBounds rowBounds);
+    Page<Student> getPage(Student target, RowBounds rowBounds);
 
     /**
      * 根据 account 获得一个 Student
@@ -88,12 +91,4 @@ public interface StudentService {
      * @return
      */
     Student getByStudentNum(String studentNum);
-
-    /**
-     * 根据 keyWord 搜索一个学生
-     *
-     * @param keyWord
-     * @return
-     */
-    List<Student> search(String keyWord);
 }

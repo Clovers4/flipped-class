@@ -86,7 +86,7 @@
                         <i class="material-icons">clear</i>
                     </button>
                     <form class="form">
-                        <input id="id" name="id" title="" style="display: none">
+                        <input id="id" name="id" style="display: none">
                         <div class="card-body">
                             <div class="form-group bmd-form-group">
                                 <label for="name" class="bmd-label-floating">学生姓名</label>

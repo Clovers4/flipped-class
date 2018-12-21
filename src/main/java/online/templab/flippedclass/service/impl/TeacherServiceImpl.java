@@ -57,7 +57,7 @@ public class TeacherServiceImpl implements TeacherService {
         int line = teacherDao.updateByPrimaryKeySelective(
                 new Teacher()
                         .setId(id)
-                        .setPassword(password)
+                        .setPassword(passwordEncoder.encode(password))
                         .setEmail(email)
                         .setActivated(true)
         );
@@ -75,23 +75,22 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Boolean modifyPassword(Long id, String password) {
-        int line = teacherDao.updateByPrimaryKeySelective(
+    public Boolean modifyPassword(String teacherNum, String password) {
+        int line = teacherDao.updateByAccountSelective(
                 new Teacher()
-                        .setId(id)
+                        .setTeacherNum(teacherNum)
                         .setPassword(passwordEncoder.encode(password))
         );
         return line == 1;
     }
 
     @Override
-    public Page<Teacher> getPage(RowBounds rowBounds) {
-        return (Page<Teacher>) teacherDao.selectByRowBounds(new Teacher(), rowBounds);
+    public Page<Teacher> getPage(Teacher target, RowBounds rowBounds) {
+        return (Page<Teacher>) teacherDao.selectByRowBounds(target, rowBounds);
     }
 
     @Override
-    public Teacher getByAccount(String account) {
-        // TODO
-        return null;
+    public Teacher getByTeacherNum(String teacherNum) {
+        return teacherDao.selectByTeacherNum(teacherNum);
     }
 }

@@ -62,13 +62,13 @@
                             <div class="line">
                                 <label>轮次</label>
                                 <div class="sep"></div>
-                            <#--TODO:{}-->
+                                <#--TODO:{}-->
                                 <div class="content">｛第二轮｝</div>
                             </div>
                             <div class="line">
                                 <label>班级</label>
                                 <div class="sep"></div>
-                            <#--TODO:{}-->
+                                <#--TODO:{}-->
                                 <div class="content">｛2016(1)｝</div>
                             </div>
                             <div class="line">
@@ -79,12 +79,12 @@
                             <div class="line content-line">
                                 <label>组队开始时间</label>
                                 <div class="sep"></div>
-                                <div class="content">${course.teamStartDate?date}</div>
+                                <div class="content">${course.teamStartDate?datetime}</div>
                             </div>
                             <div class="line content-line">
                                 <label>组队结束时间</label>
                                 <div class="sep"></div>
-                                <div class="content">${course.teamEndDate?date}</div>
+                                <div class="content">${course.teamEndDate?datetime}</div>
                             </div>
                         </div>
                     </div>
@@ -93,12 +93,13 @@
         </div>
     </div>
 </div>
-
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
-        <i class="material-icons">delete</i>
-        删除课程
-    </button>
+    <div class="col-md-10 ml-auto mr-auto" style="padding: 0;">
+        <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+            <i class="material-icons">delete</i>
+            删除课程
+        </button>
+    </div>
 </div>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

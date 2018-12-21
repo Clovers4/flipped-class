@@ -44,8 +44,8 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Page<Student> getPage(RowBounds rowBounds) {
-        return (Page<Student>) studentMapper.selectByRowBounds(new Student(), rowBounds);
+    public Page<Student> selectByRowBounds(Student record, RowBounds rowBounds) {
+        return (Page<Student>) studentMapper.selectByRowBounds(record, rowBounds);
     }
 
     @Override
@@ -53,17 +53,6 @@ public class StudentDaoImpl implements StudentDao {
         return studentMapper.selectOne(new Student().setStudentNum(studentNum));
     }
 
-    @Override
-    public List<Student> selectByKeyWord(String keyWord) {
-        List<Student> studentList = new ArrayList<>();
-        Student byStudentNum = selectByStudentNum(keyWord);
-        if (byStudentNum != null) {
-            studentList.add(byStudentNum);
-            return studentList;
-        }
-        studentList = studentMapper.selectByStudentName(keyWord);
-        return studentList;
-    }
 
     @Override
     public Student selectByPrimaryKey(Long id) {

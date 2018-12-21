@@ -9,26 +9,26 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Repeat;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * @author fj
  */
+@Transactional
 public class StudentServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     StudentService studentService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     private Student createStudent() {
         return new Student()
                 .setStudentNum("test" + random.nextInt(1000))
                 .setPassword("test")
                 .setActivated(false)
-                .setEmail("test" + random.nextInt(10) + "@163.com")
+                .setEmail("test" + random.nextInt(1000) + "@163.com")
                 .setStudentName("student");
     }
 
@@ -53,7 +53,9 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
     public void testActive() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
-        Boolean success = studentService.activate(student.getId(), student.getPassword(), student.getEmail());
+
+        Student record = studentService.getByStudentNum(student.getStudentNum());
+        Boolean success = studentService.activate(record.getId(), student.getPassword(), student.getEmail());
 
         Assert.assertEquals(true, success);
     }
@@ -71,32 +73,21 @@ public class StudentServiceImplTest extends FlippedClassApplicationTest {
     public void testModifyPassword() throws Exception {
         Student student = createStudent();
         studentService.insert(student);
-        student.setPassword(passwordEncoder.encode("test" + random.nextInt(1000)));
+        student.setPassword("test" + random.nextInt(1000));
         System.out.println(student);
 
-        Boolean success = studentService.modifyPassword(student.getId(), student.getPassword());
+        Boolean success = studentService.modifyPassword(student.getStudentNum(), student.getPassword());
         Assert.assertEquals(true, success);
     }
 
     @Test
     public void testGetPage() throws Exception {
-        Page<Student> page = studentService.getPage(new RowBounds(1, 5));
+        Page<Student> page = studentService.getPage(new Student(), new RowBounds(3, 5));
+        logger.info(page.toString());
+        for (Student record : page) {
+            logger.info(record.toString());
+        }
         Assert.assertNotNull(page);
-    }
-
-    @Test
-    public void testSearch() throws Exception {
-        List<Student> studentList = studentService.search("hello");
-        logger.info(studentList.toString());
-        Assert.assertNotNull(studentList);
-
-        studentList = studentService.search("5");
-        logger.info(studentList.toString());
-        Assert.assertNotNull(studentList);
-
-        studentList = studentService.search("-1");
-        logger.info(studentList.toString());
-        Assert.assertNotNull(studentList);
     }
 
 }
