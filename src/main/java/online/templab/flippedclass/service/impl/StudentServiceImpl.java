@@ -55,7 +55,7 @@ public class StudentServiceImpl implements StudentService {
         int line = studentDao.updateByPrimaryKeySelective(
                 new Student()
                         .setId(id)
-                        .setPassword(password)
+                        .setPassword(passwordEncoder.encode(password))
                         .setActivated(true)
                         .setEmail(email)
         );
@@ -72,17 +72,17 @@ public class StudentServiceImpl implements StudentService {
         int line = studentDao.updateByStudentNumSelective(
                 new Student()
                         .setStudentNum(studentNum)
-                        .setPassword(DEFAULT_PASSWORD)
+                        .setPassword(passwordEncoder.encode(DEFAULT_PASSWORD))
         );
         return line == 1;
     }
 
     @Override
-    public Boolean modifyPassword(Long id, String password) {
-        int line = studentDao.updateByPrimaryKeySelective(
+    public Boolean modifyPassword(String studentNum, String password) {
+        int line = studentDao.updateByStudentNumSelective(
                 new Student()
-                        .setId(id)
-                        .setPassword(password)
+                        .setStudentNum(studentNum)
+                        .setPassword(passwordEncoder.encode(password))
         );
         return line == 1;
     }
@@ -97,8 +97,4 @@ public class StudentServiceImpl implements StudentService {
         return studentDao.selectByStudentNum(studentNum);
     }
 
-    @Override
-    public List<Student> search(String keyWord) {
-        return studentDao.selectByKeyWord(keyWord);
-    }
 }

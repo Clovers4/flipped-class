@@ -58,13 +58,13 @@ public interface TeacherService {
     Boolean resetPassword(String account);
 
     /**
-     * 根据 id 修改某个账号的密码
+     * 根据 teacherNum 修改某个账号的密码
      *
-     * @param id
+     * @param teacherNum
      * @param password
      * @return
      */
-    Boolean modifyPassword(Long id, String password);
+    Boolean modifyPassword(String teacherNum, String password);
 
     /**
      * 获得一个分页:
