@@ -65,13 +65,13 @@ public interface StudentService {
     Boolean resetPassword(String studentNum);
 
     /**
-     * 根据 id 修改某个账号的密码（学生修改密码部分）
+     * 根据 StudentNum 修改某个账号的密码（学生修改密码部分）
      *
-     * @param id
+     * @param studentNum
      * @param password
      * @return
      */
-    Boolean modifyPassword(Long id, String password);
+    Boolean modifyPassword(String studentNum, String password);
 
     /**
      * 获得一个分页:
@@ -91,12 +91,4 @@ public interface StudentService {
      * @return
      */
     Student getByStudentNum(String studentNum);
-
-    /**
-     * 根据 keyWord 搜索一个学生
-     *
-     * @param keyWord
-     * @return
-     */
-    List<Student> search(String keyWord);
 }

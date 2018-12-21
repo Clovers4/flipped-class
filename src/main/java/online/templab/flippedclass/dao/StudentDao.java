@@ -55,7 +55,7 @@ public interface StudentDao {
      * @param rowBounds
      * @return
      */
-    Page<Student> selectByRowBounds(Student record,RowBounds rowBounds);
+    Page<Student> selectByRowBounds(Student record, RowBounds rowBounds);
 
     /**
      * 根据 studentNum 获取一个学生
@@ -64,14 +64,6 @@ public interface StudentDao {
      * @return
      */
     Student selectByStudentNum(String studentNum);
-
-    /**
-     * 根据 keyWord 搜索一个学生
-     *
-     * @param keyWord
-     * @return
-     */
-    List<Student> selectByKeyWord(String keyWord);
 
     /**
      * 根据 id 获取 一个学生信息
