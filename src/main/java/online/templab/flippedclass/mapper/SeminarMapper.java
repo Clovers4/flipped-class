@@ -9,4 +9,12 @@ import tk.mybatis.mapper.common.Mapper;
  */
 @Component
 public interface SeminarMapper extends Mapper<Seminar> {
+
+    /**
+     * 根据 courseId 查找该课程的所有讨论课中最大的序号(seminarSerial)
+     *
+     * @param courseId
+     * @return
+     */
+    Integer selectMaxSeminarSerialByCourseId(Long courseId);
 }

@@ -53,4 +53,5 @@ public interface SeminarService {
      */
     Seminar get(Long id);
 
+
 }
