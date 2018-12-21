@@ -1,5 +1,6 @@
 package online.templab.flippedclass.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Teacher;
@@ -22,6 +23,7 @@ import java.util.List;
 /**
  * @author Cesare
  */
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -36,10 +38,6 @@ public class IndexController {
 
     @Autowired
     private StudentService studentService;
-
-    @Autowired
-    //  private FileService fileService;
-
 
     @RequestMapping(value = {"/", "/login"})
     public String login() {
@@ -58,6 +56,7 @@ public class IndexController {
 
         Teacher teacher = teacherService.getByTeacherNum(account);
         if (teacher != null) {
+            log.info("teacher forget password,captcha is {}", captcha);
             session.setAttribute("forgetPasswordCaptcha", captcha);
             session.setAttribute("forgetType", "teacher");
             session.setAttribute("forgetAccount", account);
@@ -66,6 +65,7 @@ public class IndexController {
         }
         Student student = studentService.getByStudentNum(account);
         if (student != null) {
+            log.info("student forget password,captcha is {}", captcha);
             session.setAttribute("forgetPasswordCaptcha", captcha);
             session.setAttribute("forgetType", "student");
             session.setAttribute("forgetAccount", account);
@@ -97,25 +97,22 @@ public class IndexController {
         }
     }
 
-/*
     @PostMapping("/modifyPassword")
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
         String forgetType = "forgetType";
-        String studentType = "student", teacherType = "teacher";
+        String studentType = "student";
+        String teacherType = "teacher";
         String forgetAccount = (String) session.getAttribute("forgetAccount");
+
         if (studentType.equals(session.getAttribute(forgetType))) {
-            studentService.modifyPasswordViaSn(forgetAccount, password);
+            studentService.modifyPassword(forgetAccount, password);
         } else if (teacherType.equals(session.getAttribute(forgetType))) {
-            teacherService.modifyPasswordViaTn(forgetAccount, password);
+            teacherService.modifyPassword(forgetAccount, password);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @GetMapping("/upload")
-    public String upload() {
-        return "upload";
-    }*/
 }
