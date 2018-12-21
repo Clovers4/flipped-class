@@ -12,4 +12,10 @@
     <result column="klass_time" jdbcType="VARCHAR" property="time" />
     <result column="klass_location" jdbcType="VARCHAR" property="location" />
   </resultMap>
+
+  <select id="selectIdByCourseId" parameterType="Long" resultType="Long">
+        select id
+        from klass
+        where course_id=#{courseId}
+    </select>
 </mapper>

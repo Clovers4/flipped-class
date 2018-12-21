@@ -49,4 +49,12 @@ public interface CourseDao {
      * @return
      */
     List<Course> selectByStudentId(Long studentId);
+
+    /**
+     * 删除有关的course
+     *
+     * @param id
+     * @return
+     */
+    Boolean delete(Long id);
 }

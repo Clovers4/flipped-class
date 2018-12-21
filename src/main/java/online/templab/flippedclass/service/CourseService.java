@@ -3,6 +3,7 @@ package online.templab.flippedclass.service;
 import online.templab.flippedclass.entity.Course;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Course 业务 接口类
@@ -59,4 +60,20 @@ public interface CourseService {
      * @return
      */
     Boolean delete(Long id);
+
+    /**
+     * 根据学生id返回课程和班级
+     *
+     * @param studentId
+     * @return
+     */
+    List<Map<String,Object>> listCourseKlassByStudentId(Long studentId);
+
+    /**
+     * 根据老师id返回课程和班级
+     *
+     * @param teacherId
+     * @return
+     */
+    List<Map<String,Object>> listCourseKlassByTeacherId(Long teacherId);
 }
