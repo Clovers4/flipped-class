@@ -21,7 +21,7 @@ public interface KlassDao {
     Boolean insert(Klass klass);
 
     /**
-     * 删除某个 id 对应的课程
+     * 删除某个 id 对应的Klass
      *
      * @param id
      * @return 成功则返回 true ,失败则返回 false
