@@ -49,20 +49,4 @@
           and team_id = #{teamId}
           and course_id = #{courseId}
     </select>
-<<<<<<< HEAD
-
-    <select id="selectByStudentNum" resultMap="BaseResultMap">
-        select id, account, password, is_active, student_name, email
-        from student
-        where account = #{studentNum}
-    </select>
-
-    <select id="selectByStudentName" resultMap="BaseResultMap">
-        select id, account, password, is_active, student_name, email
-        from student
-        where student_name = #{studentName}
-    </select>
-
-=======
->>>>>>> [fix] 删除KlassStudent和Team和Student相关的select和delete重复语句
 </mapper>
