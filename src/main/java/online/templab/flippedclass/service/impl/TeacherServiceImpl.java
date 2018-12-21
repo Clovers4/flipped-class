@@ -85,13 +85,12 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Page<Teacher> getPage(Teacher target,RowBounds rowBounds) {
+    public Page<Teacher> getPage(Teacher target, RowBounds rowBounds) {
         return (Page<Teacher>) teacherDao.selectByRowBounds(target, rowBounds);
     }
 
     @Override
-    public Teacher getByAccount(String account) {
-        // TODO
-        return null;
+    public Teacher getByTeacherNum(String teacherNum) {
+        return teacherDao.selectByTeacherNum(teacherNum);
     }
 }

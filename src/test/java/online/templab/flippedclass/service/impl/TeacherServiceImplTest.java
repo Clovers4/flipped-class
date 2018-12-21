@@ -71,4 +71,11 @@ public class TeacherServiceImplTest extends FlippedClassApplicationTest {
         Assert.assertNotNull(page);
     }
 
+    @Test
+    public void testGetByTeacherNum(){
+        Teacher teacher=teacherService.getByTeacherNum("test802");
+        Assert.assertNotNull(teacher);
+        logger.info(teacher.toString());
+    }
+
 } 

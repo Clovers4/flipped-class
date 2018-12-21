@@ -45,6 +45,11 @@ public class TeacherDaoImpl implements TeacherDao {
     }
 
     @Override
+    public Teacher selectByTeacherNum(String teacherNum) {
+        return teacherMapper.selectOne(new Teacher().setTeacherNum(teacherNum));
+    }
+
+    @Override
     public List<Teacher> select(Teacher record) {
         return teacherMapper.select(record);
     }

@@ -53,6 +53,14 @@ public interface TeacherDao  {
     Teacher selectByPrimaryKey(Object key);
 
     /**
+     * 根据 teacherNum(工号,又名account) 查询出一个Teacher
+     *
+     * @param teacherNum
+     * @return
+     */
+    Teacher selectByTeacherNum(String teacherNum);
+
+    /**
      * 根据实体中的属性值进行查询，查询条件使用等号
      *
      * @param record

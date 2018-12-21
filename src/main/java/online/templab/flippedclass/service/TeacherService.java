@@ -78,11 +78,11 @@ public interface TeacherService {
     Page<Teacher> getPage(Teacher target,RowBounds rowBounds);
 
     /**
-     * 根据 account 获得一个 Teacher
+     * 根据 teacherNum 获得一个 Teacher
      *
-     * @param account
+     * @param teacherNum
      * @return
      */
-    Teacher getByAccount(String account);
+    Teacher getByTeacherNum(String teacherNum);
 
 }
