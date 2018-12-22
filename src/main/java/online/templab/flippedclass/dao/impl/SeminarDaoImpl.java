@@ -1,9 +1,12 @@
 package online.templab.flippedclass.dao.impl;
 
 import online.templab.flippedclass.dao.SeminarDao;
+import online.templab.flippedclass.entity.Course;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.entity.Seminar;
+import online.templab.flippedclass.mapper.CourseMapper;
+import online.templab.flippedclass.mapper.KlassMapper;
 import online.templab.flippedclass.mapper.KlassSeminarMapper;
 import online.templab.flippedclass.mapper.SeminarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +26,37 @@ public class SeminarDaoImpl implements SeminarDao {
     @Autowired
     KlassSeminarMapper klassSeminarMapper;
 
+    @Autowired
+    CourseMapper courseMapper;
+
+    @Autowired
+    KlassMapper klassMapper;
+
     @Override
     public Boolean insert(Seminar seminar) {
+        //考虑从课程的关系创建
+        List<Course> courses=courseMapper.select(new Course().setSeminarMainCourseId(seminar.getCourseId()));
+        if(!courses.isEmpty()){
+            for(Course course:courses){
+                List<Long> klassIds=klassMapper.selectIdByCourseId(course.getId());
+                for(Long klassId:klassIds){
+                    klassSeminarMapper.insert(new KlassSeminar()
+                            .setKlassId(klassId)
+                            .setSeminarId(seminar.getId())
+                            .setState(0));
+                }
+            }
+        }
+        //主课程的关系创建
         if (seminar.getRoundId() != null) {
             int line = seminarMapper.insert(seminar);
+            List<Long> klassIds=klassMapper.selectIdByCourseId(seminar.getCourseId());
+            for(Long klassId:klassIds){
+                klassSeminarMapper.insert(new KlassSeminar()
+                        .setKlassId(klassId)
+                        .setSeminarId(seminar.getId())
+                        .setState(0));
+            }
             return line == 1;
         } else {
             // TODO
