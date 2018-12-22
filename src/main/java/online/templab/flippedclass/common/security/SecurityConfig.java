@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AjaxAuthFailureHandler ajaxAuthFailureHandler;
 
     @Autowired
+    private  MyAccessDeniedHandler myAccessDeniedHandler;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -70,6 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 开启 Iframe
         http.headers().frameOptions().sameOrigin();
 
-        http.exceptionHandling().authenticationEntryPoint(unauthenticationEntryPoint);
+        http.exceptionHandling()
+                .authenticationEntryPoint(unauthenticationEntryPoint)
+                .accessDeniedHandler(myAccessDeniedHandler);
     }
 }

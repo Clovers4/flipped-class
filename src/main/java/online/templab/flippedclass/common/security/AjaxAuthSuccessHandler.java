@@ -23,7 +23,6 @@ public class AjaxAuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
         String authorities = auth.getAuthorities().toString();
-        // FIXME 跳转不对
         log.info("Auth Success : " + authorities);
 
         PrintWriter writer = response.getWriter();
