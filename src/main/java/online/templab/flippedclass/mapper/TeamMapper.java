@@ -2,6 +2,7 @@ package online.templab.flippedclass.mapper;
 
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -21,4 +22,13 @@ public interface TeamMapper extends Mapper<Team> {
      * @return
      */
     Boolean deleteMember(Long teamId,Long studentId);
+
+    /**
+     * 根据 courseId 获取该课程下课程最大队伍Serial
+     *
+     * @param courseId
+     * @param klassId
+     * @return
+     */
+    int getMaxTeamSerial(@Param("courseId") Long courseId,@Param("klassId") Long klassId);
 }

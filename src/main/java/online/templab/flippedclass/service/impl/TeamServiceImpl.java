@@ -48,7 +48,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Boolean create(Long studentId, Long klassId, String teamName, List<Long> studentNum) {
+    public Boolean create(Long studentId, Long klassId, String teamName, List<String> studentNum) {
         return teamDao.insert(studentId, klassId, teamName, studentNum);
     }
 

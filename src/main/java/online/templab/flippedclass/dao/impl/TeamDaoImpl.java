@@ -77,7 +77,7 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Boolean insert(Long studentId, Long klassId, String teamName, List<Long> studentNum) {
+    public Boolean insert(Long studentId, Long klassId, String teamName, List<String> studentNum) {
         // 获取 courseId
         KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setKlassId(klassId).setStudentId(studentId));
         // 创建队伍
@@ -86,13 +86,18 @@ public class TeamDaoImpl implements TeamDao {
                 .setKlassId(klassId)
                 .setTeamName(teamName)
                 .setCourseId(klassStudent.getCourseId())
-                .setSerial(33)
+                .setSerial((int)teamMapper.getMaxTeamSerial(klassStudent.getCourseId(),klassId)+1)
                 .setStatus(1);
         // 插入队伍
         int lineTeam = teamMapper.insert(team);
         team = teamMapper.selectOne(team);
+        // 通过list<Long> studentNum 获取对应学生id
+        List<Long> studentPrimaryKeyList = new ArrayList<>();
+        for (int i = 0; i < studentNum.size(); i++) {
+            studentPrimaryKeyList.add(studentMapper.selectOne(new Student().setStudentNum(studentNum.get(i))).getId());
+        }
         // 插入 klass_student 表关系
-        int lineKlassStudent = klassStudentMapper.insertList(klassStudent.getCourseId(), klassId, team.getId(), studentNum);
+        int lineKlassStudent = klassStudentMapper.insertList(klassStudent.getCourseId(), klassId, team.getId(), studentPrimaryKeyList);
         return lineTeam * lineKlassStudent > 0;
     }
 

@@ -53,10 +53,10 @@ public interface TeamService {
      * @param studentId  队长id
      * @param klassId    班级id
      * @param teamName   队伍名称
-     * @param studentNum 成员id list
+     * @param studentNum 成员学号/账号 list
      * @return
      */
-    Boolean create(Long studentId, Long klassId, String teamName, List<Long> studentNum);
+    Boolean create(Long studentId, Long klassId, String teamName, List<String> studentNum);
 
     /**
      * 根据 studentNum 删除组员（合法性判断缺失）

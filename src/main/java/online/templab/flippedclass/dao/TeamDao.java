@@ -61,7 +61,7 @@ public interface TeamDao {
      * @param studentNum 成员id list
      * @return
      */
-    Boolean insert(Long studentId,Long klassId,String teamName,List<Long> studentNum);
+    Boolean insert(Long studentId,Long klassId,String teamName,List<String> studentNum);
 
     /**
      * 根据 account 删除组员
