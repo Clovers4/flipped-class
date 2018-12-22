@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AjaxAuthFailureHandler ajaxAuthFailureHandler;
 
     @Autowired
+    private  MyAccessDeniedHandler myAccessDeniedHandler;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -48,15 +51,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .anyRequest().permitAll();
-//                .antMatchers("/", "/login", "/admin", "/admin/login").permitAll()
-//                .antMatchers("/admin/**").hasRole("ADMIN");
-//                .antMatchers("/student/**").hasRole("STUDENT")
-//                .antMatchers("/teacher/**").hasRole("TEACHER")
+                .antMatchers("/", "/login", "/admin", "/admin/login").permitAll()
+//                .antMatchers("/admin/**").hasRole("admin");
+                .antMatchers("/student/**").hasRole("student")
+                .antMatchers("/teacher/**").hasRole("teacher");
 
         http.formLogin()
-                .loginPage("/admin/login")
-                .loginProcessingUrl("/admin/login")
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
                 .usernameParameter("account")
                 .passwordParameter("password")
                 .successHandler(ajaxAuthSuccessHandler)
@@ -71,6 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 开启 Iframe
         http.headers().frameOptions().sameOrigin();
 
-        http.exceptionHandling().authenticationEntryPoint(unauthenticationEntryPoint);
+        http.exceptionHandling()
+                .authenticationEntryPoint(unauthenticationEntryPoint)
+                .accessDeniedHandler(myAccessDeniedHandler);
     }
 }
