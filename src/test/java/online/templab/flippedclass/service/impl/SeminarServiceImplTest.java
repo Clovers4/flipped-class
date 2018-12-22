@@ -4,6 +4,7 @@ import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.AttendanceMapper;
 import online.templab.flippedclass.mapper.KlassSeminarMapper;
+import online.templab.flippedclass.mapper.KlassStudentMapper;
 import online.templab.flippedclass.service.CourseService;
 import online.templab.flippedclass.service.KlassService;
 import online.templab.flippedclass.service.SeminarService;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.ws.Action;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fj
@@ -36,6 +38,9 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     KlassSeminarMapper klassSeminarMapper;
+
+    @Autowired
+    KlassStudentMapper klassStudentMapper;
 
     private void createKlassSeminarTable() {
         courseService.insert(new Course()
@@ -66,6 +71,26 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
                 .setSerial(3)
                 .setVisible(true)
                 .setTheme("主题"));
+        attendanceMapper.insertSelective(new Attendance()
+                .setKlassSeminarId((long) klassSeminarMapper
+                        .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
+                .setTeamId((long) 1)
+                .setPresent(true)
+                .setPptName("pptname")
+                .setPreFile("ppturl")
+                .setReportName("reportname")
+                .setReportFile("reporturl")
+                .setSn(3));
+        attendanceMapper.insertSelective(new Attendance()
+                .setKlassSeminarId((long) klassSeminarMapper
+                        .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
+                .setTeamId((long) 2)
+                .setPresent(true)
+                .setPptName("pptname")
+                .setPreFile("ppturl")
+                .setReportName("reportname")
+                .setReportFile("reporturl")
+                .setSn(4));
     }
 
     private Seminar createSeminar() {
@@ -166,17 +191,48 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testDeleteKlassSeminar() {
         createKlassSeminarTable();
-        attendanceMapper.insertSelective(new Attendance()
+
+        seminarService.deleteKlassSeminar((long) klassSeminarMapper
+                .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId());
+    }
+
+    @Test
+    public void testGetEnrollListByKlassSeminarId() {
+        createKlassSeminarTable();
+        List<Attendance> attendances = seminarService.getEnrollListByKlassSeminarId((long) klassSeminarMapper
+                .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId());
+        logger.info(attendances.toString());
+    }
+
+    @Test
+    public void testEnroll() {
+        createKlassSeminarTable();
+        Long klassSeminarId=(long) klassSeminarMapper
+                .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId();
+        logger.info(seminarService.getEnrollListByKlassSeminarId(klassSeminarId).toString());
+        seminarService.enRoll(new Attendance()
                 .setKlassSeminarId((long) klassSeminarMapper
                         .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
-                .setTeamId((long) 1)
+                .setTeamId((long) 6)
                 .setPresent(true)
                 .setPptName("pptname")
                 .setPreFile("ppturl")
                 .setReportName("reportname")
                 .setReportFile("reporturl")
-                .setSn(3));
-        seminarService.deleteKlassSeminar((long) klassSeminarMapper
-                .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId());
+                .setSn(5));
+        logger.info(seminarService.getEnrollListByKlassSeminarId(klassSeminarId).toString());
+    }
+
+    @Test
+    public void testDeleteEnroll() {
+        createKlassSeminarTable();
+        klassStudentMapper.insert(new KlassStudent()
+                .setStudentId((long) 2432016)
+                .setKlassId((long) 213)
+                .setTeamId((long) 1)
+                .setCourseId((long) 123));
+        Boolean isDelete = seminarService.deleteEnroll((long) klassSeminarMapper
+                .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId(), (long) 2432016);
+        Assert.assertEquals(true, isDelete);
     }
 }

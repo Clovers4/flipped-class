@@ -50,6 +50,6 @@ public class KlassServiceImpl implements KlassService {
 
     @Override
     public Boolean resetStudentList(Long id, List<Student> students) {
-        return klassDao.intsertList(id,students);
+        return klassDao.insertList(id,students);
     }
 }

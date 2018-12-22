@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * @author jh
  */
-@Component
 public interface CourseDao {
     /**
      * 根据 id 查找该课程

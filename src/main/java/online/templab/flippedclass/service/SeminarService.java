@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service;
 
+import online.templab.flippedclass.entity.Attendance;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Seminar;
 
@@ -79,4 +80,28 @@ public interface SeminarService {
      * @return
      */
     Boolean deleteKlassSeminar(Long id);
+
+    /**
+     * 获得某个 klassSeminar 下的注册展示
+     * Attention 需要包括 team ,team 需要包括 teamName
+     *
+     * @param klassSeminarId
+     * @return
+     */
+    List<Attendance> getEnrollListByKlassSeminarId(Long klassSeminarId);
+
+    /**
+     * 报名（前端直接传attendance）
+     * @param attendance
+     * @return
+     */
+    Boolean enRoll(Attendance attendance);
+
+    /**
+     * 取消报名
+     * @param klassSeminarId
+     * @param studentId
+     * @return
+     */
+    Boolean deleteEnroll(Long klassSeminarId,Long studentId);
 }

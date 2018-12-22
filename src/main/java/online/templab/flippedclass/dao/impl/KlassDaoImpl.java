@@ -65,7 +65,7 @@ public class KlassDaoImpl implements KlassDao {
     }
 
     @Override
-    public Boolean intsertList(Long id, List<Student> students) {
+    public Boolean insertList(Long id, List<Student> students) {
         klassStudentMapper.delete(new KlassStudent().setKlassId(id));
         List<Long> studentIds = new LinkedList<>();
         for (Student student : students) {
