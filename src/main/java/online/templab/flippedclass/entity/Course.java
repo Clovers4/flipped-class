@@ -2,13 +2,15 @@ package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * @author wk
+ * 新增 List<Klass> klassList
+ * @author chenr
  */
 @Data
 @Accessors(chain = true)
@@ -79,6 +81,8 @@ public class Course implements Serializable {
      */
     @Column(name = "`seminar_main_course_id`")
     private Long seminarMainCourseId;
+
+    private List<Klass> klassList;
 
     // TODO: private 分组规则
 

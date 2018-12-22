@@ -18,4 +18,16 @@
         from klass
         where course_id=#{courseId}
     </select>
+
+    <select id="selectBySubKlassIdCourseId" resultMap="BaseResultMap" >
+        SELECT k1.id,
+               k1.course_id,
+               k1.grade,
+               k1.klass_serial,
+               k1.klass_time,
+               k1.klass_location
+        FROM klass k1, klass k2
+        WHERE  k1.course_id = #{courseId}  AND k2.id = #{subKlassId} AND k1.klass_serial = k2.klass_serial
+    </select>
+
 </mapper>

@@ -48,18 +48,47 @@
   </update>
 
 
-    <select id="selectByCourseId" parameterType="long" resultMap="BaseResultMap">
-    SELECT r.id , r.course_id,r.round_serial, r.presentation_score_method, r.report_score_method, r.question_score_method
-          ,s.id 'sid',s.course_id,s.round_id,s.seminar_name,s.introduction,s.max_team,s.is_visible,s.seminar_serial,s.enroll_start_time,s.enroll_end_time
+  <select id="selectByCourseId" parameterType="long" resultMap="BaseResultMap">
+    SELECT r.id ,
+           r.course_id,
+           r.round_serial,
+           r.presentation_score_method,
+           r.report_score_method,
+           r.question_score_method
+            ,s.id 'sid',
+           s.course_id,
+           s.round_id,
+           s.seminar_name,
+           s.introduction,
+           s.max_team,
+           s.is_visible,
+           s.seminar_serial,
+           s.enroll_start_time,
+           s.enroll_end_time
     FROM round r, seminar s
     WHERE r.course_id = #{courseId} AND r.id =s.round_id
   </select>
 
-    <select id="getOne" parameterType="long" resultMap="BaseResultMap">
-    SELECT r.id , r.course_id,r.round_serial, r.presentation_score_method, r.report_score_method, r.question_score_method
-          ,s.id 'sid',s.course_id,s.round_id,s.seminar_name,s.introduction,s.max_team,s.is_visible,s.seminar_serial,s.enroll_start_time,s.enroll_end_time
-    FROM round r, seminar s
-    WHERE r.id = #{id} AND r.id =s.round_id
+  <select id="getOne" parameterType="long" resultMap="BaseResultMap">
+    SELECT r.id ,
+           r.course_id,
+           r.round_serial,
+           r.presentation_score_method,
+           r.report_score_method,
+           r.question_score_method,
+           s.id 'sid',
+           s.course_id,
+           s.round_id,
+           s.seminar_name,
+           s.introduction,
+           s.max_team,
+           s.is_visible,
+           s.seminar_serial,
+           s.enroll_start_time,
+           s.enroll_end_time
+    FROM round r
+           LEFT JOIN seminar s ON r.id =s.round_id
+    WHERE r.id = #{id}
   </select>
 
 </mapper>
