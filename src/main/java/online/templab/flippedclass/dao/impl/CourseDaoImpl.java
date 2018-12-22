@@ -93,4 +93,52 @@ public class CourseDaoImpl implements CourseDao {
         return line == 1;
     }
 
+    @Override
+    public Course selectShareTeamMainCourseByPrimaryKey(Long id){
+        // 如果传入 id 是从课程id 直接通过从课程拿到主课程id， 再去拿主课程
+        Course subCourse = courseMapper.selectByPrimaryKey(id);
+        Long teamMainCourseId=subCourse.getTeamMainCourseId();
+        if(teamMainCourseId != null){
+            return courseMapper.selectByPrimaryKey(teamMainCourseId);
+        }else{
+            return subCourse;
+        }
+    }
+
+    @Override
+    public  Course selectShareSeminarMainCourseByPrimaryKey(Long id){
+        // 如果传入 id 是从课程id 直接通过从课程拿到主课程id， 再去拿主课程
+        Course subCourse = courseMapper.selectByPrimaryKey(id);
+        Long seminarMainCourseId=subCourse.getSeminarMainCourseId();
+        // 说明是从课程id
+        if(seminarMainCourseId != null){
+            return courseMapper.selectByPrimaryKey(seminarMainCourseId);
+        }else{ // 否则是主课程 id
+            return subCourse;
+        }
+    }
+
+    @Override
+    public List<Course> selectShareTeamSubCourse(Long id){
+        List<Course> courseList = courseMapper.select(new Course().setTeamMainCourseId(id));
+        // 说明这个id 是主课程id ， 返回它的所有从课程
+        if(courseList.size()>0){
+            return courseList;
+        }else{ // 说明这个 id  是从课程id，返回它自己
+            courseList.add(courseMapper.selectByPrimaryKey(id));
+            return courseList;
+        }
+    }
+
+    @Override
+    public List<Course> selectShareSeminarSubCourse(Long id){
+        List<Course> courseList = courseMapper.select(new Course().setSeminarMainCourseId(id));
+        // 说明这个id 是主课程id ， 返回它的所有从课程
+        if(courseList.size()>0){
+            return courseList;
+        }else{ // 说明这个 id  是从课程id，返回它自己
+            courseList.add(courseMapper.selectByPrimaryKey(id));
+            return courseList;
+        }
+    }
 }
