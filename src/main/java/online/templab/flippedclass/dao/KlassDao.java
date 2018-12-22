@@ -10,7 +10,6 @@ import java.util.List;
  * klass dao层接口
  * @author jh
  */
-@Component
 public interface KlassDao {
     /**
      * 插入一个 Klass
@@ -59,5 +58,5 @@ public interface KlassDao {
      * @param students
      * @return
      */
-    Boolean intsertList(Long id, List<Student> students);
+    Boolean insertList(Long id, List<Student> students);
 }
