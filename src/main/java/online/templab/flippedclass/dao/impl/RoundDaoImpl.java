@@ -1,13 +1,18 @@
 package online.templab.flippedclass.dao.impl;
 
 import online.templab.flippedclass.dao.RoundDao;
+import online.templab.flippedclass.entity.Course;
+import online.templab.flippedclass.entity.Klass;
 import online.templab.flippedclass.entity.KlassRound;
 import online.templab.flippedclass.entity.Round;
+import online.templab.flippedclass.mapper.CourseMapper;
+import online.templab.flippedclass.mapper.KlassMapper;
 import online.templab.flippedclass.mapper.KlassRoundMapper;
 import online.templab.flippedclass.mapper.RoundMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,17 +32,38 @@ public class RoundDaoImpl implements RoundDao {
     @Autowired
     KlassRoundMapper klassRoundMapper;
 
+    @Autowired
+    CourseMapper courseMapper;
+
+    @Autowired
+    KlassMapper klassMapper;
+
     @Override
     public int insert(Round round) {
-        boolean success =true;
-        for(KlassRound klassRound:round.getKlassRounds()){
-            int successLoop = klassRoundMapper.insertSelective(klassRound);
-            if(successLoop != 1){
-                success = false;
-                break;
+//        List<Course> courseList = courseMapper.selcetByCourseId(round.getCourseId());
+//        for(Course course: courseList){
+//            List<Klass> klassList = course.getKlassList();
+//            if(klassList != null){
+//                for(Klass klass : klassList){
+//                    int line = klassRoundMapper.insertSelective(new KlassRound().setKlassId(klass.getId()).setRoundId(round.getId()));
+//                    if(line <= 0){
+//                        return 0;
+//                    }
+//                }
+//            }
+//        }
+        Course course = courseMapper.selcetByCourseId(round.getCourseId());
+        List<Klass> klassList = course.getKlassList();
+        if(klassList != null){
+            for(Klass klass : klassList){
+                int line = klassRoundMapper.insertSelective(new KlassRound().setKlassId(klass.getId()).setRoundId(round.getId()));
+                if(line <= 0){
+                    return 0;
+                }
             }
         }
-        if(roundMapper.insertSelective(round)==1 && success == true){
+
+        if(roundMapper.insertSelective(round)==1){
             return 1;
         }
         return 0;
@@ -46,12 +72,15 @@ public class RoundDaoImpl implements RoundDao {
     @Override
     public int updateByRoundIdSelective(Round round) {
         List<KlassRound> klassRoundList = round.getKlassRounds();
+
         boolean success = true;
-        for(KlassRound klassRound:klassRoundList){
-            int successLoop = klassRoundMapper.updateByRoundIdKlassIdSelective(klassRound);
-            if( successLoop < 1){
-                success = false;
-                break;
+        if(klassRoundList != null) {
+            for (KlassRound klassRound : klassRoundList) {
+                int successLoop = klassRoundMapper.updateByRoundIdKlassIdSelective(klassRound);
+                if (successLoop < 1) {
+                    success = false;
+                    break;
+                }
             }
         }
 
@@ -63,12 +92,24 @@ public class RoundDaoImpl implements RoundDao {
 
     @Override
     public List<Round> selectByCourseId(Long courseId) {
-        return roundMapper.selectByCourseId(courseId);
+        Course course = courseMapper.selectByPrimaryKey(new Course().setId(courseId));
+        if(course.getSeminarMainCourseId()!= null){
+            course = courseMapper.selectByPrimaryKey(new Course().setId(course.getSeminarMainCourseId()));
+        }
+        return roundMapper.selectByCourseId(course.getId());
     }
 
     @Override
     public List<Round> selectByCourseIdKlassId(Long courseId, Long klassId) {
-        List<Round> roundList = roundMapper.selectByCourseId(courseId);
+
+        Course course = courseMapper.selectByPrimaryKey(new Course().setId(courseId));
+        if(course.getSeminarMainCourseId()!= null){
+            course = courseMapper.selectByPrimaryKey(new Course().setId(course.getSeminarMainCourseId()));
+            Klass klass = klassMapper.selectBySubKlassIdCourseId(course.getId(),klassId);
+            klassId = klass.getId();
+        }
+
+        List<Round> roundList = roundMapper.selectByCourseId(course.getId());
         for(int i = 0 ; i < roundList.size();++i){
             roundList.get(i).setKlassRounds(klassRoundMapper.selectByRoundIdKlassId(roundList.get(i).getId(),klassId));
         }
@@ -81,4 +122,6 @@ public class RoundDaoImpl implements RoundDao {
         round.setKlassRounds(klassRoundMapper.selectByRoundId(id));
         return round;
     }
+
+
 }

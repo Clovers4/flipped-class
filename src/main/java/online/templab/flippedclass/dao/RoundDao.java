@@ -20,14 +20,6 @@ public interface RoundDao {
     int insert(Round round);
 
     /**
-     * 根据 id 更新一个 Round, 并更新其讨论课下的班级klass_round表
-     *
-     * @param round
-     * @return
-     */
-    int updateByRoundIdSelective(Round round);
-
-    /**
      * 根据 courseId 查找该 course 的所有 round, 并注入round下所有seminar
      *
      * @param courseId
@@ -51,4 +43,13 @@ public interface RoundDao {
      * @return
      */
     Round getOne(Long id);
+
+
+    /**
+     * 根据 id 更新一个 Round, 并更新其讨论课下的班级klass_round表
+     *
+     * @param round
+     * @return
+     */
+    int updateByRoundIdSelective(Round round);
 }

@@ -19,4 +19,13 @@ public interface CourseMapper extends Mapper<Course> {
      * @return
      */
     List<Course> selectByStudentId(Long studentId);
+
+    /**
+     * 根据courseId 查找主课程及其所有从课程
+     * 每个课程注入其下的所有klass
+     *
+     * @param courseId
+     * @return
+     */
+    Course selcetByCourseId(Long courseId);
 }

@@ -20,8 +20,8 @@ public class RoundServiceImpl implements RoundService {
     private RoundDao roundDao;
 
     @Override
-    public int insert(Round round) {
-        return roundDao.insert(round);
+    public Boolean  insert(Round round) {
+        return roundDao.insert(round) == 1;
     }
 
     @Override
