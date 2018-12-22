@@ -1,7 +1,9 @@
 package online.templab.flippedclass.service.impl;
 
+import online.templab.flippedclass.dao.AttendanceDao;
 import online.templab.flippedclass.dao.KlassSeminarDao;
 import online.templab.flippedclass.dao.SeminarDao;
+import online.templab.flippedclass.entity.Attendance;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.entity.Seminar;
@@ -23,6 +25,9 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Autowired
     KlassSeminarDao klassSeminarDao;
+
+    @Autowired
+    AttendanceDao attendanceDao;
 
     @Override
     public Boolean insert(Seminar seminar) {
@@ -56,11 +61,40 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public KlassSeminar getKlassSeminar(Long klassId, Long seminarId) {
-        return klassSeminarDao.selectOne(klassId,seminarId);
+        return klassSeminarDao.selectOne(klassId, seminarId);
     }
 
     @Override
     public Boolean deleteKlassSeminar(Long id) {
         return klassSeminarDao.delete(id);
+    }
+
+    @Override
+    public List<Attendance> getEnrollListByKlassSeminarId(Long klassSeminarId) {
+        return attendanceDao.selectByKlassSeminarId(klassSeminarId);
+    }
+
+    @Override
+    public Boolean enRoll(Attendance attendance) {
+        //判断该小组是否报名
+        Boolean hasEnRoll=attendanceDao.selectCount(new Attendance()
+                .setTeamId(attendance.getTeamId())
+                .setKlassSeminarId(attendance.getKlassSeminarId()));
+        if(hasEnRoll){
+            return false;
+        }
+        //判断该报名顺序是否已被报名
+        hasEnRoll=attendanceDao.selectCount(new Attendance()
+                .setSn(attendance.getSn())
+                .setKlassSeminarId(attendance.getKlassSeminarId()));
+        if(hasEnRoll){
+            return false;
+        }
+        return attendanceDao.insert(attendance);
+    }
+
+    @Override
+    public Boolean deleteEnroll(Long klassSeminarId, Long studentId) {
+        return attendanceDao.delete(klassSeminarId, studentId);
     }
 }
