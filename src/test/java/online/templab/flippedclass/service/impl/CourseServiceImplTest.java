@@ -7,13 +7,16 @@ import online.templab.flippedclass.service.CourseService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author fj
  */
+@Transactional
 public class CourseServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
@@ -58,5 +61,19 @@ public class CourseServiceImplTest extends FlippedClassApplicationTest {
         Boolean success = courseService.update(course);
         logger.info(course.toString());
         Assert.assertEquals(true, success);
+    }
+
+    @Test
+    public void testDelete() throws Exception{
+        courseService.insert(new Course().setCourseName("OOAD")
+                .setTeacherId((long)1)
+                .setId((long)13)
+                .setIntroduction("无")
+                .setPrePercentage(30)
+                .setQuesPercentage(20)
+                .setReportPercentage(50)
+                .setTeamStartDate(new Date())
+                .setTeamEndDate(new Date()));
+        courseService.delete((long)13);
     }
 }

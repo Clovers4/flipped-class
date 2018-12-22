@@ -8,6 +8,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Course 业务 实现类
@@ -55,6 +56,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Boolean delete(Long id) {
+        return courseDao.delete(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> listCourseKlassByStudentId(Long studentId) {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> listCourseKlassByTeacherId(Long teacherId) {
         //TODO
         return null;
     }

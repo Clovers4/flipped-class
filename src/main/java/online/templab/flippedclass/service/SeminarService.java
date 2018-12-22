@@ -9,6 +9,7 @@ import java.util.List;
  * Seminar 业务 接口类
  *
  * @author wk
+ * @author jh
  */
 public interface SeminarService {
 
@@ -54,4 +55,28 @@ public interface SeminarService {
     Seminar get(Long id);
 
 
+    /**
+     * 插入一个 klassSeminar
+     *
+     * @return
+     */
+    Boolean insertKlassSeminar(KlassSeminar klassSeminar);
+
+    /**
+     * 根据 klassId 和 seminarId 获得一个 KlassSeminar
+     *
+     * @param klassId
+     * @param seminarId
+     * @return
+     */
+    KlassSeminar getKlassSeminar(Long klassId, Long seminarId);
+
+    /**
+     * 删除klassSeminar
+     * 一般是在取消共享时删除从课程的klassSeminar
+     *
+     * @param id
+     * @return
+     */
+    Boolean deleteKlassSeminar(Long id);
 }

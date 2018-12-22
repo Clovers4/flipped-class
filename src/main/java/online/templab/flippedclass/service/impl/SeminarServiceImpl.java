@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service.impl;
 
+import online.templab.flippedclass.dao.KlassSeminarDao;
 import online.templab.flippedclass.dao.SeminarDao;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Round;
@@ -12,12 +13,16 @@ import java.util.List;
 
 /**
  * @author fj
+ * @author jh
  */
 @Service
 public class SeminarServiceImpl implements SeminarService {
 
     @Autowired
     SeminarDao seminarDao;
+
+    @Autowired
+    KlassSeminarDao klassSeminarDao;
 
     @Override
     public Boolean insert(Seminar seminar) {
@@ -42,5 +47,20 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public Seminar get(Long id) {
         return seminarDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Boolean insertKlassSeminar(KlassSeminar klassSeminar) {
+        return klassSeminarDao.insert(klassSeminar);
+    }
+
+    @Override
+    public KlassSeminar getKlassSeminar(Long klassId, Long seminarId) {
+        return klassSeminarDao.selectOne(klassId,seminarId);
+    }
+
+    @Override
+    public Boolean deleteKlassSeminar(Long id) {
+        return klassSeminarDao.delete(id);
     }
 }
