@@ -49,5 +49,14 @@ public class Klass implements Serializable {
     @Column(name = "`klass_location`")
     private String location;
 
+    /**
+     * 获得班级名,利用反射机制,使得在前端ftl页面上能够正常调用 klass.klassName
+     *
+     * @return
+     */
+    public String getKlassName() {
+        return grade + "-" + serial + "班";
+    }
+
     private static final long serialVersionUID = 1L;
 }
