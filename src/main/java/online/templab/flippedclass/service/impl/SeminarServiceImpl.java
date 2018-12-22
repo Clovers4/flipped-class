@@ -54,6 +54,24 @@ public class SeminarServiceImpl implements SeminarService {
         return seminarDao.selectByPrimaryKey(id);
     }
 
+    //TODO:
+    @Override
+    public void downloadPPT(Long klassSeminarId, String PPTurl) {
+
+    }
+
+    //TODO:
+    @Override
+    public void uploadPPT(Long klassSeminarId, String fileType) {
+
+    }
+
+    //TODO:
+    @Override
+    public void uploadReport(Long klassSeminarId, String fileType) {
+
+    }
+
     @Override
     public Boolean insertKlassSeminar(KlassSeminar klassSeminar) {
         return klassSeminarDao.insert(klassSeminar);
@@ -92,9 +110,11 @@ public class SeminarServiceImpl implements SeminarService {
         }
         return attendanceDao.insert(attendance);
     }
-
+    
     @Override
     public Boolean deleteEnroll(Long klassSeminarId, Long studentId) {
         return attendanceDao.delete(klassSeminarId, studentId);
     }
+
+
 }

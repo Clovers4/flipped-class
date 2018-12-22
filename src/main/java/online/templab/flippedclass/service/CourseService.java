@@ -10,16 +10,9 @@ import java.util.Map;
  *
  * @author wk
  * @author fj
+ * @author chenr listCourseKlassByStudentId
  */
 public interface CourseService {
-
-    /**
-     * 根据 id 查找该课程
-     *
-     * @param id
-     * @return
-     */
-    Course get(Long id);
 
     /**
      * 插入一门课程
@@ -30,12 +23,12 @@ public interface CourseService {
     Boolean insert(Course course);
 
     /**
-     * 根据 teacherId 查找该 teacher 的所有 course
+     * 根据 courseId删除该课程和相关内容
      *
-     * @param teacherId
+     * @param id
      * @return
      */
-    List<Course> listByTeacherId(Long teacherId);
+    Boolean delete(Long id);
 
     /**
      * 更新一门课程
@@ -46,6 +39,25 @@ public interface CourseService {
     Boolean update(Course course);
 
     /**
+     * 根据 id 查找该课程
+     *
+     * @param id
+     * @return
+     */
+    Course get(Long id);
+
+
+    /**
+     * 根据 teacherId 查找该 teacher 的所有 course
+     *
+     * @param teacherId
+     * @return
+     */
+    List<Course> listByTeacherId(Long teacherId);
+
+
+
+    /**
      * 根据 studentId 查找该 student 的所有 course
      *
      * @param studentId
@@ -53,13 +65,6 @@ public interface CourseService {
      */
     List<Course> listByStudentId(Long studentId);
 
-    /**
-     * 根据 courseId删除该课程和相关内容
-     *
-     * @param id
-     * @return
-     */
-    Boolean delete(Long id);
 
     /**
      * 根据学生id返回课程和班级
@@ -68,6 +73,8 @@ public interface CourseService {
      * @return
      */
     List<Map<String,Object>> listCourseKlassByStudentId(Long studentId);
+
+
 
     /**
      * 根据老师id返回课程和班级

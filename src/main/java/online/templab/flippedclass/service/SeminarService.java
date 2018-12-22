@@ -55,6 +55,27 @@ public interface SeminarService {
      */
     Seminar get(Long id);
 
+    /**
+     * TODO:获得PPT
+     * @param klassSeminarId
+     * @param PPTurl
+     */
+    void downloadPPT(Long klassSeminarId, String PPTurl);
+
+    /**
+     * TODO:上传PPT
+     * @param klassSeminarId
+     * @param fileType
+     */
+    void uploadPPT(Long klassSeminarId, String fileType);
+
+    /**
+     * TODO: 上传书面报告
+     * @param klassSeminarId
+     * @param fileType
+     */
+    void uploadReport(Long klassSeminarId, String fileType);
+
 
     /**
      * 插入一个 klassSeminar

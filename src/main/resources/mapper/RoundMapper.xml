@@ -54,8 +54,8 @@
            r.round_serial,
            r.presentation_score_method,
            r.report_score_method,
-           r.question_score_method
-            ,s.id 'sid',
+           r.question_score_method,
+           s.id 'sid',
            s.course_id,
            s.round_id,
            s.seminar_name,

@@ -38,11 +38,6 @@ public class CourseDaoImpl implements CourseDao {
     private ConflictCourseStrategyMapper conflictCourseStrategyMapper;
 
     @Override
-    public Course selectOne(Long id) {
-        return courseMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
     public int insert(Course course) {
         return courseMapper.insertSelective(course);
     }
@@ -50,16 +45,6 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public int update(Course course) {
         return courseMapper.updateByPrimaryKeySelective(course);
-    }
-
-    @Override
-    public List<Course> selectByTeacherId(Long teacherId) {
-        return courseMapper.select(new Course().setTeacherId(teacherId));
-    }
-
-    @Override
-    public List<Course> selectByStudentId(Long studentId) {
-        return courseMapper.selectByStudentId(studentId);
     }
 
     @Override
@@ -140,5 +125,25 @@ public class CourseDaoImpl implements CourseDao {
             courseList.add(courseMapper.selectByPrimaryKey(id));
             return courseList;
         }
+    }
+
+    @Override
+    public Course selectOne(Long id) {
+        return courseMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Course> selectByTeacherId(Long teacherId) {
+        return courseMapper.select(new Course().setTeacherId(teacherId));
+    }
+
+    @Override
+    public List<Course> selectByStudentId(Long studentId) {
+        return courseMapper.selectByStudentId(studentId);
+    }
+
+    @Override
+    public List<Course> selectCourseKlassByStudentId(Long studentId) {
+        return courseMapper.selectCourseKlassByStudentId(studentId);
     }
 }
