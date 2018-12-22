@@ -82,6 +82,9 @@ public class Course implements Serializable {
     @Column(name = "`seminar_main_course_id`")
     private Long seminarMainCourseId;
 
+    /**
+     * 老师的Course下会有零到多个klass，学生只有一个klass
+     */
     private List<Klass> klassList;
 
     // TODO: private 分组规则

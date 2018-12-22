@@ -10,14 +10,6 @@ import java.util.List;
  */
 public interface CourseDao {
     /**
-     * 根据 id 查找该课程
-     *
-     * @param id
-     * @return
-     */
-    Course selectOne(Long id);
-
-    /**
      * 插入一门课程
      *
      * @param course
@@ -26,12 +18,28 @@ public interface CourseDao {
     int insert(Course course);
 
     /**
+     * 删除有关的course
+     *
+     * @param id
+     * @return
+     */
+    Boolean delete(Long id);
+
+    /**
      * 更新一门课程
      *
      * @param course
      * @return
      */
     int update(Course course);
+
+    /**
+     * 根据 id 查找该课程
+     *
+     * @param id
+     * @return
+     */
+    Course selectOne(Long id);
 
     /**
      * 根据 teacherId 查找该 teacher 的所有 course
@@ -48,14 +56,6 @@ public interface CourseDao {
      * @return
      */
     List<Course> selectByStudentId(Long studentId);
-
-    /**
-     * 删除有关的course
-     *
-     * @param id
-     * @return
-     */
-    Boolean delete(Long id);
 
     /**
      * 传入要查询的 courseId,返回与这个 course 共享分组的 course,并且这个 course 是主课程（也可能自己就是主课程）
@@ -88,4 +88,16 @@ public interface CourseDao {
      * @return
      */
     List<Course> selectShareSeminarSubCourse(Long id);
+
+    /**
+     * 根据 studentId 查找该 student 的所有 course
+     * course注入对应 student 的班级
+     *
+     * @param studentId
+     * @return
+     */
+    List<Course> selectCourseKlassByStudentId(Long studentId);
+
+
+
 }

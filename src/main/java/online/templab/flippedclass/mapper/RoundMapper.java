@@ -27,7 +27,7 @@ public interface RoundMapper extends Mapper<Round> {
     List<Round> selectByCourseId(Long courseId);
 
     /**
-     * 根据 id 获得一个 round，并注入round下所有seminar和klassRounds
+     * 根据 id 获得一个 round，并注入round下所有seminar
      *
      * @param id
      * @return
