@@ -70,8 +70,8 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
                             //小于目前分数则赋值
-                            if(presentationScore.compareTo(teamSeminarScore.getPresentatonScore())==-1){
-                                presentationScore=teamSeminarScore.getPresentatonScore();
+                            if(presentationScore.compareTo(teamSeminarScore.getPresentationScore())==-1){
+                                presentationScore=teamSeminarScore.getPresentationScore();
                             }
                         }
                     }
@@ -85,7 +85,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
                             count=count.add(new BigDecimal(1));
-                            sumScore=teamSeminarScore.getPresentatonScore().add(sumScore);
+                            sumScore=teamSeminarScore.getPresentationScore().add(sumScore);
                         }
                     }
                 }
@@ -202,7 +202,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                         .setKlassSeminarId(klassSeminarMapper.selectOneByKlassIdSeminarId(klassStudent.getKlassId(),seminar.getId()).getId())
                         .setTeamId((klassStudent.getTeamId())));
                 List<BigDecimal> scores=new LinkedList<>();
-                scores.add(seminarScore.getPresentatonScore());
+                scores.add(seminarScore.getPresentationScore());
                 scores.add(seminarScore.getQuestionScore());
                 scores.add(seminarScore.getReportScore());
                 m.put(seminar.getTheme(),scores);
