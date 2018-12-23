@@ -1,5 +1,6 @@
 package online.templab.flippedclass.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.common.excel.ExcelService;
 import online.templab.flippedclass.common.excel.ExcelUtil;
@@ -31,6 +32,7 @@ import java.util.Map;
 /**
  * @author Cesare
  */
+@Slf4j
 @Controller
 @RequestMapping("/teacher")
 public class TeacherController {
@@ -344,7 +346,12 @@ public class TeacherController {
 
         Klass klass = vo.getKlass();
         if (klassService.insert(klass)) {
+            // FIXME
             List<Student> students = excelService.loadStudentList(multipartFile);
+            log.info("读取学生名单到 {} 班级", klass.getKlassName());
+            for (Student student : students) {
+                log.info(student.toString());
+            }
             klassService.resetStudentList(klass.getId(), students);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
