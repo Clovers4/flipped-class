@@ -13,11 +13,11 @@
     <script src="/static/js/util.js"></script>
     <title>分组</title>
 </head>
-<body class="card-page sidebar-collapse">
+<body class="card-page sidebar-collapse" data-parallax="true">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">分组</div>
@@ -33,14 +33,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
@@ -59,6 +53,43 @@
         </div>
     <#else>
         <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body" data-toggle="modal" data-target="#notTeamedModal">
+                            <div class="body-header">
+                                <div class="body-title" style="text-align: center">未组队学生</div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>数量</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${students?size}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body" data-toggle="modal" data-target="#notTeamedModal">
+                            <div class="body-header">
+                                <div class="body-title" style="text-align: center">未组队学生</div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>数量</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${students?size}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
             <div class="row">
                 <#list teams as team>
                     <div class="col-lg-4 col-md-6">
@@ -162,6 +193,45 @@
         </div>
     </div>
 </#list>
+<div class="modal fade" id="notTeamedModal">
+    <div class="modal-dialog" style="margin-top: 30px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">未组队学生</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body" style="overflow: scroll;max-height: 80%;">
+                <div class="row">
+                    <#if (students?size > 0)>
+                        <table class="table team-table" style="margin-top: 0;">
+                            <tbody>
+                            <#list students as student>
+                                <tr>
+                                    <td class="serial">${student?counter}</td>
+                                    <td class="name">${student.studentName}</td>
+                                    <td class="num">${student.studentNum}</td>
+                                </tr>
+                            </#list>
+                            </tbody>
+                        </table>
+                    <#else>
+                        <div class="empty-tag" style="height: 200px;">
+                            <div class="info">
+                                <div class="icon icon-rose flex-center">
+                                    <i class="material-icons color-grey">portable_wifi_off</i>
+                                </div>
+                                <h4 class="info-title">没有未组队学生</h4>
+                            </div>
+                        </div>
+                    </#if>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

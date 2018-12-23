@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/activation.js"></script>
+    <script src="/static/js/student/modifyEmail.js"></script>
     <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -24,41 +24,29 @@
                     <div class="row">
                         <div class="col-9 flex-center ml-auto mr-auto">
                             <h4 class="card-title"
-                                style="color: #FFFFFF; font-size: 20px; margin-top: 0; font-weight: 400">账号激活</h4>
+                                style="color: #FFFFFF; font-size: 20px; margin-top: 0; font-weight: 500">修改邮箱</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="container">
                         <div class="col-md-8 ml-auto mr-auto">
-                            <form id="activationForm">
-                                <div class="form-group">
-                                    <label for="password">密码</label>
-                                    <input name="password" type="password" class="form-control empty-verify"
-                                           id="password" autocomplete="off"
-                                           data-emptyMessage="请输入密码">
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirmPassword">确认密码</label>
-                                    <input type="password" class="form-control empty-verify" id="confirmPassword"
-                                           autocomplete="off"
-                                           data-emptyMessage="请输入确认密码">
-                                </div>
+                            <form id="modifyEmailForm">
                                 <div class="form-group">
                                     <label for="email">邮箱</label>
-                                    <input class="form-control empty-verify reg-verify" name="email" id="email"
-                                           autocomplete="off" value="${teacher.email}" disabled>
+                                    <input name="email" id="email" type="email" class="form-control empty-verify reg-verify" autocomplete="off"
+                                           data-emptyMessage="请输入邮箱"
+                                           data-reg="^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$"
+                                           data-regMessage="请输入正确的邮箱">
                                 </div>
                                 <div class="form-row" style="margin-left: 0;margin-right:0; ">
                                     <div class="form-group col-7">
                                         <label for="captcha">验证码</label>
-                                        <input name="captcha" class="form-control empty-verify" id="captcha"
-                                               autocomplete="off"
+                                        <input name="captcha" class="form-control empty-verify" id="captcha" autocomplete="off"
                                                data-emptyMessage="请输入验证码">
                                     </div>
                                     <div class="form-group col-5 flex-center">
-                                        <button id="getCaptchaBtn" type="button"
-                                                class="btn btn-sm btn-inline bg-dark captcha-btn">
+                                        <button id="getCaptchaBtn" type="button" class="btn btn-sm btn-inline bg-dark captcha-btn">
                                             发送验证码
                                         </button>
                                     </div>
@@ -69,12 +57,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn"
-                                onclick="window.location = '/logout'">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="returnBtn" onclick="window.location = '/student/setting'">
                             <i class="material-icons">chevron_left</i>
                         </button>
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="activationBtn">
-                            <i class="material-icons">blur_circular</i>
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="confirmBtn">
+                            <i class="material-icons">check</i>
                         </button>
                     </div>
                 </div>

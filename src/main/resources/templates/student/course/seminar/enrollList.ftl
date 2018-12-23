@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <script src="/static/js/student/course/seminar/enrollList.js"></script>
+    <title>讨论课报名</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">账户设置</div>
+            <div class="navbar-brand brand-title">讨论课报名</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -34,63 +34,67 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="main main-raised info-main">
+<div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="profile">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="avatar">
-                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
+            <#assign i = 0/>
+            <#list enrollList as attendance>
+                <#assign i = i+1/>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card enroll-card">
+                        <#if attendance??>
+                        <div class="card-body">
+                            <div class="body-header flex-space-between">
+                                <div class="body-title">第${i}组</div>
+                                <div class="line team-line">
+                                    <label style="width: 50px">队伍</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${attendance.team.teamName}</div>
                                 </div>
                             </div>
-                            <div class="col-8 avatar-side">
-                                <h3 class="title">${teacher.teacherName}</h3>
+                            <div class="body-content">
                                 <hr>
-                                <h4 class="title">${teacher.teacherNum}</h4>
+                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                    <li class="nav-item">
+                                        <a class="nav-link" style="padding: 0;color: #AAAAAA;">
+                                            <i class="material-icons">cloud_download</i>
+                                            下载PPT
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                        <#else>
+                        <div class="card-body">
+                            <div class="body-header">
+                                <div class="body-title">第${i}组</div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="flex-center not-enroll">
+                                    尚未报名
+                                </div>
+                            </div>
+                        </div>
+                        </#if>
                     </div>
                 </div>
-            </div>
-        </div>
-        <hr>
-        <div class="row" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'" style="width: 100%;text-transform: none">
-                    <span>电子邮箱：${teacher.email}</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'" style="width: 100%;">
-                    <span>修改密码</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-            </div>
+            </#list>
         </div>
     </div>
 </div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
-        <i class="material-icons">exit_to_app</i>
-        退出登录
-    </button>
-</div>
+<form id="returnForm" action="/student/course/seminarList" method="post">
+    <input id="returnCourseId" name="courseId">
+</form>
+
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

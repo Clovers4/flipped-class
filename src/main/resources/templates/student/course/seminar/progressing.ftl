@@ -9,19 +9,37 @@
     <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="/static/css/countup.css">
+    <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.js"></script>
+    <script src="/static/lib/stomp.js"></script>
     <script src="/static/lib/jquery-3.3.1.js"></script>
+    <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <script src="/static/js/student/course/seminar/progressing.js"></script>
+    <title>讨论课报名</title>
+    <style>
+        input::-ms-input-placeholder {
+            text-align: center;
+        }
+
+        input::-webkit-input-placeholder {
+            text-align: center;
+        }
+
+        #score {
+            text-align: center;
+            width: 100px;
+        }
+    </style>
 </head>
-<body class="card-page sidebar-collapse">
+<body class="card-page sidebar-collapse" data-ksId="${ksId}">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">账户设置</div>
+            <div class="navbar-brand brand-title">讨论课</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -34,63 +52,55 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
-                        <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
+                        <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="main main-raised info-main">
+<div class="left-side side-raised">
+    <#list monitor.enrollList as enroll>
+        <#if enroll??>
+            <button class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
+                ${enroll.team.serial}
+            </button>
+        </#if>
+    </#list>
+</div>
+<div class="right-upper-side side-raised">
+    <button id="questionCount" class="btn btn-fab btn-round btn-team static-question" disabled>
+        ${monitor.raisedQuestionsCount}
+    </button>
+</div>
+<div class="right-downer-side side-raised">
+
+</div>
+<div class="flex-center main-area">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="profile">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="avatar">
-                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
-                                </div>
-                            </div>
-                            <div class="col-8 avatar-side">
-                                <h3 class="title">${teacher.teacherName}</h3>
-                                <hr>
-                                <h4 class="title">${teacher.teacherNum}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="timer"></div>
         </div>
-        <hr>
-        <div class="row" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'" style="width: 100%;text-transform: none">
-                    <span>电子邮箱：${teacher.email}</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'" style="width: 100%;">
-                    <span>修改密码</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-            </div>
+        <div class="row flex-center">
+            <div>3-5</div>
+            <div>劳斯莱斯幻影小组</div>
         </div>
     </div>
 </div>
-<div class="container foot-container flex-center">
-    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
-        <i class="material-icons">exit_to_app</i>
-        退出登录
-    </button>
+<div class="container foot-operation">
+    <div class="row  flex-center" style="flex-direction: column;">
+        <div id="operation" class="flex-space-around" style="width: 100%;">
+            <button id="raiseQuestion" class="btn bg-dark btn-round btn-lg">
+                请求提问
+            </button>
+        </div>
+    </div>
 </div>
+
+<form hidden id="returnForm" action="/student/course/seminarList" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

@@ -5,50 +5,30 @@ var startBtn;
 var pauseBtn;
 var questionCount;
 var teams;
-var teamName;
-var teamOperation;
+
+var progressState = 'PAUSE';
 $(function () {
     timer = $("#timer");
     startBtn = $("#start");
     pauseBtn = $("#pause");
     questionCount = $("#questionCount");
     teams = $(".btn-team");
-    teamName = $("#teamName");
-    teamOperation = $("#teamOperation");
     timer.create();
-
 
     ksId = $("body").attr("data-ksId");
 });
 
 var socketAddr = "/seminar-socket";
 var clientAddr = '/topic/client/';
-var serverAddr = "/app/teacher/klassSeminar/";
+var serverAddr = "/app/student/klassSeminar/";
 var socket;
 $(function () {
     serverAddr += ksId;
     clientAddr += ksId;
-    startBtn.click(function () {
-        timer.start();
-        startBtn.hide();
-        pauseBtn.show();
-        teamOperation.text("进行中...");
-        sendRequest("SeminarStateRequest", {request:"START",timeStamp:timer.getTime()});
-    });
-    pauseBtn.click(function () {
-        timer.pause();
-        pauseBtn.hide();
-        startBtn.show();
-        teamOperation.text("暂停中...");
-        sendRequest("SeminarStateRequest", {request:"PAUSE",timeStamp:timer.getTime()});
-    });
-    $("#switchTeam").click(function () {
-        sendRequest("SwitchTeamRequest", {});
-    });
-    $("#pullQuestion").click(function () {
-        sendRequest("PullQuestionRequest", {});
-    });
     connect();
+    $("#raiseQuestion").click(function () {
+        sendRequest("RaiseQuestionRequest", {});
+    });
 });
 
 function connect(){
@@ -80,8 +60,20 @@ function sendRequest(type, request){
 function handleResponse(response){
     eval("handle" + response.type +"(" + response.content + ")");
 }
+
 var SeminarStateResponse={state:{progressState:null,timeStamp:null}};
-function handleSeminarStateResponse(content){}
+function handleSeminarStateResponse(content){
+    if(content.state.progressState === progressState)
+        return;
+    switch (content.state.progressState) {
+        case 'PAUSE':
+            pauseAt(content.state.timeStamp);
+            break;
+        case 'PROCESSING':
+            startAt(content.state.timeStamp);
+            break;
+    }
+}
 var RaiseQuestionResponse={questionNum:null};
 function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
@@ -93,7 +85,6 @@ function handleSwitchTeamResponse(content){
     if(content.attendanceIndex < teams.length){
         var onTeam = teams.eq(content.attendanceIndex);
         onTeam.removeClass("preparatory-team").addClass("active-team");
-        teamName.text(onTeam.attr("data-teamName"));
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
@@ -102,7 +93,6 @@ var PullQuestionResponse = {studentId:null, teamId:null, questionCount:null}
 function handlePullQuestionResponse(content) {
     console.log(content);
 }
-
 function setQuestionCount(count) {
     questionCount.removeClass("static-question").addClass("active-question");
     setTimeout(function () {
@@ -113,23 +103,17 @@ function setQuestionCount(count) {
 function pauseAt(timeStamp){
     timer.setTime(timeStamp);
     timer.pause();
-    pauseBtn.hide();
-    startBtn.show();
     progressState = 'PAUSE';
-    teamOperation.text("暂停中...");
 }
 function startAt(timeStamp){
     timer.setTime(timeStamp);
     timer.start();
-    startBtn.hide();
-    pauseBtn.show();
     progressState = 'PROCESSING';
-    teamOperation.text("进行中...");
 }
+
 $(function () {
-    $("#seminarIdInput").val(sessionStorage.getItem("seminarId"));
-    $("#klassIdInput").val(sessionStorage.getItem("klassId"));
+    $("#courseIdInput").val(sessionStorage.getItem("courseId"));
     $("#backBtn").click(function () {
-        $("#seminarForm").submit();
+        $("#returnForm").submit();
     });
 });

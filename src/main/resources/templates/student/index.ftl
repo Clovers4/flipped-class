@@ -21,7 +21,8 @@
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">首页</div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -32,21 +33,16 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('/static/imgs/profile.jpg');"></div>
+<div class="page-header header-filter" data-parallax="true"
+     style="background-image: url('/static/imgs/profile.jpg');"></div>
 <div class="main main-raised">
     <div class="profile-content">
         <div class="container">
@@ -54,7 +50,7 @@
                 <div class="col-md-6 ml-auto mr-auto">
                     <div class="profile">
                         <div class="avatar">
-                            <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
+                            <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid" alt="">
                         </div>
                         <div class="name">
                             <h3 class="title">${student.studentName}</h3>
@@ -72,7 +68,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="window.location='/student/option'">
+                            <a class="nav-link" onclick="window.location='/student/setting'">
                                 <i class="material-icons">settings</i>
                                 账户设置
                             </a>

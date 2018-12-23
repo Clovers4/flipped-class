@@ -1,20 +1,20 @@
 var util = {
-    _iconMapper:{
-        success:"check",
-        info:"info_outline",
-        warning:"warning",
-        danger:"clear"
+    _iconMapper: {
+        success: "check",
+        info: "info_outline",
+        warning: "warning",
+        danger: "clear"
     },
-    singleVerifyWithPop:function(input){
-        if(input.hasClass("empty-verify")){
-            if(input.val() == null || input.val() ===""){
+    singleVerifyWithPop: function (input) {
+        if (input.hasClass("empty-verify")) {
+            if (input.val() == null || input.val() === "") {
                 input.delayedPop(input.attr("data-emptyMessage"), 3);
                 input.focus();
                 return false;
             }
         }
-        if(input.hasClass("reg-verify")){
-            if(!(new RegExp(input.attr("data-reg")).test(input.val()))){
+        if (input.hasClass("reg-verify")) {
+            if (!(new RegExp(input.attr("data-reg")).test(input.val()))) {
                 input.delayedPop(input.attr("data-regMessage"), 3);
                 input.focus();
                 return false;
@@ -22,16 +22,16 @@ var util = {
         }
         return true;
     },
-    singleVerifyWithAlert:function(input){
-        if(input.hasClass("empty-verify")){
-            if(input.val() == null || input.val() ===""){
+    singleVerifyWithAlert: function (input) {
+        if (input.hasClass("empty-verify")) {
+            if (input.val() == null || input.val() === "") {
                 this.showAlert("warning", input.attr("data-emptyMessage"), 3);
                 input.registerDanger();
                 return false;
             }
         }
-        if(input.hasClass("reg-verify")){
-            if(!(new RegExp(input.attr("data-reg")).test(input.val()))){
+        if (input.hasClass("reg-verify")) {
+            if (!(new RegExp(input.attr("data-reg")).test(input.val()))) {
                 this.showAlert("warning", input.attr("data-regMessage"), 3);
                 input.registerDanger();
                 return false;
@@ -40,20 +40,20 @@ var util = {
         return true;
     },
     //TODO:Refine this verify function. Make it to be lazy-handled
-    verifyWithPop:function (form) {
+    verifyWithPop: function (form) {
         var emptyVerifies = form.find(".empty-verify");
-        for(var i = 0 ; i < emptyVerifies.length; ++i){
+        for (var i = 0; i < emptyVerifies.length; ++i) {
             var emptyVerify = $(emptyVerifies.get(i));
-            if(emptyVerify.val() == null || emptyVerify.val() ===""){
+            if (emptyVerify.val() == null || emptyVerify.val() === "") {
                 emptyVerify.delayedPop(emptyVerify.attr("data-emptyMessage"), 3);
-                emptyVerify.focus();
+                emptyVerify.registerDanger();
                 return false;
             }
         }
         var regVerifies = form.find(".reg-verify");
-        for(i = 0 ; i < regVerifies.length; ++i){
+        for (i = 0; i < regVerifies.length; ++i) {
             var regVerify = $(regVerifies.get(i));
-            if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
+            if (!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))) {
                 regVerify.delayedPop(regVerify.attr("data-regMessage"), 3);
                 regVerify.registerDanger();
                 return false;
@@ -61,19 +61,19 @@ var util = {
         }
         return true;
     },
-    verifyWithAlert:function(form){
+    verifyWithAlert: function (form) {
         var emptyVerifies = form.find(".empty-verify");
-        for(var i = 0 ; i < emptyVerifies.length; ++i){
+        for (var i = 0; i < emptyVerifies.length; ++i) {
             var emptyVerify = $(emptyVerifies.get(i));
-            if(emptyVerify.val() == null || emptyVerify.val() ===""){
+            if (emptyVerify.val() == null || emptyVerify.val() === "") {
                 this.showAlert("warning", emptyVerify.attr("data-emptyMessage"), 3);
                 return emptyVerify;
             }
         }
         var regVerifies = form.find(".reg-verify");
-        for(i = 0 ; i < regVerifies.length; ++i){
+        for (i = 0; i < regVerifies.length; ++i) {
             var regVerify = $(regVerifies.get(i));
-            if(!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))){
+            if (!(new RegExp(regVerify.attr("data-reg")).test(regVerify.val()))) {
                 this.showAlert("warning", regVerify.attr("data-regMessage"), 3);
                 return regVerify;
             }
@@ -81,18 +81,18 @@ var util = {
         return null;
     },
 
-    _generateAlertDom:function (type, message) {
-        var iconDOM = $("<div class='alert-icon'><i class='material-icons'>"+ this._iconMapper[type]+ "</i></div>");
+    _generateAlertDom: function (type, message) {
+        var iconDOM = $("<div class='alert-icon'><i class='material-icons'>" + this._iconMapper[type] + "</i></div>");
         var messageDOM = $("<b>" + message + "</b>");
         var containerDOM = $("<div class='container'></div>");
         var alertDOM = $("<div class='alert' style='display: none'></div>");
-        alertDOM.addClass("alert-"+type);
+        alertDOM.addClass("alert-" + type);
         containerDOM.append(iconDOM);
         containerDOM.append(messageDOM);
         alertDOM.append(containerDOM);
         return alertDOM;
     },
-    showAlert:function (type, message, second) {
+    showAlert: function (type, message, second) {
         var alertDom = this._generateAlertDom(type, message);
         var alertArea = $(".alert-area");
         $(alertArea.find(".alert")).remove();
@@ -104,13 +104,34 @@ var util = {
             });
         }, second * 1000);
     },
+    showLoading: function (message) {
+        if ($("#loading").size !== 0) {
+            var loadingDom = $("<div class='loading' id='loading'></div>");
+            var animDom = $("<div class=\"sk-double-bounce\"></div>");
+            animDom.append($("<div class=\"sk-child sk-double-bounce1\"></div>"));
+            animDom.append($("<div class=\"sk-child sk-double-bounce2\"></div>"));
+            loadingDom.append(animDom);
+            if (message != null) {
+                loadingDom.append($("<h4>" + message + "</h4>"));
+            }
+            $("body").append(loadingDom);
+        }
+    },
+    hideLoading: function () {
+        var loadingAnim = $("#loading");
+        if (loadingAnim.size !== 0) {
+            loadingAnim.remove();
+        }
+    },
     //Not useful. Just for warning eliminate
-    popover:function () {}
+    popover: function () {
+    }
+
 };
-$.fn.serializeObject = function() {
+$.fn.serializeObject = function () {
     var obj = {};
     var arr = this.serializeArray();
-    $.each(arr, function() {
+    $.each(arr, function () {
         if (obj[this.name]) {
             if (!obj[this.name].push) {
                 obj[this.name] = [obj[this.name]];

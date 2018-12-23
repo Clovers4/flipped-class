@@ -11,17 +11,16 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <title>课程信息</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-fab-mini btn-round" onclick="window.location='/teacher/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">账户设置</div>
+            <div class="navbar-brand brand-title">课程信息</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -48,48 +47,59 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised info-main">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="profile">
+<div class="container" style="margin-top: 40px">
+    <div class="row">
+        <div class="col-md-10 ml-auto mr-auto">
+            <div class="card seminar-card" style="height: 77%;">
+                <div class="card-header">
+                    <div class="container flex-center">
+                        <h4 class="card-title">${course.courseName}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="avatar">
-                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
-                                </div>
+                        <div class="col-md-6 ml-auto mr-auto">
+                            <div class="line">
+                                <label>轮次</label>
+                                <div class="sep"></div>
+                                <#--TODO:{}-->
+                                <div class="content">｛第二轮｝</div>
                             </div>
-                            <div class="col-8 avatar-side">
-                                <h3 class="title">${teacher.teacherName}</h3>
-                                <hr>
-                                <h4 class="title">${teacher.teacherNum}</h4>
+                            <div class="line">
+                                <label>班级</label>
+                                <div class="sep"></div>
+                                <#--TODO:{}-->
+                                <div class="content">｛2016(1)｝</div>
+                            </div>
+                            <div class="line">
+                                <label>小组人数</label>
+                                <div class="sep"></div>
+                                <div class="content" style="margin-left: 10px">{6~8}</div>
+                            </div>
+                            <div class="line content-line">
+                                <label>组队开始时间</label>
+                                <div class="sep"></div>
+                                <div class="content">${course.teamStartDate?datetime}</div>
+                            </div>
+                            <div class="line content-line">
+                                <label>组队结束时间</label>
+                                <div class="sep"></div>
+                                <div class="content">${course.teamEndDate?datetime}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="row" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'" style="width: 100%;text-transform: none">
-                    <span>电子邮箱：${teacher.email}</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'" style="width: 100%;">
-                    <span>修改密码</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-            </div>
-        </div>
     </div>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
-        <i class="material-icons">exit_to_app</i>
-        退出登录
-    </button>
+    <div class="col-md-10 ml-auto mr-auto" style="padding: 0;">
+        <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+            <i class="material-icons">delete</i>
+            删除课程
+        </button>
+    </div>
 </div>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

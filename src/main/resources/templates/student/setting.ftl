@@ -18,7 +18,7 @@
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/index'">
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/index'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">账户设置</div>
@@ -34,14 +34,8 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="window.location='/teacher/index'">
+                    <a class="nav-link" onclick="window.location='/student/index'">
                         <i class="material-icons">person</i>个人首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
                     </a>
                 </li>
             </ul>
@@ -61,9 +55,9 @@
                                 </div>
                             </div>
                             <div class="col-8 avatar-side">
-                                <h3 class="title">${teacher.teacherName}</h3>
+                                <h3 class="title">${student.studentName}</h3>
                                 <hr>
-                                <h4 class="title">${teacher.teacherNum}</h4>
+                                <h4 class="title">${student.studentNum}</h4>
                             </div>
                         </div>
                     </div>
@@ -73,11 +67,11 @@
         <hr>
         <div class="row" style="margin-top: 30px">
             <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyEmail'" style="width: 100%;text-transform: none">
-                    <span>电子邮箱：${teacher.email}</span>
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/student/modifyEmail'" style="width: 100%;text-transform: none">
+                    <span>电子邮箱：${student.email}</span>
                     <i class="material-icons">chevron_right</i>
                 </button>
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/teacher/modifyPassword'" style="width: 100%;">
+                <button class="btn bg-dark flex-space-between" onclick="window.location='/student/modifyPassword'" style="width: 100%;">
                     <span>修改密码</span>
                     <i class="material-icons">chevron_right</i>
                 </button>

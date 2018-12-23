@@ -17,11 +17,9 @@ function login() {
             url: "/login",
             data: loginForm.serialize(),
             success: function (result, status, xhr) {
-                if (xhr.status === 200) {
-                    var response = xhr.responseText;
-                    var auth = response.substring(response.indexOf('_') + 1, response.lastIndexOf(']'));
-                    window.location = "/" + auth + "/index";
-                }
+                var response = xhr.responseText;
+                var auth = response.substring(response.indexOf('_') + 1, response.lastIndexOf(']'));
+                window.location = "/" + auth + "/index";
             },
             error: function (xhr) {//xhr, textStatus, errorThrown
                 switch (xhr.status) {
