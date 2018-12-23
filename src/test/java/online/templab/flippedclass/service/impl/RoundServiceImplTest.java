@@ -356,5 +356,14 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
         logger.info(klassRoundMapper.selectByPrimaryKey(new KlassRound().setKlassId((long)100).setRoundId((long)100)).toString());
     }
 
+    @Test
+    public void testDelete()throws Exception{
+        createDataset();
+        Boolean success = roundService.delete((long)100);
+        Assert.assertEquals(true, success);
+        List<KlassRound> klassRoundList= klassRoundMapper.select(new KlassRound().setRoundId((long)100));
+        Assert.assertEquals(0, klassRoundList.size());
+    }
+
 
 }

@@ -21,6 +21,14 @@ public interface RoundDao {
     int insert(Round round);
 
     /**
+     * 根据 roundId 删除 round
+     *
+     * @param roundId
+     * @return
+     */
+    int delete(Long roundId);
+
+    /**
      * 根据 id 更新一个 Round, 并更新其 klass_round 表
      *
      * @param round
