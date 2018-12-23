@@ -37,8 +37,8 @@ public class SeminarScore implements Serializable {
     /**
      * 展示成绩
      */
-    @Column(name = "`presentaton_score`")
-    private BigDecimal presentatonScore;
+    @Column(name = "`presentation_score`")
+    private BigDecimal presentationScore;
 
     /**
      * 提问成绩

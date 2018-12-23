@@ -4,13 +4,22 @@ import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.*;
 import online.templab.flippedclass.service.*;
+import online.templab.flippedclass.entity.KlassSeminar;
+import online.templab.flippedclass.entity.SeminarScore;
+import online.templab.flippedclass.mapper.KlassSeminarMapper;
+import online.templab.flippedclass.mapper.SeminarScoreMapper;
+import online.templab.flippedclass.service.ScoreService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author fj
+ * @author jh
+ */
 @Transactional
 public class ScoreServiceImplTest extends FlippedClassApplicationTest {
 
@@ -40,6 +49,9 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     private KlassStudentMapper klassStudentMapper;
+
+    @Autowired
+    KlassSeminarMapper klassSeminarMapper;
 
     private void creatScore(){
         courseService.insert(new Course()
@@ -90,19 +102,19 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
                 .setTheme("主题2"));
         seminarScoreMapper.insert(new SeminarScore()
                 .setTeamId(1L)
-                .setPresentatonScore(new BigDecimal(3.5))
+                .setPresentationScore(new BigDecimal(3.5))
                 .setQuestionScore(new BigDecimal(4.5))
                 .setReportScore(new BigDecimal(5))
                 .setKlassSeminarId(seminarService.getKlassSeminar(213L,12321L).getId()));
         seminarScoreMapper.insert(new SeminarScore()
                 .setTeamId(1L)
-                .setPresentatonScore(new BigDecimal(5))
+                .setPresentationScore(new BigDecimal(5))
                 .setQuestionScore(new BigDecimal(5))
                 .setReportScore(new BigDecimal(5))
                 .setKlassSeminarId(seminarService.getKlassSeminar(213L,12322L).getId()));
         seminarScoreMapper.insert(new SeminarScore()
                 .setTeamId(2L)
-                .setPresentatonScore(new BigDecimal(5))
+                .setPresentationScore(new BigDecimal(5))
                 .setQuestionScore(new BigDecimal(5))
                 .setReportScore(new BigDecimal(5))
                 .setKlassSeminarId(seminarService.getKlassSeminar(213L,12321L).getId()));
@@ -129,6 +141,22 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
                 .setTeamId(1L));
     }
 
+    private SeminarScore createSeminarScore() {
+        return new SeminarScore()
+                .setPresentationScore(new BigDecimal(5))
+                .setQuestionScore(new BigDecimal(4.5))
+                .setReportScore(new BigDecimal(4.7))
+                .setTeamId((long) random.nextInt(100));
+    }
+
+    private KlassSeminar createKlassSeminar() {
+        return new KlassSeminar()
+                .setSeminarId((long) random.nextInt(100))
+                .setKlassId((long) random.nextInt(10))
+                .setState(1)
+                .setReportDeadline(new Date());
+    }
+
     @Test
     public void testUpdateRoundScoure(){
         creatScore();
@@ -138,9 +166,37 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void testGetByStudentIdCourseId(){
+    public void testGetByStudentIdCourseId() {
         creatScore();
-        logger.info(scoreService.getByStudentIdCourseId(1L,123L).toString());
+        logger.info(scoreService.getByStudentIdCourseId(1L, 123L).toString());
+    }
+
+    @Test
+    public void testInsert() throws Exception {
+        SeminarScore seminarScore = createSeminarScore();
+        logger.info(seminarScore.toString());
+        KlassSeminar klassSeminar = createKlassSeminar();
+        klassSeminarMapper.insert(klassSeminar);
+        logger.info(klassSeminar.toString());
+        Boolean success = scoreService.markerScore(seminarScore, klassSeminar.getSeminarId());
+        logger.info(success.toString());
+        Assert.assertEquals(true, success);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        SeminarScore seminarScore = createSeminarScore();
+        logger.info(seminarScore.toString());
+        KlassSeminar klassSeminar = createKlassSeminar();
+        klassSeminarMapper.insert(klassSeminar);
+        logger.info(klassSeminar.toString());
+        scoreService.markerScore(seminarScore, klassSeminar.getSeminarId());
+
+        seminarScore.setReportScore(new BigDecimal(3.14))
+                .setPresentationScore(new BigDecimal(3.14));
+        Boolean success = scoreService.update(seminarScore, klassSeminar.getSeminarId());
+        logger.info(seminarScore.toString());
+        Assert.assertEquals(true, success);
     }
 
 }
