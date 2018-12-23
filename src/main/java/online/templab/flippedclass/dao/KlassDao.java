@@ -51,4 +51,11 @@ public interface KlassDao {
      */
     Klass select(Long id);
 
+    /**
+     * 根据sutdentId得到所有klass
+     *
+     * @param studentId
+     * @return
+     */
+    List<Klass> selectByStudentId(Long studentId);
 }

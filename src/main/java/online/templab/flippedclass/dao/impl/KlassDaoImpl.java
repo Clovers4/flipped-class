@@ -63,4 +63,9 @@ public class KlassDaoImpl implements KlassDao {
     public Klass select(Long id) {
         return klassMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<Klass> selectByStudentId(Long studentId) {
+        return klassMapper.listByStudentId(studentId);
+    }
 }

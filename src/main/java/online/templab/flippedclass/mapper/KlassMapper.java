@@ -26,4 +26,12 @@ public interface KlassMapper extends Mapper<Klass> {
 //     * @return
 //     */
 //    Klass selectBySubKlassIdCourseId(@Param("courseId") Long courseId, @Param("subKlassId")Long subKlassId);
+
+    /**
+     * 通过studentID查找所有klass
+     *
+     * @param studentId
+     * @return
+     */
+    List<Klass> listByStudentId(Long studentId);
 }

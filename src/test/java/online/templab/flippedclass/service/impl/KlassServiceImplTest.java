@@ -74,4 +74,9 @@ public class KlassServiceImplTest extends FlippedClassApplicationTest {
         Boolean isDelete=klassService.delete((long)12321);
         Assert.assertEquals(true,isDelete);
     }
+
+    @Test
+    public void testListByStudentId(){
+        logger.info(klassService.listByStudentId(212L).toString());
+    }
 }
