@@ -326,9 +326,11 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
                 klassStudentMapper.insert(klassStudent);
             }
         }
-
-        List<Team> teamList = teamService.listByCourseId((long) 1);
-        logger.info(teamList.toString());
+        List<Team> teamList = teamService.listByCourseId((long) 16);
+        logger.info(String.valueOf(teamList.size()));
+        for (int i = 0; i < teamList.size(); i++) {
+            logger.info(teamList.get(i).toString());
+        }
         Assert.assertNotNull(teamList);
     }
 

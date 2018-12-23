@@ -43,6 +43,9 @@ public class TeamDaoImpl implements TeamDao {
     public Team selectTeam(Long courseId, Long studentId) {
         // 获取队伍id
         KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId));
+        if (klassStudent.getTeamId() == 0) {
+            return new Team().setId((long) 0);
+        }
         // 获取队伍成员
         List<Student> member = studentMapper.selectTeamMemberByTeamId(courseId, klassStudent.getTeamId());
         // 通过 teamId 获取 team
@@ -66,7 +69,7 @@ public class TeamDaoImpl implements TeamDao {
     public Boolean deleteMemberById(Long teamId, Long studentId) {
         Team team = teamMapper.selectByPrimaryKey(teamId);
         KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setStudentId(studentId).setTeamId(teamId));
-        if(klassStudent==null){
+        if (klassStudent == null) {
             return false;
         }
         //如果是空则删掉组
