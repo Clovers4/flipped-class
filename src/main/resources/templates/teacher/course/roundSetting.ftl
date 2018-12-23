@@ -94,10 +94,10 @@
                                         <div class="body-header">
                                             <div class="body-title">成绩取算设置</div>
                                             <div class="flex-center">
-                                                <div class="triangle rightward"></div>
+                                                <div class="triangle downward"></div>
                                             </div>
                                         </div>
-                                        <div class="body-content" style="display: none">
+                                        <div class="body-content">
                                             <hr>
                                             <div class="form-group line">
                                                 <label class="bmd-label">课堂展示</label>
@@ -175,10 +175,10 @@
                                         <div class="body-header">
                                             <div class="body-title">报名次数限制</div>
                                             <div class="flex-center">
-                                                <div class="triangle rightward"></div>
+                                                <div class="triangle downward"></div>
                                             </div>
                                         </div>
-                                        <div class="body-content" style="display: none">
+                                        <div class="body-content">
                                             <hr>
                                             <#list round.klassRounds as klassRound>
                                                 <input hidden name="klassId" value="${klassRound.klassId}" placeholder="">

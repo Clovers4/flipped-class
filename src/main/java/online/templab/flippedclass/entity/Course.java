@@ -83,6 +83,11 @@ public class Course implements Serializable {
     private Long seminarMainCourseId;
 
     /**
+     * 对应的教师
+     */
+    private Teacher teacher;
+
+    /**
      * 老师的Course下会有零到多个klass，学生只有一个klass
      */
     private List<Klass> klassList;

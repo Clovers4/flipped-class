@@ -36,13 +36,28 @@ public class ShareSeminarApplication implements Serializable {
      * 从课程的教师id
      */
     @Column(name = "`sub_course_teacher_id`")
-    private Long subCourseTeacherId;
+    private Long teacherId;
 
     /**
      * 请求状态，同意1、不同意0、未处理null
      */
     @Column(name = "`status`")
     private Integer status;
+
+    /**
+     * 对应的主课程实体
+     */
+    private Course mainCourse;
+
+    /**
+     * 对应的从课程实体
+     */
+    private Course subCourse;
+
+    /**
+     * 对应的主课程的老师
+     */
+    private Teacher mainTeacher;
 
     private static final long serialVersionUID = 1L;
 }

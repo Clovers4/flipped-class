@@ -53,5 +53,10 @@ public class Question implements Serializable {
     @Column(name = "`score`")
     private BigDecimal score;
 
+    /**
+     * 对应的提问学生
+     */
+    private Student student;
+
     private static final long serialVersionUID = 1L;
 }

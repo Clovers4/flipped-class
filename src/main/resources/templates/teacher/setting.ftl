@@ -91,59 +91,6 @@
         退出登录
     </button>
 </div>
-<form hidden id="courseIdForm">
-    <input id="courseIdInput" name="courseId">
-</form>
-<div class="modal fade" id="courseModal" data-courseID="">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
-                <div class="row" style="margin-bottom: 40px">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="infoNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">description</i>
-                                    课程信息
-                                </a>
-                            </li>
-                            <li class="nav-item" id="gradeNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">equalizer</i>
-                                    成绩
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 ml-auto mr-auto">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item" id="optionNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">tune</i>
-                                    讨论课设置
-                                </a>
-                            </li>
-                            <li class="nav-item" id="shareNav">
-                                <a class="nav-link">
-                                    <i class="material-icons">share</i>
-                                    课程共享
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

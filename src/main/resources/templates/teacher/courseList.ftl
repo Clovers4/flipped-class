@@ -49,91 +49,82 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-    <#if courses?size ==0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else>
-        <div class="container">
-            <div class="row">
+    <div class="container">
+        <div class="row">
             <#list courses as course>
-            <div class="col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-courseID="${course.id}" data-toggle="modal" data-target="#courseModal">
-                        <div class="body-header">
-                            <div class="body-title" style="text-align: center;font-size: 20cpx">${course.courseName}</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 ml-auto mr-auto">
-                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                        <li class="nav-item seminar-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">event_note</i>
-                                                讨论课
-                                            </a>
-                                        </li>
-                                        <li class="nav-item klass-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">class</i>
-                                                班级
-                                            </a>
-                                        </li>
-                                        <li class="nav-item team-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">group</i>
-                                                分组
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                <div class="col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body" data-courseID="${course.id}" data-toggle="modal"
+                             data-target="#courseModal">
+                            <div class="body-header">
+                                <div class="body-title"
+                                     style="text-align: center;font-size: 20px">${course.courseName}</div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 ml-auto mr-auto">
-                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                        <li class="nav-item info-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">description</i>
-                                                课程信息
-                                            </a>
-                                        </li>
-                                        <li class="nav-item grade-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">equalizer</i>
-                                                成绩
-                                            </a>
-                                        </li>
-                                        <li class="nav-item share-nav">
-                                            <a class="nav-link">
-                                                <i class="material-icons">share</i>
-                                                课程共享
-                                            </a>
-                                        </li>
-                                    </ul>
+                            <div class="body-content">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12 ml-auto mr-auto">
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item seminar-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">event_note</i>
+                                                    讨论课
+                                                </a>
+                                            </li>
+                                            <li class="nav-item klass-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">class</i>
+                                                    班级
+                                                </a>
+                                            </li>
+                                            <li class="nav-item team-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">group</i>
+                                                    分组
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 ml-auto mr-auto">
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item info-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">description</i>
+                                                    课程信息
+                                                </a>
+                                            </li>
+                                            <li class="nav-item grade-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">equalizer</i>
+                                                    成绩
+                                                </a>
+                                            </li>
+                                            <li class="nav-item share-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">share</i>
+                                                    课程共享
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </#list>
-                <div class="col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="addRound" style="margin-bottom: 10px">
-                        <i class="material-icons add-icon">add_circle</i>
-                    </a>
-                </div>
+            <div class="col-md-6">
+                <a class="btn bg-transparent add-card-btn" id="createCourse" style="margin-bottom: 10px">
+                    <i class="material-icons add-icon">add_circle</i>
+                </a>
             </div>
         </div>
-    </#if>
+    </div>
 </div>
 <form hidden id="courseIdForm" method="post">
-    <input id="courseIdInput" name="courseId">
+    <input id="courseIdInput" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

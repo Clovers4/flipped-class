@@ -1,20 +1,20 @@
-    var courseIdForm = {};
+var courseIdForm = {};
 $(function () {
     courseIdForm.form = $("#courseIdForm");
     courseIdForm.courseIdInput = $("#courseIdInput");
 
-    $("#addRound").click(function () {
-        window.location='/teacher/course/create';
-    });
+    $(".seminar-nav").click({url:'/teacher/course/seminarList'},navClick);
     $(".klass-nav").click({url:'/teacher/course/klassList'},navClick);
     $(".team-nav").click({url:'/teacher/course/teamList'},navClick);
-    $(".seminar-nav").click({url:'/teacher/course/seminarList'},navClick);
-    $(".grade-nav").click({url:'/teacher/course/grade'},navClick);
     $(".info-nav").click({url:'/teacher/course/info'},navClick);
+    $(".grade-nav").click({url:'/teacher/course/grade'},navClick);
     $(".share-nav").click({url:'/teacher/course/share'},navClick);
 
     $(".nav-item").click(function (ev) {
         ev.stopPropagation();//Prevent ev to be cached by upper dom
+    });
+    $("#createCourse").click(function () {
+        window.location = "/teacher/course/create";
     });
 });
 

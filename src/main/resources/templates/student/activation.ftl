@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/activation.js"></script>
+    <script src="/static/js/student/activation.js"></script>
     <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">

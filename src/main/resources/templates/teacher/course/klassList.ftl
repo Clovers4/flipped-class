@@ -15,6 +15,7 @@
     <title>班级</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -98,18 +99,18 @@
 
 <div class="modal fade" id="klassModal">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="height: 329px;">
             <div class="modal-header">
                 <h5 class="modal-title"></h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <div class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
+            <div id="operationBody" class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
                 <div class="row">
                     <div class="col-md-12 ml-auto mr-auto">
                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
+                            <li class="nav-item" id="import">
                                 <a class="nav-link">
                                     <i class="material-icons">save_alt</i>
                                     导入名单
@@ -128,6 +129,40 @@
                                 </a>
                             </li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="formBody" class="modal-body" style="margin-top: 20px;margin-bottom: 10px;display: none">
+                <div class="row" style="height: 208px;">
+                    <div class="col-md-12 ml-auto mr-auto">
+                        <form id="studentFiles" enctype="multipart/form-data">
+                            <input hidden id="fileInput" name="file" type="file" placeholder="" class="form-control empty-verify" data-emptyMessage="请选择名单">
+                            <input hidden id="klassIdInput" name="klassId" type="text" placeholder="">
+                        </form>
+                        <div class="file-frame">
+                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                <li class="nav-item" id="upload" style="width: 100%;">
+                                    <a class="nav-link">
+                                        <div class="icon">
+                                            <i class="material-icons">folder</i>
+                                        </div>
+                                        <div id="uploadName" style="text-transform: none">
+                                            上传文件
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex-space-around" style="margin-top: 20px">
+                            <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm" style="width: 40%">
+                                <i class="material-icons">arrow_upward</i>
+                                上传
+                            </button>
+                            <button id="cancelUpload" class="btn btn-danger btn-round cancel" style="width: 40%">
+                                <i class="material-icons">close</i>
+                                取消
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

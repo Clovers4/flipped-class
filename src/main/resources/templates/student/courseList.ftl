@@ -11,14 +11,17 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
+    <script src="/static/js/student/courseList.js"></script>
     <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand">课程页</a>
+            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/index'">
+                <i class="material-icons">arrow_back_ios</i>
+            </a>
+            <a class="navbar-brand">课程</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -35,148 +38,71 @@
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="main main-raised">
+<div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card vary-card">
-                    <div class="card-body">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                            <div class="flex-center">
-                                <div class="triangle rightward"></div>
+            <#list klasses as klass>
+                <div class="col-md-6">
+                    <div class="card content-card">
+                        <div class="card-body" data-courseID="${klass.course.id}" data-klassId="${klass.id}">
+                            <div class="body-header flex-space-between">
+                                <div class="body-title" style="text-align: left;font-size: 20px">${klass.course.courseName}</div>
+                                <div class="body-title" style="text-align: right;font-size: 12px">${klass.klassName}</div>
                             </div>
-                        </div>
-                        <div class="body-content" style="display: none">
-                            <hr>
-                            <div class="line">
-                                <div class="label">班级数</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">分组数</div>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">待完成讨论课</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card vary-card">
-                    <div class="card-body">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                            <div class="flex-center">
-                                <div class="triangle rightward"></div>
-                            </div>
-                        </div>
-                        <div class="body-content" style="display: none">
-                            <hr>
-                            <div class="line">
-                                <div class="label">班级数</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">分组数</div>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">待完成讨论课</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12 ml-auto mr-auto">
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item seminar-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">event_note</i>
+                                                    讨论课
+                                                </a>
+                                            </li>
+                                            <li class="nav-item team-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">group</i>
+                                                     组队
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 ml-auto mr-auto">
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li class="nav-item info-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">description</i>
+                                                    课程信息
+                                                </a>
+                                            </li>
+                                            <li class="nav-item grade-nav">
+                                                <a class="nav-link">
+                                                    <i class="material-icons">equalizer</i>
+                                                    成绩
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card vary-card">
-                    <div class="card-body">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                            <div class="flex-center">
-                                <div class="triangle rightward"></div>
-                            </div>
-                        </div>
-                        <div class="body-content" style="display: none">
-                            <hr>
-                            <div class="line">
-                                <div class="label">班级数</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">分组数</div>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">待完成讨论课</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card vary-card">
-                    <div class="card-body">
-                        <div class="body-header">
-                            <div class="body-title">面向对象设计与分析</div>
-                            <div class="flex-center">
-                                <div class="triangle rightward"></div>
-                            </div>
-                        </div>
-                        <div class="body-content" style="display: none">
-                            <hr>
-                            <div class="line">
-                                <div class="label">班级数</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">分组数</div>
-                                <div class="sep"></div>
-                                <div class="content">19</div>
-                            </div>
-                            <div class="line">
-                                <div class="label">待完成讨论课</div>
-                                <div class="sep"></div>
-                                <div class="content">3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </#list>
         </div>
     </div>
 </div>
-<div class="container foot-container flex-center">
-    <button class="btn btn-dark btn-round bg-dark" style="margin: 0">
-        <i class="material-icons">add_circle</i>
-        创建课程
-    </button>
-</div>
+<form hidden id="courseIdForm" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

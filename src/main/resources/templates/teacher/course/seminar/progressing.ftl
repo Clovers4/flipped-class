@@ -9,12 +9,28 @@
     <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="/static/css/countup.css">
     <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.js"></script>
     <script src="/static/lib/stomp.js"></script>
     <script src="/static/lib/jquery-3.3.1.js"></script>
+    <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/progressing.js"></script>
     <title>讨论课报名</title>
+    <style>
+        input::-ms-input-placeholder {
+            text-align: center;
+        }
+
+        input::-webkit-input-placeholder {
+            text-align: center;
+        }
+
+        #score {
+            text-align: center;
+            width: 100px;
+        }
+    </style>
 </head>
 <body class="card-page sidebar-collapse" data-ksId="${ksId}">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -24,8 +40,7 @@
                 <i class="material-icons">arrow_back_ios</i>
             </a>
             <div class="navbar-brand brand-title">讨论课</div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse">
                 <!--All are needed here. Please do not remove anything.-->
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -36,12 +51,12 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/notification'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -51,37 +66,84 @@
     </div>
 </nav>
 <div class="left-side side-raised">
-<#list enrollList as enroll>
-    <#if enroll??>
-    <button class="btn btn-fab btn-round bg-dark btn-team">
-        ${enroll.team.serial}
-    </button>
-    </#if>
-</#list>
+    <#list monitor.enrollList as enroll>
+        <#if enroll??>
+            <button data-teamName="${enroll.team.teamName}" class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
+                ${enroll.team.serial}
+            </button>
+        </#if>
+    </#list>
 </div>
 <div class="right-upper-side side-raised">
-    <button class="btn btn-fab btn-round bg-dark btn-team" disabled>
-    5
+    <button id="questionCount" class="btn btn-fab btn-round btn-team static-question" disabled>
+        ${monitor.raisedQuestionsCount}
     </button>
 </div>
 <div class="right-downer-side side-raised">
-<#list enrollList as enroll>
-    <#if enroll??>
-    <i>${enroll.team.teamName}</i>
-    </#if>
-</#list>
+
+</div>
+<div class="flex-center main-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
+                <h3 id="teamName" style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
+                <hr>
+                <h4 id="teamOperation" style="text-align: center">进行中...</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div id="timer"></div>
+        </div>
+        <div class="row" style="margin-bottom: 100px">
+            <div class="col-6 col-md-4 ml-auto mr-auto">
+                <div id="operation" class="flex-space-around" style="width: 100%;">
+                    <button id="start" class="btn bg-dark btn-fab btn-lg btn-round">
+                        <i class="material-icons">play_arrow</i>
+                    </button>
+                    <button id="pause" class="btn bg-dark btn-fab btn-lg btn-round" style="display: none">
+                        <i class="material-icons">pause</i>
+                    </button>
+                    <button id="stop" class="btn bg-dark btn-fab btn-lg btn-round" style="display: none">
+                        <i class="material-icons">stop</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container foot-operation">
-    <button class="btn btn-fab btn-round bg-dark next-team">
-        <i class="material-icons">
-            arrow_forward_ios
-        </i>
-    </button>
+    <div class="row  flex-space-around">
+        <form class="form" id="scoreForm">
+            <div class="form-group bmd-form-group">
+                <input id="score" name="score" type="text" placeholder="分数" autocomplete="off"
+                       class="form-control empty-verify" data-emptyMessage="请输入分数">
+            </div>
+        </form>
+    </div>
+    <div class="row  flex-space-between">
+        <button id="pullQuestion" class="btn bg-dark btn-round">
+            <i class="material-icons">
+                toll
+            </i>
+            抽取提问
+        </button>
+        <button id="giveScore" class="btn bg-dark btn-fab btn-round">
+            <i class="material-icons">
+                adjust
+            </i>
+        </button>
+        <button id="switchTeam" class="btn bg-dark btn-round">
+            <i class="material-icons">
+                arrow_forward
+            </i>
+            切换小组
+        </button>
+    </div>
 </div>
 
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId">
-    <input id="klassIdInput" name="klassId">
+    <input id="seminarIdInput" name="seminarId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
