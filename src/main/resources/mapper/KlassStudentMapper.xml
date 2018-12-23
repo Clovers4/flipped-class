@@ -18,4 +18,11 @@
       (#{klassId},#{stuId},#{courseId},#{teamId})
     </foreach>
   </insert>
+
+  <select id="selectOneByStudentNum" resultMap="BaseResultMap">
+    select k.klass_id,k.student_id,k.course_id,k.team_id
+    from klass_student k,student
+    where klass_id=#{klassId} and k.student_id=student.id
+      and student.account=#{studentNum}
+  </select>
 </mapper>

@@ -65,13 +65,35 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Boolean deleteMemberById(Long teamId, Long studentId) {
         Team team = teamMapper.selectByPrimaryKey(teamId);
+        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setStudentId(studentId).setTeamId(teamId));
+        if(klassStudent==null){
+            return false;
+        }
+        //如果是空则删掉组
+        if (team == null) {
+            int deleteRelation = klassStudentMapper.updateByPrimaryKey(new KlassStudent()
+                    .setTeamId(null)
+                    .setStudentId(studentId)
+                    .setKlassId(klassStudent.getKlassId())
+                    .setCourseId(klassStudent.getCourseId())
+            );
+            return deleteRelation > 0;
+        }
         // 如果退组的是队长，整个队伍删除
         if (team.getLeaderId().equals(studentId)) {
             int deleteTeam = teamMapper.delete(team);
-            int deleteRelation = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId));
-            return (deleteTeam * deleteRelation) > 0;
+            //删除组员的teamId信息
+            List<KlassStudent> klassStudents = klassStudentMapper.select(new KlassStudent().setTeamId(teamId));
+            for (KlassStudent klassStudentAll : klassStudents) {
+                klassStudentMapper.updateByPrimaryKey(klassStudentAll.setTeamId(null));
+            }
+            return deleteTeam > 0;
         } else { // 如果是组员 删除组员就好了
-            int deleteRelation = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId).setStudentId(studentId));
+            int deleteRelation = klassStudentMapper.updateByPrimaryKey(new KlassStudent()
+                    .setTeamId(null)
+                    .setStudentId(studentId)
+                    .setKlassId(klassStudent.getKlassId())
+                    .setCourseId(klassStudent.getCourseId()));
             return deleteRelation > 0;
         }
     }
@@ -86,7 +108,7 @@ public class TeamDaoImpl implements TeamDao {
                 .setKlassId(klassId)
                 .setTeamName(teamName)
                 .setCourseId(klassStudent.getCourseId())
-                .setSerial((int)teamMapper.getMaxTeamSerial(klassStudent.getCourseId(),klassId)+1)
+                .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
                 .setStatus(1);
         // 插入队伍
         int lineTeam = teamMapper.insert(team);

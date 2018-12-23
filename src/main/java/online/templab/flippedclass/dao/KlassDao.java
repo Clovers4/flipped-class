@@ -51,12 +51,4 @@ public interface KlassDao {
      */
     Klass select(Long id);
 
-    /**
-     * 插入该班级下student名单
-     *
-     * @param id
-     * @param students
-     * @return
-     */
-    Boolean insertList(Long id, List<Student> students);
 }
