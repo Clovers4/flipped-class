@@ -75,15 +75,6 @@ public interface CourseService {
     List<Map<String,Object>> listCourseKlassByStudentId(Long studentId);
 
 
-
-    /**
-     * 根据老师id返回课程和班级
-     *
-     * @param teacherId
-     * @return
-     */
-    List<Map<String,Object>> listCourseKlassByTeacherId(Long teacherId);
-
     /**
      * 传入要查询的 courseId,返回与这个 course 共享分组的 course,并且这个 course 是主课程（也可能自己就是主课程）
      *

@@ -45,6 +45,8 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
     @Override
     public Boolean updateByRoundIdKlassId(Long roundId,Long klassId) {
         int countInsert=0;
+        //得到次数限制
+        int enrollNumber=klassRoundMapper.selectOne(new KlassRound().setKlassId(klassId).setRoundId(roundId)).getEnrollLimit();
         //得到该班的team
         List<Team> teams=teamMapper.select(new Team().setKlassId(klassId));
         //得到Round（包含分数计算规则）
@@ -69,9 +71,11 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for(List<SeminarScore> allTeamSeminarScore:seminarScores){
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
-                            //小于目前分数则赋值
-                            if(presentationScore.compareTo(teamSeminarScore.getPresentationScore())==-1){
-                                presentationScore=teamSeminarScore.getPresentationScore();
+                            if(teamSeminarScore.getPresentationScore()!=null){
+                                //小于目前分数则赋值
+                                if(presentationScore.compareTo(teamSeminarScore.getPresentationScore())==-1){
+                                    presentationScore=teamSeminarScore.getPresentationScore();
+                                }
                             }
                         }
                     }
@@ -79,17 +83,18 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
             }
             //取平均分
             else{
-                BigDecimal count=new BigDecimal(0);
                 BigDecimal sumScore=new BigDecimal(0);
                 for(List<SeminarScore> allTeamSeminarScore:seminarScores){
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
-                            count=count.add(new BigDecimal(1));
-                            sumScore=teamSeminarScore.getPresentationScore().add(sumScore);
+                            if(teamSeminarScore.getPresentationScore()!=null){
+                                sumScore=teamSeminarScore.getPresentationScore().add(sumScore);
+                            }
+
                         }
                     }
                 }
-                presentationScore=sumScore.divide(count);
+                presentationScore=sumScore.divide(new BigDecimal(enrollNumber));
             }
             //计算报告分
             BigDecimal reportScore=new BigDecimal(0);
@@ -98,25 +103,27 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for(List<SeminarScore> allTeamSeminarScore:seminarScores){
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
-                            if(reportScore.compareTo(teamSeminarScore.getReportScore())==-1){
-                                reportScore=teamSeminarScore.getReportScore();
+                            if(teamSeminarScore.getPresentationScore()!=null) {
+                                if(reportScore.compareTo(teamSeminarScore.getReportScore())==-1){
+                                    reportScore=teamSeminarScore.getReportScore();
+                                }
                             }
                         }
                     }
                 }
             }
             else{
-                BigDecimal count=new BigDecimal(0);
                 BigDecimal sumScore=new BigDecimal(0);
                 for(List<SeminarScore> allTeamSeminarScore:seminarScores){
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
-                            count=count.add(new BigDecimal(1));
-                            sumScore=teamSeminarScore.getReportScore().add(sumScore);
+                            if(teamSeminarScore.getPresentationScore()!=null) {
+                                sumScore=teamSeminarScore.getReportScore().add(sumScore);
+                            }
                         }
                     }
                 }
-                reportScore=sumScore.divide(count);
+                reportScore=sumScore.divide(new BigDecimal(enrollNumber));
             }
             //计算提问分
             BigDecimal questionScore=new BigDecimal(0);
@@ -125,25 +132,27 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for(List<SeminarScore> allTeamSeminarScore:seminarScores){
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
-                            if(questionScore.compareTo(teamSeminarScore.getQuestionScore())==-1){
-                                questionScore=teamSeminarScore.getQuestionScore();
+                            if(teamSeminarScore.getPresentationScore()!=null) {
+                                if(questionScore.compareTo(teamSeminarScore.getQuestionScore())==-1){
+                                    questionScore=teamSeminarScore.getQuestionScore();
+                                }
                             }
                         }
                     }
                 }
             }
             else{
-                BigDecimal count=new BigDecimal(0);
                 BigDecimal sumScore=new BigDecimal(0);
                 for(List<SeminarScore> allTeamSeminarScore:seminarScores){
                     for(SeminarScore teamSeminarScore:allTeamSeminarScore){
                         if(teamSeminarScore.getTeamId().equals(team.getId())){
-                            count=count.add(new BigDecimal(1));
-                            sumScore=teamSeminarScore.getQuestionScore().add(sumScore);
+                            if(teamSeminarScore.getPresentationScore()!=null) {
+                                sumScore=teamSeminarScore.getQuestionScore().add(sumScore);
+                            }
                         }
                     }
                 }
-                questionScore=sumScore.divide(count);
+                questionScore=sumScore.divide(new BigDecimal(enrollNumber));
             }
             //计算总分
             BigDecimal totalScore=presentationScore.multiply(new BigDecimal(course.getPrePercentage()*0.01))

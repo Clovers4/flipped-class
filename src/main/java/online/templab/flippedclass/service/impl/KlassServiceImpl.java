@@ -113,4 +113,9 @@ public class KlassServiceImpl implements KlassService {
         }
         return count == students.size();
     }
+
+    @Override
+    public List<Klass> listByStudentId(Long studentId) {
+        return klassDao.selectByStudentId(studentId);
+    }
 }

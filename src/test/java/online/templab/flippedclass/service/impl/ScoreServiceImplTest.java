@@ -159,10 +159,8 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testUpdateRoundScoure(){
-        creatScore();
-        scoreService.updateRoundScore(111L,213L);
-        logger.info(roundScoreMapper.select(new RoundScore().setRoundId(111L).setTeamId(1L)).toString());
-        logger.info(roundScoreMapper.select(new RoundScore().setRoundId(111L).setTeamId(2L)).toString());
+        scoreService.updateRoundScore(3L,21L);
+        logger.info(roundScoreMapper.selectAll().toString());
     }
 
     @Test

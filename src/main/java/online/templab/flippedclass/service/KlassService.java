@@ -60,4 +60,11 @@ public interface KlassService {
      * @return 成功则返回 true ,失败则返回 false
      */
     Boolean resetStudentList(Long id,List<Student> students);
+
+    /**
+     * 通过studentId返回全部klass
+     * @param studentId
+     * @return
+     */
+    List<Klass> listByStudentId(Long studentId);
 }
