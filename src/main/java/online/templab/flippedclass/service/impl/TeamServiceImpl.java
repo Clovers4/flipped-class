@@ -27,7 +27,9 @@ public class TeamServiceImpl implements TeamService {
         List<Team> teamList = teamDao.selectByCourseId(courseId);
         for (int i = 0; i < teamList.size(); i++) {
             Team tmp = get(courseId, teamList.get(i).getLeaderId());
-            teamList.set(i, tmp);
+            if (tmp.getId() != 0) {
+                teamList.set(i, tmp);
+            }
         }
         return teamList;
     }
