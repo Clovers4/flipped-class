@@ -3,6 +3,7 @@ package online.templab.flippedclass.mapper;
 import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.Course;
 import online.templab.flippedclass.entity.Klass;
+import online.templab.flippedclass.entity.KlassRound;
 import online.templab.flippedclass.entity.Round;
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,12 +70,19 @@ public class RoundMapperTest extends FlippedClassApplicationTest {
     public void testSelectByCourseId() throws Exception {
         createCourseKlass();
         Round round = new Round().setId((long)1).setCourseId((long)100);
-        Course course = courseMapper.selcetByCourseId(round.getCourseId());
-        logger.info(course.toString());
-        for(Klass klass:course.getKlassList()){
-            logger.info(klass.toString());
+        List<Course> courseList = courseMapper.selcetByCourseId(round.getCourseId());
+
+        for(Course course: courseList){
+            logger.info(course.toString());
+            List<Klass> klassList = course.getKlassList();
+            if(klassList != null){
+                for(Klass klass : klassList){
+                    logger.info(klass.toString());
+                }
+            }
         }
-        Assert.assertNotNull(course);
+
+        Assert.assertNotNull(courseList);
     }
 
 }

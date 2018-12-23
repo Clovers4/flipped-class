@@ -89,7 +89,7 @@
                k.klass_location
         FROM course c
                  LEFT JOIN klass k ON k.course_id = c.id
-        WHERE c.id = #{courseId}
+        WHERE c.id = #{courseId} OR c.seminar_main_course_id = #{courseId}
     </select>
 
 

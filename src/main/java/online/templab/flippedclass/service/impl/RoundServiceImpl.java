@@ -47,7 +47,7 @@ public class RoundServiceImpl implements RoundService {
     }
 
     @Override
-    public Round get(Long id) {
-        return roundDao.getOne(id);
+    public Round get(Long roundId, Long courseId) {
+        return roundDao.getOne(roundId,courseId);
     }
 }

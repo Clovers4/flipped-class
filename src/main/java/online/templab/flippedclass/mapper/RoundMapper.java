@@ -20,14 +20,16 @@ public interface RoundMapper extends Mapper<Round> {
     int updateByRoundIdSelective(Round round);
 
     /**
-     * 通过courseID得到所有round，并注入round下所有seminar
+     * 通过 courseID 得到所有 round
+     * 注入 round 下所有 seminar
      * @param courseId
      * @return
      */
     List<Round> selectByCourseId(Long courseId);
 
     /**
-     * 根据 id 获得一个 round，并注入round下所有seminar
+     * 根据 id 获得一个 round
+     * 注入 round下所有 seminar
      *
      * @param id
      * @return

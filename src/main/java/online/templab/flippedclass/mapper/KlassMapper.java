@@ -19,11 +19,11 @@ public interface KlassMapper extends Mapper<Klass> {
      */
     public List<Long> selectIdByCourseId(Long courseId);
 
-    /**
-     * 通过从课程KlassId和主课程courseId找到与从课程班级对应的主课程班级
-     * @param courseId
-     * @param subKlassId
-     * @return
-     */
-    Klass selectBySubKlassIdCourseId(@Param("courseId") Long courseId, @Param("subKlassId")Long subKlassId);
+//    /**
+//     * 通过从课程KlassId和主课程courseId找到与从课程班级对应的主课程班级
+//     * @param courseId
+//     * @param subKlassId
+//     * @return
+//     */
+//    Klass selectBySubKlassIdCourseId(@Param("courseId") Long courseId, @Param("subKlassId")Long subKlassId);
 }
