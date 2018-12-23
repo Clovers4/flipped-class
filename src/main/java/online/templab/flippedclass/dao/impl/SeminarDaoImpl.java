@@ -1,18 +1,13 @@
 package online.templab.flippedclass.dao.impl;
 
 import online.templab.flippedclass.dao.SeminarDao;
-import online.templab.flippedclass.entity.Course;
-import online.templab.flippedclass.entity.KlassSeminar;
-import online.templab.flippedclass.entity.Round;
-import online.templab.flippedclass.entity.Seminar;
-import online.templab.flippedclass.mapper.CourseMapper;
-import online.templab.flippedclass.mapper.KlassMapper;
-import online.templab.flippedclass.mapper.KlassSeminarMapper;
-import online.templab.flippedclass.mapper.SeminarMapper;
+import online.templab.flippedclass.entity.*;
+import online.templab.flippedclass.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author fj
@@ -31,6 +26,15 @@ public class SeminarDaoImpl implements SeminarDao {
 
     @Autowired
     KlassMapper klassMapper;
+
+    @Autowired
+    AttendanceMapper attendanceMapper;
+
+    @Autowired
+    QuestionMapper questionMapper;
+
+    @Autowired
+    StudentMapper studentMapper;
 
     @Override
     public Boolean insert(Seminar seminar) {
@@ -86,5 +90,29 @@ public class SeminarDaoImpl implements SeminarDao {
     @Override
     public Integer selectMaxSeminarSerialByCourseId(Long courseId){
         return seminarMapper.selectMaxSeminarSerialByCourseId(courseId);
+    }
+
+    @Override
+    public Boolean insertQuestion(Long presentationTeamId, Long questionTeamId, Long studentId) {
+        Attendance attendance = attendanceMapper.selectPresenting(presentationTeamId);
+        int line = questionMapper.insert(new Question()
+                .setAttendanceId(attendance.getId())
+                .setKlassSeminarId(attendance.getKlassSeminarId())
+                .setStudentId(studentId)
+                .setTeamId(questionTeamId)
+                .setIsSelected(0));
+        return line == 1;
+    }
+
+    @Override
+    public Student selectOneQuestion(Long presentationTeamId) {
+        Attendance attendance = attendanceMapper.selectPresenting(presentationTeamId);
+        List<Question> questions = questionMapper.select(new Question()
+                .setAttendanceId(attendance.getId())
+                .setKlassSeminarId(attendance.getKlassSeminarId())
+                .setIsSelected(0));
+        Random random = new Random();
+        int chooseNumber = random.nextInt(questions.size());
+        return studentMapper.selectOne(new Student().setId(questions.get(chooseNumber).getStudentId()));
     }
 }

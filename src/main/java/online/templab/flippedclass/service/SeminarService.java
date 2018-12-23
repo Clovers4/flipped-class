@@ -3,6 +3,7 @@ package online.templab.flippedclass.service;
 import online.templab.flippedclass.entity.Attendance;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Seminar;
+import online.templab.flippedclass.entity.Student;
 
 import java.util.List;
 
@@ -125,4 +126,22 @@ public interface SeminarService {
      * @return
      */
     Boolean deleteEnroll(Long klassSeminarId,Long studentId);
+
+    /**
+     * 插入一个问题
+     *
+     * @param presentationTeamId
+     * @param questionTeamId
+     * @param studentId
+     * @return
+     */
+    Boolean addQuestion(Long presentationTeamId, Long questionTeamId, Long studentId);
+
+    /**
+     * 根据 presentationTeamId  获取该attendance下所有问题并抽取一个
+     *
+     * @param presentationTeamId 正在展示组id
+     * @return
+     */
+    Student selectOneQuestion(Long presentationTeamId);
 }

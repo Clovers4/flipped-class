@@ -2,6 +2,7 @@ package online.templab.flippedclass.dao;
 
 import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.entity.Seminar;
+import online.templab.flippedclass.entity.Student;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -51,4 +52,22 @@ public interface SeminarDao {
      * @return
      */
     Integer selectMaxSeminarSerialByCourseId(Long courseId);
+
+    /**
+     * 插入一个问题
+     *
+     * @param presentationTeamId
+     * @param questionTeamId
+     * @param studentId
+     * @return
+     */
+    Boolean insertQuestion(Long presentationTeamId, Long questionTeamId, Long studentId);
+
+    /**
+     * 根据 presentationTeamId 获取该组对应attendance下所有问题并抽一个
+     *
+     * @param presentationTeamId 正在展示组id
+     * @return
+     */
+    Student selectOneQuestion(Long presentationTeamId);
 }

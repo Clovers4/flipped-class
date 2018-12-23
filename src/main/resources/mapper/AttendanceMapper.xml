@@ -47,4 +47,12 @@
                  left join team t on a.team_id = t.id
         where a.klass_seminar_id = #{klassSeminarId}
     </select>
+
+    <select id="selectPresenting" resultMap="BaseResultMap">
+        select id, klass_seminar_id
+        from attendance
+        where team_id = #{teamId}
+          and is_present = 1
+    </select>
+
 </mapper>

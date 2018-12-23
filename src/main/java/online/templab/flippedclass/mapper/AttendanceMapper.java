@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * @author wk
  * @author jh
+ * @author fj
  */
 @Component
 public interface AttendanceMapper extends Mapper<Attendance> {
@@ -19,4 +20,12 @@ public interface AttendanceMapper extends Mapper<Attendance> {
      * @return
      */
     List<Attendance> selectByKlassSeminarId(Long klassSeminarId);
+
+    /**
+     * 根据 team id 查到正在展示得 attendance
+     *
+     * @param teamId
+     * @return
+     */
+    Attendance selectPresenting(Long teamId);
 }
