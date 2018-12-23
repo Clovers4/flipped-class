@@ -71,6 +71,11 @@ public class Team implements Serializable {
      */
     private Klass klass;
 
+    /**
+     * 这个班级下的分组策略
+     */
+    private List<CourseStrategy> courseStrategyList;
+
     private static String[] teamStatus = new String[]{"不合法", "合法", "审核中"};
 
     /**
