@@ -19,7 +19,15 @@ public interface RoundService {
      * @param round
      * @return 成功则返回 true ,失败则返回 false
      */
-    Boolean  insert(Round round);
+    Boolean insert(Round round);
+
+    /**
+     * 根据 roundId 删除 round
+     *
+     * @param roundId
+     * @return
+     */
+    Boolean delete(Long roundId);
 
     /**
      * 老师修改轮次设置

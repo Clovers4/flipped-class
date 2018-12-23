@@ -1,6 +1,7 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 @Table(name = "`member_limit_strategy`")
-public class MemberLimitStrategy implements Serializable {
+public class MemberLimitStrategy implements Serializable ,CourseStrategy{
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +32,9 @@ public class MemberLimitStrategy implements Serializable {
     private Integer maxMember;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public Boolean isValid(List<Student> studentList) {
+        return null;
+    }
 }

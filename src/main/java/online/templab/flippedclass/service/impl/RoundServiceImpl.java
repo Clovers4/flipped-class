@@ -26,6 +26,11 @@ public class RoundServiceImpl implements RoundService {
     }
 
     @Override
+    public Boolean delete(Long roundId) {
+        return roundDao.delete(roundId)==1;
+    }
+
+    @Override
     public Boolean update(Round round) {
         int line = roundDao.updateByRoundIdSelective(round);
         return line == 1;

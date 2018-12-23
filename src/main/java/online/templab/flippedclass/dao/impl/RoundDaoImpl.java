@@ -71,6 +71,12 @@ public class RoundDaoImpl implements RoundDao {
     }
 
     @Override
+    public int delete(Long roundId) {
+        klassRoundMapper.delete(new KlassRound().setRoundId(roundId));
+        return roundMapper.delete(new Round().setId((long)roundId));
+    }
+
+    @Override
     public int updateByRoundIdSelective(Round round) {
         List<KlassRound> klassRoundList = round.getKlassRounds();
 
