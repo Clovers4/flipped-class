@@ -120,10 +120,28 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
                     .setVisible(true)
                     .setTheme("主题"));
         }
+
         for(int i = 0 ; i < 3 ;++i){
             klassRoundMapper.insertSelective(new KlassRound()
                                     .setKlassId((long)100+i)
-                                    .setRoundId((long)100));
+                                    .setRoundId((long)100)
+                                    .setEnrollLimit(10+i));
+
+            klassRoundMapper.insertSelective(new KlassRound()
+                                    .setKlassId((long)100+i)
+                                    .setRoundId((long)101)
+                                    .setEnrollLimit(10+i));
+        }
+
+        for(int i = 0 ; i < 2 ;++i){
+            klassRoundMapper.insertSelective(new KlassRound()
+                    .setKlassId((long)200+i)
+                    .setRoundId((long)100)
+                    .setEnrollLimit(i));
+            klassRoundMapper.insertSelective(new KlassRound()
+                    .setKlassId((long)200+i)
+                    .setRoundId((long)101)
+                    .setEnrollLimit(i));
         }
     }
 
@@ -217,7 +235,7 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
         Assert.assertNotNull(roundList);
 
         logger.info("从课程");
-        List<Round> roundList2 = roundService.listByCourseIdKlassId((long) 101,(long)100);
+        List<Round> roundList2 = roundService.listByCourseIdKlassId((long) 101,(long)200);
         logger.info(String.valueOf(roundList2.size()));
         logger.info(roundList2.toString());
         for(Round round:roundList2){
@@ -233,7 +251,19 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testGet() throws Exception {
         createDataset();
-        Round round = roundService.get((long)100);
+        Round round = roundService.get((long)101,(long)100);
+        logger.info("主课程");
+        logger.info(round.toString());
+        for(Seminar seminar:round.getSeminars()){
+            logger.info(seminar.toString());
+        }
+        for(KlassRound klassRound:round.getKlassRounds()){
+            logger.info(klassRound.toString());
+            logger.info(klassRound.getKlass().toString());
+        }
+
+        round = roundService.get((long)101,(long)101);
+        logger.info("从课程");
         logger.info(round.toString());
         for(Seminar seminar:round.getSeminars()){
             logger.info(seminar.toString());
@@ -260,7 +290,8 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
         Round round1 =new Round()
                 .setId((long) 100)
                 .setPreScoreType(20)
-                .setQuesScoreType(50);
+                .setQuesScoreType(50)
+                .setCourseId((long)100);
         List<KlassRound> klassRoundList = new LinkedList<>();
         klassRoundList.add(new KlassRound().setKlassId((long)100).setRoundId((long)100).setEnrollLimit(100));
         klassRoundList.add(new KlassRound().setKlassId((long)101).setRoundId((long)100).setEnrollLimit(100));
@@ -271,9 +302,28 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
         Round round2 = roundMapper.selectByPrimaryKey(new Round().setId((long)100));
 
         logger.info(round2.toString());
-        logger.info(klassRoundMapper.select(new KlassRound().setRoundId((long)100).setKlassId((long)100)).toString());
+        logger.info(klassRoundMapper.select(new KlassRound().setRoundId((long)100).setKlassId((long)101)).toString());
 
         Assert.assertEquals(true, success);
+
+        round1 =new Round()
+                .setId((long) 100)
+                .setPreScoreType(10)
+                .setQuesScoreType(10)
+                .setCourseId((long)101);
+        klassRoundList = new LinkedList<>();
+        klassRoundList.add(new KlassRound().setKlassId((long)200).setRoundId((long)100).setEnrollLimit(80));
+        klassRoundList.add(new KlassRound().setKlassId((long)201).setRoundId((long)100).setEnrollLimit(50));
+        round1.setKlassRounds(klassRoundList);
+        success = roundService.update(round1);
+
+        round2 = roundMapper.selectByPrimaryKey(new Round().setId((long)100));
+
+        logger.info(round2.toString());
+        logger.info(klassRoundMapper.select(new KlassRound().setRoundId((long)100).setKlassId((long)201)).toString());
+
+        Assert.assertEquals(true, success);
+
     }
 
     @Test
@@ -286,13 +336,14 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
                 .setReportScoreType(0)
                 .setCourseId((long)100)
                 .setRoundNum(4);
-//        List<KlassRound> klassRoundList = new LinkedList<>();
-//        klassRoundList.add(new KlassRound().setKlassId((long)1).setRoundId((long)3).setEnrollLimit(1));
-//        klassRoundList.add(new KlassRound().setKlassId((long)2).setRoundId((long)3).setEnrollLimit(2));
-//        klassRoundList.add(new KlassRound().setKlassId((long)3).setRoundId((long)3).setEnrollLimit(3));
-//        round.setKlassRounds(klassRoundList);
         boolean success = roundService.insert(round);
         Assert.assertEquals(true, success);
+
+        KlassRound klassRound = klassRoundMapper.selectByPrimaryKey(new KlassRound().setRoundId((long)100).setKlassId((long)101));
+        logger.info(klassRound.toString());
+        klassRound = klassRoundMapper.selectByPrimaryKey(new KlassRound().setRoundId((long)100).setKlassId((long)201));
+        logger.info(klassRound.toString());
+
     }
 
     @Test

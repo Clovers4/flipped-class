@@ -40,7 +40,7 @@
                k.klass_location
         FROM klass_round ks
                  LEFT JOIN klass k ON ks.klass_id = k.id
-        WHERE ks.round_id=#{roundId}
+        WHERE ks.round_id = #{roundId} AND k.course_id = #{courseId}
     </select>
 
     <select id="selectByRoundIdKlassId" resultMap="BaseResultMap">

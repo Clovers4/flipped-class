@@ -36,5 +36,5 @@ public interface CourseMapper extends Mapper<Course> {
      * @param courseId
      * @return
      */
-    Course selcetByCourseId(Long courseId);
+    List<Course> selcetByCourseId(Long courseId);
 }

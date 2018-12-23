@@ -248,18 +248,19 @@ TODO: 恢复
         return "teacher/course/seminarList";
     }
 
-    @PostMapping("/course/round/setting")
-    public String roundSetting(String roundId, Model model) {
-        // FIXME: roundService待修复，应采用left join的方式
-        Round round = roundService.get(Long.valueOf(roundId));
-        Map<String, Klass> klassMap = new HashMap<>(5);
-        round.getKlassRounds().forEach(klassRound -> {
-            klassMap.put(String.valueOf(klassRound.getKlassId()), klassService.get(klassRound.getKlassId()));
-        });
-        model.addAttribute("klassMap", klassMap);
-        model.addAttribute("round", round);
-        return "teacher/course/roundSetting";
-    }
+//    @PostMapping("/course/round/setting")
+//    public String roundSetting(String roundId, Model model) {
+//        // FIXME: roundService待修复，应采用left join的方式
+//        // TODO: roundService.get参数改变为 (Long roundId, Long courseId)
+//        Round round = roundService.get(Long.valueOf(roundId));
+//        Map<String, Klass> klassMap = new HashMap<>(5);
+//        round.getKlassRounds().forEach(klassRound -> {
+//            klassMap.put(String.valueOf(klassRound.getKlassId()), klassService.get(klassRound.getKlassId()));
+//        });
+//        model.addAttribute("klassMap", klassMap);
+//        model.addAttribute("round", round);
+//        return "teacher/course/roundSetting";
+//    }
 
     @PostMapping("/course/round/setting/update")
     public @ResponseBody
