@@ -66,5 +66,20 @@ public class Team implements Serializable {
      */
     private List<Student> students;
 
+    /**
+     * 对应的班级
+     */
+    private Klass klass;
+
+    private static String[] teamStatus = new String[]{"不合法", "合法", "审核中"};
+
+    /**
+     * 返回给前端ftl使用,以字符串的形式获取TeamStatus
+     * @return
+     */
+    public String getTeamStatus() {
+        return teamStatus[status];
+    }
+
     private static final long serialVersionUID = 1L;
 }

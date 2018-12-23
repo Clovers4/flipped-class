@@ -50,6 +50,11 @@ public class Klass implements Serializable {
     private String location;
 
     /**
+     * 对应的课程
+     */
+    private Course course;
+
+    /**
      * 获得班级名,利用反射机制,使得在前端ftl页面上能够正常调用 klass.klassName
      *
      * @return

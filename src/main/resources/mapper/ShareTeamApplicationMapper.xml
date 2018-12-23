@@ -8,7 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="main_course_id" jdbcType="BIGINT" property="mainCourseId" />
     <result column="sub_course_id" jdbcType="BIGINT" property="subCourseId" />
-    <result column="sub_course_teacher_id" jdbcType="BIGINT" property="subCourseTeacherId" />
+    <result column="sub_course_teacher_id" jdbcType="BIGINT" property="teacherId" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
 </mapper>
