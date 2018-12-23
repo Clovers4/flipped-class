@@ -32,7 +32,7 @@ public class KlassDaoImpl implements KlassDao {
     public Boolean insert(Klass klass) {
         int line = 0;
         try {
-            klassMapper.insert(klass);
+            line = klassMapper.insert(klass);
         } catch (DuplicateKeyException e) {
             return false;
         }
@@ -63,17 +63,4 @@ public class KlassDaoImpl implements KlassDao {
     public Klass select(Long id) {
         return klassMapper.selectByPrimaryKey(id);
     }
-
-    @Override
-    public Boolean insertList(Long id, List<Student> students) {
-        klassStudentMapper.delete(new KlassStudent().setKlassId(id));
-        List<Long> studentIds = new LinkedList<>();
-        for (Student student : students) {
-            studentIds.add(student.getId());
-        }
-        Long courseId = klassMapper.selectByPrimaryKey(id).getCourseId();
-        int line = klassStudentMapper.insertList(courseId, id, null, studentIds);
-        return line==students.size();
-    }
-
 }

@@ -22,4 +22,12 @@ public interface KlassStudentMapper extends Mapper<KlassStudent> {
      * @return
      */
     int insertList(@Param("courseId") Long courseId, @Param("klassId") Long klassId, @Param("teamId") Long teamId, @Param("studentNum") List<Long> studentNum);
+
+    /**
+     * 通过kalssId和studenNum找到klassStudent
+     * @param klassId
+     * @param studentNum
+     * @return
+     */
+    KlassStudent selectOneByStudentNum(@Param("klassId")Long klassId,@Param("studentNum")String studentNum);
 }
