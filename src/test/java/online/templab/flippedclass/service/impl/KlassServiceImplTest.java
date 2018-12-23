@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-//@Transactional
+@Transactional
 public class KlassServiceImplTest extends FlippedClassApplicationTest {
     @Autowired
     KlassService klassService;
