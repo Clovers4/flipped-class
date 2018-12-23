@@ -1,6 +1,7 @@
 package online.templab.flippedclass.controller;
 
 import online.templab.flippedclass.common.email.EmailService;
+import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class StudentController {
 
     @Autowired
     private RoundService roundService;
+
+    @Autowired
+    private TeamService teamService;
 
     @Autowired
     private CaptchaService captchaService;
@@ -136,31 +140,31 @@ public class StudentController {
 
     @GetMapping("/courseList")
     public String courses(Model model, HttpSession session) {
-        Long studentId= (Long) session.getAttribute(STUDENT_ID_GIST);
-    // TODO:恢复
-     //   model.addAttribute("klasses", studentService.getKlassesByStudentId(((String) session.getAttribute(STUDENT_ID_GIST))));
+        Long studentId = (Long) session.getAttribute(STUDENT_ID_GIST);
+        // TODO:恢复
+        //   model.addAttribute("klasses", studentService.getKlassesByStudentId(((String) session.getAttribute(STUDENT_ID_GIST))));
         return "student/courseList";
     }
-/*
+
 
     @PostMapping("/course/seminarList")
-    public String seminarList(String courseId, Model model) {
-        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
-        model.addAttribute("rounds", seminarService.getRoundsByCourseId(courseId));
+    public String seminarList(Long courseId, Model model) {
+        model.addAttribute("rounds", roundService.listByCourseId(courseId));
         return "student/course/seminarList";
     }
 
     @PostMapping("/course/seminar/info")
-    public String seminarInfo(String klassId, String seminarId, Model model) {
-        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
-        model.addAttribute("klassSeminar", klassSeminar.get(0));
+    public String seminarInfo(Long klassId, Long seminarId, Model model) {
+        KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+
+        model.addAttribute("klassSeminar", klassSeminar);
         return "student/course/seminar/info";
     }
 
     @PostMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(String klassId, String seminarId, Model model) {
-        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
-        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminar.get(0).getId()));
+    public String seminarEnrollList(Long klassId, Long seminarId, Model model) {
+        KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(klassSeminar.getId()));
         return "student/course/seminar/enrollList";
     }
 
@@ -175,12 +179,11 @@ public class StudentController {
     }
 
     @PostMapping("/course/team")
-    public String teamList(String courseId, Model model) {
-        model.addAttribute("teams", seminarService.getTeamsByCourseId(courseId));
-        model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(courseId));
+    public String teamList(Long courseId, Model model) {
+        model.addAttribute("teams", teamService.listByCourseId(courseId));
+        model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(courseId));
         return "student/course/teamList";
     }
-*/
 
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
