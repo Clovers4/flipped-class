@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -287,28 +288,24 @@ public class TeacherController {
         seminarService.delete(Long.valueOf(seminarId));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-/*
-TODO:恢复
+
     @PostMapping("/course/seminar/info")
     public String seminarInfo(String klassId, String seminarId, Model model) {
-        List<KlassSeminar> klassSeminar = seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId, seminarId);
-        if (klassSeminar.size() == 0) {
+        KlassSeminar klassSeminar = seminarService.getKlassSeminar(Long.valueOf(klassId), Long.valueOf(seminarId));
+        if (klassSeminar == null) {
             //TODO:need better code here.
             throw new RuntimeException("No klass seminar");
         }
-        model.addAttribute("klassSeminar", klassSeminar.get(0));
+        model.addAttribute("klassSeminar", klassSeminar);
         return "teacher/course/seminar/info";
     }
-*/
-/*
-TODO:恢复
+
 
     @PostMapping("/course/seminar/enrollList")
     public String seminarEnrollList(String klassSeminarId, Model model) {
-        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
+        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(Long.valueOf(klassSeminarId)));
         return "teacher/course/seminar/enrollList";
     }
-*/
 
     /**
      * Todo:
@@ -319,15 +316,13 @@ TODO:恢复
     public String seminarGrade() {
         return "teacher/course/seminar/grade";
     }
-/*
-TODO:恢复
+
     @PostMapping("/course/seminar/progressing")
     public String seminarProgressing(String klassSeminarId, Model model) {
         model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("enrollList", seminarService.getEnrollListByKsId(klassSeminarId));
+        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(Long.valueOf(klassSeminarId)));
         return "teacher/course/seminar/progressing";
     }
-*/
 
     @PostMapping("/course/klassList")
     public String klassList(String courseId, Model model) {
@@ -356,20 +351,18 @@ TODO:恢复
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
     }
-/*
-TODO:delete?????
+
     @PostMapping("/course/klass/insertStudents")
     public ResponseEntity<Object> insertStudents(@RequestParam("file") MultipartFile multipartFile, String klassId) throws IOException {
-        String type = fileService.getFileType(multipartFile);
-        Klass klass = seminarService.getKlassById(klassId).get(0);
-        if (type.equals(SeminarConfig.WorkBookType.HSSF.getType())) {
-            teacherService.insertKlassStudent(klass, new HSSFWorkbook(multipartFile.getInputStream()));
-        } else if (type.equals(SeminarConfig.WorkBookType.XSSF.getType())) {
-            teacherService.insertKlassStudent(klass, new XSSFWorkbook(multipartFile.getInputStream()));
+        if (!ExcelUtil.isExcel(multipartFile.getOriginalFilename())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("文件格式不正确");
         }
+
+        List<Student> students = excelService.loadStudentList(multipartFile);
+        klassService.resetStudentList(Long.valueOf(klassId), students);
+
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-*/
 
     @DeleteMapping("/course/klass/{klassId}")
     public @ResponseBody
@@ -394,12 +387,29 @@ TODO:delete?????
         return "teacher/course/grade";
     }
 
-/*
-TODO: 恢复
     @PostMapping("/course/share")
     public String seminarShare(String courseId, Model model) {
-        model.addAttribute("mainCourse", seminarService.getMainCoursesByCourseId(courseId));
-        model.addAttribute("subCourse", seminarService.getSubCoursesByCourseId(courseId));
+        // 读取与该课程共享的主课程,根据共享种类(共享分组、共享讨论课)分别放入map.team和map.seminar中
+        // 由于前端使用的是List,因此这里也放入list来返回
+        Map<String, List<Course>> mainCourse = new HashMap<>(2);
+
+        List<Course> shareTeamMainCourse = new ArrayList<>();
+        shareTeamMainCourse.add(courseService.getShareTeamMainCourse(Long.valueOf(courseId)));
+        mainCourse.put("team", shareTeamMainCourse);
+
+        List<Course> shareSeminarMainCourse = new ArrayList<>();
+        shareTeamMainCourse.add(courseService.getShareSeminarMainCourse(Long.valueOf(courseId)));
+        mainCourse.put("seminar", shareSeminarMainCourse);
+
+        model.addAttribute("mainCourse", mainCourse);
+
+        // 读取与该课程共享的从课程,根据共享种类(共享分组、共享讨论课)分别放入map.team和map.seminar中
+        Map<String, List<Course>> subCourse = new HashMap<>(2);
+
+        subCourse.put("team", courseService.listShareTeamSubCourse(Long.valueOf(courseId)));
+        subCourse.put("seminar", courseService.listShareSeminarSubCourse(Long.valueOf(courseId)));
+
+        model.addAttribute("subCourse", subCourse);
         return "teacher/course/seminar/share";
-    }*/
+    }
 }
