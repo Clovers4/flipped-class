@@ -91,6 +91,11 @@ public class RoundDaoImpl implements RoundDao {
     }
 
     @Override
+    public int updateKlassRoundByPrimaryKey(KlassRound klassRound) {
+        return klassRoundMapper.updateByRoundIdKlassIdSelective(klassRound);
+    }
+
+    @Override
     public List<Round> selectByCourseId(Long courseId) {
         Course course = courseMapper.selectByPrimaryKey(new Course().setId(courseId));
         if(course.getSeminarMainCourseId()!= null){

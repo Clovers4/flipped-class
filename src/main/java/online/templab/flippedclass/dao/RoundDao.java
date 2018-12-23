@@ -1,5 +1,6 @@
 package online.templab.flippedclass.dao;
 
+import online.templab.flippedclass.entity.KlassRound;
 import online.templab.flippedclass.entity.Round;
 
 import java.util.List;
@@ -26,6 +27,14 @@ public interface RoundDao {
      * @return
      */
     int updateByRoundIdSelective(Round round);
+
+    /**
+     * 更新 KlassRound 的 enrollLimit
+     *
+     * @param klassRound
+     * @return
+     */
+    int updateKlassRoundByPrimaryKey(KlassRound klassRound);
 
     /**
      * 根据 courseId 查找该 course 的所有 round, 并注入round下所有seminar

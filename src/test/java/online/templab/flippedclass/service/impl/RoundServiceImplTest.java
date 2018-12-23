@@ -295,4 +295,15 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
         Assert.assertEquals(true, success);
     }
 
+    @Test
+    public void testUpdateKlassRound()throws Exception{
+        createDataset();
+        logger.info("update前");
+        logger.info(klassRoundMapper.selectByPrimaryKey(new KlassRound().setKlassId((long)100).setRoundId((long)100)).toString());
+        roundService.updateKlassRound(new KlassRound().setKlassId((long)100).setRoundId((long)100).setEnrollLimit(3));
+        logger.info("update后");
+        logger.info(klassRoundMapper.selectByPrimaryKey(new KlassRound().setKlassId((long)100).setRoundId((long)100)).toString());
+    }
+
+
 }
