@@ -10,13 +10,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ApplicationHandleDTO {
 
-    private String appId;
+    private Long appId;
 
-    private String mainCourseId;
+    private Long mainCourseId;
 
-    private String subCourseId;
+    private Long subCourseId;
 
-    private String teamId;
+    private Long teamId;
 
     /**
      * 0 - ShareSeminarApplication

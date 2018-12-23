@@ -10,9 +10,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ShareApplicationDTO {
 
-    private String mainCourseId;
+    private Long mainCourseId;
 
-    private String subCourseId;
+    private Long subCourseId;
 
     private Integer shareType;
 
