@@ -1,6 +1,7 @@
 package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.dao.RoundDao;
+import online.templab.flippedclass.entity.KlassRound;
 import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.service.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class RoundServiceImpl implements RoundService {
     public Boolean update(Round round) {
         int line = roundDao.updateByRoundIdSelective(round);
         return line == 1;
+    }
+
+    @Override
+    public Boolean updateKlassRound(KlassRound klassRound) {
+        return roundDao.updateKlassRoundByPrimaryKey(klassRound) == 1;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service;
 
+import online.templab.flippedclass.entity.KlassRound;
 import online.templab.flippedclass.entity.Round;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public interface RoundService {
      * @return 成功则返回 true ,失败则返回 false
      */
     Boolean update(Round round);
+
+    /**
+     * 更新 KlassRound 的 enrollLimit
+     *
+     * @param klassRound
+     * @return
+     */
+    Boolean updateKlassRound(KlassRound klassRound);
 
     /**
      * 老师讨论课列表页
