@@ -2,9 +2,7 @@ package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.*;
-import online.templab.flippedclass.mapper.AttendanceMapper;
-import online.templab.flippedclass.mapper.KlassSeminarMapper;
-import online.templab.flippedclass.mapper.KlassStudentMapper;
+import online.templab.flippedclass.mapper.*;
 import online.templab.flippedclass.service.CourseService;
 import online.templab.flippedclass.service.KlassService;
 import online.templab.flippedclass.service.SeminarService;
@@ -41,6 +39,12 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     KlassStudentMapper klassStudentMapper;
+
+    @Autowired
+    StudentMapper studentMapper;
+
+    @Autowired
+    QuestionMapper questionMapper;
 
     private void createKlassSeminarTable() {
         courseService.insert(new Course()
@@ -234,5 +238,48 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
         Boolean isDelete = seminarService.deleteEnroll((long) klassSeminarMapper
                 .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId(), (long) 2432016);
         Assert.assertEquals(true, isDelete);
+    }
+
+    @Test
+    public void testAddQuestion() throws Exception {
+        Attendance attendance = new Attendance()
+                .setKlassSeminarId((long) random.nextInt(10))
+                .setTeamId((long) 100)
+                .setPresent(true)
+                .setSn(6);
+        attendanceMapper.insert(attendance);
+        logger.info(attendance.toString());
+        Boolean success = seminarService.addQuestion(attendance.getTeamId(), (long) 1222, (long) 1222);
+        Assert.assertEquals(true, success);
+    }
+
+    @Test
+    public void testSelectOneQuestion() throws Exception {
+        Attendance attendance = new Attendance()
+                .setTeamId((long) 100)
+                .setKlassSeminarId((long) 100)
+                .setPresent(true)
+                .setSn(1);
+        attendanceMapper.insert(attendance);
+        logger.info(attendance.toString());
+        for (int i = 0; i < 5; i++) {
+            Student student = new Student()
+                    .setStudentNum("test" + i)
+                    .setStudentName("test" + i)
+                    .setPassword("test" + i)
+                    .setActivated(true)
+                    .setEmail("test" + i);
+            studentMapper.insert(student);
+            logger.info(student.toString());
+            questionMapper.insert(new Question()
+                    .setIsSelected(0)
+                    .setKlassSeminarId((long) 100)
+                    .setAttendanceId(attendance.getId())
+                    .setTeamId((long) 100)
+                    .setStudentId(student.getId()));
+        }
+        Student chooseStudent = seminarService.selectOneQuestion((long) 100);
+        logger.info(chooseStudent.toString());
+        Assert.assertNotNull(chooseStudent);
     }
 }

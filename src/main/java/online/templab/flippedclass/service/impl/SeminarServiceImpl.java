@@ -3,10 +3,7 @@ package online.templab.flippedclass.service.impl;
 import online.templab.flippedclass.dao.AttendanceDao;
 import online.templab.flippedclass.dao.KlassSeminarDao;
 import online.templab.flippedclass.dao.SeminarDao;
-import online.templab.flippedclass.entity.Attendance;
-import online.templab.flippedclass.entity.KlassSeminar;
-import online.templab.flippedclass.entity.Round;
-import online.templab.flippedclass.entity.Seminar;
+import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.SeminarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,26 +92,35 @@ public class SeminarServiceImpl implements SeminarService {
     @Override
     public Boolean enRoll(Attendance attendance) {
         //判断该小组是否报名
-        Boolean hasEnRoll=attendanceDao.selectCount(new Attendance()
+        Boolean hasEnRoll = attendanceDao.selectCount(new Attendance()
                 .setTeamId(attendance.getTeamId())
                 .setKlassSeminarId(attendance.getKlassSeminarId()));
-        if(hasEnRoll){
+        if (hasEnRoll) {
             return false;
         }
         //判断该报名顺序是否已被报名
-        hasEnRoll=attendanceDao.selectCount(new Attendance()
+        hasEnRoll = attendanceDao.selectCount(new Attendance()
                 .setSn(attendance.getSn())
                 .setKlassSeminarId(attendance.getKlassSeminarId()));
-        if(hasEnRoll){
+        if (hasEnRoll) {
             return false;
         }
         return attendanceDao.insert(attendance);
     }
-    
+
     @Override
     public Boolean deleteEnroll(Long klassSeminarId, Long studentId) {
         return attendanceDao.delete(klassSeminarId, studentId);
     }
 
+    @Override
+    public Boolean addQuestion(Long presentationTeamId, Long questionTeamId, Long studentId) {
+        return seminarDao.insertQuestion(presentationTeamId, questionTeamId, studentId);
+    }
+
+    @Override
+    public Student selectOneQuestion(Long presentationTeamId) {
+        return seminarDao.selectOneQuestion(presentationTeamId);
+    }
 
 }
