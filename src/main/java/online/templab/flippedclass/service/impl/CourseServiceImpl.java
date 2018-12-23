@@ -78,12 +78,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Map<String, Object>> listCourseKlassByTeacherId(Long teacherId) {
-        //TODO
-        return null;
-    }
-
-    @Override
     public Course getShareTeamMainCourse(Long id){
         return courseDao.selectShareTeamMainCourseByPrimaryKey(id);
     }
