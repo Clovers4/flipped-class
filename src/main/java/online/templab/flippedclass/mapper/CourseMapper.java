@@ -46,4 +46,20 @@ public interface CourseMapper extends Mapper<Course> {
      * @return
      */
     List<Course> selcetCourseSubCourseByCourseId(Long courseId);
+
+    /**
+     * 根据 courseId 查看该课程可以共享(讨论课)给的课程list
+     *
+     * @param id
+     * @return
+     */
+    List<Course> selectCanShareSeminar(Long id);
+
+    /**
+     * 根据 courseId 查看该课程可以共享(组队)给的课程list
+     *
+     * @param id
+     * @return
+     */
+    List<Course> selectCanShareTeam(Long id);
 }

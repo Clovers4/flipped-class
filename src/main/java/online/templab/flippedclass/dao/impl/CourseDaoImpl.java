@@ -83,7 +83,7 @@ public class CourseDaoImpl implements CourseDao {
         // 如果传入 id 是从课程id 直接通过从课程拿到主课程id， 再去拿主课程
         Course subCourse = courseMapper.selectByPrimaryKey(id);
         Long teamMainCourseId=subCourse.getTeamMainCourseId();
-        if(teamMainCourseId != null){
+        if (!teamMainCourseId.equals((long) 0)) {
             return courseMapper.selectByPrimaryKey(teamMainCourseId);
         }else{
             return subCourse;
@@ -96,7 +96,7 @@ public class CourseDaoImpl implements CourseDao {
         Course subCourse = courseMapper.selectByPrimaryKey(id);
         Long seminarMainCourseId=subCourse.getSeminarMainCourseId();
         // 说明是从课程id
-        if(seminarMainCourseId != null){
+        if (!seminarMainCourseId.equals((long) 0)) {
             return courseMapper.selectByPrimaryKey(seminarMainCourseId);
         }else{ // 否则是主课程 id
             return subCourse;
@@ -145,5 +145,14 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public List<Course> selectCourseKlassByStudentId(Long studentId) {
         return courseMapper.selectCourseKlassByStudentId(studentId);
+    }
+
+    @Override
+    public List<Course> selectCanShareCourseByPrimaryKey(Long id, int type) {
+        if (type == 0) {
+            return courseMapper.selectCanShareSeminar(id);
+        } else {
+            return courseMapper.selectCanShareTeam(id);
+        }
     }
 }

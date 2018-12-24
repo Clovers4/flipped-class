@@ -435,7 +435,7 @@ TODO: 恢复
         shareTeamMainCourse.add(courseService.getShareSeminarMainCourse(Long.valueOf(courseId)));
         mainCourse.put("seminar", shareSeminarMainCourse);
 
-        model.addAttribute("mainCourse", mainCourse);
+        model.addAttribute("subCourse", mainCourse);
 
         // 读取与该课程共享的从课程,根据共享种类(共享分组、共享讨论课)分别放入map.team和map.seminar中
         Map<String, List<Course>> subCourse = new HashMap<>(2);
@@ -443,7 +443,7 @@ TODO: 恢复
         subCourse.put("team", courseService.listShareTeamSubCourse(Long.valueOf(courseId)));
         subCourse.put("seminar", courseService.listShareSeminarSubCourse(Long.valueOf(courseId)));
 
-        model.addAttribute("subCourse", subCourse);
+        model.addAttribute("mainCourse", subCourse);
         return "teacher/course/share";
     }
 
