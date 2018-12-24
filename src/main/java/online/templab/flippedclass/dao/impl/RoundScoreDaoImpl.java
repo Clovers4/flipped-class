@@ -198,27 +198,29 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
 
     @Override
     public List<Map<String, Object>> listByStudentId(Long studentId, Long courseId) {
-        KlassStudent klassStudent=klassStudentMapper.selectOne(new KlassStudent().setStudentId(studentId).setCourseId(courseId));
-        List<KlassRound> klassRounds=klassRoundMapper.select(new KlassRound().setKlassId(klassStudent.getKlassId()));
-        List<Map<String, Object>> result=new LinkedList<>();
-        for(KlassRound klassRound:klassRounds){
-            Round round=roundMapper.getOne(klassRound.getRoundId());
-            Map m = new HashMap();
-            m.put("roundName",round.getRoundNum());
-            for(Seminar seminar:round.getSeminars()){
-                //TODO:不确定前端所需的格式,可能要修改
-                SeminarScore seminarScore=seminarScoreMapper.selectOne(new SeminarScore()
-                        .setKlassSeminarId(klassSeminarMapper.selectOneByKlassIdSeminarId(klassStudent.getKlassId(),seminar.getId()).getId())
-                        .setTeamId((klassStudent.getTeamId())));
-                List<BigDecimal> scores=new LinkedList<>();
-                scores.add(seminarScore.getPresentationScore());
-                scores.add(seminarScore.getQuestionScore());
-                scores.add(seminarScore.getReportScore());
-                m.put(seminar.getTheme(),scores);
-            }
-            result.add(m);
-        }
-        return result;
+//        KlassStudent klassStudent=klassStudentMapper.selectOne(new KlassStudent().setStudentId(studentId).setCourseId(courseId));
+//        List<KlassRound> klassRounds=klassRoundMapper.select(new KlassRound().setKlassId(klassStudent.getKlassId()));
+//        List<Map<String, Object>> result=new LinkedList<>();
+//        for(KlassRound klassRound:klassRounds){
+//            Round round=roundMapper.getOne(klassRound.getRoundId());
+//            Map m = new HashMap();
+//            m.put("roundName",round.getRoundNum());
+//            for(Seminar seminar:round.getSeminars()){
+//                //TODO:不确定前端所需的格式,可能要修改
+//                SeminarScore seminarScore=seminarScoreMapper.selectOne(new SeminarScore()
+//                        .setKlassSeminarId(klassSeminarMapper.selectOneByKlassIdSeminarId(klassStudent.getKlassId(),seminar.getId()).getId())
+//                        .setTeamId((klassStudent.getTeamId())));
+//                List<BigDecimal> scores=new LinkedList<>();
+//                scores.add(seminarScore.getPresentationScore());
+//                scores.add(seminarScore.getQuestionScore());
+//                scores.add(seminarScore.getReportScore());
+//                m.put(seminar.getTheme(),scores);
+//            }
+//            result.add(m);
+//        }
+//        return result;
+        // TODO
+        return null;
     }
 
 

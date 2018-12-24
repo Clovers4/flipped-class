@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString
 @Accessors(chain = true)
-@Table(name = "`klass_student`")
-public class KlassStudent implements Serializable {
+@Table(name = "`klass_team`")
+public class KlassTeam implements Serializable {
     /**
      * 班级id
      */
@@ -21,17 +21,11 @@ public class KlassStudent implements Serializable {
     private Long klassId;
 
     /**
-     * 学生id
+     * 队伍id
      */
     @Id
-    @Column(name = "`student_id`")
-    private Long studentId;
-
-    /**
-     * 课程id
-     */
-    @Column(name = "`course_id`")
-    private Long courseId;
+    @Column(name = "`team_id`")
+    private Long teamId;
 
     private static final long serialVersionUID = 1L;
 }

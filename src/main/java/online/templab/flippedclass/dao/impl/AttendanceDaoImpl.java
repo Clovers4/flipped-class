@@ -37,13 +37,16 @@ public class AttendanceDaoImpl implements AttendanceDao {
 
     @Override
     public Boolean delete(Long klassSeminarId, Long studentId) {
-        KlassSeminar klassSeminar = klassSeminarMapper.selectByPrimaryKey(klassSeminarId);
-        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent()
-                .setStudentId(studentId)
-                .setKlassId(klassSeminar.getKlassId()));
-        return attendanceMapper.delete(new Attendance()
-                .setTeamId(klassStudent.getTeamId())
-                .setKlassSeminarId(klassSeminarId)) == 1;
+//        KlassSeminar klassSeminar = klassSeminarMapper.selectByPrimaryKey(klassSeminarId);
+//        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent()
+//                .setStudentId(studentId)
+//                .setKlassId(klassSeminar.getKlassId()));
+//        return attendanceMapper.delete(new Attendance()
+//                .setTeamId(klassStudent.getTeamId())
+//                .setKlassSeminarId(klassSeminarId)) == 1;
+      // TODO
+      return null;
+
     }
 
     @Override
