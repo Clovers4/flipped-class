@@ -77,28 +77,4 @@ public class CourseServiceImpl implements CourseService {
         return list;
     }
 
-    @Override
-    public Course getShareTeamMainCourse(Long id){
-        return courseDao.selectShareTeamMainCourseByPrimaryKey(id);
-    }
-
-    @Override
-    public Course getShareSeminarMainCourse(Long id){
-        return courseDao.selectShareSeminarMainCourseByPrimaryKey(id);
-    }
-
-    @Override
-    public List<Course> listShareTeamSubCourse(Long id){
-        return courseDao.selectShareTeamSubCourse(id);
-    }
-
-    @Override
-    public List<Course> listShareSeminarSubCourse(Long id){
-        return courseDao.selectShareSeminarSubCourse(id);
-    }
-
-    @Override
-    public List<Course> listCanShareCourses(Long id, int type) {
-        return courseDao.selectCanShareCourseByPrimaryKey(id, type);
-    }
 }

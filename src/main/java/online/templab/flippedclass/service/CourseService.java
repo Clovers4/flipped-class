@@ -73,47 +73,4 @@ public interface CourseService {
      * @return
      */
     List<Map<String,Object>> listCourseKlassByStudentId(Long studentId);
-
-
-    /**
-     * 传入要查询的 courseId,返回与这个 course 共享分组的 course,并且这个 course 是主课程（也可能自己就是主课程）
-     *
-     * @param id 即要查询的courseId
-     * @return
-     */
-    Course getShareTeamMainCourse(Long id);
-
-    /**
-     * 传入要查询的 courseId,返回与这个 course 共享讨论课的 course,并且这个 course 是主课程（也可能自己就是主课程）
-     *
-     * @param id
-     * @return
-     */
-    Course getShareSeminarMainCourse(Long id);
-
-    /**
-     * 传入要查询的 courseId,返回与这个 course 共享分组的 courses,并且这些 courses 是从课程（也可能自己就是从课程）
-     *
-     * @param id
-     * @return
-     */
-    List<Course> listShareTeamSubCourse(Long id);
-
-    /**
-     * 传入要查询的 courseId,返回与这个 course 共享讨论课的 courses,并且这些 courses 是从课程（也可能自己就是从课程）
-     *
-     * @param id
-     * @return
-     */
-    List<Course> listShareSeminarSubCourse(Long id);
-
-    /**
-     * 根据 courseId 查看该课程可以共享给的课程list
-     *
-     * @param id
-     * @param type ( 0代表讨论课，1代表组队)
-     * @return
-     */
-    List<Course> listCanShareCourses(Long id, int type);
-
 }

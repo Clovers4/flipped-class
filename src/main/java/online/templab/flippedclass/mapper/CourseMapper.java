@@ -36,7 +36,7 @@ public interface CourseMapper extends Mapper<Course> {
      * @param courseId
      * @return
      */
-    List<Course> selcetByCourseId(Long courseId);
+    Course selcetByCourseId(Long courseId);
 
     /**
      * 根据 courseId 查找主课程及其所有从课程
