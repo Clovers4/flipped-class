@@ -89,9 +89,31 @@
                k.klass_location
         FROM course c
                  LEFT JOIN klass k ON k.course_id = c.id
-        WHERE c.id = #{courseId} OR c.seminar_main_course_id = #{courseId}
+        WHERE c.id = #{courseId}
     </select>
 
-
+    <select id="selcetCourseSubCourseByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               k.id 'kid',
+               k.course_id,
+               k.grade,
+               k.klass_serial,
+               k.klass_time,
+               k.klass_location
+        FROM course c
+                 LEFT JOIN klass k ON k.course_id = c.id
+        WHERE c.id = #{courseId} OR c.seminar_main_course_id = #{courseId}
+    </select>
 
 </mapper>

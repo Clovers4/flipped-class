@@ -40,7 +40,7 @@ public class RoundDaoImpl implements RoundDao {
 
     @Override
     public int insert(Round round) {
-        List<Course> courseList = courseMapper.selcetByCourseId(round.getCourseId());
+        List<Course> courseList = courseMapper.selcetCourseSubCourseByCourseId(round.getCourseId());
         for(Course course: courseList){
             List<Klass> klassList = course.getKlassList();
             if(klassList != null){
@@ -73,6 +73,8 @@ public class RoundDaoImpl implements RoundDao {
     @Override
     public int delete(Long roundId) {
         klassRoundMapper.delete(new KlassRound().setRoundId(roundId));
+        Round round = roundMapper.selectByPrimaryKey(new Round().setId(roundId));
+        roundMapper.updateRoundSerial(round.getCourseId(),(long)round.getRoundNum());
         return roundMapper.delete(new Round().setId((long)roundId));
     }
 

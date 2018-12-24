@@ -359,11 +359,22 @@ public class RoundServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testDelete()throws Exception{
         createDataset();
-        Boolean success = roundService.delete((long)100);
+        for(int i = 0 ; i < 2 ; ++i){
+            roundMapper.insertSelective(new Round()
+                    .setId((long)100+i+2)
+                    .setCourseId((long)100)
+                    .setRoundNum(i+2)
+                    .setPreScoreType(1)
+                    .setQuesScoreType(1)
+                    .setReportScoreType(1)
+            );
+        }
+        logger.info(roundMapper.selectByPrimaryKey(new Round().setId((long)103)).toString());
+        Boolean success = roundService.delete((long)101);
         Assert.assertEquals(true, success);
-        List<KlassRound> klassRoundList= klassRoundMapper.select(new KlassRound().setRoundId((long)100));
+        List<KlassRound> klassRoundList= klassRoundMapper.select(new KlassRound().setRoundId((long)101));
         Assert.assertEquals(0, klassRoundList.size());
+        logger.info(roundMapper.selectByPrimaryKey(new Round().setId((long)100)).toString());
+        logger.info(roundMapper.selectByPrimaryKey(new Round().setId((long)103)).toString());
     }
-
-
 }

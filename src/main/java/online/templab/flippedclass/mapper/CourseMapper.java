@@ -30,11 +30,20 @@ public interface CourseMapper extends Mapper<Course> {
     List<Course> selectCourseKlassByStudentId(Long studentId);
 
     /**
+     * 根据 courseId 查找课程
+     * 课程注入其下的所有 klass
+     *
+     * @param courseId
+     * @return
+     */
+    List<Course> selcetByCourseId(Long courseId);
+
+    /**
      * 根据 courseId 查找主课程及其所有从课程
      * 每个课程注入其下的所有 klass
      *
      * @param courseId
      * @return
      */
-    List<Course> selcetByCourseId(Long courseId);
+    List<Course> selcetCourseSubCourseByCourseId(Long courseId);
 }
