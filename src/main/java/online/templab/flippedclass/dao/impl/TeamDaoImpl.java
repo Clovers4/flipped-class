@@ -5,6 +5,7 @@ import online.templab.flippedclass.entity.Klass;
 import online.templab.flippedclass.entity.KlassStudent;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
+import online.templab.flippedclass.mapper.KlassMapper;
 import online.templab.flippedclass.mapper.KlassStudentMapper;
 import online.templab.flippedclass.mapper.StudentMapper;
 import online.templab.flippedclass.mapper.TeamMapper;
@@ -28,6 +29,9 @@ public class TeamDaoImpl implements TeamDao {
 
     @Autowired
     private KlassStudentMapper klassStudentMapper;
+
+    @Autowired
+    KlassMapper klassMapper;
 
     @Override
     public List<Team> selectByCourseId(Long courseId) {
@@ -60,8 +64,9 @@ public class TeamDaoImpl implements TeamDao {
             }
         }
         // 组装 team
-        team.setLeader(leader);
-        team.setStudents(member);
+        team.setLeader(leader)
+                .setStudents(member)
+                .setKlass(klassMapper.selectByPrimaryKey(klassStudent.getKlassId()));
         return team;
     }
 
