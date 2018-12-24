@@ -141,8 +141,7 @@ public class StudentController {
     @GetMapping("/courseList")
     public String courses(Model model, HttpSession session) {
         Long studentId = (Long) session.getAttribute(STUDENT_ID_GIST);
-        // TODO:恢复
-        //   model.addAttribute("klasses", studentService.getKlassesByStudentId(((String) session.getAttribute(STUDENT_ID_GIST))));
+        model.addAttribute("klasses", klassService.listByStudentId((Long) session.getAttribute(STUDENT_ID_GIST)));
         return "student/courseList";
     }
 

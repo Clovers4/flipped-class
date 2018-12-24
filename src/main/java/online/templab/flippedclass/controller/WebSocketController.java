@@ -1,6 +1,7 @@
 package online.templab.flippedclass.controller;
 
 import online.templab.flippedclass.common.websocket.QuestionPool;
+import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Question;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.service.SeminarService;
@@ -12,8 +13,11 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,6 +40,23 @@ public class WebSocketController {
     @GetMapping("/webs")
     public String webs() {
         return "webs";
+    }
+
+    @PostMapping("/student/course/seminar/processing")
+    public String seminarProcessing(Long klassId, Long seminarId, Model model, HttpSession session){
+        KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+   //TODO     SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+    //    model.addAttribute("team", monitor.getTeamByStudentNum((String) session.getAttribute("studentId")));
+        model.addAttribute("ksId", klassSeminar.getId());
+   //     model.addAttribute("monitor", monitor);
+        return "student/course/seminar/progressing";
+    }
+
+    @PostMapping("/teacher/course/seminar/progressing")
+    public String seminarProgressing(String klassSeminarId, Model model) {
+        model.addAttribute("ksId", klassSeminarId);
+   //TODO     model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        return "teacher/course/seminar/progressing";
     }
 
     @MessageMapping("/teacher/klassSeminar/{ksId}")
