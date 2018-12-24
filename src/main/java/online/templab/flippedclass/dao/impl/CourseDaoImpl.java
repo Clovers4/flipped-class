@@ -29,6 +29,9 @@ public class CourseDaoImpl implements CourseDao {
     private KlassSeminarMapper klassSeminarMapper;
 
     @Autowired
+    private TeacherMapper teacherMapper;
+
+    @Autowired
     private ShareSeminarApplicationMapper shareSeminarApplicationMapper;
 
     @Autowired
@@ -99,11 +102,16 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public List<Course> selectCanShareCourseByPrimaryKey(Long id, int type) {
-        if (type == 0) {
-            return courseMapper.selectCanShareSeminar(id);
-        } else {
-            return courseMapper.selectCanShareTeam(id);
+    public List<Course> selectOtherCourse(Long courseId) {
+        List<Course> courses=courseMapper.selectAll();
+        for(int i=0;i<courses.size();i++){
+            Course course=courses.get(i);
+            courses.set(i,course.setTeacher(teacherMapper.selectByPrimaryKey(course.getTeacherId())));
+            if(course.getId().equals(courseId)){
+                courses.remove(i);
+                i--;
+            }
         }
+        return courses;
     }
 }

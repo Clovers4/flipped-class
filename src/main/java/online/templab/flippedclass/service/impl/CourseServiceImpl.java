@@ -77,4 +77,9 @@ public class CourseServiceImpl implements CourseService {
         return list;
     }
 
+    @Override
+    public List<Course> listOtherCourse(Long courseId) {
+        return courseDao.selectOtherCourse(courseId);
+    }
+
 }

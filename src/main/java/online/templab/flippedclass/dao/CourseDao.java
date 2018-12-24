@@ -75,4 +75,11 @@ public interface CourseDao {
      */
     List<Course> selectCanShareCourseByPrimaryKey(Long id, int type);
 
+    /**
+     * 通过当前coreseId找到其它所有课程
+     * @param courseId
+     * @return
+     */
+    List<Course> selectOtherCourse(Long courseId);
+
 }

@@ -73,4 +73,11 @@ public interface CourseService {
      * @return
      */
     List<Map<String,Object>> listCourseKlassByStudentId(Long studentId);
+
+    /**
+     * 通过当前coreseId找到其它所有课程
+     * @param courseId
+     * @return
+     */
+    List<Course> listOtherCourse(Long courseId);
 }
