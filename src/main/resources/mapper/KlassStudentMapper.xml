@@ -8,11 +8,10 @@
     <id column="klass_id" jdbcType="BIGINT" property="klassId" />
     <id column="student_id" jdbcType="BIGINT" property="studentId" />
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
-    <result column="team_id" jdbcType="BIGINT" property="teamId" />
   </resultMap>
 
   <insert id="insertList">
-    insert into klass_student(klass_id,student_id,course_id,team_id)
+    insert into klass_student(klass_id,student_id,course_id)
     values
     <foreach collection="studentNum" item="stuId" separator=",">
       (#{klassId},#{stuId},#{courseId},#{teamId})
@@ -20,7 +19,7 @@
   </insert>
 
   <select id="selectOneByStudentNum" resultMap="BaseResultMap">
-    select k.klass_id,k.student_id,k.course_id,k.team_id
+    select k.klass_id,k.student_id,k.course_id
     from klass_student k,student
     where klass_id=#{klassId} and k.student_id=student.id
       and student.account=#{studentNum}
