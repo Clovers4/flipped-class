@@ -70,7 +70,7 @@ public class RoundMapperTest extends FlippedClassApplicationTest {
     public void testSelectByCourseId() throws Exception {
         createCourseKlass();
         Round round = new Round().setId((long)1).setCourseId((long)100);
-        List<Course> courseList = courseMapper.selcetByCourseId(round.getCourseId());
+        List<Course> courseList = courseMapper.selcetCourseSubCourseByCourseId(round.getCourseId());
 
         for(Course course: courseList){
             logger.info(course.toString());

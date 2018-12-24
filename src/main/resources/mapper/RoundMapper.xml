@@ -48,6 +48,13 @@
   </update>
 
 
+    <update id="updateRoundSerial">
+        update round
+        SET round_serial = round_serial - 1
+        where `course_id` = #{courseId} AND `round_serial` > #{roundSerial}
+    </update>
+
+
   <select id="selectByCourseId" parameterType="long" resultMap="BaseResultMap">
     SELECT r.id ,
            r.course_id,

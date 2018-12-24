@@ -1,6 +1,7 @@
 package online.templab.flippedclass.mapper;
 
 import online.templab.flippedclass.entity.Round;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -18,6 +19,14 @@ public interface RoundMapper extends Mapper<Round> {
      * @return
      */
     int updateByRoundIdSelective(Round round);
+
+    /**
+     * 根据 courseId 更新 roundSerial 大于传进来 roundSerial 的 Round
+     *
+     * @param courseId
+     * @return
+     */
+    int updateRoundSerial(@Param("courseId") Long courseId, @Param("roundSerial") Long roundSerial);
 
     /**
      * 通过 courseID 得到所有 round
