@@ -116,4 +116,36 @@
         WHERE c.id = #{courseId} OR c.seminar_main_course_id = #{courseId}
     </select>
 
+    <select id="selectCanShareSeminar" resultMap="BaseResultMap">
+        select id,
+               teacher_id,
+               course_name,
+               introduction,
+               presentation_percentage,
+               question_percentage,
+               report_percentage,
+               team_start_time,
+               team_end_time,
+               team_main_course_id,
+               seminar_main_course_id
+        from course
+        where team_main_course_id = 0
+    </select>
+
+    <select id="selectCanShareTeam" resultMap="BaseResultMap">
+        select id,
+               teacher_id,
+               course_name,
+               introduction,
+               presentation_percentage,
+               question_percentage,
+               report_percentage,
+               team_start_time,
+               team_end_time,
+               team_main_course_id,
+               seminar_main_course_id
+        from course
+        where seminar_main_course_id = 0
+    </select>
+
 </mapper>

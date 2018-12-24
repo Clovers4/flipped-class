@@ -107,4 +107,13 @@ public interface CourseService {
      */
     List<Course> listShareSeminarSubCourse(Long id);
 
+    /**
+     * 根据 courseId 查看该课程可以共享给的课程list
+     *
+     * @param id
+     * @param type ( 0代表讨论课，1代表组队)
+     * @return
+     */
+    List<Course> listCanShareCourses(Long id, int type);
+
 }
