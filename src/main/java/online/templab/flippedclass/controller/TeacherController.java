@@ -270,8 +270,7 @@ TODO: 恢复
 
         roundService.update(round);
 
-        // TODO: klassRound update 未完成
-        //klassRounds.forEach(teacherService::updateKlassRound);
+        klassRounds.forEach(roundService::updateKlassRound);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -354,15 +353,6 @@ TODO: 恢复
     public String seminarGrade() {
         return "teacher/course/seminar/grade";
     }
-/*
-TODO: 貌似不需要了？
-    @PostMapping("/course/seminar/progressing")
-    public String seminarProgressing(String klassSeminarId, Model model) {
-        model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(Long.valueOf(klassSeminarId)));
-        return "teacher/course/seminar/progressing";
-    }
-*/
 
     @PostMapping("/course/klassList")
     public String klassList(String courseId, Model model) {
@@ -384,7 +374,6 @@ TODO: 貌似不需要了？
 
         Klass klass = vo.getKlass();
         if (klassService.insert(klass)) {
-            // FIXME
             List<Student> students = excelService.loadStudentList(multipartFile);
             log.info("读取学生名单到 {} 班级", klass.getKlassName());
             for (Student student : students) {
