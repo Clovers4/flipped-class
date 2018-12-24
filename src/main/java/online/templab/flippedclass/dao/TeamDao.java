@@ -32,6 +32,8 @@ public interface TeamDao {
     /**
      * 根据 courseId 和 studentId 获取这名学生在这门课程下的队伍成员
      *
+     * 还没有组装courseStrategyList ！！！
+     *
      * @param courseId
      * @param studentId
      * @return
