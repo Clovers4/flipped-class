@@ -11,14 +11,6 @@
         <result column="team_id" jdbcType="BIGINT" property="teamId"/>
     </resultMap>
 
-    <insert id="insertList">
-        insert into klass_student(klass_id,student_id,course_id,team_id)
-        values
-        <foreach collection="studentNum" item="stuId" separator=",">
-            (#{klassId},#{stuId},#{courseId},#{teamId})
-        </foreach>
-    </insert>
-
     <select id="selectOneByStudentNum" resultMap="BaseResultMap">
         select k.klass_id, k.student_id, k.course_id, k.team_id
         from klass_student k,

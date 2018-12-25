@@ -8,4 +8,13 @@
     <id column="team_id" jdbcType="BIGINT" property="teamId" />
     <id column="student_id" jdbcType="BIGINT" property="studentId" />
   </resultMap>
+
+  <insert id="insertList">
+    insert into team_student(team_id,student_id)
+    values
+    <foreach collection="studentNum" item="stuId" separator=",">
+      (#{teamId},#{stuId})
+    </foreach>
+  </insert>
+
 </mapper>
