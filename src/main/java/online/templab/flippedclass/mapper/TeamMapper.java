@@ -31,4 +31,13 @@ public interface TeamMapper extends Mapper<Team> {
      * @return
      */
     int getMaxTeamSerial(@Param("courseId") Long courseId,@Param("klassId") Long klassId);
+
+    /**
+     * 根据 klassId 和 studentId 获取teamId
+     *
+     * @param klassId
+     * @param studentId
+     * @return
+     */
+    Team selectByKlassIdAndStudentId(@Param("klassId") Long klassId,@Param("studentId") Long studentId);
 }

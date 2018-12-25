@@ -144,4 +144,12 @@ public interface SeminarService {
      * @return
      */
     Student selectOneQuestion(Long presentationTeamId);
+
+    /**
+     * 根据 klassSeminarId 获取一个 klassSeminar
+     *
+     * @param klassSeminarId
+     * @return
+     */
+    KlassSeminar getKlassSeminarById(Long klassSeminarId);
 }

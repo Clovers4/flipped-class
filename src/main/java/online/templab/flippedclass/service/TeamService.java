@@ -84,4 +84,13 @@ public interface TeamService {
      * @return
      */
     Boolean dissolve(Long teamId, Long studentId);
+
+    /**
+     * 根据 klassId 和 studentId 获取一个teamId
+     *
+     * @param klassId
+     * @param studentId
+     * @return
+     */
+    Long getTeamByKlassIdAndStudentId(Long klassId,Long studentId);
 }

@@ -68,4 +68,9 @@ public class TeamServiceImpl implements TeamService {
     public Boolean dissolve(Long teamId, Long studentId) {
         return teamDao.delete(teamId, studentId);
     }
+
+    @Override
+    public Long getTeamByKlassIdAndStudentId(Long klassId, Long studentId) {
+        return teamDao.selectByKlassIdAndStudentId(klassId,studentId);
+    }
 }

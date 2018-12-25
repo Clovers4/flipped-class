@@ -91,4 +91,13 @@ public interface TeamDao {
      * @return
      */
     Boolean delete(Long teamId,Long studentId);
+
+    /**
+     * 根据 klassId 和 studentId 获取一个 teamId
+     *
+     * @param klassId
+     * @param studentId
+     * @return
+     */
+    Long selectByKlassIdAndStudentId(Long klassId,Long studentId);
 }

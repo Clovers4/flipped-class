@@ -152,4 +152,9 @@ public class TeamDaoImpl implements TeamDao {
         int deleteKlassStudent = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId));
         return (deleteTeam * deleteKlassStudent) > 0;
     }
+
+    @Override
+    public Long selectByKlassIdAndStudentId(Long klassId, Long studentId) {
+        return teamMapper.selectByKlassIdAndStudentId(klassId,studentId).getId();
+    }
 }

@@ -329,4 +329,30 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         Assert.assertNotNull(teamList);
     }
 
+    @Test
+    public void testGetTeamByKlassIdAndStudentId()throws Exception{
+        Long tempStudentId = (long)20;
+        for(int i=0;i<3;i++){
+            Team team = new Team()
+                    .setStatus(1)
+                    .setCourseId((long)20)
+                    .setTeamName("test")
+                    .setKlassId((long)20)
+                    .setLeaderId((long)20)
+                    .setSerial(20);
+            teamMapper.insert(team);
+            logger.info(team.toString());
+            KlassStudent klassStudent = new KlassStudent()
+                    .setCourseId((long)20)
+                    .setKlassId((long)20)
+                    .setStudentId(tempStudentId+(long)i)
+                    .setTeamId(team.getId());
+            klassStudentMapper.insert(klassStudent);
+            logger.info(klassStudent.toString());
+        }
+        Long result = teamService.getTeamByKlassIdAndStudentId((long)20,(long)21);
+        logger.info(result.toString());
+        Assert.assertNotNull(result);
+    }
+
 }

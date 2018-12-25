@@ -33,4 +33,12 @@ public interface KlassSeminarDao {
      * @return
      */
     Boolean delete(Long id);
+
+    /**
+     * 根据 id  获取klassSeminar
+     *
+     * @param id
+     * @return
+     */
+    KlassSeminar selectByPrimaryKey(Long id);
 }
