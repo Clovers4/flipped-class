@@ -1,12 +1,8 @@
 package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.FlippedClassApplicationTest;
-import online.templab.flippedclass.entity.KlassStudent;
-import online.templab.flippedclass.entity.Student;
-import online.templab.flippedclass.entity.Team;
-import online.templab.flippedclass.mapper.KlassStudentMapper;
-import online.templab.flippedclass.mapper.StudentMapper;
-import online.templab.flippedclass.mapper.TeamMapper;
+import online.templab.flippedclass.entity.*;
+import online.templab.flippedclass.mapper.*;
 import online.templab.flippedclass.service.TeamService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,42 +28,73 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     KlassStudentMapper klassStudentMapper;
 
     @Autowired
+    KlassTeamMapper klassTeamMapper;
+
+    @Autowired
+    TeamStudentMapper teamStudentMapper;
+
+    @Autowired
     TeamMapper teamMapper;
 
     private Student createStudent() {
         return new Student()
-                .setStudentNum("StudentNum")
+                .setStudentNum("StudentNum" + random.nextInt(1000))
                 .setPassword("Password")
                 .setEmail("email" + random.nextInt(100) + "@163.com")
                 .setStudentName("Name" + random.nextInt(10))
                 .setActivated(true);
     }
-//
-//    @Test
-//    public void listUnTeamedStudentByCourseId() throws Exception {
-//        // 模拟数据
-//        for (int i = 0; i < 5; i++) {
-//            // 学生
-//           Student student = createStudent();
-//           studentMapper.insert(student);
-//           // klass_student 关系
-//            KlassStudent klassStudent = new KlassStudent()
-//                    .setStudentId(student.getId())
-//                    .setKlassId((long)random.nextInt(3)+1)
-//                    .setCourseId((long)911);
-//            klassStudentMapper.insert(klassStudent);
-//            // klass_team 关系
-//
-//        }
-//        // 测试
-//        List<Student> studentList = teamService.listUnTeamedStudentByCourseId((long) 2);
-//        logger.info(studentList.toString());
-//        int size = studentList.size();
-//        Boolean success = size > 0 ? true : false;
-//        Assert.assertEquals(true, success);
-//    }
-//
-//    @Test
+
+    private Team createTeam() {
+        return new Team()
+                .setKlassId((long) 912)
+                .setTeamName("testTeamName")
+                .setStatus(0)
+                .setSerial(20)
+                .setCourseId((long) 911)
+                .setLeaderId((long) random.nextInt(1000));
+    }
+
+    @Test
+    public void listUnTeamedStudentByCourseId() throws Exception {
+        // 模拟数据
+        for (int i = 0; i < 5; i++) {
+            // 学生
+            Student student = createStudent();
+            studentMapper.insert(student);
+            logger.info(student.toString());
+            // klass_student 关系
+            KlassStudent klassStudent = new KlassStudent()
+                    .setStudentId(student.getId())
+                    .setKlassId((long) 911)
+                    .setCourseId((long) 911);
+            klassStudentMapper.insert(klassStudent);
+            logger.info(klassStudent.toString());
+            // klass_team 关系
+            if (i == 0) {
+                KlassTeam klassTeam = new KlassTeam()
+                        .setKlassId((long) 911)
+                        .setTeamId((long) 912);
+                klassTeamMapper.insert(klassTeam);
+                logger.info(klassTeam.toString());
+            }
+            if (i % 2 == 0) {
+                TeamStudent teamStudent = new TeamStudent()
+                        .setTeamId((long) 912)
+                        .setStudentId(student.getId());
+                teamStudentMapper.insert(teamStudent);
+                logger.info(teamStudent.toString());
+            }
+        }
+        // 测试
+        List<Student> studentList = teamService.listUnTeamedStudentByCourseId((long) 911);
+        logger.info(studentList.toString());
+        int size = studentList.size();
+        Boolean success = size > 0 ? true : false;
+        Assert.assertEquals(true, success);
+    }
+
+    //    @Test
 //    public void testSelectTeam() throws Exception {
 //        Student student = null;
 //        List<Long> studentIds = new ArrayList<>();
@@ -214,86 +241,61 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 //        Assert.assertEquals(true, success);
 //    }
 //
-//    @Test
-//    public void testAddMember() throws Exception {
-//        Student student = null;
-//        List<Long> studentIdList = new ArrayList<>();
-//        for (int i = 0; i < 7; i++) {
-//            student = createStudent();
-//            studentMapper.insert(student);
-//            logger.info(student.toString());
-//            studentIdList.add(student.getId());
-//        }
-//        teamMapper.insert(new Team()
-//                .setKlassId((long) random.nextInt(5))
-//                .setCourseId((long) 1)
-//                .setSerial(33)
-//                .setStatus(1)
-//                .setTeamName("test")
-//                .setLeaderId(student.getId()));
-//        Team team = teamMapper.selectOne(new Team()
-//                .setLeaderId(student.getId())
-//                .setCourseId((long) 1));
-//        logger.info(team.toString());
-//        for (int i = 0; i < studentIdList.size(); i++) {
-//            KlassStudent klassStudent = new KlassStudent()
-//                    .setStudentId(studentIdList.get(i))
-//                    .setKlassId((long) random.nextInt(5))
-//                    .setCourseId((long) 1)
-//                    .setTeamId(team.getId());
-//            logger.info(klassStudent.toString());
-//            klassStudentMapper.insert(klassStudent);
-//        }
-//
-//        List<String> studentNumList = new ArrayList<>();
-//        for (int i = 0; i < 3; i++) {
-//            Student addStudent = createStudent();
-//            studentMapper.insert(addStudent);
-//            logger.info(addStudent.toString());
-//            studentNumList.add(addStudent.getStudentNum());
-//        }
-//        logger.info(studentNumList.toString());
-//        Boolean success = teamService.addMember(team.getId(), team.getLeaderId(), studentNumList);
-//        logger.info(studentNumList.toString());
-//        logger.info(success.toString());
-//        Assert.assertEquals(true, success);
-//    }
-//
-//    @Test
-//    public void testDissolve() throws Exception {
-//        Student student = null;
-//        List<Long> studentIdList = new ArrayList<>();
-//        for (int i = 0; i < 4; i++) {
-//            student = createStudent();
-//            studentMapper.insert(student);
-//            logger.info(student.toString());
-//            studentIdList.add(student.getId());
-//        }
-//        teamMapper.insert(new Team()
-//                .setKlassId((long) random.nextInt(5))
-//                .setCourseId((long) 1)
-//                .setSerial(33)
-//                .setStatus(1)
-//                .setTeamName("test")
-//                .setLeaderId(student.getId()));
-//        Team team = teamMapper.selectOne(new Team()
-//                .setLeaderId(student.getId())
-//                .setCourseId((long) 1));
-//        logger.info(team.toString());
-//        for (int i = 0; i < studentIdList.size(); i++) {
-//            KlassStudent klassStudent = new KlassStudent()
-//                    .setStudentId(studentIdList.get(i))
-//                    .setKlassId((long) random.nextInt(5))
-//                    .setCourseId((long) 1)
-//                    .setTeamId(team.getId());
-//            logger.info(klassStudent.toString());
-//            klassStudentMapper.insert(klassStudent);
-//        }
-//
-//        Boolean success = teamService.dissolve(team.getId(), team.getLeaderId());
-//        logger.info(success.toString());
-//        Assert.assertEquals(true, success);
-//    }
+    @Test
+    public void testAddMember() throws Exception {
+        // 模拟数据
+        // 插入一个队伍
+        Team team = createTeam();
+        teamMapper.insert(team);
+        logger.info(team.toString());
+        // 添加组员的studentNum
+        List<String> studentNumList = new ArrayList<>();
+        for(int i=0;i<3;i++){
+            studentNumList.add("studentNum"+i);
+            Student student = createStudent();
+            student.setStudentNum("studentNum"+i);
+            studentMapper.insert(student);
+            logger.info(student.toString());
+        }
+        logger.info(studentNumList.toString());
+        Boolean success = teamService.addMember(team.getId(),studentNumList);
+        Assert.assertEquals(true,success);
+    }
+
+    @Test
+    public void testDissolve() throws Exception {
+        // 模拟数据
+        Long deleteTeamId = null;
+        Long deleteLeadId = null;
+        for (int i = 0; i < 5; i++) {
+            // 队伍
+            Team team = createTeam();
+            teamMapper.insert(team);
+            logger.info(team.toString());
+            // klass_team 关系
+            KlassTeam klassTeam = new KlassTeam()
+                    .setKlassId((long) 912)
+                    .setTeamId(team.getId());
+            klassTeamMapper.insert(klassTeam);
+            logger.info(klassTeam.toString());
+            // team_student 关系
+            TeamStudent teamStudent = new TeamStudent()
+                    .setTeamId(team.getId())
+                    .setStudentId((long) random.nextInt(1000));
+            teamStudentMapper.insert(teamStudent);
+            logger.info(teamStudent.toString());
+            if (i == 2) {
+                deleteTeamId = team.getId();
+                deleteLeadId = team.getLeaderId();
+                logger.info(deleteTeamId.toString());
+                logger.info(deleteLeadId.toString());
+            }
+        }
+        // 测试
+        Boolean success = teamService.dissolve(deleteTeamId, deleteLeadId);
+        logger.info(success.toString());
+        Assert.assertEquals(true, success);
+    }
 //
 //    @Test
 //    public void testListByCourseId() throws Exception {

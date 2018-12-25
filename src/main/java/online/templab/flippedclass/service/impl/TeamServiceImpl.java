@@ -64,13 +64,11 @@ public class TeamServiceImpl implements TeamService {
         return teamDao.deleteByStudentNum(teamId, studentNum);
     }
 
-    //
     @Override
-    public Boolean addMember(Long teamId, Long studentId, List<String> studentNum) {
-        return teamDao.updateByStudentNum(teamId, studentId, studentNum);
+    public Boolean addMember(Long teamId,List<String> studentNum) {
+        return teamDao.updateByStudentNum(teamId,studentNum);
     }
 
-    //
     @Override
     public Boolean dissolve(Long teamId, Long studentId) {
         return teamDao.delete(teamId, studentId);

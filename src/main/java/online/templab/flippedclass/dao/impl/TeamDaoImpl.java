@@ -1,14 +1,8 @@
 package online.templab.flippedclass.dao.impl;
 
 import online.templab.flippedclass.dao.TeamDao;
-import online.templab.flippedclass.entity.Klass;
-import online.templab.flippedclass.entity.KlassStudent;
-import online.templab.flippedclass.entity.Student;
-import online.templab.flippedclass.entity.Team;
-import online.templab.flippedclass.mapper.KlassMapper;
-import online.templab.flippedclass.mapper.KlassStudentMapper;
-import online.templab.flippedclass.mapper.StudentMapper;
-import online.templab.flippedclass.mapper.TeamMapper;
+import online.templab.flippedclass.entity.*;
+import online.templab.flippedclass.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +26,12 @@ public class TeamDaoImpl implements TeamDao {
 
     @Autowired
     KlassMapper klassMapper;
+
+    @Autowired
+    KlassTeamMapper klassTeamMapper;
+
+    @Autowired
+    TeamStudentMapper teamStudentMapper;
 
     @Override
     public List<Team> selectByCourseId(Long courseId) {
@@ -113,27 +113,28 @@ public class TeamDaoImpl implements TeamDao {
 
     @Override
     public Boolean insert(Long studentId, Long klassId, String teamName, List<String> studentNum) {
-        // 获取 courseId
-        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setKlassId(klassId).setStudentId(studentId));
-        // 创建队伍
-        Team team = new Team()
-                .setLeaderId(studentId)
-                .setKlassId(klassId)
-                .setTeamName(teamName)
-                .setCourseId(klassStudent.getCourseId())
-                .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
-                .setStatus(1);
-        // 插入队伍
-        int lineTeam = teamMapper.insert(team);
-        team = teamMapper.selectOne(team);
-        // 通过list<Long> studentNum 获取对应学生id
-        List<Long> studentPrimaryKeyList = new ArrayList<>();
-        for (int i = 0; i < studentNum.size(); i++) {
-            studentPrimaryKeyList.add(studentMapper.selectOne(new Student().setStudentNum(studentNum.get(i))).getId());
-        }
-        // 插入 klass_student 表关系
-        int lineKlassStudent = klassStudentMapper.insertList(klassStudent.getCourseId(), klassId, team.getId(), studentPrimaryKeyList);
-        return lineTeam * lineKlassStudent > 0;
+//        // 获取 courseId
+//        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setKlassId(klassId).setStudentId(studentId));
+//        // 创建队伍
+//        Team team = new Team()
+//                .setLeaderId(studentId)
+//                .setKlassId(klassId)
+//                .setTeamName(teamName)
+//                .setCourseId(klassStudent.getCourseId())
+//                .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
+//                .setStatus(1);
+//        // 插入队伍
+//        int lineTeam = teamMapper.insert(team);
+//        team = teamMapper.selectOne(team);
+//        // 通过list<Long> studentNum 获取对应学生id
+//        List<Long> studentPrimaryKeyList = new ArrayList<>();
+//        for (int i = 0; i < studentNum.size(); i++) {
+//            studentPrimaryKeyList.add(studentMapper.selectOne(new Student().setStudentNum(studentNum.get(i))).getId());
+//        }
+//        // 插入 klass_student 表关系
+//        int lineKlassStudent = klassStudentMapper.insertList(klassStudent.getCourseId(), klassId, team.getId(), studentPrimaryKeyList);
+//        return lineTeam * lineKlassStudent > 0;
+        return null;
     }
 
     @Override
@@ -146,27 +147,22 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Boolean updateByStudentNum(Long teamId, Long studentId, List<String> studentNum) {
-//        // 找学生所有id
-//        List<Long> studentIdList = new ArrayList<>();
-//        for (String studentAccount : studentNum) {
-//            Student student = studentMapper.selectOne(new Student().setStudentNum(studentAccount));
-//            studentIdList.add(student.getId());
-//        }
-//        // 获取 courseId 和 klassId
-//        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setTeamId(teamId).setStudentId(studentId));
-//        int line = klassStudentMapper.insertList(klassStudent.getCourseId(), klassStudent.getKlassId(), teamId, studentIdList);
-//        return line > 0;
-        // TODO
-        return null;
+    public Boolean updateByStudentNum(Long teamId, List<String> studentNum) {
+        // 找学生所有id
+        List<Long> studentIdList = new ArrayList<>();
+        for (String studentAccount : studentNum) {
+            Student student = studentMapper.selectOne(new Student().setStudentNum(studentAccount));
+            studentIdList.add(student.getId());
+        }
+        int line = teamStudentMapper.insertList(teamId,studentIdList);
+        return line > 0;
     }
 
     @Override
     public Boolean delete(Long teamId, Long studentId) {
-//        int deleteTeam = teamMapper.deleteByPrimaryKey(teamId);
-//        int deleteKlassStudent = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId));
-//        return (deleteTeam * deleteKlassStudent) > 0;
-        // TODO
-        return null;
+        int deleteTeam = teamMapper.deleteByPrimaryKey(teamId);
+        int deleteKlassTeam = klassTeamMapper.delete(new KlassTeam().setTeamId(teamId));
+        int deleteTeamStudent = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId));
+        return (deleteTeam * deleteKlassTeam * deleteTeamStudent) > 0;
     }
 }

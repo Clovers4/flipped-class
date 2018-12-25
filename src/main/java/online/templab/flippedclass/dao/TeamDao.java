@@ -78,11 +78,10 @@ public interface TeamDao {
      * 添加组员
      *
      * @param teamId
-     * @param studentId
      * @param studentNum
      * @return
      */
-    Boolean updateByStudentNum(Long teamId,Long studentId,List<String> studentNum);
+    Boolean updateByStudentNum(Long teamId,List<String> studentNum);
 
     /**
      * 队长解散队伍
