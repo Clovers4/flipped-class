@@ -67,15 +67,6 @@ public interface CourseDao {
     List<Course> selectCourseKlassByStudentId(Long studentId);
 
     /**
-     * 根据 courseId 查看该课程可以共享给的课程list
-     *
-     * @param id
-     * @param type
-     * @return
-     */
-    List<Course> selectCanShareCourseByPrimaryKey(Long id, int type);
-
-    /**
      * 通过当前coreseId找到其它所有课程
      * @param courseId
      * @return
