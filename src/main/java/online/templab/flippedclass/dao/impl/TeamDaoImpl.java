@@ -46,14 +46,13 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Team selectTeam(Long courseId, Long studentId) {
         // 获取队伍id
-        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId));
-        if (klassStudent.getTeamId() == 0) {
-            return new Team().setId((long) 0);
-        }
+        Long klassId = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId)).getKlassId();
+        KlassTeam klassTeam = klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId);
+        System.out.print(klassTeam.getTeamId());
         // 获取队伍成员
-        List<Student> member = studentMapper.selectTeamMemberByTeamId(courseId, klassStudent.getTeamId());
+        List<Student> member = studentMapper.selectTeamMemberByTeamId(klassTeam.getTeamId());
         // 通过 teamId 获取 team
-        Team team = teamMapper.selectByPrimaryKey(klassStudent.getTeamId());
+        Team team = teamMapper.selectByPrimaryKey(klassTeam.getTeamId());
         // 队长
         Student leader = new Student();
         for (int i = 0; i < member.size(); i++) {
@@ -63,17 +62,19 @@ public class TeamDaoImpl implements TeamDao {
                 break;
             }
         }
+        Klass klass = klassMapper.selectByPrimaryKey(klassId);
         // 组装 team
         team.setLeader(leader)
                 .setStudents(member)
-                .setKlass(klassMapper.selectByPrimaryKey(klassStudent.getKlassId()));
+                .setKlass(klass)
+                .setKlassSerial((byte) 1);
         return team;
     }
 
     @Override
     public Boolean deleteMemberById(Long teamId, Long studentId) {
         Team team = teamMapper.selectByPrimaryKey(teamId);
-        if(team == null){
+        if (team == null) {
             return true;
         }
         // 如果这个人是队长 ， 那么需要删除整个组
@@ -99,7 +100,7 @@ public class TeamDaoImpl implements TeamDao {
                 .setCourseId(klassStudent.getCourseId())
                 .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
                 .setStatus(1)
-                .setKlassSerial((byte)1);
+                .setKlassSerial((byte) 1);
         // 插入队伍
         int lineTeam = teamMapper.insert(team);
         // 通过list<Long> studentNum 获取对应学生id
@@ -136,7 +137,7 @@ public class TeamDaoImpl implements TeamDao {
     public Boolean delete(Long teamId, Long studentId) {
         int deleteTeam = teamMapper.deleteByPrimaryKey(teamId);
         int deleteRelation = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId));
-        return (deleteTeam+deleteRelation) > 0;
+        return (deleteTeam + deleteRelation) > 0;
     }
 
     @Override

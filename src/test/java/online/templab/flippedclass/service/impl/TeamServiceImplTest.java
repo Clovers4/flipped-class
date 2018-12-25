@@ -64,38 +64,9 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testSelectTeam() throws Exception {
-        Student student = null;
-        List<Long> studentIds = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            studentIds.add(student.getId());
-        }
-        teamMapper.insert(new Team()
-                .setKlassId((long) random.nextInt(5))
-                .setCourseId((long) 1)
-                .setSerial(33)
-                .setStatus(1)
-                .setTeamName("test")
-                .setLeaderId(student.getId()));
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(student.getId())
-                .setCourseId((long) 1));
-        logger.info(team.toString());
-        for (int i = 0; i < studentIds.size(); i++) {
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(studentIds.get(i))
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long) 1)
-                    .setTeamId(team.getId());
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-        // 上为数据模拟 下为测试
-        Team recordTeam = teamService.get((long) 1, student.getId());
-        logger.info(team.toString());
-        Assert.assertNotNull(team);
+        Team recordTeam = teamService.get((long) 16, (long)208);
+        logger.info(recordTeam.toString());
+        Assert.assertNotNull(recordTeam);
     }
 
     @Test

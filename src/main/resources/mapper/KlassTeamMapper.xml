@@ -16,5 +16,4 @@
         where klass_team.klass_id = #{klassId}
           and team_student.student_id = #{studentId}
     </select>
-
 </mapper>
