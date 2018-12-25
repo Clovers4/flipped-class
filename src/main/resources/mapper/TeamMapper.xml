@@ -15,10 +15,18 @@
     </resultMap>
 
     <select id="getMaxTeamSerial" resultType="Integer">
-        select ifnull(max(team_serial),0) as serial
+        select ifnull(max(team_serial), 0) as serial
         from team
         where course_id = #{courseId}
           and klass_id = #{klassId}
+    </select>
+
+    <select id="selectByKlassIdAndStudentId" resultMap="BaseResultMap">
+        select team.id
+        from team
+                 left join klass_student on team.id = klass_student.team_id
+        where team.klass_id = #{klassId}
+          and klass_student.student_id = #{studentId}
     </select>
 
 </mapper>
