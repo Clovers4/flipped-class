@@ -30,8 +30,13 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     @Autowired
     TeamMapper teamMapper;
 
+
+
     @Autowired
-    KlassStudentMapper klassStudentMapper;
+    KlassTeamMapper klassTeamMapper;
+
+    @Autowired
+    KlassMapper klassMapper;
 
     @Override
     public Boolean insertShareTeamApplication(ShareTeamApplication shareTeamApplication) {
@@ -123,18 +128,17 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
 
     @Override
     public Boolean deleteShareTeamApplication(Long shareTeamApplicationId) {
-        Long subCourseId=0L;
-        try{
-        subCourseId = shareTeamApplicationMapper.selectByPrimaryKey(shareTeamApplicationId).getSubCourseId();
-        }
-        catch (Exception e){
+        Long subCourseId = 0L;
+        try {
+            subCourseId = shareTeamApplicationMapper.selectByPrimaryKey(shareTeamApplicationId).getSubCourseId();
+        } catch (Exception e) {
             return false;
         }
         //删除从课程队伍信息
-        teamMapper.delete(new Team().setCourseId(subCourseId));
-        Example example=new Example(KlassStudent.class);
-        example.createCriteria().andCondition("course_id=",subCourseId);
-        klassStudentMapper.updateByExample(new KlassStudent().setTeamId(null),example);
+        List<Long> klassIds=klassMapper.selectIdByCourseId(subCourseId);
+        for(Long klassId:klassIds){
+            klassTeamMapper.delete(new KlassTeam().setKlassId(klassId));
+        }
         return true;
     }
 
@@ -142,14 +146,13 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     public Boolean deleteShareSeminarApplication(Long shareSeminarApplicationId) {
         ShareSeminarApplication shareSeminarApplication;
         try {
-        shareSeminarApplication = shareSeminarApplicationMapper.selectByPrimaryKey(shareSeminarApplicationId);
-        }
-        catch (Exception e){
+            shareSeminarApplication = shareSeminarApplicationMapper.selectByPrimaryKey(shareSeminarApplicationId);
+        } catch (Exception e) {
             return false;
         }
         //删除从课程讨论课信息
-        Course course=courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
-        for(Klass klass:course.getKlassList()){
+        Course course = courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
+        for (Klass klass : course.getKlassList()) {
             klassSeminarMapper.delete(new KlassSeminar().setKlassId(klass.getId()));
         }
         return true;

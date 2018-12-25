@@ -114,4 +114,13 @@ public class CourseDaoImpl implements CourseDao {
         }
         return courses;
     }
+
+    @Override
+    public List<Course> selectCanShareCourseByPrimaryKey(Long id, int type) {
+        if (type == 0) {
+            return courseMapper.selectCanShareSeminar(id);
+        } else {
+            return courseMapper.selectCanShareTeam(id);
+        }
+    }
 }
