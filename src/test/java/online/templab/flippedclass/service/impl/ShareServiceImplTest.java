@@ -181,4 +181,9 @@ public class ShareServiceImplTest extends FlippedClassApplicationTest {
         shareService.cancelShareSeminarApplication(11L);
         logger.info(shareSeminarApplicationMapper.select(new ShareSeminarApplication().setTeacherId(3L)).toString());
     }
+
+    @Test
+    public void testCancelShareTeamApplication(){
+        shareService.cancelShareTeamApplication(4L);
+    }
 }
