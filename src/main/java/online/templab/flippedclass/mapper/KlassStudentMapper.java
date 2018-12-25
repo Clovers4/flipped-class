@@ -12,16 +12,6 @@ import java.util.List;
  */
 @Component
 public interface KlassStudentMapper extends Mapper<KlassStudent> {
-    /**
-     * 插入学生id list
-     *
-     * @param courseId
-     * @param klassId
-     * @param teamId
-     * @param studentNum
-     * @return
-     */
-    int insertList(@Param("courseId") Long courseId, @Param("klassId") Long klassId, @Param("teamId") Long teamId, @Param("studentNum") List<Long> studentNum);
 
     /**
      * 通过kalssId和studenNum找到klassStudent
@@ -30,4 +20,16 @@ public interface KlassStudentMapper extends Mapper<KlassStudent> {
      * @return
      */
     KlassStudent selectOneByStudentNum(@Param("klassId")Long klassId,@Param("studentNum")String studentNum);
+
+    /**
+     * 通过学生学号插入list
+     *
+     * @param courseId
+     * @param klassId
+     * @param teamId
+     * @param studentNum
+     * @return
+     */
+    int insertList(@Param("courseId") Long courseId,@Param("klassId") Long klassId,@Param("teamId") Long teamId,@Param("studentNum")List<Long> studentNum);
+
 }

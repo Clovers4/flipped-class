@@ -71,11 +71,10 @@ public interface TeamService {
      * 添加组员（合法性判断缺失）
      *
      * @param teamId     队伍 id
-     * @param studentId  队长 id
      * @param studentNum 学生 studentNum
      * @return
      */
-    Boolean addMember(Long teamId, Long studentId, List<String> studentNum);
+    Boolean addMember(Long teamId,List<String> studentNum);
 
     /**
      * 组长解散小组

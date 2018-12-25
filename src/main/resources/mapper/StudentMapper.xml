@@ -37,13 +37,7 @@
         from student
                  left join klass_student on student.id = klass_student.student_id
         where klass_student.course_id = #{courseId}
-          and klass_student.student_id not in(select team_student.student_id
-                                              from team_student
-                                                       left join klass_team on team_student.team_id = klass_team.team_id
-                                                                                   and
-                                                                               klass_team.klass_id in(select klass_id
-                                                                                                      from klass_student
-                                                                                                      where course_id = #{courseId}))
+          and klass_student.team_id is null
     </select>
 
     <select id="selectTeamMemberByTeamId" resultMap="BaseResultMap">

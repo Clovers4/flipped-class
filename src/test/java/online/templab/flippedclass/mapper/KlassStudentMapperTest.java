@@ -20,17 +20,17 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
     @Autowired
     KlassStudentMapper klassStudentMapper;
 
-    @Test
-    public void testInsertList() throws Exception {
-        List<Long> studentNums = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            studentNums.add((long) random.nextInt(100));
-        }
-        int line = klassStudentMapper.insertList((long) random.nextInt(5), (long) random.nextInt(5), (long) random.nextInt(5), studentNums);
-        logger.info(studentNums.toString());
-        logger.info(String.valueOf(line));
-        Boolean success = line == 5  ? true : false;
-        Assert.assertEquals(true, success);
-    }
+//    @Test
+//    public void testInsertList() throws Exception {
+//        List<Long> studentNums = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            studentNums.add((long) random.nextInt(100));
+//        }
+//        int line = klassStudentMapper.insertList((long) random.nextInt(5), (long) random.nextInt(5), (long) random.nextInt(5), studentNums);
+//        logger.info(studentNums.toString());
+//        logger.info(String.valueOf(line));
+//        Boolean success = line == 5  ? true : false;
+//        Assert.assertEquals(true, success);
+//    }
 
 }

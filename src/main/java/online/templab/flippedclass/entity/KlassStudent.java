@@ -33,5 +33,11 @@ public class KlassStudent implements Serializable {
     @Column(name = "`course_id`")
     private Long courseId;
 
+    /**
+     * 学生所在小组id
+     */
+    @Column(name = "`team_id`")
+    private Long teamId;
+
     private static final long serialVersionUID = 1L;
 }

@@ -1,7 +1,6 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,40 +12,25 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 @Table(name = "`team_and_strategy`")
-public class TeamAndStrategy implements Serializable, CourseStrategy {
+public class TeamAndStrategy implements Serializable {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * “与”组队策略1实现类名称
+     * 策略所属类标识
      */
-    @Column(name = "`strategy_1_name`")
-    private String strategy1Name;
+    @Id
+    @Column(name = "`strategy_name`")
+    private String strategyName;
 
     /**
-     * “与”组队策略1_id
+     * 组队策略id
      */
-    @Column(name = "`strategy_1_id`")
-    private Long strategy1Id;
-
-    /**
-     * “与”组队策略2实现类名称
-     */
-    @Column(name = "`strategy_2_name`")
-    private String strategy2Name;
-
-    /**
-     * “与”组队策略2_id
-     */
-    @Column(name = "`strategy_2_id`")
-    private Long strategy2Id;
+    @Id
+    @Column(name = "`strategy_id`")
+    private Long strategyId;
 
     private static final long serialVersionUID = 1L;
-
-    @Override
-    public Boolean isValid(List<Student> studentList) {
-        return null;
-    }
 }
