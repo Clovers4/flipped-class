@@ -22,7 +22,6 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     private TeamDao teamDao;
 
-    //
     @Override
     public List<Team> listByCourseId(Long courseId) {
         List<Team> teamList = teamDao.selectByCourseId(courseId);
@@ -40,25 +39,21 @@ public class TeamServiceImpl implements TeamService {
         return teamDao.selectUnTeamedStudentByCourseId(courseId);
     }
 
-    //
     @Override
     public Team get(Long courseId, Long studentId) {
         return teamDao.selectTeam(courseId, studentId);
     }
 
-    //
     @Override
     public Boolean quitTeam(Long teamId, Long studentId) {
         return teamDao.deleteMemberById(teamId, studentId);
     }
 
-    //
     @Override
     public Boolean create(Long studentId, Long klassId, String teamName, List<String> studentNum) {
         return teamDao.insert(studentId, klassId, teamName, studentNum);
     }
 
-    //
     @Override
     public Boolean removeMember(Long teamId, String studentNum) {
         return teamDao.deleteByStudentNum(teamId, studentNum);

@@ -22,7 +22,7 @@ public interface StudentMapper extends Mapper<Student> {
     int updateByStudentNumSelective(Student student);
 
     /**
-     * 根据 courseId 查出该课程下所有学生
+     * 根据 courseId 查出该课程下所有未组队学生
      *
      * @param courseId
      * @return

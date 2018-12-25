@@ -65,55 +65,53 @@ public class KlassServiceImpl implements KlassService {
 
     @Override
     public Boolean resetStudentList(Long id, List<Student> students) {
-//        int count = 0;
-//        Long courseId = klassDao.select(id).getCourseId();
-//        List<KlassStudent> klassStudents = klassStudentDao.select(new KlassStudent().setKlassId(id));
-//        //取出存在新名单中的旧学生和新学生
-//        List<KlassStudent> oldStudents = new LinkedList<>();
-//        List<Student> newStudents = new LinkedList<>();
-//        for (Student student : students) {
-//            KlassStudent temp = klassStudentDao.selectOneByStudentNum(id, student.getStudentNum());
-//            if (temp != null) {
-//                oldStudents.add(temp);
-//            } else {
-//                newStudents.add(student);
-//            }
-//        }
-//        //删除该班级的旧表
-//        klassStudentDao.delete(new KlassStudent().setKlassId(id));
-//        //插入名单中的新学生，并判断如果没有该学生则创建
-//        for (Student student : newStudents) {
-//            //未有账号学生
-//            if (studentDao.selectByStudentNum(student.getStudentNum()) == null) {
-//                studentDao.insert(student);
-//                count += klassStudentDao.insert(new KlassStudent()
-//                        .setStudentId(student.getId())
-//                        .setKlassId(id)
-//                        .setCourseId(courseId));
-//            }
-//            //有账号学生
-//            else {
-//                count += klassStudentDao.insert(new KlassStudent()
-//                        .setStudentId(studentDao.selectByStudentNum(student.getStudentNum()).getId())
-//                        .setKlassId(id)
-//                        .setCourseId(courseId));
-//            }
-//        }
-//        //插入名单中的旧学生
-//        for (KlassStudent klassstudent : oldStudents) {
-//            count+=klassStudentDao.insert(klassstudent);
-//        }
-//        for(KlassStudent klassStudent:klassStudents){
-//            //如果不在新表中删除队伍信息
-//            if(!oldStudents.contains(klassStudent)){
-//                if(klassStudent.getTeamId()!=null) {
-//                    teamDao.deleteMemberById(klassStudent.getTeamId(),klassStudent.getStudentId());
-//                }
-//            }
-//        }
-//        return count == students.size();
-        // TODO
-        return null;
+        int count = 0;
+        Long courseId = klassDao.select(id).getCourseId();
+        List<KlassStudent> klassStudents = klassStudentDao.select(new KlassStudent().setKlassId(id));
+        //取出存在新名单中的旧学生和新学生
+        List<KlassStudent> oldStudents = new LinkedList<>();
+        List<Student> newStudents = new LinkedList<>();
+        for (Student student : students) {
+            KlassStudent temp = klassStudentDao.selectOneByStudentNum(id, student.getStudentNum());
+            if (temp != null) {
+                oldStudents.add(temp);
+            } else {
+                newStudents.add(student);
+            }
+        }
+        //删除该班级的旧表
+        klassStudentDao.delete(new KlassStudent().setKlassId(id));
+        //插入名单中的新学生，并判断如果没有该学生则创建
+        for (Student student : newStudents) {
+            //未有账号学生
+            if (studentDao.selectByStudentNum(student.getStudentNum()) == null) {
+                studentDao.insert(student);
+                count += klassStudentDao.insert(new KlassStudent()
+                        .setStudentId(student.getId())
+                        .setKlassId(id)
+                        .setCourseId(courseId));
+            }
+            //有账号学生
+            else {
+                count += klassStudentDao.insert(new KlassStudent()
+                        .setStudentId(studentDao.selectByStudentNum(student.getStudentNum()).getId())
+                        .setKlassId(id)
+                        .setCourseId(courseId));
+            }
+        }
+        //插入名单中的旧学生
+        for (KlassStudent klassstudent : oldStudents) {
+            count+=klassStudentDao.insert(klassstudent);
+        }
+        for(KlassStudent klassStudent:klassStudents){
+            //如果不在新表中删除队伍信息
+            if(!oldStudents.contains(klassStudent)){
+                if(klassStudent.getTeamId()!=null) {
+                    teamDao.deleteMemberById(klassStudent.getTeamId(),klassStudent.getStudentId());
+                }
+            }
+        }
+        return count == students.size();
     }
 
     @Override
