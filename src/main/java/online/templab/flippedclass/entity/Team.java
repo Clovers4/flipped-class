@@ -51,6 +51,12 @@ public class Team implements Serializable {
     private Integer serial;
 
     /**
+     * 班级序号
+     */
+    @Column(name = "`klass_serial`")
+    private Byte klassSerial;
+
+    /**
      * 队伍状态，不合法0、合法1、审核中2
      */
     @Column(name = "`status`")
