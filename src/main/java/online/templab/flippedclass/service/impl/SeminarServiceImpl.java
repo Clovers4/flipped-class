@@ -123,4 +123,9 @@ public class SeminarServiceImpl implements SeminarService {
         return seminarDao.selectOneQuestion(presentationTeamId);
     }
 
+    @Override
+    public KlassSeminar getKlassSeminarById(Long klassSeminarId) {
+        return klassSeminarDao.selectByPrimaryKey(klassSeminarId);
+    }
+
 }

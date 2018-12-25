@@ -43,5 +43,10 @@ public class KlassSeminarDaoImpl implements KlassSeminarDao {
         return klassSeminarMapper.deleteByPrimaryKey(id)==1;
     }
 
+    @Override
+    public KlassSeminar selectByPrimaryKey(Long id) {
+        return klassSeminarMapper.selectByPrimaryKey(new KlassSeminar().setId(id));
+    }
+
 
 }
