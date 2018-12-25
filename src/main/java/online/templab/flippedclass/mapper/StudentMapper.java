@@ -37,4 +37,6 @@ public interface StudentMapper extends Mapper<Student> {
      * @return
      */
     List<Student> selectTeamMemberByTeamId(@Param("courseId") Long courseId,@Param("teamId") Long teamId);
+
+    List<Student> selectTeamMerberCourseIdByTeamId(Long teamId);
 }

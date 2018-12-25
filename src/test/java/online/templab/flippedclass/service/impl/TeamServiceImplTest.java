@@ -355,4 +355,30 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         Assert.assertNotNull(result);
     }
 
+    @Test
+    public void testValidOneTeamState(){
+//        int state = teamService.validOneTeamState((long)25);
+//        logger.info(String.valueOf(state));
+//        Assert.assertEquals(0, state);
+//
+//        state = teamService.validOneTeamState((long)24);
+//        logger.info(String.valueOf(state));
+//        Assert.assertEquals(0, state);
+//
+//        state = teamService.validOneTeamState((long)22);
+//        logger.info(String.valueOf(state));
+//        Assert.assertEquals(1, state);
+        for(int i = 2 ; i <28;++i ){
+            int state = teamService.validOneTeamState((long)i);
+            logger.info(String.valueOf(i));
+            logger.info(String.valueOf(state));
+        }
+    }
+
+    @Test
+    public void validAllTeamByCourseId(){
+        teamService.validAllTeamByCourseId((long)16);
+        logger.info(teamMapper.selectByPrimaryKey((long)25).toString());
+    }
+
 }

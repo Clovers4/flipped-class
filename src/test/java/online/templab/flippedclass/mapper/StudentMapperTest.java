@@ -88,4 +88,15 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
         Assert.assertNotNull(studentList);
     }
 
+    @Test
+    public void testSelectTeamMerberCourseIdByTeamId () throws Exception{
+        List<Student> studentList= studentMapper.selectTeamMerberCourseIdByTeamId((long)25);
+        for(Student student:studentList){
+            logger.info(student.toString());
+            for(Long id :student.getCouseIdList()){
+                logger.info(String.valueOf(id));
+            }
+        }
+    }
+
 }

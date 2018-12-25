@@ -1,6 +1,9 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +15,7 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 @Table(name = "`course_member_limit_strategy`")
-public class CourseMemberLimitStrategy implements Serializable {
+public class CourseMemberLimitStrategy implements Serializable, CourseStrategy {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +31,81 @@ public class CourseMemberLimitStrategy implements Serializable {
      * 队伍中选该课程最少人数
      */
     @Column(name = "`min_member`")
-    private Byte minMember;
+    private Integer minMember;
 
     /**
      * 队伍中选该课程最多人数
      */
     @Column(name = "`max_member`")
-    private Byte maxMember;
+    private Integer maxMember;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public Boolean isValid(List<Student> studentList) {
+        Map<Long, Integer> maps = new HashMap<>();
+        maps.put(this.courseId,0);
+        for(Student student : studentList){
+            for(Long cid : student.getCouseIdList()){
+                if(maps.containsKey(cid)){
+                    maps.put(cid,maps.get(cid)+1);
+                }
+            }
+        }
+
+        Integer memberNum = maps.get(this.courseId);
+
+        if(minMember == null && maxMember == null)
+        {
+            return true;
+        }
+        else if(minMember == null){
+            if(memberNum <=maxMember){
+                return true;
+            }
+        }
+        else if(maxMember == null) {
+            if (memberNum >= minMember) {
+                return true;
+            }
+        }
+        else {
+            if (memberNum >= minMember && memberNum <=maxMember){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public Long getMyStrategyId() {
+        return null;
+    }
+
+    @Override
+    public String getMyStrategyName() {
+        return null;
+    }
+
+    @Override
+    public void setMyStrategyName(String strategyName) {
+
+    }
+
+    @Override
+    public void setMyStrategyId(Long strategyId) {
+
+    }
+
+    @Override
+    public void setCourseStrategyList(List<CourseStrategy> courseStrategyList) {
+
+    }
+
+    @Override
+    public Long getMyCourseId() {
+        return null;
+    }
+
 }

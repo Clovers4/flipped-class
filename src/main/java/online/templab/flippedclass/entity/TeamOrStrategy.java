@@ -1,18 +1,21 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.security.DenyAll;
 import javax.persistence.*;
+import javax.xml.ws.soap.Addressing;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+@Data
 @Accessors(chain = true)
 @Table(name = "`team_or_strategy`")
-public class TeamOrStrategy implements Serializable {
+public class TeamOrStrategy implements Serializable , CourseStrategy{
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +35,69 @@ public class TeamOrStrategy implements Serializable {
     @Column(name = "`strategy_id`")
     private Long strategyId;
 
+    private List<CourseStrategy> courseStrategyList;
+
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public Boolean isValid(List<Student> studentList) {
+        if(this.strategyName.equals("TeamAndStrategy")){
+            for(int i = 0 ; i < this.courseStrategyList.size() ; ++i){
+                if(!courseStrategyList.get(i).isValid(studentList)){
+                    return false;
+                }
+            }
+        }
+
+        else if(this.strategyName.equals("TeamOrStrategy")){
+            boolean orOne=true;
+            boolean orTwo = true;
+            if(courseStrategyList.size()!=0){
+                orOne = courseStrategyList.get(0).isValid(studentList);
+                if(courseStrategyList.size()>1){
+                    orTwo = courseStrategyList.get(1).isValid(studentList);
+                }
+            }
+            return (orOne || orTwo);
+        }
+        else{
+            return courseStrategyList.get(0).isValid(studentList);
+        }
+        return true;
+    }
+
+    @Override
+    public Long getMyStrategyId() {
+        return this.strategyId;
+    }
+
+    @Override
+    public String getMyStrategyName() {
+        return this.strategyName;
+    }
+
+    @Override
+    public void setMyStrategyName(String strategyName) {
+        this.strategyName =strategyName;
+    }
+
+    @Override
+    public void setMyStrategyId(Long strategyId) {
+        this.strategyId = strategyId;
+    }
+
+    public List<CourseStrategy> getCourseStrategyList() {
+        return courseStrategyList;
+    }
+
+    @Override
+    public void setCourseStrategyList(List<CourseStrategy> courseStrategyList) {
+        this.courseStrategyList = courseStrategyList;
+    }
+
+    @Override
+    public Long getMyCourseId() {
+        return null;
+    }
+
 }

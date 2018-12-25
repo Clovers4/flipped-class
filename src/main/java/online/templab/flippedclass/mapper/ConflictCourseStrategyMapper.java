@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * @author wk
+ * @author chenr
  */
 @Component
-public interface ConflictCourseStrategyMapper extends Mapper<ConflictCourseStrategy> {
+public interface ConflictCourseStrategyMapper  extends Mapper<ConflictCourseStrategy>   {
 }

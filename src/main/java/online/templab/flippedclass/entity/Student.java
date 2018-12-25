@@ -1,6 +1,7 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +49,8 @@ public class Student implements Serializable {
      */
     @Column(name = "`email`")
     private String email;
+
+    private List<Long> couseIdList;
 
     private static final long serialVersionUID = 1L;
 }

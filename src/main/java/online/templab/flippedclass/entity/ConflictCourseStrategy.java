@@ -1,6 +1,7 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.experimental.Accessors;
 @ToString
 @Accessors(chain = true)
 @Table(name = "`conflict_course_strategy`")
-public class ConflictCourseStrategy implements Serializable {
+public class ConflictCourseStrategy implements Serializable, CourseStrategy {
     @Id
     @Column(name = "`id`")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +27,40 @@ public class ConflictCourseStrategy implements Serializable {
     private Long courseId;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public Boolean isValid(List<Student> studentList) {
+        return null;
+    }
+
+    @Override
+    public Long getMyStrategyId() {
+        return null;
+    }
+
+    @Override
+    public String getMyStrategyName() {
+        return null;
+    }
+
+    @Override
+    public void setMyStrategyName(String strategyName) {
+
+    }
+
+    @Override
+    public void setMyStrategyId(Long strategyId) {
+
+    }
+
+    @Override
+    public void setCourseStrategyList(List<CourseStrategy> courseStrategyList) {
+
+    }
+
+    @Override
+    public Long getMyCourseId() {
+        return this.courseId;
+    }
+
 }

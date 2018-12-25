@@ -14,6 +14,15 @@ import java.util.List;
 public interface TeamDao {
 
     /**
+     * 通过 teamId 获得 team
+     * 并注入 teamStrategyList
+     *
+     * @param teamId
+     * @return
+     */
+    Team selectTeamValid(Long teamId);
+
+    /**
      * 根据 courseId 查找该 course 下的所有 team
      *
      * @param courseId
@@ -82,6 +91,14 @@ public interface TeamDao {
      * @return
      */
     Boolean updateByStudentNum(Long teamId,List<String> studentNum);
+
+    /**
+     * 更新 team
+     *
+     * @param team
+     * @return
+     */
+    Boolean update(Team team);
 
     /**
      * 队长解散队伍

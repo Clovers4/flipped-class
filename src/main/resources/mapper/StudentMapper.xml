@@ -11,6 +11,9 @@
         <result column="is_active" jdbcType="TINYINT" property="activated"/>
         <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <collection property="couseIdList" ofType="long">
+            <result column="course_id" jdbcType="VARCHAR"/>
+        </collection>
     </resultMap>
 
     <update id="updateByStudentNumSelective" parameterType="Student">
@@ -46,5 +49,19 @@
                  left join klass_student on student.id = klass_student.student_id
         where klass_student.team_id = #{teamId}
           and klass_student.course_id = #{courseId}
+    </select>
+
+    <select id="selectTeamMerberCourseIdByTeamId" parameterType="long" resultMap="BaseResultMap">
+        SELECT s.id,
+               s.account,
+               s.password,
+               s.is_active,
+               s.student_name,
+               s.email,
+               ks.course_id
+        FROM student s
+        LEFT JOIN team_student ts ON ts.student_id = s.id
+        LEFT JOIN klass_student ks ON ks.student_id = s.id
+        WHERE ts.team_id = #{teamId}
     </select>
 </mapper>

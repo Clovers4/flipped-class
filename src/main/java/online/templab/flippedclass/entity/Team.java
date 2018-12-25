@@ -3,14 +3,17 @@ package online.templab.flippedclass.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+/**
+ * @author chenr
+ */
+@Data
 @Accessors(chain = true)
 @Table(name = "`team`")
 public class Team implements Serializable {
@@ -51,12 +54,6 @@ public class Team implements Serializable {
     private Integer serial;
 
     /**
-     * 班级序号
-     */
-    @Column(name = "`klass_serial`")
-    private Byte klassSerial;
-
-    /**
      * 队伍状态，不合法0、合法1、审核中2
      */
     @Column(name = "`status`")
@@ -73,9 +70,20 @@ public class Team implements Serializable {
     private List<Student> students;
 
     /**
+     *
+     * 所有成员
+     */
+    private List<Student> allStudents;
+
+    /**
      * 对应的班级
      */
     private Klass klass;
+
+    /**
+     * 这个课程下的分组策略
+     */
+    private List<TeamStrategy> teamStrategyList;
 
     private static String[] teamStatus = new String[]{"不合法", "合法", "审核中"};
 

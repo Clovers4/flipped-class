@@ -40,4 +40,13 @@ public interface TeamMapper extends Mapper<Team> {
      * @return
      */
     Team selectByKlassIdAndStudentId(@Param("klassId") Long klassId,@Param("studentId") Long studentId);
+
+    /**
+     * 根据 teamId 得到 team
+     * 并注入 teamStrategyList
+     *
+     * @param teamId
+     * @return
+     */
+    Team selectByTeamId(Long teamId);
 }

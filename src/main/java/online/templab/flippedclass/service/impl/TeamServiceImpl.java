@@ -3,6 +3,7 @@ package online.templab.flippedclass.service.impl;
 import online.templab.flippedclass.dao.TeamDao;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
+import online.templab.flippedclass.entity.TeamStrategy;
 import online.templab.flippedclass.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,32 @@ public class TeamServiceImpl implements TeamService {
 
     @Autowired
     private TeamDao teamDao;
+
+    @Override
+    public int validOneTeamState(Long teamId) {
+        Team team = teamDao.selectTeamValid(teamId);
+        List<Student> studentList= team.getAllStudents();
+        List<TeamStrategy> teamStrategyList = team.getTeamStrategyList();
+        int valid = 1;
+
+        for(int i = 0 ;  i < teamStrategyList.size() ; ++i){
+            if(!teamStrategyList.get(i).isValid(studentList)){
+                valid = 0;
+                break;
+            }
+        }
+        team.setStatus(valid);
+        teamDao.update(team);
+        return valid;
+    }
+
+    @Override
+    public void validAllTeamByCourseId(Long courseId) {
+        List<Team> teamListInfoLimit = teamDao.selectByCourseId(courseId);
+        for(int i = 0; i < teamListInfoLimit.size();++i){
+            validOneTeamState(teamListInfoLimit.get(i).getId());
+        }
+    }
 
     @Override
     public List<Team> listByCourseId(Long courseId) {

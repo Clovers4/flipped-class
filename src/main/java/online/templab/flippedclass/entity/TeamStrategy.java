@@ -1,18 +1,21 @@
 package online.templab.flippedclass.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.persistence.*;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Getter
-@Setter
-@ToString
+@Data
 @Accessors(chain = true)
 @Table(name = "`team_strategy`")
-public class TeamStrategy implements Serializable {
+public class TeamStrategy implements Serializable , CourseStrategy{
     /**
      * 课程id
      */
@@ -25,7 +28,7 @@ public class TeamStrategy implements Serializable {
      */
     @Id
     @Column(name = "`strategy_serial`")
-    private Byte strategySerial;
+    private Integer strategySerial;
 
     /**
      * 策略所属类的类名
@@ -39,5 +42,93 @@ public class TeamStrategy implements Serializable {
     @Column(name = "`strategy_id`")
     private Long strategyId;
 
+    private List<CourseStrategy> courseStrategyList;
+
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public Boolean isValid(List<Student> studentList) {
+
+        if(this.strategyName.equals("ConflictCourseStrategy")){
+            Map<Long, Integer> maps = new HashMap<>();
+
+            for(CourseStrategy courseStrategy :courseStrategyList){
+                maps.put(courseStrategy.getMyCourseId(),0);
+            }
+
+
+            for(Student student : studentList){
+                for(Long cid : student.getCouseIdList()){
+                    if(maps.containsKey(cid)){
+                        maps.put(cid,maps.get(cid)+1);
+                    }
+                }
+            }
+
+            int countCourse = 0;
+            for (Map.Entry<Long, Integer> entry : maps.entrySet()) {
+                if(entry.getValue()>0) {
+                    ++countCourse;
+                }
+            }
+            if(countCourse > 1){
+                return false;
+            }
+
+        }
+        else if(this.strategyName.equals("TeamAndStrategy")){
+            for(int i = 0 ; i < this.courseStrategyList.size() ; ++i){
+                if(!courseStrategyList.get(i).isValid(studentList)){
+                    return false;
+                }
+            }
+        }
+        else if(this.strategyName.equals("TeamOrStrategy")){
+            boolean orOne=true;
+            boolean orTwo = true;
+            if(courseStrategyList.size()!=0){
+                orOne = courseStrategyList.get(0).isValid(studentList);
+                if(courseStrategyList.size()>1){
+                    orTwo = courseStrategyList.get(1).isValid(studentList);
+                }
+            }
+            return (orOne || orTwo);
+        }
+        return true;
+    }
+
+    @Override
+    public Long getMyStrategyId() {
+        return this.strategyId;
+    }
+
+    @Override
+    public String getMyStrategyName() {
+        return this.strategyName;
+    }
+
+    @Override
+    public void setMyStrategyName(String strategyName) {
+        this.strategyName =strategyName;
+    }
+
+    @Override
+    public void setMyStrategyId(Long strategyId) {
+        this.strategyId = strategyId;
+    }
+
+    public List<CourseStrategy> getCourseStrategyList() {
+        return courseStrategyList;
+    }
+
+    @Override
+    public void setCourseStrategyList(List<CourseStrategy> courseStrategyList) {
+        this.courseStrategyList = courseStrategyList;
+    }
+
+    @Override
+    public Long getMyCourseId() {
+        return null;
+    }
+
 }

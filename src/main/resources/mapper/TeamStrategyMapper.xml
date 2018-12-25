@@ -6,7 +6,8 @@
       WARNING - @mbg.generated
     -->
     <id column="course_id" jdbcType="BIGINT" property="courseId" />
-    <id column="strategy_id" jdbcType="BIGINT" property="strategyId" />
-    <id column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
+    <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial" />
+    <result column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
+    <result column="strategy_id" jdbcType="BIGINT" property="strategyId" />
   </resultMap>
 </mapper>

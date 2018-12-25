@@ -157,29 +157,29 @@ public class CourseServiceImplTest extends FlippedClassApplicationTest {
         }
     }
 
-    @Test
-    public void testListCanShareCourses() throws Exception {
-        Course shareCourse = createCourse();
-        courseMapper.insert(shareCourse);
-        logger.info(shareCourse.toString());
-        for (int i = 0; i < 5; i++) {
-            Course course = createCourse();
-            if (i == 1) {
-                course.setSeminarMainCourseId(shareCourse.getId());
-            }
-            if (i == 2) {
-                course.setTeamMainCourseId(shareCourse.getId());
-            }
-            courseMapper.insert(course);
-            logger.info(course.toString());
-        }
-        // 测试共享讨论课
-        List<Course> courseList = courseService.listCanShareCourses(shareCourse.getId(), 0);
-        logger.info(courseList.toString());
-        Assert.assertNotNull(courseList.size());
-        // 测试共享组队
-        courseList = courseService.listCanShareCourses(shareCourse.getId(), 1);
-        logger.info(courseList.toString());
-        Assert.assertNotNull(courseList.size());
-    }
+//    @Test
+//    public void testListCanShareCourses() throws Exception {
+//        Course shareCourse = createCourse();
+//        courseMapper.insert(shareCourse);
+//        logger.info(shareCourse.toString());
+//        for (int i = 0; i < 5; i++) {
+//            Course course = createCourse();
+//            if (i == 1) {
+//                course.setSeminarMainCourseId(shareCourse.getId());
+//            }
+//            if (i == 2) {
+//                course.setTeamMainCourseId(shareCourse.getId());
+//            }
+//            courseMapper.insert(course);
+//            logger.info(course.toString());
+//        }
+//        // 测试共享讨论课
+//        List<Course> courseList = courseService.listCanShareCourses(shareCourse.getId(), 0);
+//        logger.info(courseList.toString());
+//        Assert.assertNotNull(courseList.size());
+//        // 测试共享组队
+//        courseList = courseService.listCanShareCourses(shareCourse.getId(), 1);
+//        logger.info(courseList.toString());
+//        Assert.assertNotNull(courseList.size());
+//    }
 }

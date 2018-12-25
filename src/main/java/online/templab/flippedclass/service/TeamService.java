@@ -14,6 +14,22 @@ import java.util.List;
 public interface TeamService {
 
     /**
+     * 更新 Id 为 teamId 的队伍状态
+     *
+     * @param teamId
+     * @return 此 team 当前组队状态
+     */
+    int validOneTeamState(Long teamId);
+
+    /**
+     * 更新 Id 为 courseId 的所有队伍状态
+     *
+     * @param courseId
+     * @return
+     */
+    void validAllTeamByCourseId(Long courseId);
+
+    /**
      * 根据 courseId 查找该 course 下的所有 team
      *
      * @param courseId
