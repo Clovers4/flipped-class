@@ -32,11 +32,14 @@ public interface StudentMapper extends Mapper<Student> {
     /**
      * 根据 teamId 获取队伍成员
      *
-     * @param courseId
      * @param teamId
      * @return
      */
+
     List<Student> selectTeamMemberByTeamId(@Param("courseId") Long courseId,@Param("teamId") Long teamId);
 
     List<Student> selectTeamMerberCourseIdByTeamId(Long teamId);
+
+    List<Student> selectTeamMemberByTeamId(@Param("teamId") Long teamId);
+
 }
