@@ -29,6 +29,9 @@ public class CourseDaoImpl implements CourseDao {
     private KlassSeminarMapper klassSeminarMapper;
 
     @Autowired
+    private TeacherMapper teacherMapper;
+
+    @Autowired
     private ShareSeminarApplicationMapper shareSeminarApplicationMapper;
 
     @Autowired
@@ -79,55 +82,6 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public Course selectShareTeamMainCourseByPrimaryKey(Long id){
-        // 如果传入 id 是从课程id 直接通过从课程拿到主课程id， 再去拿主课程
-        Course subCourse = courseMapper.selectByPrimaryKey(id);
-        Long teamMainCourseId=subCourse.getTeamMainCourseId();
-        if (!teamMainCourseId.equals((long) 0)) {
-            return courseMapper.selectByPrimaryKey(teamMainCourseId);
-        }else{
-            return subCourse;
-        }
-    }
-
-    @Override
-    public  Course selectShareSeminarMainCourseByPrimaryKey(Long id){
-        // 如果传入 id 是从课程id 直接通过从课程拿到主课程id， 再去拿主课程
-        Course subCourse = courseMapper.selectByPrimaryKey(id);
-        Long seminarMainCourseId=subCourse.getSeminarMainCourseId();
-        // 说明是从课程id
-        if (!seminarMainCourseId.equals((long) 0)) {
-            return courseMapper.selectByPrimaryKey(seminarMainCourseId);
-        }else{ // 否则是主课程 id
-            return subCourse;
-        }
-    }
-
-    @Override
-    public List<Course> selectShareTeamSubCourse(Long id){
-        List<Course> courseList = courseMapper.select(new Course().setTeamMainCourseId(id));
-        // 说明这个id 是主课程id ， 返回它的所有从课程
-        if(courseList.size()>0){
-            return courseList;
-        }else{ // 说明这个 id  是从课程id，返回它自己
-            courseList.add(courseMapper.selectByPrimaryKey(id));
-            return courseList;
-        }
-    }
-
-    @Override
-    public List<Course> selectShareSeminarSubCourse(Long id){
-        List<Course> courseList = courseMapper.select(new Course().setSeminarMainCourseId(id));
-        // 说明这个id 是主课程id ， 返回它的所有从课程
-        if(courseList.size()>0){
-            return courseList;
-        }else{ // 说明这个 id  是从课程id，返回它自己
-            courseList.add(courseMapper.selectByPrimaryKey(id));
-            return courseList;
-        }
-    }
-
-    @Override
     public Course selectOne(Long id) {
         return courseMapper.selectByPrimaryKey(id);
     }
@@ -148,11 +102,16 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public List<Course> selectCanShareCourseByPrimaryKey(Long id, int type) {
-        if (type == 0) {
-            return courseMapper.selectCanShareSeminar(id);
-        } else {
-            return courseMapper.selectCanShareTeam(id);
+    public List<Course> selectOtherCourse(Long courseId) {
+        List<Course> courses=courseMapper.selectAll();
+        for(int i=0;i<courses.size();i++){
+            Course course=courses.get(i);
+            courses.set(i,course.setTeacher(teacherMapper.selectByPrimaryKey(course.getTeacherId())));
+            if(course.getId().equals(courseId)){
+                courses.remove(i);
+                i--;
+            }
         }
+        return courses;
     }
 }

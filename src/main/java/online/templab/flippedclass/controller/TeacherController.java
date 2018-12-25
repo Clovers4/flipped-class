@@ -66,6 +66,9 @@ public class TeacherController {
     @Autowired
     private ExcelService excelService;
 
+    @Autowired
+    private ShareService shareService;
+
     //   @Autowired
 //    private  FileService fileService;
 
@@ -428,11 +431,17 @@ TODO: 恢复
         Map<String, List<Course>> mainCourse = new HashMap<>(2);
 
         List<Course> shareTeamMainCourse = new ArrayList<>();
-        shareTeamMainCourse.add(courseService.getShareTeamMainCourse(Long.valueOf(courseId)));
+        Course course=shareService.getShareTeamMainCourse(Long.valueOf(courseId));
+        if(course!=null) {
+            shareTeamMainCourse.add(course);
+        }
         mainCourse.put("team", shareTeamMainCourse);
 
         List<Course> shareSeminarMainCourse = new ArrayList<>();
-        shareTeamMainCourse.add(courseService.getShareSeminarMainCourse(Long.valueOf(courseId)));
+        Course course1=shareService.getShareSeminarMainCourse(Long.valueOf(courseId));
+        if(course1!=null) {
+            shareSeminarMainCourse.add(course);
+        }
         mainCourse.put("seminar", shareSeminarMainCourse);
 
         model.addAttribute("subCourse", mainCourse);
@@ -440,8 +449,8 @@ TODO: 恢复
         // 读取与该课程共享的从课程,根据共享种类(共享分组、共享讨论课)分别放入map.team和map.seminar中
         Map<String, List<Course>> subCourse = new HashMap<>(2);
 
-        subCourse.put("team", courseService.listShareTeamSubCourse(Long.valueOf(courseId)));
-        subCourse.put("seminar", courseService.listShareSeminarSubCourse(Long.valueOf(courseId)));
+        subCourse.put("team", shareService.listShareTeamSubCourse(Long.valueOf(courseId)));
+        subCourse.put("seminar", shareService.listShareSeminarSubCourse(Long.valueOf(courseId)));
 
         model.addAttribute("mainCourse", subCourse);
         return "teacher/course/share";
@@ -449,11 +458,10 @@ TODO: 恢复
 
     @PostMapping("/course/share/create")
     public String courseShareCreate(String courseId, Model model) {
-        //TODO     model.addAttribute("otherCourses", seminarService.getOtherCoursesByCourseId(courseId));
+        model.addAttribute("otherCourses", courseService.listOtherCourse(Long.valueOf(courseId)));
         return "teacher/course/share/create";
     }
-/*
-TODO:
+
     @PutMapping("/course/shareApplication")
     public @ResponseBody
     ResponseEntity<Object> createCourseShareApplication(@RequestBody ShareApplicationDTO shareApplicationDTO) {
@@ -467,9 +475,10 @@ TODO:
             shareTeamApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareTeamApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareTeamApplication.setTeacherId(teacherId);
-            if (applicationService.createShareTeamApplication(shareTeamApplication)) {
+            if (shareService.sendShareTeamApplication(shareTeamApplication)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } else {
+                System.out.println(1111111);
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
         } else if (shareApplicationDTO.getShareType() == 1) {
@@ -477,7 +486,7 @@ TODO:
             shareSeminarApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareSeminarApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareSeminarApplication.setTeacherId(teacherId);
-            if (applicationService.createShareSeminarApplication(shareSeminarApplication)) {
+            if (shareService.sendShareSeminarApplication(shareSeminarApplication)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
@@ -485,5 +494,5 @@ TODO:
         } else {
             throw new RuntimeException();
         }
-    }*/
+    }
 }
