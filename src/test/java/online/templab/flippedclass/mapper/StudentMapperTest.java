@@ -48,44 +48,30 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testSelectUnTeamedStudentByCourseId() throws Exception {
-        for (int i = 0; i < 5; i++) {
-            Student student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(student.getId())
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long)1);
-            if(i%2==0){
-                klassStudent.setTeamId((long)random.nextInt(10));
-            }
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-        List<Student> studentList = studentMapper.selectUnTeamedStudentByCourseId((long) 1);
+        List<Student> studentList = studentMapper.selectUnTeamedStudentByCourseId((long) 16);
         logger.info(studentList.toString());
         Assert.assertNotNull(studentList);
     }
 
     @Test
     public void testSelectTeamMemberByTeamId() throws Exception {
-        for (int i = 0; i < 5; i++) {
-            Student student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(student.getId())
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long)1);
-            if(i%2==0){
-                klassStudent.setTeamId((long)1);
-            }
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-        List<Student> studentList = studentMapper.selectTeamMemberByTeamId((long) 1, (long) 1);
-        logger.info(studentList.toString());
-        Assert.assertNotNull(studentList);
+//        for (int i = 0; i < 5; i++) {
+//            Student student = createStudent();
+//            studentMapper.insert(student);
+//            logger.info(student.toString());
+//            KlassStudent klassStudent = new KlassStudent()
+//                    .setStudentId(student.getId())
+//                    .setKlassId((long) random.nextInt(5))
+//                    .setCourseId((long)1);
+//            if(i%2==0){
+//                klassStudent.setTeamId((long)1);
+//            }
+//            logger.info(klassStudent.toString());
+//            klassStudentMapper.insert(klassStudent);
+//        }
+//        List<Student> studentList = studentMapper.selectTeamMemberByTeamId((long) 1, (long) 1);
+//        logger.info(studentList.toString());
+//        Assert.assertNotNull(studentList);
     }
 
 }

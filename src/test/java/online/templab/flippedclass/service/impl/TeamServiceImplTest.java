@@ -64,191 +64,47 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testSelectTeam() throws Exception {
-        Student student = null;
-        List<Long> studentIds = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            studentIds.add(student.getId());
-        }
-        teamMapper.insert(new Team()
-                .setKlassId((long) random.nextInt(5))
-                .setCourseId((long) 1)
-                .setSerial(33)
-                .setStatus(1)
-                .setTeamName("test")
-                .setLeaderId(student.getId()));
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(student.getId())
-                .setCourseId((long) 1));
-        logger.info(team.toString());
-        for (int i = 0; i < studentIds.size(); i++) {
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(studentIds.get(i))
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long) 1)
-                    .setTeamId(team.getId());
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-        // 上为数据模拟 下为测试
-        Team recordTeam = teamService.get((long) 1, student.getId());
-        logger.info(team.toString());
-        Assert.assertNotNull(team);
+        Team recordTeam = teamService.get((long) 16, (long)208);
+        logger.info(recordTeam.toString());
+        Assert.assertNotNull(recordTeam);
     }
 
     @Test
-    public void testDeleteMember() throws Exception {
-        Student student = null;
-        List<Long> studentIdList = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            studentIdList.add(student.getId());
-        }
-        teamMapper.insert(new Team()
-                .setKlassId((long) random.nextInt(5))
-                .setCourseId((long) 1)
-                .setSerial(33)
-                .setStatus(1)
-                .setTeamName("test")
-                .setLeaderId(student.getId()));
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(student.getId())
-                .setCourseId((long) 1));
-        logger.info(team.toString());
-        for (int i = 0; i < studentIdList.size(); i++) {
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(studentIdList.get(i))
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long) 1)
-                    .setTeamId(team.getId());
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-
+    public void testQuitTeam() throws Exception {
         // 测试删除成员
-        Boolean successMember = teamService.quitTeam(team.getId(), studentIdList.get(2));
+        Boolean successMember = teamService.quitTeam((long) 2, (long) 172);
         Assert.assertEquals(true, successMember);
         // 测试删除组长
-        Boolean successLeader = teamService.quitTeam(team.getId(), team.getLeaderId());
+        Boolean successLeader = teamService.quitTeam((long) 2, (long) 197);
         Assert.assertEquals(true, successLeader);
     }
 
     @Test
     public void testInsert() throws Exception {
-        List<String> studentNums = new ArrayList<>();
-        Long tmpStudentId = (long) 1;
-        for (int i = 0; i < 5; i++) {
-            String tmpStudentNum = "hello" + random.nextInt(1000);
-            studentNums.add(tmpStudentNum);
-            Student student = createStudent();
-            logger.info(student.toString());
-            student.setStudentNum(tmpStudentNum);
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            tmpStudentId = student.getId();
-        }
-        klassStudentMapper.insert(new KlassStudent()
-                .setKlassId((long) 1)
-                .setStudentId(tmpStudentId)
-                .setCourseId((long) 1));
-
-        Boolean success = teamService.create(tmpStudentId, (long) 77, "testInsert", studentNums);
-        logger.info(studentNums.toString());
+        List<String> studentNumList = new ArrayList<>();
+        studentNumList.add("24320162202845");
+        studentNumList.add("24320162202916");
+        studentNumList.add("24320162202874");
+        Boolean success = teamService.create((long) 210, (long) 23, "test", studentNumList);
         logger.info(success.toString());
-        Assert.assertEquals(true, success);
-
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(tmpStudentId)
-                .setKlassId((long) 1)
-                .setTeamName("testInsert"));
-        logger.info(team.toString());
-        Assert.assertNotNull(team);
+        Assert.assertEquals(true,success);
     }
 
     @Test
-    public void testDeleteByStudentNum() throws Exception {
-        Student student = null;
-        List<Long> studentIdList = new ArrayList<>();
-        String tmpStudentNum = null;
-        for (int i = 0; i < 4; i++) {
-            if (i == 1) {
-                tmpStudentNum = student.getStudentNum();
-            }
-            student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            studentIdList.add(student.getId());
-        }
-        teamMapper.insert(new Team()
-                .setKlassId((long) random.nextInt(5))
-                .setCourseId((long) 1)
-                .setSerial(33)
-                .setStatus(1)
-                .setTeamName("test")
-                .setLeaderId(student.getId()));
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(student.getId())
-                .setCourseId((long) 1));
-        logger.info(team.toString());
-        for (int i = 0; i < studentIdList.size(); i++) {
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(studentIdList.get(i))
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long) 1)
-                    .setTeamId(team.getId());
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-
-        Boolean success = teamService.removeMember(team.getId(), tmpStudentNum);
+    public void testRemoveMember() throws Exception {
+        Boolean success = teamService.removeMember((long) 2, "24320162202832");
         logger.info(success.toString());
         Assert.assertEquals(true, success);
     }
 
     @Test
     public void testAddMember() throws Exception {
-        Student student = null;
-        List<Long> studentIdList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            studentIdList.add(student.getId());
-        }
-        teamMapper.insert(new Team()
-                .setKlassId((long) random.nextInt(5))
-                .setCourseId((long) 1)
-                .setSerial(33)
-                .setStatus(1)
-                .setTeamName("test")
-                .setLeaderId(student.getId()));
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(student.getId())
-                .setCourseId((long) 1));
-        logger.info(team.toString());
-        for (int i = 0; i < studentIdList.size(); i++) {
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(studentIdList.get(i))
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long) 1)
-                    .setTeamId(team.getId());
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-
         List<String> studentNumList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Student addStudent = createStudent();
-            studentMapper.insert(addStudent);
-            logger.info(addStudent.toString());
-            studentNumList.add(addStudent.getStudentNum());
-        }
+        studentNumList.add("24320162202826");
+        studentNumList.add("24320162202845");
+        studentNumList.add("24320162202916");
         logger.info(studentNumList.toString());
-        Boolean success = teamService.addMember(team.getId(), studentNumList);
+        Boolean success = teamService.addMember((long) 2, studentNumList);
         logger.info(studentNumList.toString());
         logger.info(success.toString());
         Assert.assertEquals(true, success);
@@ -256,35 +112,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
     @Test
     public void testDissolve() throws Exception {
-        Student student = null;
-        List<Long> studentIdList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            student = createStudent();
-            studentMapper.insert(student);
-            logger.info(student.toString());
-            studentIdList.add(student.getId());
-        }
-        teamMapper.insert(new Team()
-                .setKlassId((long) random.nextInt(5))
-                .setCourseId((long) 1)
-                .setSerial(33)
-                .setStatus(1)
-                .setTeamName("test")
-                .setLeaderId(student.getId()));
-        Team team = teamMapper.selectOne(new Team()
-                .setLeaderId(student.getId())
-                .setCourseId((long) 1));
-        logger.info(team.toString());
-        for (int i = 0; i < studentIdList.size(); i++) {
-            KlassStudent klassStudent = new KlassStudent()
-                    .setStudentId(studentIdList.get(i))
-                    .setKlassId((long) random.nextInt(5))
-                    .setCourseId((long) 1)
-                    .setTeamId(team.getId());
-            logger.info(klassStudent.toString());
-            klassStudentMapper.insert(klassStudent);
-        }
-        Boolean success = teamService.dissolve(team.getId(), team.getLeaderId());
+        Boolean success = teamService.dissolve((long) 2, (long) 197);
         logger.info(success.toString());
         Assert.assertEquals(true, success);
     }
@@ -330,27 +158,8 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void testGetTeamByKlassIdAndStudentId()throws Exception{
-        Long tempStudentId = (long)20;
-        for(int i=0;i<3;i++){
-            Team team = new Team()
-                    .setStatus(1)
-                    .setCourseId((long)20)
-                    .setTeamName("test")
-                    .setKlassId((long)20)
-                    .setLeaderId((long)20)
-                    .setSerial(20);
-            teamMapper.insert(team);
-            logger.info(team.toString());
-            KlassStudent klassStudent = new KlassStudent()
-                    .setCourseId((long)20)
-                    .setKlassId((long)20)
-                    .setStudentId(tempStudentId+(long)i)
-                    .setTeamId(team.getId());
-            klassStudentMapper.insert(klassStudent);
-            logger.info(klassStudent.toString());
-        }
-        Long result = teamService.getTeamByKlassIdAndStudentId((long)20,(long)21);
+    public void testGetTeamByKlassIdAndStudentId() throws Exception {
+        Long result = teamService.getTeamByKlassIdAndStudentId((long) 21, (long) 103);
         logger.info(result.toString());
         Assert.assertNotNull(result);
     }

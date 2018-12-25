@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="online.templab.flippedclass.mapper.KlassTeamMapper">
-  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.KlassTeam">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="klass_id" jdbcType="BIGINT" property="klassId" />
-    <id column="team_id" jdbcType="BIGINT" property="teamId" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.KlassTeam">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="klass_id" jdbcType="BIGINT" property="klassId"/>
+        <id column="team_id" jdbcType="BIGINT" property="teamId"/>
+    </resultMap>
+
+    <select id="selectByKlassIdAndStudentId" resultMap="BaseResultMap">
+        select klass_team.team_id
+        from klass_team
+                 left join team_student on klass_team.team_id = team_student.team_id
+        where klass_team.klass_id = #{klassId}
+          and team_student.student_id = #{studentId}
+    </select>
 </mapper>
