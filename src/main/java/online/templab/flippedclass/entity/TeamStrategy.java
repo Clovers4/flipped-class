@@ -21,18 +21,23 @@ public class TeamStrategy implements Serializable {
     private Long courseId;
 
     /**
-     * 策略id
+     * 课程组队策略序号
      */
     @Id
-    @Column(name = "`strategy_id`")
-    private Long strategyId;
+    @Column(name = "`strategy_serial`")
+    private Byte strategySerial;
 
     /**
-     * 组队策略实现类名称
+     * 策略所属类的类名
      */
-    @Id
     @Column(name = "`strategy_name`")
     private String strategyName;
+
+    /**
+     * 策略id
+     */
+    @Column(name = "`strategy_id`")
+    private Long strategyId;
 
     private static final long serialVersionUID = 1L;
 }
