@@ -30,6 +30,9 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     TeamStudentMapper teamStudentMapper;
 
+    @Autowired
+    KlassTeamMapper klassTeamMapper;
+
     @Override
     public List<Team> selectByCourseId(Long courseId) {
         return teamMapper.select(new Team().setCourseId(courseId));
@@ -95,19 +98,18 @@ public class TeamDaoImpl implements TeamDao {
                 .setTeamName(teamName)
                 .setCourseId(klassStudent.getCourseId())
                 .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
-                .setStatus(1);
+                .setStatus(1)
+                .setKlassSerial((byte)1);
         // 插入队伍
         int lineTeam = teamMapper.insert(team);
-        team = teamMapper.selectOne(team);
         // 通过list<Long> studentNum 获取对应学生id
         List<Long> studentPrimaryKeyList = new ArrayList<>();
         for (int i = 0; i < studentNum.size(); i++) {
             studentPrimaryKeyList.add(studentMapper.selectOne(new Student().setStudentNum(studentNum.get(i))).getId());
         }
-//        // 插入 klass_student 表关系
-//        int lineKlassStudent = klassStudentMapper.insertList(klassStudent.getCourseId(), klassId, team.getId(), studentPrimaryKeyList);
-//        return lineTeam * lineKlassStudent > 0;
-        return null;
+        // 插入 klass_student 表关系
+        int lineKlassStudent = teamStudentMapper.insertList(team.getId(), studentPrimaryKeyList);
+        return (lineTeam + lineKlassStudent) > 0;
     }
 
     @Override
@@ -133,12 +135,12 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Boolean delete(Long teamId, Long studentId) {
         int deleteTeam = teamMapper.deleteByPrimaryKey(teamId);
-        int deleteKlassStudent = klassStudentMapper.delete(new KlassStudent().setTeamId(teamId));
-        return (deleteTeam * deleteKlassStudent) > 0;
+        int deleteRelation = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId));
+        return (deleteTeam+deleteRelation) > 0;
     }
 
     @Override
     public Long selectByKlassIdAndStudentId(Long klassId, Long studentId) {
-        return teamMapper.selectByKlassIdAndStudentId(klassId, studentId).getId();
+        return klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId).getTeamId();
     }
 }
