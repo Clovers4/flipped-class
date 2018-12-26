@@ -198,10 +198,12 @@ public class WebSocketService {
             Question question = questionPool.pick(onPreAttendanceId);
             SeminarMonitor monitor = getMonitor(ksId);
             monitor.putQuestion(onPreAttendanceId, question);
+
             log.info("onPreAttendanceId : {}", onPreAttendanceId);
             // 更新当前提问数量
             monitor.setRaisedQuestionsCount(questionPool.size(onPreAttendanceId));
 
+            // 返回给前端的 json
             Map<String, Object> newContent = new HashMap<>(4);
             newContent.put("studentNum", question.getStudent().getStudentNum());
             newContent.put("teamSerial", question.getTeam().getSerial());
@@ -228,21 +230,32 @@ public class WebSocketService {
             String type = jsonContent.get("type").asText();
             Integer score = jsonContent.get("score").asInt();
             if ("Attendance".equals(type)) {
+                // 获得当前指定的 attendance
                 Integer attendanceIdx = jsonContent.get("attendanceIdx").asInt();
                 Attendance attendance = monitor.getEnrollList().get(attendanceIdx);
+                // 更新 monitor 中的分数表
                 monitor.markPreScore(attendance.getId(), score);
-                // TODO: 结束之后将分数放入seminarScore中
+                // 更新 Attendance 的分数，即更新到 SeminarScore 表
+                KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
+                scoreService.markerScore(
+                        new SeminarScore().setPresentationScore(BigDecimal.valueOf(score)).setKlassSeminarId(ksId).setTeamId(attendance.getTeamId()),
+                        klassSeminar.getSeminarId(),
+                        klassSeminar.getKlassId()
+                );
             } else if ("Question".equals(type)) {
                 Integer questionIdx = jsonContent.get("questionIdx").asInt();
                 Integer attendanceIdx = jsonContent.get("attendanceIdx").asInt();
                 Attendance attendance = monitor.getEnrollList().get(attendanceIdx);
+                // 获得 抽取提问
                 List<Question> askedQuestions = monitor.getAskedQuestion(monitor.getEnrollList().get(attendanceIdx).getId());
                 log.info("questionIdx : {}", questionIdx);
                 for (Question question : askedQuestions) {
                     log.info("被提问的: {}", question.toString());
                 }
+                // 获得 question
                 Question question = askedQuestions.get(questionIdx);
                 log.info(question.toString());
+                // 将 question 的打分状况 更新/插入 到 question表
                 if (questionMapper.select(
                         new Question()
                                 .setKlassSeminarId(question.getKlassSeminarId())
@@ -259,6 +272,14 @@ public class WebSocketService {
                             question.getStudentId(),
                             BigDecimal.valueOf(score));
                 }
+                // 将 question 的打分状况更新到 seminarScore表
+                // FIXME
+                KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
+                scoreService.markerScore(
+                        new SeminarScore().setQuestionScore(BigDecimal.valueOf(score)).setKlassSeminarId(ksId).setTeamId(question.getTeamId()),
+                        klassSeminar.getSeminarId(),
+                        klassSeminar.getKlassId()
+                );
             }
 
             Map<String, Object> newContent = new HashMap<>();
@@ -271,6 +292,13 @@ public class WebSocketService {
 
     private String handleEndQuestionRequest(Long ksId, RawMessage message) {
         try {
+            // 这个讨论课结束时，更新 roundScore表
+            // FIXME
+            KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
+            Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
+            scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
+
+            // 返回给前端的 JSON 信息
             Map<String, Object> newContent = new HashMap<>();
             return objectMapper.writeValueAsString(newContent);
         } catch (IOException e) {
@@ -278,6 +306,5 @@ public class WebSocketService {
         }
         return "";
     }
-
 
 }
