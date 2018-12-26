@@ -2,7 +2,10 @@ package online.templab.flippedclass.common.websocket;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.entity.*;
+import online.templab.flippedclass.mapper.AttendanceMapper;
+import online.templab.flippedclass.mapper.QuestionMapper;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.Map;
 /**
  * @author wk
  */
+@Slf4j
 @Service
 public class WebSocketService {
 
@@ -69,7 +73,7 @@ public class WebSocketService {
     }
 
     public RawMessage handleMessage(Long ksId, RawMessage message) {
-        System.out.println(">>> " + message);
+        log.info(">>>>>> {}", message);
         RawMessage newMessage = new RawMessage();
 
         switch (message.getType()) {
@@ -93,11 +97,15 @@ public class WebSocketService {
                 newMessage.setType("ScoreResponse")
                         .setContent(handleScoreRequest(ksId, message));
                 break;
+            case "EndQuestionRequest":
+                newMessage.setType("EndQuestionResponse")
+                        .setContent(handleEndQuestionRequest(ksId, message));
+                break;
             default:
                 throw new RuntimeException();
         }
 
-        System.out.println("<<< " + newMessage);
+        log.info("<<<<<< {}", newMessage);
         return newMessage;
     }
 
@@ -162,6 +170,7 @@ public class WebSocketService {
                     .setScore(BigDecimal.valueOf(0))
                     .setAttendanceId(onPreAttendanceId)
                     .setTeam(team);
+            log.info(question.toString());
             questionPool.put(onPreAttendanceId, question);
 
             Map<String, Object> newContent = new HashMap<>();
@@ -181,7 +190,7 @@ public class WebSocketService {
             Question question = questionPool.pick(onPreAttendanceId);
             SeminarMonitor monitor = getMonitor(ksId);
             monitor.putQuestion(onPreAttendanceId, question);
-            System.out.println("onPreAttendanceId" + onPreAttendanceId);
+            log.info("onPreAttendanceId : {}", onPreAttendanceId);
 
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("studentNum", question.getStudent().getStudentNum());
@@ -195,29 +204,63 @@ public class WebSocketService {
         return "";
     }
 
+    @Autowired
+    private AttendanceMapper attendanceMapper;
+
+    @Autowired
+    private QuestionMapper questionMapper;
+
     private String handleScoreRequest(Long ksId, RawMessage message) {
         try {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
 
             SeminarMonitor monitor = getMonitor(ksId);
             String type = jsonContent.get("type").asText();
-            Integer score = jsonContent.get("score").intValue();
+            Integer score = jsonContent.get("score").asInt();
             if ("Attendance".equals(type)) {
-                Integer attendanceIdx = jsonContent.get("attendanceIdx").intValue();
+                Integer attendanceIdx = jsonContent.get("attendanceIdx").asInt();
                 Attendance attendance = monitor.getEnrollList().get(attendanceIdx);
-                System.out.println(attendance);
-                // TODO 打分
+                monitor.markPreScore(attendance.getId(), score);
+                // TODO: 结束之后将分数放入seminarScore中
             } else if ("Question".equals(type)) {
-                Integer questionIdx = jsonContent.get("questionIdx").intValue();
-                Integer attendanceIdx = jsonContent.get("attendanceIdx").intValue();
+                Integer questionIdx = jsonContent.get("questionIdx").asInt();
+                Integer attendanceIdx = jsonContent.get("attendanceIdx").asInt();
                 Attendance attendance = monitor.getEnrollList().get(attendanceIdx);
-                System.out.println("attendance.getId :" + attendance.getId());
                 List<Question> askedQuestions = monitor.getAskedQuestion(monitor.getEnrollList().get(attendanceIdx).getId());
+                log.info("questionIdx : {}", questionIdx);
+                for (Question question : askedQuestions) {
+                    log.info("被提问的: {}", question.toString());
+                }
                 Question question = askedQuestions.get(questionIdx);
-                System.out.println(question);
-                // TODO 打分
+                log.info(question.toString());
+                if (questionMapper.select(
+                        new Question()
+                                .setKlassSeminarId(question.getKlassSeminarId())
+                                .setAttendanceId(question.getAttendanceId())
+                                .setStudentId(question.getStudentId())
+                                .setTeamId(question.getTeamId())
+                ).size() == 0) {
+                    questionMapper.insert(question.setScore(BigDecimal.valueOf(score)));
+                } else {
+                    questionMapper.updateByUniqueKey(
+                            question.getKlassSeminarId(),
+                            question.getAttendanceId(),
+                            question.getTeamId(),
+                            question.getStudentId(),
+                            BigDecimal.valueOf(score));
+                }
             }
 
+            Map<String, Object> newContent = new HashMap<>();
+            return objectMapper.writeValueAsString(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private String handleEndQuestionRequest(Long ksId, RawMessage message) {
+        try {
             Map<String, Object> newContent = new HashMap<>();
             return objectMapper.writeValueAsString(newContent);
         } catch (IOException e) {

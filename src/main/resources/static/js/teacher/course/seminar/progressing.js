@@ -205,7 +205,7 @@ function handleEndQuestionResponse(content) {
 }
 
 function handleScoreResponse(content) {
-
+    alert("打分成功");
 }
 
 function setQuestionCount(count) {

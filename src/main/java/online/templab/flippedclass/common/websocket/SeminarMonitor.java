@@ -82,4 +82,8 @@ public class SeminarMonitor {
         askedQuestion.put(String.valueOf(attendanceId), questions);
     }
 
+    public void markPreScore(Long attendanceId, Integer score) {
+        preScoreMap.put(String.valueOf(attendanceId), score);
+    }
+
 }
