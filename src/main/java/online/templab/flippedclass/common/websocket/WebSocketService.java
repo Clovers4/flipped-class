@@ -147,7 +147,13 @@ public class WebSocketService {
             if (monitor.getOnPreAttendanceIndex() < monitor.getEnrollList().size()) {
                 monitor.setOnPreAttendance(monitor.getEnrollList().get(monitor.getOnPreAttendanceIndex()));
             } else {
+                // 这个讨论课结束,更新 monitor的state
                 state.setProgressState("TERMINATE");
+                // 这个讨论课结束时,同时更新 roundScore表
+                KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
+                Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
+                scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
+
             }
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("attendanceIndex", monitor.getOnPreAttendanceIndex());
@@ -238,9 +244,7 @@ public class WebSocketService {
                 // 更新 Attendance 的分数，即更新到 SeminarScore 表
                 KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
                 scoreService.markerScore(
-                        new SeminarScore().setPresentationScore(BigDecimal.valueOf(score)).setKlassSeminarId(ksId).setTeamId(attendance.getTeamId()),
-                        klassSeminar.getSeminarId(),
-                        klassSeminar.getKlassId()
+                        new SeminarScore().setPresentationScore(BigDecimal.valueOf(score)).setKlassSeminarId(ksId).setTeamId(attendance.getTeamId())
                 );
             } else if ("Question".equals(type)) {
                 Integer questionIdx = jsonContent.get("questionIdx").asInt();
@@ -273,12 +277,12 @@ public class WebSocketService {
                             BigDecimal.valueOf(score));
                 }
                 // 将 question 的打分状况更新到 seminarScore表
-                // FIXME
                 KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
                 scoreService.markerScore(
-                        new SeminarScore().setQuestionScore(BigDecimal.valueOf(score)).setKlassSeminarId(ksId).setTeamId(question.getTeamId()),
-                        klassSeminar.getSeminarId(),
-                        klassSeminar.getKlassId()
+                        new SeminarScore()
+                                .setQuestionScore(BigDecimal.valueOf(score))
+                                .setKlassSeminarId(ksId)
+                                .setTeamId(question.getTeamId())
                 );
             }
 
@@ -292,11 +296,6 @@ public class WebSocketService {
 
     private String handleEndQuestionRequest(Long ksId, RawMessage message) {
         try {
-            // 这个讨论课结束时，更新 roundScore表
-            // FIXME
-            KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
-            Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
-            scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
 
             // 返回给前端的 JSON 信息
             Map<String, Object> newContent = new HashMap<>();
