@@ -74,4 +74,14 @@ public class ShareServiceImpl implements ShareService {
     public List<Course> listCanShareCourses(Long id, int type) {
         return courseDao.selectCanShareCourseByPrimaryKey(id,type);
     }
+
+    @Override
+    public List<ShareSeminarApplication> listShareSeminarApplication(Long teacherId) {
+        return shareApplicationDao.selectShareSeminarApplication(teacherId);
+    }
+
+    @Override
+    public List<ShareTeamApplication> listShareTeamApplication(Long teacherId) {
+        return shareApplicationDao.selectShareTeamApplication(teacherId);
+    }
 }

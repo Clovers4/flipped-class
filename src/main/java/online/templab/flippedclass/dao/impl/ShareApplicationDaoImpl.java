@@ -229,4 +229,14 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
         Long seminarMainCourseId = subCourse.getSeminarMainCourseId();
         return courseMapper.selectByPrimaryKey(seminarMainCourseId);
     }
+
+    @Override
+    public List<ShareSeminarApplication> selectShareSeminarApplication(Long teacherId) {
+        return shareSeminarApplicationMapper.selectShareSeminarApplication(teacherId);
+    }
+
+    @Override
+    public List<ShareTeamApplication> selectShareTeamApplication(Long teacherId) {
+        return shareTeamApplicationMapper.selectShareTeamApplication(teacherId);
+    }
 }

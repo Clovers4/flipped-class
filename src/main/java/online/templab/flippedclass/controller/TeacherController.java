@@ -172,25 +172,20 @@ public class TeacherController {
 
     @GetMapping("/notification")
     public String notification(Model model, HttpSession session) {
-        String teacherId = ((String) session.getAttribute(TEACHER_ID_GIST));
-        // TODO: 恢复
-        //STApps:ShareTeamApplications     SSApps:ShareSeminarApplications
-        //    List<ShareTeamApplication> shareTeamApplications = applicationService.getShareTeamApplicationByTeacherId(teacherId);
-        //     model.addAttribute("STApps",shareTeamApplications);
-        //    model.addAttribute("SSApps", applicationService.getShareSeminarApplicationByTeacherId(teacherId));
+        Long teacherId = ((Long)session.getAttribute(TEACHER_ID_GIST));
+            List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
+             model.addAttribute("STApps",shareTeamApplications);
+            model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
 
         return "teacher/notification";
     }
 
-    /*
+/*
+//TODO: 恢复
     @PostMapping("/notification/handle")
     public @ResponseBody
     ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
         log.info(applicationHandleDTO.toString());
-        *//*
-     * 0 : ShareSeminar
-     * 1 : ShareTeam
-     *//*
         switch (applicationHandleDTO.getAppType()) {
             case 0:
                 if (applicationService.handleShareSeminarApplication(applicationHandleDTO)) {
@@ -210,14 +205,14 @@ public class TeacherController {
                 throw new RuntimeException();
         }
     }
-*/
+
     @GetMapping("/courseList")
     public String course(Model model, HttpSession session) {
         Long teacherId = (Long) session.getAttribute(TEACHER_ID_GIST);
         model.addAttribute("courses", courseService.listByTeacherId(teacherId));
         return "teacher/courseList";
     }
-
+*/
     /**
      * Todo: Remains to be deepen designed
      */
