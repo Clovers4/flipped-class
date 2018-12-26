@@ -145,4 +145,9 @@ public class SeminarServiceImpl implements SeminarService {
         return klassSeminarDao.selectByPrimaryKey(klassSeminarId);
     }
 
+    @Override
+    public Attendance getByTeamIdKlassSeminarId(Long teamId, Long klassSeminarId) {
+        return attendanceDao.selectByTeamIdKlassSeminarId(teamId,klassSeminarId);
+    }
+
 }

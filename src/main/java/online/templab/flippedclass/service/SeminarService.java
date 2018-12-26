@@ -152,4 +152,12 @@ public interface SeminarService {
      * @return
      */
     KlassSeminar getKlassSeminarById(Long klassSeminarId);
+
+    /**
+     * 同过team和klassSeminar得到当前Attendance
+     * @param teamId
+     * @param klassSeminarId
+     * @return
+     */
+    Attendance getByTeamIdKlassSeminarId(Long teamId,Long klassSeminarId);
 }
