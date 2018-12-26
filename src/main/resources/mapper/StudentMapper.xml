@@ -11,6 +11,18 @@
         <result column="is_active" jdbcType="TINYINT" property="activated"/>
         <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+    </resultMap>
+
+    <resultMap id="CourseResultMap" type="online.templab.flippedclass.entity.Student">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="studentNum"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_active" jdbcType="TINYINT" property="activated"/>
+        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
         <collection property="couseIdList" ofType="long">
             <result column="course_id" jdbcType="VARCHAR"/>
         </collection>
@@ -55,7 +67,7 @@
         where team_student.team_id = #{teamId}
     </select>
 
-    <select id="selectTeamMerberCourseIdByTeamId" parameterType="long" resultMap="BaseResultMap">
+    <select id="selectTeamMerberCourseIdByTeamId" parameterType="long" resultMap="CourseResultMap">
         SELECT s.id,
                s.account,
                s.password,

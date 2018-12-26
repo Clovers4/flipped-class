@@ -153,8 +153,7 @@ public class TeamDaoImpl implements TeamDao {
         team.setLeader(leader)
                 .setStudents(member)
                 .setKlass(klass)
-               // .setKlassSerial((byte) 1)
-                ;
+                .setKlassSerial((byte) 1);
         return team;
     }
 
@@ -187,8 +186,7 @@ public class TeamDaoImpl implements TeamDao {
                 .setCourseId(klassStudent.getCourseId())
                 .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
                 .setStatus(1)
-               // .setKlassSerial((byte) 1)
-                ;
+                .setKlassSerial((byte) 1);
         // 插入队伍
         int lineTeam = teamMapper.insert(team);
         // 通过list<Long> studentNum 获取对应学生id
