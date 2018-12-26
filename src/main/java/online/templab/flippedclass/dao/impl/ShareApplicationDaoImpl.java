@@ -42,6 +42,12 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     @Autowired
     TeamStudentMapper teamStudentMapper;
 
+    @Autowired
+    RoundMapper roundMapper;
+
+    @Autowired
+    KlassRoundMapper klassRoundMapper;
+
     @Override
     public Boolean insertShareTeamApplication(ShareTeamApplication shareTeamApplication) {
         //判断是否有效请求
@@ -145,21 +151,47 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
                     .setId(shareSeminarApplication.getSubCourseId())
                     .setSeminarMainCourseId(shareSeminarApplication.getMainCourseId()));
             //更新讨论课信息
-            Course course = courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
+            Course subCourse = courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
+            List<Klass> subCourseklassList = subCourse.getKlassList();
             seminarMapper.delete(new Seminar().setCourseId(shareSeminarApplication.getSubCourseId()));
-            for (Klass klass : course.getKlassList()) {
-                klassSeminarMapper.delete(new KlassSeminar().setKlassId(klass.getId()));
+
+            //删 round, klassRound
+            List<Round> subCourseRoundList = roundMapper.select(new Round().setCourseId(subCourse.getId()));
+            for(int i = 0 ; i < subCourseRoundList.size() ; ++i){
+                klassRoundMapper.delete(new KlassRound().setRoundId(subCourseRoundList.get(i).getId()));
+                roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
             }
-            //加入讨论课
-            List<Seminar> seminars = seminarMapper.select(new Seminar().setCourseId(shareSeminarApplication.getMainCourseId()));
-            for (Seminar seminar : seminars) {
-                for (Klass klass : course.getKlassList()) {
-                    klassSeminarMapper.insert(new KlassSeminar()
-                            .setKlassId(klass.getId())
-                            .setSeminarId(seminar.getId())
-                            .setState(0));
+
+            //删 klassSeminar, 新增 roundSeminar
+            if(subCourseklassList != null){
+                for (Klass klass : subCourseklassList) {
+                    klassSeminarMapper.delete(new KlassSeminar().setKlassId(klass.getId()));
                 }
             }
+            Course mainCourse = courseMapper.selcetByCourseId(shareSeminarApplication.getMainCourseId());
+            List<Round> mainCourseRoundList = roundMapper.select(new Round().setCourseId(mainCourse.getId()));
+            List<Klass> mainCourseKlassList = subCourse.getKlassList();
+            for(int i = 0 ; i < mainCourseRoundList.size(); ++i){
+                if(mainCourseKlassList != null){
+                    for(Klass klass : mainCourseKlassList){
+                        klassRoundMapper.insertSelective(new KlassRound().setKlassId(klass.getId()).setRoundId(mainCourseRoundList.get(i).getId()).setEnrollLimit(1));
+                    }
+                }
+            }
+
+            //加入讨论课
+            List<Seminar> seminars = seminarMapper.select(new Seminar().setCourseId(shareSeminarApplication.getMainCourseId()));
+            if(seminars!=null){
+                for (Seminar seminar : seminars) {
+                    for (Klass klass : subCourse.getKlassList()) {
+                        klassSeminarMapper.insert(new KlassSeminar()
+                                .setKlassId(klass.getId())
+                                .setSeminarId(seminar.getId())
+                                .setState(0));
+                    }
+                }
+            }
+
         }
         //如果不接受，更新请求记录
         else {
@@ -198,6 +230,13 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
         Course course = courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
         for (Klass klass : course.getKlassList()) {
             klassSeminarMapper.delete(new KlassSeminar().setKlassId(klass.getId()));
+        }
+
+        //删除从课程 round 信息
+        List<Round> subCourseRoundList = roundMapper.select(new Round().setCourseId(course.getId()));
+        for(int i = 0 ; i < subCourseRoundList.size() ; ++i){
+            klassRoundMapper.delete(new KlassRound().setRoundId(subCourseRoundList.get(i).getId()));
+            roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
         }
         return true;
     }
