@@ -123,4 +123,9 @@ public class CourseDaoImpl implements CourseDao {
             return courseMapper.selectCanShareTeam(id);
         }
     }
+
+    @Override
+    public Course selectDateByTeamId(Long teamId) {
+        return courseMapper.selectDateByTeamId(teamId);
+    }
 }

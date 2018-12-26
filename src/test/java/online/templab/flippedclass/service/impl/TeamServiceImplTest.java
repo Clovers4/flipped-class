@@ -59,10 +59,10 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     public void testQuitTeam() throws Exception {
         // 测试删除成员
         Boolean successMember = teamService.quitTeam((long) 2, (long) 172);
-        Assert.assertEquals(true, successMember);
+        Assert.assertNotNull(successMember);
         // 测试删除组长
         Boolean successLeader = teamService.quitTeam((long) 2, (long) 197);
-        Assert.assertEquals(true, successLeader);
+        Assert.assertNotNull(successLeader);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         studentNumList.add("24320162202818");
         Boolean success = teamService.create((long) 210, (long) 24, "test", studentNumList);
         logger.info(success.toString());
-        Assert.assertEquals(true,success);
+        Assert.assertNotNull(success);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     public void testDissolve() throws Exception {
         Boolean success = teamService.dissolve((long) 2, (long) 197);
         logger.info(success.toString());
-        Assert.assertEquals(true, success);
+        Assert.assertNotNull(success);
     }
 
     @Test
