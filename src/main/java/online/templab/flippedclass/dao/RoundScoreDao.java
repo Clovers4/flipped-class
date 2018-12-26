@@ -1,5 +1,7 @@
 package online.templab.flippedclass.dao;
 
+import online.templab.flippedclass.entity.RoundScore;
+
 import java.util.List;
 import java.util.Map;
 
@@ -32,4 +34,13 @@ public interface RoundScoreDao {
      * map<"seminars",List<SeminarScore>>
      */
     List<Map<String,Object>> listByStudentId(Long studentId,Long courseId);
+
+    /**
+     * 通过teamid和roundid得到该组该轮分数
+     *
+     * @param teamId
+     * @param roundId
+     * @return
+     */
+    RoundScore selectScoreOfRound(Long teamId,Long roundId);
 }

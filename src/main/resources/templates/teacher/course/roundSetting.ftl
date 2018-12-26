@@ -183,7 +183,7 @@
                                             <#list round.klassRounds as klassRound>
                                                 <input hidden name="klassId" value="${klassRound.klassId}" placeholder="">
                                                 <div class="line">
-                                                <label>${klassMap[klassRound.klassId].klassName}</label>
+                                                <label>${klassMap[klassRound.klassId?c].klassName}</label>
                                             <div class="sep"></div>
                                                 <div class="content">
                                                 <div class="form-group bmd-form-group" style="display: inline">

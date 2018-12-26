@@ -41,20 +41,10 @@ public class SeminarDaoImpl implements SeminarDao {
 
     @Override
     public Boolean insert(Seminar seminar) {
-        //考虑从课程的关系创建
-        List<Course> courses=courseMapper.select(new Course().setSeminarMainCourseId(seminar.getCourseId()));
-        if(!courses.isEmpty()){
-            for(Course course:courses){
-                List<Long> klassIds=klassMapper.selectIdByCourseId(course.getId());
-                for(Long klassId:klassIds){
-                    klassSeminarMapper.insert(new KlassSeminar()
-                            .setKlassId(klassId)
-                            .setSeminarId(seminar.getId())
-                            .setState(0));
-                }
-            }
+        if(seminar.getVisible()==null){
+            seminar.setVisible(false);
         }
-    //主课程的关系创建
+        //主课程的关系创建
         int line = seminarMapper.insert(seminar);
         List<Long> klassIds=klassMapper.selectIdByCourseId(seminar.getCourseId());
         for(Long klassId:klassIds){
@@ -62,6 +52,19 @@ public class SeminarDaoImpl implements SeminarDao {
                     .setKlassId(klassId)
                     .setSeminarId(seminar.getId())
                     .setState(0));
+        }
+        //考虑从课程的关系创建
+        List<Course> courses=courseMapper.select(new Course().setSeminarMainCourseId(seminar.getCourseId()));
+        if(!courses.isEmpty()){
+            for(Course course:courses){
+                List<Long> klassIds2=klassMapper.selectIdByCourseId(course.getId());
+                for(Long klassId:klassIds2){
+                    klassSeminarMapper.insert(new KlassSeminar()
+                            .setKlassId(klassId)
+                            .setSeminarId(seminar.getId())
+                            .setState(0));
+                }
+            }
         }
         return line == 1;
     }
