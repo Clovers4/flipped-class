@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
     <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -21,7 +20,7 @@
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/courseList'">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">课程</div>
+            <div class="navbar-brand brand-title">课程成绩</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -38,12 +37,6 @@
                         <i class="material-icons">person</i>个人首页
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="material-icons">notifications</i>
-                        待办
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
@@ -53,7 +46,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card content-card">
-                    <div class="card-body" data-courseID="${1}" data-toggle="modal" data-target="#teamModal${1}">
+                    <div class="card-body" data-toggle="modal" data-target="#teamModal${1}">
                         <div class="body-header">
                             <div class="body-title">第一轮</div>
                         </div>
@@ -74,57 +67,46 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="teamModal${1}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">第一轮</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="grade-area">
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">dashboard</i>
-                                    展示分
-                                    <h6>5分</h6>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">settings</i>
-                                    提问分
-                                    <h6>5分</h6>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">settings</i>
-                                    报告分
-                                    <h6>5分</h6>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="vertical-separator"></div>
-                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="material-icons">settings</i>
-                                    总分
-                                    <h6>5分</h6>
-                                </a>
-                            </li>
-                        </ul>
+                        <div>
+                            <hr>
+                            <div class="row">
+                                <div class="grade-area">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">dashboard</i>
+                                                展示分
+                                                <h6>5分</h6>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">settings</i>
+                                                提问分
+                                                <h6>5分</h6>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">settings</i>
+                                                报告分
+                                                <h6>5分</h6>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="vertical-separator"></div>
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <i class="material-icons">settings</i>
+                                                总分
+                                                <h6>5分</h6>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

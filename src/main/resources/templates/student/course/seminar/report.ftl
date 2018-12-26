@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/student/course/seminar/enrollList.js"></script>
+    <script src="/static/js/student/course/seminar/report.js"></script>
     <title>讨论课报名</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -53,7 +53,7 @@
                             <form hidden id="teamReport" enctype="multipart/form-data">
                                 <input id="fileInput" name="file" type="file" placeholder=""
                                        class="form-control empty-verify" data-emptyMessage="请选择文件">
-                                <input id="attendanceId" name="attendanceId" type="text" placeholder="">
+                                <input id="attendanceId" name="attendanceId" type="text" placeholder="" value="${attendance.id}">
                             </form>
                             <div class="file-frame">
                                 <ul class="nav nav-pills nav-pills-icons flex-space-around">

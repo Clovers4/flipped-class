@@ -83,10 +83,6 @@
         </div>
     </div>
 </div>
-<form method="post" action="/teacher/course/seminar/progressing">
-    <input hidden name="klassSeminarId" value="23" placeholder="">
-    <button class="btn bg-dark">-></button>
-</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

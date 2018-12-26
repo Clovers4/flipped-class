@@ -4,6 +4,10 @@
     height: 0;
 }
 
+.holder-visible{
+    visibility: visible !important;
+}
+
 .flex-center {
     display: flex;
     align-items: center;
@@ -67,6 +71,11 @@
 }
 
 /****** Component Style ******/
+.vertical-separator{
+    background-color: #EEEEEE;
+    height: 100%;
+    width: 1px;
+}
 /*Button*/
 .captcha-btn {
     height: 31px;
@@ -320,8 +329,15 @@
 
 .nav-item .nav-link {
     font-size: 15px !important;
+    cursor: pointer;
 }
 
+.nav-item.disabled{
+    pointer-events: none;
+}
+.nav-item.disabled .nav-link{
+    color: #AAAAAA;
+}
 /*Modal*/
 .modal .modal-dialog {
     margin-top: 20vh;
@@ -395,14 +411,28 @@
 
 .team-table .name {
     text-align: center;
+    vertical-align: middle;
     width: 48%;
     line-height: 21px;
 }
 
+
+.team-table .name.select {
+    text-align: left;
+    width: 36%;
+}
+
 .team-table .num {
+    vertical-align: middle;
     line-height: 21px;
 }
 
+.team-table .operation{
+    width: 20%;
+}
+.team-table .operation button{
+    padding: 5px 10px;
+}
 
 /*Graph Icon*/
 .triangle {
@@ -536,6 +566,12 @@
     }
 }
 
+.grade-area{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 
 /****** Page Style ******/
 /*Login page*/
@@ -651,7 +687,12 @@
     height: calc(100% - 50px);
 }
 
-.main-area .team-brand{
+.team-brand{
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    background-color: #FFFFFF;
+}
+
+.score-form{
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
 }
@@ -662,6 +703,7 @@
     padding-left: 8px;
     padding-right: 8px;
     width: 80px;
+    overflow: scroll;
 
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
@@ -700,12 +742,19 @@
     border-radius: 6px 0 0 6px;
 }
 
+.control-btn{
+    transition: 1s;
+}
+
 .btn.btn-fab.btn-team {
     width: 64px;
     height: 64px;
     border-radius: 32px;
 }
-
+.btn.btn-fab.btn-team.cur-focus {
+    border: 5px solid #9c27b0;
+    transition-duration: 1.6s;
+}
 .btn.btn-fab.btn-team.active-team {
     background-color: #9c27b0;
     transition-duration: 1.6s;

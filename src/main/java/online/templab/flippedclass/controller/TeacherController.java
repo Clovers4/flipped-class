@@ -26,10 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Cesare
@@ -68,6 +65,9 @@ public class TeacherController {
 
     @Autowired
     private ShareService shareService;
+
+    @Autowired
+    private ScoreService scoreService;
 
     //   @Autowired
 //    private  FileService fileService;
@@ -181,12 +181,16 @@ public class TeacherController {
 
         return "teacher/notification";
     }
-/*
-TODO: 恢复
+
+    /*
     @PostMapping("/notification/handle")
     public @ResponseBody
     ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
         log.info(applicationHandleDTO.toString());
+        *//*
+     * 0 : ShareSeminar
+     * 1 : ShareTeam
+     *//*
         switch (applicationHandleDTO.getAppType()) {
             case 0:
                 if (applicationService.handleShareSeminarApplication(applicationHandleDTO)) {
@@ -207,8 +211,6 @@ TODO: 恢复
         }
     }
 */
-
-
     @GetMapping("/courseList")
     public String course(Model model, HttpSession session) {
         Long teacherId = (Long) session.getAttribute(TEACHER_ID_GIST);
@@ -252,7 +254,7 @@ TODO: 恢复
     }
 
 //    @PostMapping("/course/round/setting")
-//    public String roundSetting(String roundId, Model model) {
+//    public String roundSetting(String roundId, String courseId, Model model) {
 //        // FIXME: roundService待修复，应采用left join的方式
 //        // TODO: roundService.get参数改变为 (Long roundId, Long courseId)
 //        Round round = roundService.get(Long.valueOf(roundId));
@@ -353,7 +355,13 @@ TODO: 恢复
      * be realize
      */
     @PostMapping("/course/seminar/grade")
-    public String seminarGrade() {
+    public String seminarGrade(Long courseId, Model model) {
+        List<Round> rounds = roundService.listByCourseId(courseId);
+        List<Team> teams = teamService.listByCourseId(courseId);
+        Map<String, List<RoundScore>> scoreMap = new HashMap<>(rounds.size());
+        rounds.forEach(round -> {
+            List<RoundScore> roundScores = new LinkedList<>();
+        });
         return "teacher/course/seminar/grade";
     }
 
@@ -431,15 +439,15 @@ TODO: 恢复
         Map<String, List<Course>> mainCourse = new HashMap<>(2);
 
         List<Course> shareTeamMainCourse = new ArrayList<>();
-        Course course=shareService.getShareTeamMainCourse(Long.valueOf(courseId));
-        if(course!=null) {
+        Course course = shareService.getShareTeamMainCourse(Long.valueOf(courseId));
+        if (course != null) {
             shareTeamMainCourse.add(course);
         }
         mainCourse.put("team", shareTeamMainCourse);
 
         List<Course> shareSeminarMainCourse = new ArrayList<>();
-        Course course1=shareService.getShareSeminarMainCourse(Long.valueOf(courseId));
-        if(course1!=null) {
+        Course course1 = shareService.getShareSeminarMainCourse(Long.valueOf(courseId));
+        if (course1 != null) {
             shareSeminarMainCourse.add(course);
         }
         mainCourse.put("seminar", shareSeminarMainCourse);
@@ -467,7 +475,7 @@ TODO: 恢复
     ResponseEntity<Object> createCourseShareApplication(@RequestBody ShareApplicationDTO shareApplicationDTO) {
 
         Course subCourse = courseService.get(shareApplicationDTO.getSubCourseId());
-        Long teacherId =subCourse.getTeacherId();
+        Long teacherId = subCourse.getTeacherId();
 
         if (shareApplicationDTO.getShareType() == 0) {
             //Share team

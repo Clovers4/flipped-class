@@ -186,9 +186,10 @@
 </form>
 <form hidden id="roundSettingForm" action="/teacher/course/round/setting" method="post">
     <input id="roundIdInput" name="roundId" placeholder="">
+    <input class="courseId" name="courseId" placeholder="">
 </form>
 <form hidden id="courseIdForm" action="/teacher/course/seminar/create" method="post">
-    <input id="courseIdInput" name="courseId" placeholder="">
+    <input class="courseId" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

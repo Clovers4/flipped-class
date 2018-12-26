@@ -19,7 +19,7 @@
     </style>
     <title>首页</title>
 </head>
-<body class="profile-page sidebar-collapse">
+<body class="profile-page sidebar-collapse" data-maxMember="${maxMember}" data-teamId="${team.id}">
 <div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
@@ -78,12 +78,14 @@
                             <td class="num">${team.leader.studentNum}</td>
                             <#if team.leader.id = studentId>
                                 <td class="operation">
-                                    <button class="btn btn-danger btn-fab-mini">解散</button>
+                                    <button id="dissolveBtn" class="btn btn-danger btn-fab-mini">解散</button>
                                 </td>
                             </#if>
                         </tr>
+                        <#assign curMember = 0>
                         <#if (team.students?size > 0)>
                             <#list team.students as student>
+                                <#assign curMember = curMember + 1>
                                 <#if team.leader.studentNum != student.studentNum>
                                     <tr>
                                         <td class="name">
@@ -118,7 +120,7 @@
 </div>
 <div class="container foot-container flex-center" style="bottom: 0;position: fixed;padding-bottom: 0;max-width: 100%;">
     <#if team.leader.id = studentId>
-        <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal">
+        <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal" <#if curMember = maxMember>disabled</#if>>
             <i class="material-icons">add</i>
             添加成员
         </button>
@@ -129,9 +131,6 @@
         </button>
     </#if>
 </div>
-<form id="courseIdForm" method="post" action="/student/course/teamList" hidden>
-    <input id="courseIdInput" name="courseId" placeholder="">
-</form>
 
 <div class="modal fade" id="notTeamedModal">
     <div class="modal-dialog" style="margin-top: 30px">
@@ -142,7 +141,7 @@
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <div class="modal-body" style="overflow: scroll;max-height: 70%;padding: 0 24px">
+            <div class="modal-body" style="overflow: scroll;height: 70%;padding: 0 24px">
                 <div class="row">
                     <div class="container">
                         <#if (students?size > 0)>
@@ -153,10 +152,10 @@
                                     <#list students as student>
                                         <tr>
                                             <td class="serial">
-                                                <div class="form-check single">
-                                                    <label class="form-check-label">
-                                                        <input name="studentId" class="form-check-input" type="checkbox" value="${student.id}">
-                                                        <span class="form-check-sign"><span class="check"></span></span>
+                                                <div class="form-check form-check-radio" style="margin-bottom: 20px">
+                                                    <label class="form-check-label klass">
+                                                        <input class="form-check-input" type="radio" name="studentId" value="${student.id}">
+                                                        <span class="circle"><span class="check"></span></span>
                                                     </label>
                                                 </div>
                                             </td>
@@ -187,6 +186,10 @@
         </div>
     </div>
 </div>
+
+<form id="courseIdForm" method="post" action="/student/course/teamList" hidden>
+    <input id="courseIdInput" name="courseId" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

@@ -122,7 +122,7 @@
             <i class="material-icons">arrow_forward_ios</i>
         </button>
     <#else >
-        <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();">
+        <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();" <#if !permitCreate>disabled</#if>>
             <i class="material-icons">add</i>
             创建小组
         </button>
