@@ -28,11 +28,11 @@ $(function () {
         if(verify == null){
             $.ajax({
                 type: "post",
-                url: "/teacher/activation",
+                url: "/student/activation",
                 data: actForm.form.serialize(),
                 success: function (result, status, xhr) {
                     if (xhr.status === 200) {
-                        window.location="/teacher/index";
+                        window.location="/student/index";
                     }
                 },
                 error: function (xhr) {//xhr, textStatus, errorThrown
@@ -53,7 +53,7 @@ $(function () {
 function getCaptcha() {
     $.ajax({
         type: "post",
-        url: "/teacher/captcha/activation",
+        url: "/student/captcha/activation",
         data: {
             email:actForm.email.val()
         },

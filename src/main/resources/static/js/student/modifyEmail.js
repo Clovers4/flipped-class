@@ -21,7 +21,7 @@ $(function () {
                 url: "/student/modifyEmail",
                 data: modifyEmailForm.serialize(),
                 success: function () {
-                    window.location = "/teacher/setting";
+                    window.location = "/student/setting";
                 },
                 error: function (xhr) {
                     if (xhr.status === 409) {
