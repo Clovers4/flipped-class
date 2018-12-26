@@ -49,15 +49,17 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
         }
 
         else if(this.strategyName.equals("TeamOrStrategy")){
-            boolean orOne=true;
-            boolean orTwo = true;
-            if(courseStrategyList.size()!=0){
-                orOne = courseStrategyList.get(0).isValid(studentList);
-                if(courseStrategyList.size()>1){
-                    orTwo = courseStrategyList.get(1).isValid(studentList);
+            int orStrategyCount = this.courseStrategyList.size();
+            if(orStrategyCount != 0){
+                for(int i = 0 ; i < this.courseStrategyList.size(); ++i){
+                    if(!this.courseStrategyList.get(i).isValid(studentList)){
+                        --orStrategyCount;
+                    }
                 }
             }
-            return (orOne || orTwo);
+            if(orStrategyCount == 0){
+                return false;
+            }
         }
         else{
             return courseStrategyList.get(0).isValid(studentList);

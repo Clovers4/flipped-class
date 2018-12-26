@@ -52,7 +52,7 @@ public class TeamStrategy implements Serializable , CourseStrategy{
         if(this.strategyName.equals("ConflictCourseStrategy")){
             Map<Long, Integer> maps = new HashMap<>();
 
-            for(CourseStrategy courseStrategy :courseStrategyList){
+            for(CourseStrategy courseStrategy :this.courseStrategyList){
                 maps.put(courseStrategy.getMyCourseId(),0);
             }
 
@@ -78,21 +78,26 @@ public class TeamStrategy implements Serializable , CourseStrategy{
         }
         else if(this.strategyName.equals("TeamAndStrategy")){
             for(int i = 0 ; i < this.courseStrategyList.size() ; ++i){
-                if(!courseStrategyList.get(i).isValid(studentList)){
+                if(!this.courseStrategyList.get(i).isValid(studentList)){
                     return false;
                 }
             }
         }
         else if(this.strategyName.equals("TeamOrStrategy")){
-            boolean orOne=true;
-            boolean orTwo = true;
-            if(courseStrategyList.size()!=0){
-                orOne = courseStrategyList.get(0).isValid(studentList);
-                if(courseStrategyList.size()>1){
-                    orTwo = courseStrategyList.get(1).isValid(studentList);
+            int orStrategyCount = this.courseStrategyList.size();
+            if(orStrategyCount != 0){
+                for(int i = 0 ; i < this.courseStrategyList.size(); ++i){
+                    if(!this.courseStrategyList.get(i).isValid(studentList)){
+                        --orStrategyCount;
+                    }
                 }
             }
-            return (orOne || orTwo);
+            if(orStrategyCount == 0){
+                return false;
+            }
+        }
+        else{
+            return this.courseStrategyList.get(0).isValid(studentList);
         }
         return true;
     }
