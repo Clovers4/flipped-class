@@ -47,7 +47,6 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
                 }
             }
         }
-
         else if(this.strategyName.equals("TeamOrStrategy")){
             int orStrategyCount = this.courseStrategyList.size();
             if(orStrategyCount != 0){

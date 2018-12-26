@@ -31,13 +31,13 @@ public class CourseMemberLimitStrategy implements Serializable, CourseStrategy {
      * 队伍中选该课程最少人数
      */
     @Column(name = "`min_member`")
-    private Integer minMember;
+    private Integer min;
 
     /**
      * 队伍中选该课程最多人数
      */
     @Column(name = "`max_member`")
-    private Integer maxMember;
+    private Integer max;
 
     private static final long serialVersionUID = 1L;
 
@@ -55,22 +55,22 @@ public class CourseMemberLimitStrategy implements Serializable, CourseStrategy {
 
         Integer memberNum = maps.get(this.courseId);
 
-        if(minMember == null && maxMember == null)
+        if(min == null && max == null)
         {
             return true;
         }
-        else if(minMember == null){
-            if(memberNum <=maxMember){
+        else if(min == null){
+            if(memberNum <=max){
                 return true;
             }
         }
-        else if(maxMember == null) {
-            if (memberNum >= minMember) {
+        else if(max == null) {
+            if (memberNum >= min) {
                 return true;
             }
         }
         else {
-            if (memberNum >= minMember && memberNum <=maxMember){
+            if (memberNum >= min && memberNum <=max){
                 return true;
             }
         }

@@ -81,14 +81,13 @@
     </select>
 
     <select id="selectTeamMerberCourseIdByTeamId" parameterType="long" resultMap="CourseResultMap">
-        SELECT
-            s.id,
-            s.account,
-            s.password,
-            s.is_active,
-            s.student_name,
-            s.email,
-            ks.course_id
+        SELECT s.id,
+               s.account,
+               s.password,
+               s.is_active,
+               s.student_name,
+               s.email,
+               ks.course_id
         FROM student s
             LEFT JOIN team_student ts ON ts.student_id = s.id
             LEFT JOIN klass_student ks ON ks.student_id = s.id

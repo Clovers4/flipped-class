@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -62,12 +63,14 @@ public class Course implements Serializable {
      * 开始组队时间
      */
     @Column(name = "`team_start_time`")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamStartDate;
 
     /**
      * 截止组队时间
      */
     @Column(name = "`team_end_time`")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date teamEndDate;
 
     /**
@@ -86,6 +89,10 @@ public class Course implements Serializable {
      * 对应的教师
      */
     private Teacher teacher;
+
+    //TODO:
+//    @Block
+//    private RegulationComposition regulationComposition;
 
     /**
      * 老师的Course下会有零到多个klass，学生只有一个klass
