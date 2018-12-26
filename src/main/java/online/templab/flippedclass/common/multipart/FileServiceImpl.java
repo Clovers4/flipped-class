@@ -27,12 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Slf4j
 @Service
-public class StorageServiceImpl implements StorageService {
+public class FileServiceImpl implements FileService {
 
     private final Path rootLocation;
 
     @Autowired
-    public StorageServiceImpl(StorageProperties properties) {
+    public FileServiceImpl(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 

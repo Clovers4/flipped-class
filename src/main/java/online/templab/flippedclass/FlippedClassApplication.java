@@ -1,14 +1,12 @@
 package online.templab.flippedclass;
 
 import online.templab.flippedclass.common.multipart.StorageProperties;
-import online.templab.flippedclass.common.multipart.StorageService;
+import online.templab.flippedclass.common.multipart.FileService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,10 +26,10 @@ public class FlippedClassApplication {
     }
 
     @Bean
-    CommandLineRunner init(StorageService storageService) {
+    CommandLineRunner init(FileService fileService) {
         return (args) -> {
             //    storageService.deleteAll();
-            storageService.init();
+            fileService.init();
         };
     }
 

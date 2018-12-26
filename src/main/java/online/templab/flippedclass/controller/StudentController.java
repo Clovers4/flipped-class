@@ -1,11 +1,12 @@
 package online.templab.flippedclass.controller;
 
 import online.templab.flippedclass.common.email.EmailService;
-import online.templab.flippedclass.entity.KlassSeminar;
-import online.templab.flippedclass.entity.Student;
+import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,9 +14,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author wk
@@ -43,9 +45,14 @@ public class StudentController {
     private KlassService klassService;
 
     @Autowired
+    private CourseService courseService;
+
+    @Autowired
     private EmailService emailService;
 
     private final static String STUDENT_ID_GIST = "studentId";
+
+    private final static Integer MAX_MEMBER = 6;
 
     @GetMapping(value = {"", "/", "/index"})
     public String index(Model model, HttpSession session, @AuthenticationPrincipal User user) {
@@ -161,36 +168,184 @@ public class StudentController {
     }
 
     @PostMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(Long klassId, Long seminarId, Model model) {
+    public String seminarEnrollList(Long klassId, Long seminarId, Model model, HttpSession session) {
+        Long studentId = (Long) session.getAttribute("studentId");
+        Klass klass = klassService.get(klassId);
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(klassSeminar.getId()));
+        model.addAttribute("team", teamService.get(klass.getCourseId(), studentId));
+        model.addAttribute("ksId", klassSeminar.getId());
         return "student/course/seminar/enrollList";
     }
 
-    @PostMapping("/course/seminar/grade")
-    public String seminarGrade(String klassId, String seminarId, Model model) {
-        return "student/course/seminar/grade";
+/*
+TODO:文件
+    @PostMapping("/course/seminar/uploadPPT")
+    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
+        if(fileService.store(multipartFile) != null) {
+            studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
+*/
+/*
+    TODO:恢复
+    @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<FileSystemResource> downloadPPT(String fileName) {
+        return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
+    }
+*/
 
+    /*
+    TODO:恢复
+        @PostMapping("/course/seminar/enroll")
+        public ResponseEntity<Object> seminarEnroll(Long ksId, Long teamId, Integer sn){
+            if (studentService.seminarEnroll(ksId, teamId, sn)){
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            }else{
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        }
+
+    */
+    /*
+    TODO:恢复
     @PostMapping("/course/seminar/report")
-    public String seminarReport(String klassId, String seminarId, Model model) {
+    public String seminarReport(Long klassId, Long seminarId, Model model, HttpSession session) {
+        Klass klass = klassService.get(klassId);
+        KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+        Team team = teamService.get(klass.getCourseId(), ((Long) session.getAttribute("studentId")));
+        Attendance attendance;
+        if (team != null) {
+            attendance = seminarService.getAttendanceById(team.getId(), klassSeminar.getId()).get(0);
+        } else {
+            attendance = null;
+        }
+        model.addAttribute("attendance", attendance);
         return "student/course/seminar/report";
     }
+    */
+/*
+TODO:文件
+    @PostMapping("/course/seminar/uploadReport")
+    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
+        if(fileService.store(multipartFile) != null) {
+            studentService.uploadReportFile(attendanceId, multipartFile.getOriginalFilename());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+*/
 
-    @PostMapping("/course/team")
-    public String teamList(Long courseId, Model model) {
+    @PostMapping("/course/teamList")
+    public String teamList(Long courseId, Model model, HttpSession session) {
+        Course course = courseService.get(courseId);
+        Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
+        model.addAttribute("permitCreate", mPermitCreate);
+        model.addAttribute("myTeam", teamService.get(courseId, ((Long) session.getAttribute("studentId"))));
         model.addAttribute("teams", teamService.listByCourseId(courseId));
         model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(courseId));
         return "student/course/teamList";
     }
+
+    @PostMapping("/course/team/create")
+    public String createTeam(Long courseId, Model model, HttpSession session) {
+        model.addAttribute("leaderId", session.getAttribute(STUDENT_ID_GIST));
+        model.addAttribute("klasses", klassService.listByCourseId(courseId));
+        return "student/course/team/create";
+    }
+
+    @PutMapping("/course/team")
+    public ResponseEntity<Object> createTeam(@RequestBody Team team) {
+        List<String> studentNumList = new ArrayList<>();
+        for (Student student : team.getStudents()) {
+            studentNumList.add(student.getStudentNum());
+        }
+        teamService.create(team.getLeaderId(),
+                team.getKlassId(), team.getTeamName(), studentNumList);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+/*
+TODO:恢复
+    @PostMapping("/course/myTeam")
+    public String myTeam(String teamId, Model model, HttpSession session) {
+        Team team = seminarService.getTeamByTeamId(teamId);
+        model.addAttribute("maxMember", MAX_MEMBER);
+        model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
+        model.addAttribute("team", team);
+        model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(team.getCourseId()));
+        return "student/course/myTeam";
+    }
+*/
+/*
+TODO:恢复
+    @PostMapping("/course/myTeam/addMembers")
+    public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session) {
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            leaderService.addGroupMember(studentId, teamId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+*/
+/*
+TODO:恢复
+    @PostMapping("/course/myTeam/deleteMember")
+    public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session) {
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            leaderService.deleteGroupMember(studentId, teamId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+*/
+/*
+TODO:恢复
+    @PostMapping("/course/myTeam/dissolveTeam")
+    public ResponseEntity<Object> dissolveTeam(String teamId, HttpSession session) {
+        Team team = seminarService.getTeamByTeamId(teamId);
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            leaderService.dissolveTeam(teamId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+*/
 
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
     }
 
+/*
     @PostMapping("/course/grade")
-    public String seminarGrade(String courseId, Model model) {
+    public String seminarGrade(Long courseId, Long klassId, Model model, HttpSession session) {
+        List<Round> rounds = roundService.listByCourseId(courseId);
+        Team team = teamService.get(courseId, ((Long) session.getAttribute(STUDENT_ID_GIST)));
+        Map<String, List<SeminarScore>> seminarScoreMap = new HashMap<>(rounds.size());
+        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
+        rounds.forEach(round -> {
+            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+            round.getSeminars().forEach(seminar -> {
+                seminarScoreMap.computeIfAbsent(round.getId(), k -> new LinkedList<>());
+                seminarScoreMap.get(round.getId())
+                        .add(scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminar(klassId, seminar.getId()).getId()));
+            });
+        });
+        model.addAttribute("rounds", rounds);
+        model.addAttribute("seminarScoreMap", seminarScoreMap);
+        model.addAttribute("roundScoreMap", roundScoreMap);
         return "student/course/grade";
     }
+*/
+
+
 }

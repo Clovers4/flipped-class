@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  *
  * @author wk
  */
-public interface StorageService {
+public interface FileService {
 
     /**
      * 初始化上传文件夹。若不存在则创建;若存在则不做处理。
