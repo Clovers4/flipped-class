@@ -70,9 +70,9 @@ public interface TeamDao {
      * @param klassId 班级id
      * @param teamName 队伍名称
      * @param studentNum 成员id list
-     * @return
+     * @return teamId
      */
-    Boolean insert(Long studentId,Long klassId,String teamName,List<String> studentNum);
+    Long insert(Long studentId,Long klassId,String teamName,List<String> studentNum);
 
     /**
      * 根据 account 删除组员

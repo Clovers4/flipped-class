@@ -209,7 +209,7 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Boolean insert(Long studentId, Long klassId, String teamName, List<String> studentNum) {
+    public Long insert(Long studentId, Long klassId, String teamName, List<String> studentNum) {
         // 获取 courseId
         KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setKlassId(klassId).setStudentId(studentId));
         // 创建队伍
@@ -230,7 +230,7 @@ public class TeamDaoImpl implements TeamDao {
         }
         // 插入 klass_student 表关系
         int lineKlassStudent = teamStudentMapper.insertList(team.getId(), studentPrimaryKeyList);
-        return (lineTeam + lineKlassStudent) > 0;
+        return team.getId();
     }
 
     @Override
