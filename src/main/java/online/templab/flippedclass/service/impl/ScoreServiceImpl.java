@@ -43,12 +43,12 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public Boolean markerScore(SeminarScore seminarScore, Long seminarId,Long klassId) {
-        return scoreDao.insert(seminarScore, seminarId,klassId);
+    public Boolean markerScore(SeminarScore seminarScore) {
+        return scoreDao.insert(seminarScore);
     }
 
     @Override
-    public Boolean update(SeminarScore seminarScore, Long seminarId,Long klassId) {
-        return scoreDao.update(seminarScore, seminarId,klassId);
+    public Boolean update(SeminarScore seminarScore, Long seminarId, Long klassId) {
+        return scoreDao.update(seminarScore, seminarId, klassId);
     }
 }

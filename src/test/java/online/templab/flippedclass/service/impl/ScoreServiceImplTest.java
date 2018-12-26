@@ -40,7 +40,8 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
                 .setPresentationScore(new BigDecimal(5 - random.nextDouble()))
                 .setQuestionScore(new BigDecimal(5 - random.nextDouble()))
                 .setReportScore(new BigDecimal(5.0 - random.nextDouble()))
-                .setTeamId((long) random.nextInt(100));
+                .setTeamId((long) random.nextInt(100))
+                .setKlassSeminarId((long) random.nextInt(100));
     }
 
     private KlassSeminar createKlassSeminar() {
@@ -66,16 +67,13 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
     public void testMarkerScore() throws Exception {
         SeminarScore seminarScore = createSeminarScore();
         logger.info(seminarScore.toString());
-        KlassSeminar klassSeminar = createKlassSeminar();
-        klassSeminarMapper.insert(klassSeminar);
-        logger.info(klassSeminar.toString());
-        Boolean success = scoreService.markerScore(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
+        Boolean success = scoreService.markerScore(seminarScore);
         logger.info(success.toString());
         Assert.assertEquals(true, success);
 
         seminarScore.setReportScore(new BigDecimal(4.14));
         logger.info(seminarScore.toString());
-        success = scoreService.markerScore(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
+        success = scoreService.markerScore(seminarScore);
         Assert.assertEquals(true, success);
     }
 
@@ -86,11 +84,11 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
         KlassSeminar klassSeminar = createKlassSeminar();
         klassSeminarMapper.insert(klassSeminar);
         logger.info(klassSeminar.toString());
-        scoreService.markerScore(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
+        scoreService.markerScore(seminarScore);
 
         seminarScore.setReportScore(new BigDecimal(3.14))
                 .setPresentationScore(new BigDecimal(3.14));
-        Boolean success = scoreService.update(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
+        Boolean success = scoreService.update(seminarScore, klassSeminar.getSeminarId(), klassSeminar.getKlassId());
         logger.info(seminarScore.toString());
         Assert.assertEquals(true, success);
     }

@@ -25,14 +25,12 @@ public class ScoreDaoImpl implements ScoreDao {
 
     @Autowired
     KlassSeminarMapper klassSeminarMapper;
-
-
+    
     @Override
-    public Boolean insert(SeminarScore seminarScore, Long seminarId,Long klassId) {
-        seminarScore.setKlassSeminarId(klassSeminarMapper.selectOne(new KlassSeminar().setSeminarId(seminarId).setKlassId(klassId)).getId());
+    public Boolean insert(SeminarScore seminarScore) {
         int updateLine = seminarScoreMapper.updateByKlassSeminarId(seminarScore);
         // 如果存在就更新
-        if(updateLine == 1){
+        if (updateLine == 1) {
             return true;
         }
         // 如果不存在就插入
@@ -41,7 +39,7 @@ public class ScoreDaoImpl implements ScoreDao {
     }
 
     @Override
-    public Boolean update(SeminarScore seminarScore, Long seminarId,Long klassId) {
+    public Boolean update(SeminarScore seminarScore, Long seminarId, Long klassId) {
         seminarScore.setKlassSeminarId(klassSeminarMapper.selectOne(new KlassSeminar().setSeminarId(seminarId).setKlassId(klassId)).getId());
         int line = seminarScoreMapper.updateByKlassSeminarId(seminarScore);
         return line == 1;
