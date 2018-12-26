@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import online.templab.flippedclass.entity.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class SeminarMonitor {
      * K attendanceId
      * V preScore
      */
-    Map<Long, Integer> preScoreMap;
+    Map<String, Integer> preScoreMap;
 
     /**
      * 当前的展示到的Index
@@ -50,7 +51,7 @@ public class SeminarMonitor {
      * K attendanceId
      * V preScore
      */
-    Map<Long, List<Question>> askedQuestion;
+    Map<String, List<Question>> askedQuestion;
 
     /**
      * PAUSE / PROCESSING / TERMINATE
@@ -60,14 +61,17 @@ public class SeminarMonitor {
     public SeminarMonitor(Long klassSeminarId, List<Attendance> enrollList) {
         this.klassSeminarId = klassSeminarId;
         this.enrollList = enrollList;
-        this.preScoreMap = new HashMap<>();
+        this.preScoreMap = new HashMap<>(6);
         for (Attendance enroll : enrollList) {
-            preScoreMap.put(enroll.getId(), -1);
+            preScoreMap.put(String.valueOf(enroll.getId()), -1);
         }
         this.onPreAttendanceIndex = 0;
         this.onPreAttendance = enrollList.get(0);
         this.raisedQuestionsCount = 0;
         this.askedQuestion = new HashMap<>();
+        for (Attendance enroll : enrollList) {
+            askedQuestion.put(String.valueOf(enroll.getId()),new LinkedList<>());
+        }
         this.progressState = "PAUSE";
     }
 

@@ -81,7 +81,7 @@
         <div class="left-side side-raised">
             <#list monitor.enrollList as enroll>
                 <#if enroll??>
-                    <button data-score="${monitor.preScoreMap[enroll.id]}" data-idx="${enroll?index}"
+                    <button data-score="${monitor.preScoreMap[enroll.id?c]}" data-idx="${enroll?index}"
                             data-tab="#tab${enroll.id}" data-teamName="${enroll.team.teamName}"
                             class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
                         ${enroll.team.serial}
@@ -100,7 +100,7 @@
                     <#if enroll??>
                         <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}"
                              <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>
-                            <#list monitor.askedQuestion[enroll.id] as question>
+                            <#list monitor.askedQuestion[enroll.id?c] as question>
                                 <button data-idx="${question?index}" data-score="${question.score}"
                                         class="btn btn-fab btn-round btn-team question">${question.team.serial}</button>
                             </#list>
