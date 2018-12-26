@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.excel.ExcelService;
-import online.templab.flippedclass.common.multipart.StorageService;
+import online.templab.flippedclass.common.multipart.FileService;
 import online.templab.flippedclass.common.multipart.excp.EncodeException;
 import online.templab.flippedclass.common.multipart.excp.StorageFileNotFoundException;
 import online.templab.flippedclass.entity.Student;
@@ -34,7 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileUploadController {
 
     @Autowired
-    private StorageService storageService;
+    private FileService storageService;
 
     @Autowired
     private ExcelService excelService;
