@@ -104,7 +104,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for (List<SeminarScore> allTeamSeminarScore : seminarScores) {
                     for (SeminarScore teamSeminarScore : allTeamSeminarScore) {
                         if (teamSeminarScore.getTeamId().equals(team.getId())) {
-                            if (teamSeminarScore.getPresentationScore() != null) {
+                            if (teamSeminarScore.getReportScore() != null) {
                                 if (reportScore.compareTo(teamSeminarScore.getReportScore()) == -1) {
                                     reportScore = teamSeminarScore.getReportScore();
                                 }
@@ -117,7 +117,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for (List<SeminarScore> allTeamSeminarScore : seminarScores) {
                     for (SeminarScore teamSeminarScore : allTeamSeminarScore) {
                         if (teamSeminarScore.getTeamId().equals(team.getId())) {
-                            if (teamSeminarScore.getPresentationScore() != null) {
+                            if (teamSeminarScore.getReportScore() != null) {
                                 sumScore = teamSeminarScore.getReportScore().add(sumScore);
                             }
                         }
@@ -131,7 +131,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for (List<SeminarScore> allTeamSeminarScore : seminarScores) {
                     for (SeminarScore teamSeminarScore : allTeamSeminarScore) {
                         if (teamSeminarScore.getTeamId().equals(team.getId())) {
-                            if (teamSeminarScore.getPresentationScore() != null) {
+                            if (teamSeminarScore.getQuestionScore() != null) {
                                 if (questionScore.compareTo(teamSeminarScore.getQuestionScore()) == -1) {
                                     questionScore = teamSeminarScore.getQuestionScore();
                                 }
@@ -144,7 +144,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 for (List<SeminarScore> allTeamSeminarScore : seminarScores) {
                     for (SeminarScore teamSeminarScore : allTeamSeminarScore) {
                         if (teamSeminarScore.getTeamId().equals(team.getId())) {
-                            if (teamSeminarScore.getPresentationScore() != null) {
+                            if (teamSeminarScore.getQuestionScore() != null) {
                                 sumScore = teamSeminarScore.getQuestionScore().add(sumScore);
                             }
                         }

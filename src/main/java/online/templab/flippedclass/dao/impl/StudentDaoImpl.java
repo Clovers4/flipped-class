@@ -25,7 +25,7 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public int insert(Student student) {
-        return studentMapper.insertSelective(student);
+        return studentMapper.insertSelective(student.setPassword("123456").setActivated(false));
     }
 
     @Override
