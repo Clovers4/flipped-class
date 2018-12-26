@@ -269,4 +269,14 @@ public class TeamDaoImpl implements TeamDao {
     public Long selectByKlassIdAndStudentId(Long klassId, Long studentId) {
         return klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId).getTeamId();
     }
+
+    @Override
+    public Team selectByPrimaryKey(Long id) {
+        return teamMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<TeamStudent> selectTeamStudentByTeamId(Long teamId) {
+        return teamStudentMapper.select(new TeamStudent().setTeamId(teamId));
+    }
 }

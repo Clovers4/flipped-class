@@ -65,7 +65,7 @@ public interface TeamService {
     Boolean quitTeam(Long teamId, Long studentId) throws ParseException;
 
     /**
-     * 队长创建队伍（合法性判断缺失）
+     * 队长创建队伍
      *
      * @param studentId  队长id
      * @param klassId    班级id
@@ -76,7 +76,7 @@ public interface TeamService {
     Boolean create(Long studentId, Long klassId, String teamName, List<String> studentNum) throws ParseException;
 
     /**
-     * 根据 studentNum 删除组员（合法性判断缺失）
+     * 根据 studentNum 删除组员
      *
      * @param teamId
      * @param studentNum
@@ -85,7 +85,7 @@ public interface TeamService {
     Boolean removeMember(Long teamId, String studentNum) throws ParseException;
 
     /**
-     * 添加组员（合法性判断缺失）
+     * 添加组员
      *
      * @param teamId     队伍 id
      * @param studentNum 学生 studentNum
@@ -110,4 +110,12 @@ public interface TeamService {
      * @return
      */
     Long getTeamByKlassIdAndStudentId(Long klassId,Long studentId);
+
+    /**
+     * 根据 team id 获取一个组装好的team
+     *
+     * @param id
+     * @return
+     */
+    Team getByPrimaryKey(Long id);
 }
