@@ -11,30 +11,18 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script>
-        var ksIdForm;
-        $(function () {
-            ksIdForm=$("#ksIdForm");
-            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
-            $("#enterSeminar").click(function () {
-                ksIdForm.attr("action", "/student/course/seminar/progressing");
-                ksIdForm.submit();
-            });
-            $("#backBtn").click(function () {
-                $("#courseIdForm").submit();
-            })
-        });
-    </script>
-    <title>讨论课信息</title>
+    <script src="/static/js/student/course/seminar/enrollList.js"></script>
+    <title>讨论课报名</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-fab-mini btn-round" id="backBtn">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">讨论课信息</div>
+            <div class="navbar-brand brand-title">上传报告</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -55,59 +43,69 @@
         </div>
     </div>
 </nav>
-<div class="container" style="margin-top: 40px">
-    <div class="row">
-        <div class="col-md-10 ml-auto mr-auto">
-            <div class="card seminar-card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-9" style="display: flex;align-items: center">
-                            <h4 class="card-title" style="margin-top: 0">${klassSeminar.seminar.theme}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="container">
+<#if attendance??>
+    <div class="main main-raised" style="height: auto;">
+        <div class="container">
+            <div class="row">
+                <div id="formBody" class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
+                    <div class="row" style="height: 208px;">
                         <div class="col-md-6 ml-auto mr-auto">
-                            <div class="line content-line">
-                                <label>课程要求</label>
-                                <div class="sep"></div>
-                                <div class="content">${klassSeminar.seminar.content}</div>
+                            <form hidden id="teamReport" enctype="multipart/form-data">
+                                <input id="fileInput" name="file" type="file" placeholder=""
+                                       class="form-control empty-verify" data-emptyMessage="请选择文件">
+                                <input id="attendanceId" name="attendanceId" type="text" placeholder="">
+                            </form>
+                            <div class="file-frame">
+                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                    <li class="nav-item" id="upload" style="width: 100%;">
+                                        <a class="nav-link">
+                                            <div class="icon">
+                                                <i class="material-icons">folder</i>
+                                            </div>
+                                            <div id="uploadName" style="text-transform: none">
+                                                上传文件
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="line status-line">
-                                <label>状态</label>
-                                <div class="sep"></div>
-                                <div class="content">
-                                    <#if klassSeminar.state == 0>
-                                        尚未开始
-                                    <#elseif klassSeminar.state == 1>
-                                        正在进行
-                                    <#else>
-                                        已经结束
-                                    </#if>
-                                </div>
+                            <div class="flex-space-around" style="margin-top: 20px">
+                                <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm"
+                                        style="width: 40%">
+                                    <i class="material-icons">arrow_upward</i>
+                                    上传
+                                </button>
+                                <button data-dismiss="modal" class="btn btn-danger btn-round cancel" style="width: 40%">
+                                    <i class="material-icons">close</i>
+                                    取消
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
-                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enterSeminar">
-                            <i class="material-icons">arrow_forward_ios</i>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<#else >
+    <div class="main main-raised">
+        <div class="container">
+            <div class="row">
+                <div class="empty-tag">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
+                        </div>
+                        <h4 class="info-title">您没有组队或者没报名</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</#if>
+<form hidden id="returnForm" action="/student/course/seminarList" method="post">
+    <input id="returnCourseId" name="courseId" placeholder="">
+</form>
 
-<form hidden id="ksIdForm" method="post">
-    <input id="ksIdInput" name="klassSeminarId" value="${klassSeminar.id}">
-</form>
-<form hidden id="courseIdForm" action="/student/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId">
-</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

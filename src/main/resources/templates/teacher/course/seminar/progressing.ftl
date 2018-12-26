@@ -33,6 +33,7 @@
     </style>
 </head>
 <body class="card-page sidebar-collapse" data-ksId="${ksId}">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -65,81 +66,125 @@
         </div>
     </div>
 </nav>
-<div class="left-side side-raised">
-    <#list monitor.enrollList as enroll>
-        <#if enroll??>
-            <button data-teamName="${enroll.team.teamName}" class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
-                ${enroll.team.serial}
-            </button>
-        </#if>
-    </#list>
-</div>
-<div class="right-upper-side side-raised">
-    <button id="questionCount" class="btn btn-fab btn-round btn-team static-question" disabled>
-        ${monitor.raisedQuestionsCount}
-    </button>
-</div>
-<div class="right-downer-side side-raised">
-
-</div>
-<div class="flex-center main-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
-                <h3 id="teamName" style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
-                <hr>
-                <h4 id="teamOperation" style="text-align: center">进行中...</h4>
+<#if monitor.state.progressState = "TERMINATE">
+    <div class="main main-raised no-footer">
+        <div class="empty-tag">
+            <div class="info">
+                <div class="icon icon-rose flex-center">
+                    <i class="material-icons color-grey">portable_wifi_off</i>
+                </div>
+                <h4 class="info-title">该讨论课已经结束</h4>
             </div>
         </div>
-        <div class="row">
-            <div id="timer"></div>
+    </div>
+    <#else >
+        <div class="left-side side-raised">
+            <#list monitor.enrollList as enroll>
+                <#if enroll??>
+                    <button data-score="${monitor.preScoreMap[enroll.id?c]}" data-idx="${enroll?index}"
+                            data-tab="#tab${enroll.id}" data-teamName="${enroll.team.teamName}"
+                            class="btn btn-fab btn-round btn-team <#if (enroll?index < monitor.onPreAttendanceIndex)>passed-team<#elseif (enroll?index = monitor.onPreAttendanceIndex)>active-team<#else>preparatory-team</#if>">
+                        ${enroll.team.serial}
+                    </button>
+                </#if>
+            </#list>
         </div>
-        <div class="row" style="margin-bottom: 100px">
-            <div class="col-6 col-md-4 ml-auto mr-auto">
-                <div id="operation" class="flex-space-around" style="width: 100%;">
-                    <button id="start" class="btn bg-dark btn-fab btn-lg btn-round">
-                        <i class="material-icons">play_arrow</i>
-                    </button>
-                    <button id="pause" class="btn bg-dark btn-fab btn-lg btn-round" style="display: none">
-                        <i class="material-icons">pause</i>
-                    </button>
-                    <button id="stop" class="btn bg-dark btn-fab btn-lg btn-round" style="display: none">
-                        <i class="material-icons">stop</i>
-                    </button>
+        <div class="right-upper-side side-raised">
+            <button id="questionCount" class="btn btn-fab btn-round btn-team static-question" disabled>
+                ${monitor.raisedQuestionsCount}
+            </button>
+        </div>
+        <div class="right-downer-side side-raised">
+            <div id="tabContent">
+                <#list monitor.enrollList as enroll>
+                    <#if enroll??>
+                        <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}"
+                             <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>
+                            <#list monitor.askedQuestion[enroll.id?c] as question>
+                                <button data-idx="${question?index}" data-score="${question.score}"
+                                        class="btn btn-fab btn-round btn-team question">${question.team.serial}</button>
+                            </#list>
+                        </div>
+                    </#if>
+                </#list>
+            </div>
+        </div>
+        <div class="flex-center main-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
+                        <h3 id="teamName"
+                            style="text-align: center;margin-bottom: 0">${monitor.onPreAttendance.team.teamName}</h3>
+                        <hr>
+                        <h4 id="teamOperation" style="text-align: center">
+                            暂停中...
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="timer"></div>
+                </div>
+                <div class="row" style="margin-bottom: 43px">
+                    <div class="col-6 col-md-4 ml-auto mr-auto">
+                        <div id="operation" class="flex-space-around" style="width: 100%;">
+                            <button id="start" class="btn bg-dark btn-fab btn-lg btn-round control-btn">
+                                <i class="material-icons">play_arrow</i>
+                            </button>
+                            <button id="pause" class="btn bg-dark btn-fab btn-lg btn-round control-btn" style="display: none">
+                                <i class="material-icons">pause</i>
+                            </button>
+                            <button id="stopQuestion" class="btn bg-dark btn-fab btn-lg btn-round control-btn"
+                                    style="display: none">
+                                <i class="material-icons">stop</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-md-4 ml-auto mr-auto team-brand">
+                        <form class="form flex-center" id="scoreForm" style="flex-direction: column;margin-bottom: 5px;">
+                            <div class="form-group bmd-form-group" style="padding-top: 5px">
+                                <input id="score" name="score" type="text" placeholder="分数" autocomplete="off"
+                                       class="form-control empty-verify" data-emptyMessage="请输入分数">
+                            </div>
+                            <button type="button" id="giveScore" class="btn bg-dark btn-fab btn-round">
+                                <i class="material-icons">
+                                    adjust
+                                </i>
+                            </button>
+                            <button type="button" id="patchScore" class="btn bg-dark btn-fab btn-round" style="display: none">
+                                <i class="material-icons">
+                                    arrow_upward
+                                </i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="container foot-operation">
-    <div class="row  flex-space-around">
-        <form class="form" id="scoreForm">
-            <div class="form-group bmd-form-group">
-                <input id="score" name="score" type="text" placeholder="分数" autocomplete="off"
-                       class="form-control empty-verify" data-emptyMessage="请输入分数">
+        <div class="container foot-operation" style="max-width: 100%;">
+            <div class="row  flex-space-around">
+                <button id="pullQuestion" class="btn bg-dark btn-round">
+                    <i class="material-icons">
+                        toll
+                    </i>
+                    抽取提问
+                </button>
+                <button id="switchTeam" class="btn bg-dark btn-round">
+                    <i class="material-icons">
+                        arrow_forward
+                    </i>
+                    切换小组
+                </button>
+                <button id="endPre" class="btn bg-dark btn-round" style="display: none">
+                    <i class="material-icons">
+                        input
+                    </i>
+                    结束展示
+                </button>
             </div>
-        </form>
-    </div>
-    <div class="row  flex-space-between">
-        <button id="pullQuestion" class="btn bg-dark btn-round">
-            <i class="material-icons">
-                toll
-            </i>
-            抽取提问
-        </button>
-        <button id="giveScore" class="btn bg-dark btn-fab btn-round">
-            <i class="material-icons">
-                adjust
-            </i>
-        </button>
-        <button id="switchTeam" class="btn bg-dark btn-round">
-            <i class="material-icons">
-                arrow_forward
-            </i>
-            切换小组
-        </button>
-    </div>
-</div>
+        </div>
+</#if>
 
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
     <input id="seminarIdInput" name="seminarId" placeholder="">

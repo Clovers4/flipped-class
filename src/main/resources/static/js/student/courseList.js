@@ -5,7 +5,7 @@ $(function () {
     courseIdForm.klassIdInput = $("#klassIdInput");
 
     $(".seminar-nav").click({url:'/student/course/seminarList'},navClick);
-    $(".team-nav").click({url:'/student/course/team'},navClick);
+    $(".team-nav").click({url:'/student/course/teamList'},navClick);
     $(".info-nav").click({url:'/student/course/info'},navClick);
     $(".grade-nav").click({url:'/student/course/grade'},navClick);
 

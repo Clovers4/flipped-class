@@ -11,17 +11,28 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <script src="/static/js/student/course/team/create.js"></script>
+    <style>
+        .circle, .check{
+            height: 20px !important;
+            width: 20px !important;
+        }
+        .klass{
+            font-size: 20px;
+            padding-left: 35px !important;
+        }
+    </style>
+    <title>首页</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/index'">
+            <a class="btn btn-link btn-fab btn-round" id="backBtn">
                 <i class="material-icons">arrow_back_ios</i>
             </a>
-            <div class="navbar-brand brand-title">账户设置</div>
+            <div class="navbar-brand brand-title">创建队伍</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <!--All are needed here. Please do not remove anything.-->
@@ -42,49 +53,59 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised info-main">
+<div class="main main-raised">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-                <div class="profile">
+        <div class="row flex-center">
+            <div class="col-md-8">
+                <form class="form" id="createTeamForm">
+                    <input hidden id="courseId" name="courseId" placeholder="">
+                    <input hidden id="klassId" name="klassId" placeholder="">
+                    <input hidden id="leaderId" name="leaderId" placeholder="" value="${leaderId}">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="avatar">
-                                    <img src="/static/imgs/Avatar.png" class="img-raised rounded-circle img-fluid">
-                                </div>
-                            </div>
-                            <div class="col-8 avatar-side">
-                                <h3 class="title">${student.studentName}</h3>
-                                <hr>
-                                <h4 class="title">${student.studentNum}</h4>
-                            </div>
+                        <div class="form-group bmd-form-group">
+                            <input id="teamName" name="teamName" type="text" autocomplete="off" placeholder="队伍名"
+                                   class="form-control empty-verify" data-emptyMessage="请输入队伍名字">
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="row" style="margin-top: 30px">
-            <div class="col-md-6 ml-auto mr-auto">
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/student/modifyEmail'" style="width: 100%;text-transform: none">
-                    <span>电子邮箱：<#if student.email??>${student.email}<#else >暂无</#if></span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
-                <button class="btn bg-dark flex-space-between" onclick="window.location='/student/modifyPassword'" style="width: 100%;">
-                    <span>修改密码</span>
-                    <i class="material-icons">chevron_right</i>
-                </button>
+                    <div class="container">
+                        <label style="margin-top: 30px">选择班级</label>
+                        <div style="margin-top: 10px;">
+                            <#list klasses as klass>
+                                <div class="form-check form-check-radio" style="margin-bottom: 20px">
+                                    <label class="form-check-label klass">
+                                        <input class="form-check-input" type="radio" <#if klass?index = 0>checked</#if>
+                                               name="klassId" value="${klass.id}">${klass.klassName}
+                                        <span class="circle"><span class="check"></span></span>
+                                    </label>
+                                </div>
+                            </#list>
+
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <div class="container foot-container flex-center">
-    <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
-        <i class="material-icons">exit_to_app</i>
-        退出登录
-    </button>
+    <div class="left-button">
+        <button class="btn btn-dark btn-round bg-dark confirm" style="margin: 0">
+            <i class="material-icons">add_circle</i>
+            创建
+        </button>
+    </div>
+    <div class="right-button">
+        <button class="btn btn-danger btn-round cancel" style="margin: 0">
+            <i class="material-icons">clear</i>
+            取消
+        </button>
+    </div>
 </div>
+
+<form id="returnForm" action="/student/course/teamList" method="post">
+    <input id="returnCourseId" name="courseId" placeholder="">
+    <input id="returnKlassId" name="klassId" placeholder="">
+</form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

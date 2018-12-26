@@ -74,14 +74,12 @@
                             <input id="klassTime" name="klassTime" type="text" autocomplete="off" placeholder="讨论课时间"
                                    class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
                         </div>
-                    </div>
-
-                    <div class="container">
                         <div class="form-group bmd-form-group">
                             <input id="location" name="location" type="text" autocomplete="off" placeholder="讨论课地点"
                                    class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12 ml-auto mr-auto">
                             <input hidden id="file" name="file" type="file" autocomplete="off" class="form-control empty-verify" data-emptyMessage="请选择名单">
