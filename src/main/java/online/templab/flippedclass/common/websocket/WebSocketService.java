@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.AttendanceMapper;
+import online.templab.flippedclass.mapper.KlassSeminarMapper;
 import online.templab.flippedclass.mapper.QuestionMapper;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,9 @@ public class WebSocketService {
         return newMessage;
     }
 
+    @Autowired
+    private KlassSeminarMapper klassSeminarMapper;
+
     private String handleSeminarStateRequest(Long ksId, RawMessage message) {
         try {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
@@ -120,9 +124,12 @@ public class WebSocketService {
                 state.setProgressState("PROCESSING");
             }
 
+            // 更新 klassSeminar表的状态
+            klassSeminarMapper.updateByPrimaryKeySelective(new KlassSeminar().setId(ksId).setState(1));
+
+            // 返回给前端 json
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("state", state);
-
             return objectMapper.writeValueAsString(newContent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,11 +156,12 @@ public class WebSocketService {
             } else {
                 // 这个讨论课结束,更新 monitor的state
                 state.setProgressState("TERMINATE");
+                // 更新 klassSeminar表的状态
+                klassSeminarMapper.updateByPrimaryKeySelective(new KlassSeminar().setId(ksId).setState(2));
                 // 这个讨论课结束时,同时更新 roundScore表
                 KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
                 Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
                 scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
-
             }
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("attendanceIndex", monitor.getOnPreAttendanceIndex());
