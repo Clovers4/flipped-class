@@ -19,44 +19,41 @@ public class SeminarMonitor {
     /**
      * klassSeminarId
      */
-    Long klassSeminarId;
+    private Long klassSeminarId;
 
     /**
      * 展示组
      */
-    List<Attendance> enrollList;
+    private List<Attendance> enrollList;
 
     /**
      * K attendanceId
      * V preScore
      */
-    Map<String, Integer> preScoreMap;
+    private Map<String, Integer> preScoreMap;
 
     /**
      * 当前的展示到的Index
      */
-    Integer onPreAttendanceIndex;
+    private Integer onPreAttendanceIndex;
 
     /**
      * 当前正在进行的展示
      */
-    Attendance onPreAttendance;
+    private Attendance onPreAttendance;
 
     /**
      * 当前提问数量
      */
-    Integer raisedQuestionsCount;
+    private Integer raisedQuestionsCount;
 
     /**
      * K attendanceId
      * V preScore
      */
-    Map<String, List<Question>> askedQuestion;
+    private Map<String, List<Question>> askedQuestion;
 
-    /**
-     * PAUSE / PROCESSING / TERMINATE
-     */
-    String progressState;
+    private SeminarState state;
 
     public SeminarMonitor(Long klassSeminarId, List<Attendance> enrollList) {
         this.klassSeminarId = klassSeminarId;
@@ -70,9 +67,9 @@ public class SeminarMonitor {
         this.raisedQuestionsCount = 0;
         this.askedQuestion = new HashMap<>();
         for (Attendance enroll : enrollList) {
-            askedQuestion.put(String.valueOf(enroll.getId()),new LinkedList<>());
+            askedQuestion.put(String.valueOf(enroll.getId()), new LinkedList<>());
         }
-        this.progressState = "PAUSE";
+        this.state = new SeminarState().setProgressState("PAUSE").setTimeStamp(0L);
     }
 
 }

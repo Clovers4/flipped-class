@@ -1,10 +1,13 @@
 package online.templab.flippedclass.common.websocket;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +32,9 @@ public class WebSocketService {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     /**
      * K klassSeminarId
      * V SeminarMonitor
@@ -48,5 +54,65 @@ public class WebSocketService {
         Course course = courseService.get(klass.getCourseId());
         Student student = studentService.getByStudentNum(studentNum);
         return teamService.get(course.getId(), student.getId());
+    }
+
+    public RawMessage handleMessage(Long ksId, RawMessage message) {
+        System.out.println(message);
+        RawMessage newMessage = new RawMessage();
+
+        switch (message.getType()) {
+            case "SeminarStateRequest":
+                newMessage.setType("SeminarStateResponse")
+                        .setContent(handleSeminarStateRequest(ksId, message));
+                break;
+            case "SwitchTeamRequest":
+                newMessage.setType("SwitchTeamResponse")
+                        .setContent(handleSwitchTeamRequest(ksId, message));
+                break;
+            default:
+                throw new RuntimeException();
+        }
+
+        System.out.println("newMessage:" + newMessage);
+        return newMessage;
+    }
+
+    private String handleSeminarStateRequest(Long ksId, RawMessage message) {
+        try {
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            SeminarMonitor monitor = SEMINAR_MONITOR_MAP.get(ksId);
+            SeminarState state = monitor.getState()
+                    .setProgressState(jsonContent.get("request").asText().toString())
+                    .setTimeStamp(Long.valueOf(jsonContent.get("timeStamp").asText().toString()));
+
+            Map<String, Object> newContent = new HashMap<>();
+            newContent.put("state", state);
+
+            return objectMapper.writeValueAsString(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    private String handleSwitchTeamRequest(Long ksId, RawMessage message) {
+        try {
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            SeminarMonitor monitor = SEMINAR_MONITOR_MAP.get(ksId);
+            monitor.setOnPreAttendanceIndex(monitor.getOnPreAttendanceIndex() + 1);
+            monitor.setOnPreAttendance(monitor.getEnrollList().get(monitor.getOnPreAttendanceIndex()));
+            SeminarState state = monitor.getState()
+                    .setProgressState("PAUSE")
+                    .setTimeStamp(0L);
+
+            Map<String, Object> newContent = new HashMap<>();
+            newContent.put("attendanceIndex", monitor.getOnPreAttendanceIndex());
+            newContent.put("state", monitor.getState());
+            return objectMapper.writeValueAsString(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

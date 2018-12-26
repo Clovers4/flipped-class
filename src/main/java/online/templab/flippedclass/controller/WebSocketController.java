@@ -1,12 +1,13 @@
 package online.templab.flippedclass.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import online.templab.flippedclass.common.websocket.QuestionPool;
+import online.templab.flippedclass.common.websocket.RawMessage;
 import online.templab.flippedclass.common.websocket.SeminarMonitor;
 import online.templab.flippedclass.common.websocket.WebSocketService;
 import online.templab.flippedclass.entity.KlassSeminar;
-import online.templab.flippedclass.entity.Question;
-import online.templab.flippedclass.entity.Student;
-import online.templab.flippedclass.entity.Team;
 import online.templab.flippedclass.service.SeminarService;
 import online.templab.flippedclass.service.StudentService;
 import online.templab.flippedclass.service.TeamService;
@@ -14,18 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpSession;
-import javax.websocket.OnClose;
-import javax.websocket.OnOpen;
 import java.security.Principal;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author wk
@@ -40,13 +35,13 @@ public class WebSocketController {
     private SeminarService seminarService;
 
     @Autowired
-    private TeamService teamService;
-
-    @Autowired
     private WebSocketService webSocketService;
 
     @Autowired
     private QuestionPool questionPool;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @GetMapping("/webs")
@@ -74,6 +69,22 @@ public class WebSocketController {
 
     @MessageMapping("/teacher/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
+    public RawMessage teacherMessage(@DestinationVariable Long ksId, RawMessage message, Principal principal) {
+        try{
+            JsonNode jsonContent = objectMapper.readTree(message.getContent());
+            ((ObjectNode) jsonContent).put("teacherNum", principal.getName());
+            message.setContent(jsonContent.toString());
+            return webSocketService.handleMessage(ksId, message);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /*
+    @MessageMapping("/teacher/klassSeminar/{ksId}")
+    @SendTo("/topic/client/{ksId}")
     public Question pickQuestion(@DestinationVariable Long attendanceId, String message) {
         return questionPool.pick(attendanceId);
     }
@@ -86,5 +97,5 @@ public class WebSocketController {
         question.setStudent(student);
 
         return "有新的提问";
-    }
+    }*/
 }
