@@ -94,7 +94,7 @@
         WHERE ts.team_id = #{teamId}
     </select>
 
-    <select id="selectStudentsByKlassIdTeamId" resultMap="CourseResultMap">
+    <select id="selectStudentsByKlassIdTeamId" resultMap="BaseResultMap">
         select
             s.id,
             s.account,
