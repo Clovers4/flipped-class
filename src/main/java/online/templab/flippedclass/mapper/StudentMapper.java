@@ -30,15 +30,6 @@ public interface StudentMapper extends Mapper<Student> {
     List<Student> selectUnTeamedStudentByCourseId(Long courseId);
 
     /**
-     * 根据 teamId 获取队伍成员
-     *
-     * @param teamId
-     * @return
-     */
-
-    List<Student> selectTeamMemberByTeamId(@Param("courseId") Long courseId,@Param("teamId") Long teamId);
-
-    /**
      * 通过 teamId 获得 team
      * team 下注入 allStudent
      * allStudent 注入 courseIdList
@@ -48,6 +39,12 @@ public interface StudentMapper extends Mapper<Student> {
      */
     List<Student> selectTeamMerberCourseIdByTeamId(Long teamId);
 
+    /**
+     * 根据 team id  获取 team
+     *
+     * @param teamId
+     * @return
+     */
     List<Student> selectTeamMemberByTeamId(@Param("teamId") Long teamId);
 
 }
