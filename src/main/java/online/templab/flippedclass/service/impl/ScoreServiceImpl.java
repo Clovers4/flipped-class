@@ -57,4 +57,9 @@ public class ScoreServiceImpl implements ScoreService {
     public RoundScore getScoreOfRound(Long teamId, Long roundId) {
         return roundScoreDao.selectScoreOfRound(teamId,roundId);
     }
+
+    @Override
+    public SeminarScore getByKlassSeminarIdAndTeamId(Long klassSeminerId, Long teamId) {
+        return scoreDao.selectSeminarScore(klassSeminerId,teamId);
+    }
 }
