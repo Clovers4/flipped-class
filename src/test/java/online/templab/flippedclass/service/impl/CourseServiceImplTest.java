@@ -156,5 +156,5 @@ public class CourseServiceImplTest extends FlippedClassApplicationTest {
             logger.info(map.get("klass").toString());
         }
     }
-    
+
 }

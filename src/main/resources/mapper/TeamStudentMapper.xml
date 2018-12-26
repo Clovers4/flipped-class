@@ -17,4 +17,12 @@
     </foreach>
   </insert>
 
+    <select id="selectCountByKlassIdTeamId" resultType="long">
+        select count(ts.student_id)
+        from team_student ts,
+             klass_student ks
+        where ts.team_id = #{teamId}
+          and ks.klass_id = #{klassId}
+          and ks.student_id = ts.student_id
+    </select>
 </mapper>

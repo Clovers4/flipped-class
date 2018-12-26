@@ -12,6 +12,7 @@ import online.templab.flippedclass.service.ShareService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * @author jh
  */
-//@Transactional
+@Transactional
 public class ShareServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
@@ -215,5 +216,12 @@ public class ShareServiceImplTest extends FlippedClassApplicationTest {
         courseList = shareService.listCanShareCourses(shareCourse.getId(), 1);
         logger.info(courseList.toString());
         Assert.assertNotNull(courseList.size());
+    }
+
+    @Rollback(false)
+    @Test
+    public void testProcessShareTeamApplication(){
+        shareService.cancelShareTeamApplication(2L);
+        shareService.processShareTeamApplication(2L,true);
     }
 }

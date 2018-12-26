@@ -20,6 +20,9 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
     @Autowired
     KlassStudentMapper klassStudentMapper;
 
+    @Autowired
+    TeamStudentMapper teamStudentMapper;
+
 //    @Test
 //    public void testInsertList() throws Exception {
 //        List<Long> studentNums = new ArrayList<>();
@@ -32,5 +35,10 @@ public class KlassStudentMapperTest extends FlippedClassApplicationTest {
 //        Boolean success = line == 5  ? true : false;
 //        Assert.assertEquals(true, success);
 //    }
+
+    @Test
+    public void teatSelectCountByKlassIdTeamId(){
+        logger.info(teamStudentMapper.selectCountByKlassIdTeamId(23L,25L).toString());
+    }
 
 }

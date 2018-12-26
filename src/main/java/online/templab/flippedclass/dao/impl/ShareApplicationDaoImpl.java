@@ -3,11 +3,13 @@ package online.templab.flippedclass.dao.impl;
 import online.templab.flippedclass.dao.ShareApplicationDao;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.*;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class ShareApplicationDaoImpl implements ShareApplicationDao {
@@ -31,12 +33,14 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     TeamMapper teamMapper;
 
 
-
     @Autowired
     KlassTeamMapper klassTeamMapper;
 
     @Autowired
     KlassMapper klassMapper;
+
+    @Autowired
+    TeamStudentMapper teamStudentMapper;
 
     @Override
     public Boolean insertShareTeamApplication(ShareTeamApplication shareTeamApplication) {
@@ -60,7 +64,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     public Boolean updateShareTeamApplication(Long shareTeamApplicationId, Boolean accept) {
         ShareTeamApplication shareTeamApplication = shareTeamApplicationMapper.selectByPrimaryKey(shareTeamApplicationId);
         //判断是否有效请求,主课程是否变为从课程
-        if (shareTeamApplication.getMainCourse().getTeamMainCourseId() != null) {
+        if (courseMapper.selectByPrimaryKey(shareTeamApplication.getMainCourseId()).getTeamMainCourseId() != null) {
             return false;
         }
         int line = 0;
@@ -72,8 +76,48 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
             courseMapper.updateByPrimaryKeySelective(new Course()
                     .setId(shareTeamApplication.getSubCourseId())
                     .setTeamMainCourseId(shareTeamApplication.getMainCourseId()));
-
-            //TODO：更新组队信息
+            //更新组队信息
+            //删除从课程旧的队伍信息
+            List<Long> klassIds = klassMapper.selectIdByCourseId(shareTeamApplication.getSubCourseId());
+            for (Long klassId : klassIds) {
+                klassTeamMapper.delete(new KlassTeam().setKlassId(klassId));
+            }
+            //新建队伍关系
+            List<Team> teams = teamMapper.select(new Team().setCourseId(shareTeamApplication.getMainCourseId()));
+            Map<Long,Integer> teamNumsOfKlass= new LinkedMap<>();
+            for(Long klassId:klassIds){
+                teamNumsOfKlass.put(klassId,0);
+            }
+            for (Team team : teams) {
+                Map<Long,Integer> studentNumsOfKlass= new LinkedMap<>();
+                int maxStudentNums=0;
+                for(Long klassId:klassIds){
+                    //判断team在各班的人数
+                    int studentNum=teamStudentMapper.selectCountByKlassIdTeamId(klassId,team.getId()).intValue();
+                    studentNumsOfKlass.put(klassId,studentNum);
+                    if(maxStudentNums<studentNum) {
+                        maxStudentNums=studentNum;
+                    }
+                }
+                if(maxStudentNums==0){
+                    continue;
+                }
+                //找出各班队伍数最少的且队伍人数最多的
+                int min=Integer.MAX_VALUE;
+                Long minKlassId=0L;
+                for(Long klassId:klassIds){
+                    if(studentNumsOfKlass.get(klassId)==maxStudentNums){
+                        if(min>teamNumsOfKlass.get(klassId)){
+                            min=teamNumsOfKlass.get(klassId);
+                            minKlassId=klassId;
+                        }
+                    }
+                }
+                //建立该team与klass的联系
+                klassTeamMapper.insert(new KlassTeam().setKlassId(minKlassId).setTeamId(team.getId()));
+                //该班的team数加一
+                teamNumsOfKlass.put(minKlassId,teamNumsOfKlass.get(minKlassId)+1);
+            }
         }
         //如果不接受，更新请求记录
         else {
@@ -135,8 +179,8 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
             return false;
         }
         //删除从课程队伍信息
-        List<Long> klassIds=klassMapper.selectIdByCourseId(subCourseId);
-        for(Long klassId:klassIds){
+        List<Long> klassIds = klassMapper.selectIdByCourseId(subCourseId);
+        for (Long klassId : klassIds) {
             klassTeamMapper.delete(new KlassTeam().setKlassId(klassId));
         }
         return true;
