@@ -27,7 +27,7 @@
             <result column="klass_seminar_id" jdbcType="BIGINT" property="klassSeminarId"/>
             <result column="team_id" jdbcType="BIGINT" property="teamId"/>
             <result column="team_order" jdbcType="TINYINT" property="sn"/>
-            <result column="is_present" jdbcType="TINYINT" property="present"/>
+            <result column="is_present" jdbcType="TINYINT" property="presenting"/>
             <result column="report_name" jdbcType="VARCHAR" property="reportName"/>
             <result column="report_url" jdbcType="VARCHAR" property="reportFile"/>
             <result column="ppt_name" jdbcType="VARCHAR" property="pptName"/>
