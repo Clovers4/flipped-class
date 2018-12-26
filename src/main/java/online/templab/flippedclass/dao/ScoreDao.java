@@ -28,4 +28,13 @@ public interface ScoreDao {
      * @return
      */
     Boolean update(SeminarScore seminarScore, Long seminarId,Long klassId);
+
+    /**
+     * 根据 klassSeminerId 和 teamId 获取 SeminarScore
+     *
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    SeminarScore selectSeminarScore(Long klassSeminarId,Long teamId);
 }

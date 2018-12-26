@@ -71,4 +71,13 @@ public interface ScoreService {
      * @return
      */
     RoundScore getScoreOfRound(Long teamId,Long roundId);
+
+    /**
+     * 根据 klassSeminerId 和 teamId 获取 SeminarScore
+     *
+     * @param klassSeminerId
+     * @param teamId
+     * @return
+     */
+    SeminarScore getByKlassSeminarIdAndTeamId(Long klassSeminerId,Long teamId);
 }

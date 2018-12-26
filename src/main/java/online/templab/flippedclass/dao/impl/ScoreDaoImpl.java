@@ -44,4 +44,9 @@ public class ScoreDaoImpl implements ScoreDao {
         int line = seminarScoreMapper.updateByKlassSeminarId(seminarScore);
         return line == 1;
     }
+
+    @Override
+    public SeminarScore selectSeminarScore(Long klassSeminarId, Long teamId) {
+        return seminarScoreMapper.selectOne(new SeminarScore().setKlassSeminarId(klassSeminarId).setTeamId(teamId));
+    }
 }

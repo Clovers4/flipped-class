@@ -38,10 +38,10 @@
         `presentation_score_method` = #{preScoreType},
       </if>
       <if test="reportScoreType != null">
-        `report_score_method` = #{reportScoreType}
+        `report_score_method` = #{reportScoreType},
       </if>
       <if test="quesScoreType != null">
-        `question_score_method` = #{quesScoreType}
+          `question_score_method`  = #{quesScoreType}
       </if>
     </set>
     where `id` = #{id}
