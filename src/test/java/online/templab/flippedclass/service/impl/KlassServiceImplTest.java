@@ -59,7 +59,12 @@ public class KlassServiceImplTest extends FlippedClassApplicationTest {
         students.add(new Student().setStudentNum("23").setActivated(true).setStudentName("1").setPassword("123"));
         students.add(new Student().setStudentNum("13").setActivated(true).setStudentName("1").setPassword("123"));
         students.add(new Student().setStudentNum("121322").setActivated(true).setStudentName("1").setPassword("123"));
+        logger.info(klassStudentMapper.select(new KlassStudent().setKlassId(213L)).toString());
         Assert.assertEquals(true,klassService.resetStudentList(213L, students));
+        logger.info(klassStudentMapper.select(new KlassStudent().setKlassId(213L)).toString());
+        students.add(new Student().setStudentNum("2222").setActivated(true).setStudentName("1").setPassword("123"));
+        Assert.assertEquals(true,klassService.resetStudentList(213L, students));
+        logger.info(klassStudentMapper.select(new KlassStudent().setKlassId(213L)).toString());
     }
 
     @Test
