@@ -25,19 +25,21 @@ $(function () {
     ksId = body.attr("data-ksId");
     studentNum = body.attr("data-studentNum")
 });
+
 function changeFocus(target) {
     var tab = target.attr("data-tab");
     tabContent.children(".tab-pane").hide();
     console.log($(tab));
     $(tab).show();
 }
+
 function changeActive(target) {
     if (curActive !== undefined) {
         curActive.removeClass("active-team");
     }
     curActive = target;
     curActive.addClass("active-team");
-    if(!curActive.hasClass("question")) {
+    if (!curActive.hasClass("question")) {
         changeFocus(curActive);
     }
 }
@@ -79,6 +81,7 @@ function handleResponse(response) {
 }
 
 var SeminarStateResponse = {state: {progressState: null, timeStamp: null}};
+
 function handleSeminarStateResponse(content) {
     if (content.state.progressState === progressState)
         return;
@@ -93,25 +96,30 @@ function handleSeminarStateResponse(content) {
 }
 
 var RaiseQuestionResponse = {questionNum: null};
+
 function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
 var SwitchTeamResponse = {attendanceIndex: null, state: null};
+
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
-    if (content.attendanceIndex < teams.length) {
+    if (content.attendanceIndex < teams.length - 1) {
         var onTeam = teams.eq(content.attendanceIndex);
         curAttendanceIdx = content.attendanceIndex;
         onTeam.removeClass("preparatory-team");
         teamName.text(onTeam.attr("data-teamName"));
         changeActive(onTeam);
+    } else {
+        window.location.reload();
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
 }
 
-var PullQuestionResponse = {studentNum: null, teamSerial:null, teamName: null, questionCount: null};
+var PullQuestionResponse = {studentNum: null, teamSerial: null, teamName: null, questionCount: null};
+
 function handlePullQuestionResponse(content) {
     preTimeStamp = timer.getTime();
 
@@ -122,7 +130,7 @@ function handlePullQuestionResponse(content) {
 
     console.log(content.studentNum);
     console.log(studentNum);
-    if(content.studentNum === studentNum){
+    if (content.studentNum === studentNum) {
         onAsk.addClass("holder-visible");
     }
 }
@@ -132,9 +140,11 @@ function handleEndQuestionResponse(content) {
     onAsk.removeClass("holder-visible");
     changeActive(teams.eq(curAttendanceIdx));
 }
+
 function handleScoreResponse(content) {
 
 }
+
 function setQuestionCount(count) {
     questionCount.removeClass("static-question").addClass("active-question");
     setTimeout(function () {

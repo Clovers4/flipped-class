@@ -53,6 +53,7 @@ public class WebSocketController {
     public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+        System.out.println(monitor);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
@@ -62,6 +63,7 @@ public class WebSocketController {
 
     @PostMapping("/teacher/course/seminar/progressing")
     public String seminarProgressing(Long klassSeminarId, Model model) {
+        System.out.println( webSocketService.getMonitor(klassSeminarId));
         model.addAttribute("ksId", klassSeminarId);
         model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
         return "teacher/course/seminar/progressing";
@@ -70,12 +72,12 @@ public class WebSocketController {
     @MessageMapping("/teacher/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
     public RawMessage teacherMessage(@DestinationVariable Long ksId, RawMessage message, Principal principal) {
-        try{
+        try {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
             ((ObjectNode) jsonContent).put("teacherNum", principal.getName());
             message.setContent(jsonContent.toString());
             return webSocketService.handleMessage(ksId, message);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

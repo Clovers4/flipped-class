@@ -5,7 +5,7 @@ var questionCount, teams, questions, teamName, teamOperation;
 
 var preTimeStamp;
 
-var tabContent,curActive,curOnfocus,curAttendanceIdx;
+var tabContent, curActive, curOnfocus, curAttendanceIdx;
 $(function () {
     timer = $("#timer");
     startBtn = $("#start");
@@ -28,7 +28,7 @@ $(function () {
 
     teams.click(function () {
         var team = $(this);
-        if(parseInt(team.attr("data-idx")) > curAttendanceIdx){
+        if (parseInt(team.attr("data-idx")) > curAttendanceIdx) {
             return;
         }
         changeFocus(team);
@@ -104,23 +104,23 @@ $(function () {
     $([giveScoreBtn, patchScoreBtn]).each(function () {
         this.click(function () {
             var score = parseFloat(scoreInput.val());
-            if(isNaN(score)){
+            if (isNaN(score)) {
                 util.showAlert("warning", "请输入分数", 3);
                 return;
             }
             curOnfocus.attr("data-score", score);
-            if(curOnfocus.hasClass("question")){
+            if (curOnfocus.hasClass("question")) {
                 sendRequest("ScoreRequest", {
-                    score:score,
-                    type:"Question",
-                    attendanceIdx:curAttendanceIdx,
-                    questionIdx:curOnfocus.attr("data-idx")
+                    score: score,
+                    type: "Question",
+                    attendanceIdx: curAttendanceIdx,
+                    questionIdx: curOnfocus.attr("data-idx")
                 });
-            }else{
+            } else {
                 sendRequest("ScoreRequest", {
-                    score:score,
-                    type:"Attendance",
-                    attendanceIdx:curAttendanceIdx
+                    score: score,
+                    type: "Attendance",
+                    attendanceIdx: curAttendanceIdx
                 });
             }
         });
@@ -135,7 +135,7 @@ function connect() {
     client = Stomp.over(socket);
     client.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
+        //TODO:DELETE sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
         client.subscribe(clientAddr, function (m) {
             handleResponse(JSON.parse(m.body));
         });
@@ -155,34 +155,39 @@ function handleResponse(response) {
 }
 
 var SeminarStateResponse = {state: {progressState: null, timeStamp: null}};
-function handleSeminarStateResponse(content) {}
+
+function handleSeminarStateResponse(content) {
+}
 
 var RaiseQuestionResponse = {questionNum: null};
+
 function handleRaiseQuestionResponse(content) {
     setQuestionCount(content.questionNum);
 }
 
 var SwitchTeamResponse = {attendanceIndex: null, state: null};
+
 function handleSwitchTeamResponse(content) {
     curActive.removeClass("active-team").addClass("passed-team");
-    if (content.attendanceIndex < teams.length) {
+    if (content.attendanceIndex < teams.length - 1) {
         var onTeam = teams.eq(content.attendanceIndex);
         curAttendanceIdx = content.attendanceIndex;
         onTeam.removeClass("preparatory-team");
         teamName.text(onTeam.attr("data-teamName"));
         changeActive(onTeam);
-        if(content.attendanceIndex === teams.length - 2){
+        if (content.attendanceIndex === teams.length - 2) {
             $("#switchTeam").hide();
             $("#endPre").show();
         }
-    }else{
-
+    } else {
+        window.location.reload();
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
 }
 
-var PullQuestionResponse = {studentNum: null, teamSerial:null, teamName: null, questionCount: null};
+var PullQuestionResponse = {studentNum: null, teamSerial: null, teamName: null, questionCount: null};
+
 function handlePullQuestionResponse(content) {
     preTimeStamp = timer.getTime();
 
@@ -198,6 +203,7 @@ function handleEndQuestionResponse(content) {
     pauseAt(preTimeStamp);
     changeActive(teams.eq(curAttendanceIdx));
 }
+
 function handleScoreResponse(content) {
 
 }
@@ -238,12 +244,12 @@ function addQuestion(teamSerial) {
     changeActive(btn);
 }
 
-function changeScore(score){
-    if(score !== -1){
+function changeScore(score) {
+    if (score !== -1) {
         scoreInput.val(score);
         giveScoreBtn.hide();
         patchScoreBtn.show();
-    }else{
+    } else {
         scoreInput.val("");
         giveScoreBtn.show();
         patchScoreBtn.hide();

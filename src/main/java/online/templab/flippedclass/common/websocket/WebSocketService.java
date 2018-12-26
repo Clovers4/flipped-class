@@ -57,7 +57,7 @@ public class WebSocketService {
     }
 
     public RawMessage handleMessage(Long ksId, RawMessage message) {
-        System.out.println(message);
+        System.out.println(">>> " + message);
         RawMessage newMessage = new RawMessage();
 
         switch (message.getType()) {
@@ -73,7 +73,7 @@ public class WebSocketService {
                 throw new RuntimeException();
         }
 
-        System.out.println("newMessage:" + newMessage);
+        System.out.println("<<< " + newMessage);
         return newMessage;
     }
 
@@ -84,6 +84,9 @@ public class WebSocketService {
             SeminarState state = monitor.getState()
                     .setProgressState(jsonContent.get("request").asText().toString())
                     .setTimeStamp(Long.valueOf(jsonContent.get("timeStamp").asText().toString()));
+            if ("START".equals(state.getProgressState())) {
+                state.setProgressState("PROCESSING");
+            }
 
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("state", state);
@@ -101,11 +104,15 @@ public class WebSocketService {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
             SeminarMonitor monitor = SEMINAR_MONITOR_MAP.get(ksId);
             monitor.setOnPreAttendanceIndex(monitor.getOnPreAttendanceIndex() + 1);
-            monitor.setOnPreAttendance(monitor.getEnrollList().get(monitor.getOnPreAttendanceIndex()));
             SeminarState state = monitor.getState()
                     .setProgressState("PAUSE")
                     .setTimeStamp(0L);
 
+            if (monitor.getOnPreAttendanceIndex() < monitor.getEnrollList().size()) {
+                monitor.setOnPreAttendance(monitor.getEnrollList().get(monitor.getOnPreAttendanceIndex()));
+            } else {
+                state.setProgressState("TERMINATE");
+            }
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("attendanceIndex", monitor.getOnPreAttendanceIndex());
             newContent.put("state", monitor.getState());

@@ -23,6 +23,12 @@
         <result column="is_active" jdbcType="TINYINT" property="activated"/>
         <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+<<<<<<< HEAD
+=======
+        <collection property="couseIdList" ofType="long">
+            <result column="course_id" jdbcType="VARCHAR"/>
+        </collection>
+>>>>>>> [test] 试验websocket，完成计时同步，切换小组同步，结束讨论课
     </resultMap>
 
     <update id="updateByStudentNumSelective" parameterType="Student">

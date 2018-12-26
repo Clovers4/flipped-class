@@ -89,7 +89,7 @@
                 <#if enroll??>
                     <div data-idx="${enroll?index}" class="tab-pane" id="tab${enroll.id}"
                          <#if (enroll?index != monitor.onPreAttendanceIndex)>style="display: none" </#if>>
-                        <#list monitor.askedQuestion[enroll.id] as question>
+                        <#list monitor.askedQuestion[enroll.id?c] as question>
                             <button class="btn btn-fab btn-round btn-team question">${question.team.serial}</button>
                         </#list>
                     </div>
