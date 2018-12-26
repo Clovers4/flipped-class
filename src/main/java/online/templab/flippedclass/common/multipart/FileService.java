@@ -28,21 +28,7 @@ public interface FileService {
      *
      * @param file
      */
-    void store(MultipartFile file, String fileType);
-
-    /**
-     * 存储 ppt
-     *
-     * @param file
-     */
-    void storePpt(MultipartFile file);
-
-    /**
-     * 存储 report
-     *
-     * @param file
-     */
-    void storeReport(MultipartFile file);
+    void store(MultipartFile file);
 
     /**
      * 导出所有的存在的文件的Stream
@@ -66,6 +52,5 @@ public interface FileService {
      * @return
      */
     Resource loadAsResource(String filename);
-
 
 }

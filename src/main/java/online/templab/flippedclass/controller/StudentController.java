@@ -1,6 +1,7 @@
 package online.templab.flippedclass.controller;
 
 import online.templab.flippedclass.common.email.EmailService;
+import online.templab.flippedclass.common.multipart.FileService;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class StudentController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private FileService fileService;
 
     private final static String STUDENT_ID_GIST = "studentId";
 
@@ -177,26 +181,20 @@ public class StudentController {
         model.addAttribute("ksId", klassSeminar.getId());
         return "student/course/seminar/enrollList";
     }
-
-/*
-TODO:文件
-    @PostMapping("/course/seminar/uploadPPT")
-    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
-        if(fileService.store(multipartFile) != null) {
-            studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-*/
 /*
     TODO:恢复
+    @PostMapping("/course/seminar/uploadPPT")
+    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
+        fileService.store(multipartFile);
+        studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+*/
+
     @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<FileSystemResource> downloadPPT(String fileName) {
         return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
     }
-*/
 
     /*
     TODO:恢复
@@ -210,8 +208,6 @@ TODO:文件
         }
 
     */
-    /*
-    TODO:恢复
     @PostMapping("/course/seminar/report")
     public String seminarReport(Long klassId, Long seminarId, Model model, HttpSession session) {
         Klass klass = klassService.get(klassId);
@@ -219,24 +215,20 @@ TODO:文件
         Team team = teamService.get(klass.getCourseId(), ((Long) session.getAttribute("studentId")));
         Attendance attendance;
         if (team != null) {
-            attendance = seminarService.getAttendanceById(team.getId(), klassSeminar.getId()).get(0);
+            attendance = seminarService.getByTeamIdKlassSeminarId(team.getId(), klassSeminar.getId());
         } else {
             attendance = null;
         }
         model.addAttribute("attendance", attendance);
         return "student/course/seminar/report";
     }
-    */
 /*
-TODO:文件
+TODO:恢复
     @PostMapping("/course/seminar/uploadReport")
-    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId){
-        if(fileService.store(multipartFile) != null) {
-            studentService.uploadReportFile(attendanceId, multipartFile.getOriginalFilename());
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
+        fileService.store(multipartFile);
+        studentService.uploadReportFile(attendanceId, multipartFile.getOriginalFilename());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 */
 
@@ -284,22 +276,21 @@ TODO:恢复
         model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(team.getCourseId()));
         return "student/course/myTeam";
     }
-*/
-/*
-TODO:恢复
+*//*
+* TODO：恢复
     @PostMapping("/course/myTeam/addMembers")
     public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session) {
         Team team = seminarService.getTeamByTeamId(teamId);
         if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            List studentNumList=new LinkedList();
+            teamService.addMember(teamId,)
             leaderService.addGroupMember(studentId, teamId);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-    }
-*/
-/*
-TODO:恢复
+    }*/
+    /*TODO: 恢复
     @PostMapping("/course/myTeam/deleteMember")
     public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session) {
         Team team = seminarService.getTeamByTeamId(teamId);
@@ -309,8 +300,7 @@ TODO:恢复
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-    }
-*/
+    }*/
 /*
 TODO:恢复
     @PostMapping("/course/myTeam/dissolveTeam")
