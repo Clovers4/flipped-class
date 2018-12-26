@@ -4,6 +4,7 @@ import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.Course;
 import online.templab.flippedclass.entity.ShareSeminarApplication;
 import online.templab.flippedclass.entity.ShareTeamApplication;
+import online.templab.flippedclass.mapper.CourseMapper;
 import online.templab.flippedclass.mapper.ShareSeminarApplicationMapper;
 import online.templab.flippedclass.mapper.ShareTeamApplicationMapper;
 import online.templab.flippedclass.service.CourseService;
@@ -11,6 +12,7 @@ import online.templab.flippedclass.service.ShareService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * @author jh
  */
-//@Transactional
+@Transactional
 public class ShareServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
@@ -33,6 +35,9 @@ public class ShareServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     ShareSeminarApplicationMapper shareSeminarApplicationMapper;
+
+    @Autowired
+    CourseMapper courseMapper;
 
     private Course createCourse() {
         return new Course()
@@ -185,5 +190,38 @@ public class ShareServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testCancelShareTeamApplication(){
         shareService.cancelShareTeamApplication(4L);
+    }
+
+    @Test
+    public void testListCanShareCourses() throws Exception {
+        Course shareCourse = createCourse();
+        courseMapper.insert(shareCourse);
+        logger.info(shareCourse.toString());
+        for (int i = 0; i < 5; i++) {
+            Course course = createCourse();
+            if (i == 1) {
+                course.setSeminarMainCourseId(shareCourse.getId());
+            }
+            if (i == 2) {
+                course.setTeamMainCourseId(shareCourse.getId());
+            }
+            courseMapper.insert(course);
+            logger.info(course.toString());
+        }
+        // 测试共享讨论课
+        List<Course> courseList = shareService.listCanShareCourses(shareCourse.getId(), 0);
+        logger.info(courseList.toString());
+        Assert.assertNotNull(courseList.size());
+        // 测试共享组队
+        courseList = shareService.listCanShareCourses(shareCourse.getId(), 1);
+        logger.info(courseList.toString());
+        Assert.assertNotNull(courseList.size());
+    }
+
+    @Rollback(false)
+    @Test
+    public void testProcessShareTeamApplication(){
+        shareService.cancelShareTeamApplication(2L);
+        shareService.processShareTeamApplication(2L,true);
     }
 }

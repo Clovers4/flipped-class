@@ -1,12 +1,14 @@
 package online.templab.flippedclass.mapper;
 
 import online.templab.flippedclass.entity.KlassTeam;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
  * @author fj
+ * @author jh
  */
 @Component
 public interface KlassTeamMapper extends Mapper<KlassTeam> {

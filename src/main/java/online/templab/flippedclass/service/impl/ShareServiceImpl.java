@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service.impl;
 
+import online.templab.flippedclass.dao.CourseDao;
 import online.templab.flippedclass.dao.ShareApplicationDao;
 import online.templab.flippedclass.entity.Course;
 import online.templab.flippedclass.entity.ShareSeminarApplication;
@@ -15,6 +16,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Autowired
     private ShareApplicationDao shareApplicationDao;
+
+    @Autowired
+    private CourseDao courseDao;
 
     @Override
     public Boolean sendShareTeamApplication(ShareTeamApplication shareTeamApplication) {
@@ -64,5 +68,10 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public Course getShareSeminarMainCourse(Long id){
         return shareApplicationDao.selectShareSeminarMainCourseByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Course> listCanShareCourses(Long id, int type) {
+        return courseDao.selectCanShareCourseByPrimaryKey(id,type);
     }
 }
