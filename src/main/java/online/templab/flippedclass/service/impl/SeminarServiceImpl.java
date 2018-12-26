@@ -2,6 +2,7 @@ package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.dao.AttendanceDao;
 import online.templab.flippedclass.dao.KlassSeminarDao;
+import online.templab.flippedclass.dao.RoundDao;
 import online.templab.flippedclass.dao.SeminarDao;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.SeminarService;
@@ -26,8 +27,24 @@ public class SeminarServiceImpl implements SeminarService {
     @Autowired
     AttendanceDao attendanceDao;
 
+    @Autowired
+    RoundDao roundDao;
+
     @Override
     public Boolean insert(Seminar seminar) {
+        if(seminar.getRoundId() == null){
+            int courseRoundCount = roundDao.selectCount(seminar.getCourseId());
+            int roundCount= roundDao.selectCount(null);
+            roundDao.insert(new Round().setCourseId(seminar.getCourseId())
+                                        .setRoundNum(courseRoundCount+1)
+                                        .setReportScoreType(0)
+                                        .setQuesScoreType(0)
+                                        .setPreScoreType(0)
+                                        .setId((long)roundCount+1)
+
+            );
+            seminar.setRoundId((long)roundCount+1);
+        }
         return seminarDao.insert(seminar);
     }
 

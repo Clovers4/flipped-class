@@ -98,4 +98,9 @@
     WHERE r.id = #{id}
   </select>
 
+    <select id="getMaxId" resultType="Integer">
+        select ifnull(max(id), 0) as serial
+        from round
+    </select>
+
 </mapper>

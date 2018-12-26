@@ -45,7 +45,7 @@ public class RoundDaoImpl implements RoundDao {
             List<Klass> klassList = course.getKlassList();
             if(klassList != null){
                 for(Klass klass : klassList){
-                    int line = klassRoundMapper.insertSelective(new KlassRound().setKlassId(klass.getId()).setRoundId(round.getId()));
+                    int line = klassRoundMapper.insertSelective(new KlassRound().setKlassId(klass.getId()).setRoundId(round.getId()).setEnrollLimit(1));
                     if(line <= 0){
                         return 0;
                     }
@@ -137,6 +137,18 @@ public class RoundDaoImpl implements RoundDao {
             roundList.get(i).setKlassRounds(klassRoundMapper.selectByRoundIdKlassId(roundList.get(i).getId(),klassId));
         }
         return roundList;
+    }
+
+    @Override
+    public int selectCount(Long couseId) {
+        if(couseId != null){
+            return roundMapper.selectCount(new Round().setCourseId(couseId));
+        }
+        else{
+            return roundMapper.getMaxId();
+        }
+
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.FlippedClassApplicationTest;
+import online.templab.flippedclass.dao.RoundDao;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.*;
 import online.templab.flippedclass.service.CourseService;
@@ -45,6 +46,12 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     QuestionMapper questionMapper;
+
+    @Autowired
+    RoundDao roundDao;
+
+    @Autowired
+    RoundMapper roundMapper;
 
     private void createKlassSeminarTable() {
         courseService.insert(new Course()
@@ -110,13 +117,31 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
                 .setVisible(true);
     }
 
+    private Seminar createSeminarByChenr() {
+        return new Seminar()
+                .setCourseId((long)16)
+                .setContent("testContent")
+                .setEnrollEndDate(new Date())
+                .setEnrollStartDate(new Date())
+                .setMaxTeam(random.nextInt(10))
+                .setSerial(random.nextInt(20))
+                .setTheme("testTheme")
+                .setVisible(true);
+    }
+
     @Test
     public void testInsert() throws Exception {
-        Seminar seminar = createSeminar();
+        Seminar seminar = createSeminarByChenr();
         logger.info(seminar.toString());
+
         Boolean success = seminarService.insert(seminar);
         logger.info(seminar.toString());
+
         Assert.assertEquals(true, success);
+        int roundCount = roundDao.selectCount((long)16);
+
+        logger.info(String.valueOf(roundCount));
+        logger.info(roundMapper.select(new Round().setRoundNum(5)).toString());
     }
 
     @Test
