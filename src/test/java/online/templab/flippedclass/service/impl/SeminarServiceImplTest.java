@@ -86,7 +86,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
                 .setKlassSeminarId((long) klassSeminarMapper
                         .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
                 .setTeamId((long) 1)
-                .setPresent(true)
+                .setPresenting(true)
                 .setPptName("pptname")
                 .setPreFile("ppturl")
                 .setReportName("reportname")
@@ -96,7 +96,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
                 .setKlassSeminarId((long) klassSeminarMapper
                         .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
                 .setTeamId((long) 2)
-                .setPresent(true)
+                .setPresenting(true)
                 .setPptName("pptname")
                 .setPreFile("ppturl")
                 .setReportName("reportname")
@@ -206,7 +206,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
         attendanceMapper.insertSelective(new Attendance()
                 .setKlassSeminarId((long) klassSeminarMapper.selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
                 .setTeamId((long) 1)
-                .setPresent(true)
+                .setPresenting(true)
                 .setPptName("pptname")
                 .setPreFile("ppturl")
                 .setReportName("reportname")
@@ -243,7 +243,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
                 .setKlassSeminarId((long) klassSeminarMapper
                         .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
                 .setTeamId((long) 6)
-                .setPresent(true)
+                .setPresenting(true)
                 .setPptName("pptname")
                 .setPreFile("ppturl")
                 .setReportName("reportname")
@@ -271,7 +271,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
         Attendance attendance = new Attendance()
                 .setKlassSeminarId((long) random.nextInt(10))
                 .setTeamId((long) 100)
-                .setPresent(true)
+                .setPresenting(true)
                 .setSn(6);
         attendanceMapper.insert(attendance);
         logger.info(attendance.toString());
@@ -284,7 +284,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
         Attendance attendance = new Attendance()
                 .setTeamId((long) 100)
                 .setKlassSeminarId((long) 100)
-                .setPresent(true)
+                .setPresenting(true)
                 .setSn(1);
         attendanceMapper.insert(attendance);
         logger.info(attendance.toString());

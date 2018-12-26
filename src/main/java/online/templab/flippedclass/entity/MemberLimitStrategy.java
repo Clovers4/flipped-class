@@ -23,34 +23,34 @@ public class MemberLimitStrategy implements Serializable, CourseStrategy {
      * 最少人数
      */
     @Column(name = "`min_member`")
-    private Integer minMember;
+    private Integer min;
 
     /**
      * 最多人数
      */
     @Column(name = "`max_member`")
-    private Integer maxMember;
+    private Integer max;
 
     private static final long serialVersionUID = 1L;
 
     @Override
     public Boolean isValid(List<Student> studentList) {
-        if(minMember == null && maxMember == null)
+        if(min == null && max == null)
         {
             return true;
         }
-        else if(minMember == null){
-            if(studentList.size() <=maxMember){
+        else if(min == null){
+            if(studentList.size() <=max){
                 return true;
             }
         }
-        else if(maxMember == null) {
-            if (studentList.size() >= minMember) {
+        else if(max == null) {
+            if (studentList.size() >= min) {
                 return true;
             }
         }
         else {
-            if (studentList.size() >= minMember && studentList.size() <=maxMember){
+            if (studentList.size() >= min && studentList.size() <=max){
                 return true;
             }
         }

@@ -20,7 +20,7 @@ public class AttendanceMapperTest extends FlippedClassApplicationTest {
         Attendance attendance = new Attendance()
                 .setKlassSeminarId((long) 1)
                 .setTeamId((long) 1)
-                .setPresent(true)
+                .setPresenting(true)
                 .setPptName("pptname")
                 .setPreFile("ppturl")
                 .setReportName("reportname")
@@ -38,7 +38,7 @@ public class AttendanceMapperTest extends FlippedClassApplicationTest {
 
     @Test
     public void testUpdate() {
-        int line = attendanceMapper.updateByPrimaryKeySelective(new Attendance().setId((long) 3).setPresent(false));
+        int line = attendanceMapper.updateByPrimaryKeySelective(new Attendance().setId((long) 3).setPresenting(false));
         Assert.assertEquals(1, line);
     }
 

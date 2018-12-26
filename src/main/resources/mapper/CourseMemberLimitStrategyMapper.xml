@@ -7,7 +7,7 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
-    <result column="min_member" jdbcType="TINYINT" property="minMember" />
-    <result column="max_member" jdbcType="TINYINT" property="maxMember" />
+    <result column="min_member" jdbcType="TINYINT" property="min" />
+    <result column="max_member" jdbcType="TINYINT" property="max" />
   </resultMap>
 </mapper>

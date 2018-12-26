@@ -45,18 +45,18 @@ public class TeamDaoImplTest extends FlippedClassApplicationTest {
     public void createDataset(){
         memberLimitStrategyMapper.insert(new MemberLimitStrategy()
                                 .setId((long)101)
-                                .setMaxMember(6)
-                                .setMinMember(4)
+                                .setMax(6)
+                                .setMin(4)
         );
         courseMemberLimitStrategyMapper.insert(new CourseMemberLimitStrategy()
                                 .setId((long)102)
                                 .setCourseId((long)101)
-                                .setMinMember(3)
+                                .setMin(3)
         );
         courseMemberLimitStrategyMapper.insert(new CourseMemberLimitStrategy()
                 .setId((long)103)
                 .setCourseId((long)102)
-                .setMinMember(3)
+                .setMin(3)
         );
         teamOrStrategyMapper.insert((new TeamOrStrategy()
                             .setId((long)102)

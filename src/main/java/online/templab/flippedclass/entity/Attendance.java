@@ -41,7 +41,7 @@ public class Attendance implements Serializable {
      * 是否正在进行
      */
     @Column(name = "`is_present`")
-    private Boolean present;
+    private Boolean presenting;
 
     /**
      * 提交的报告文件名
