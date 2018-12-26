@@ -75,7 +75,7 @@ public class RoundDaoImpl implements RoundDao {
         klassRoundMapper.delete(new KlassRound().setRoundId(roundId));
         Round round = roundMapper.selectByPrimaryKey(new Round().setId(roundId));
         roundMapper.updateRoundSerial(round.getCourseId(),(long)round.getRoundNum());
-        return roundMapper.delete(new Round().setId((long)roundId));
+        return roundMapper.delete(new Round().setId(roundId));
     }
 
     @Override
