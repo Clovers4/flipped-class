@@ -20,6 +20,12 @@ public class QuestionPool {
 
     public void put(Long attendanceId, Question question) {
         List<Question> questionList = map.getOrDefault(attendanceId, new LinkedList<>());
+        for (Question questionInList : questionList) {
+            // 这个人已经提问了,因此现在不能再提问了
+            if (questionInList.getStudentId().equals(question.getStudentId())) {
+                return;
+            }
+        }
         questionList.add(question);
         map.put(attendanceId, questionList);
     }

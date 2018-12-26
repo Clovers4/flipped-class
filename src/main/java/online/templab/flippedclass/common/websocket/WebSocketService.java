@@ -134,11 +134,16 @@ public class WebSocketService {
         try {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
             SeminarMonitor monitor = getMonitor(ksId);
+            // 更新当前正在进行的展示Index
             monitor.setOnPreAttendanceIndex(monitor.getOnPreAttendanceIndex() + 1);
+            // 更新讨论课状态
             SeminarState state = monitor.getState()
                     .setProgressState("PAUSE")
                     .setTimeStamp(0L);
 
+            // 更新当前提问数量
+            monitor.setRaisedQuestionsCount(0);
+            // 更新当前正在进行的展示
             if (monitor.getOnPreAttendanceIndex() < monitor.getEnrollList().size()) {
                 monitor.setOnPreAttendance(monitor.getEnrollList().get(monitor.getOnPreAttendanceIndex()));
             } else {
@@ -172,6 +177,9 @@ public class WebSocketService {
                     .setTeam(team);
             log.info(question.toString());
             questionPool.put(onPreAttendanceId, question);
+            // 更新当前提问数量
+            SeminarMonitor monitor = getMonitor(ksId);
+            monitor.setRaisedQuestionsCount(questionPool.size(onPreAttendanceId));
 
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("questionNum", questionPool.size(onPreAttendanceId));
@@ -191,8 +199,10 @@ public class WebSocketService {
             SeminarMonitor monitor = getMonitor(ksId);
             monitor.putQuestion(onPreAttendanceId, question);
             log.info("onPreAttendanceId : {}", onPreAttendanceId);
+            // 更新当前提问数量
+            monitor.setRaisedQuestionsCount(questionPool.size(onPreAttendanceId));
 
-            Map<String, Object> newContent = new HashMap<>();
+            Map<String, Object> newContent = new HashMap<>(4);
             newContent.put("studentNum", question.getStudent().getStudentNum());
             newContent.put("teamSerial", question.getTeam().getSerial());
             newContent.put("teamName", question.getTeam().getTeamName());
