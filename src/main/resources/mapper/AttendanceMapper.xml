@@ -15,13 +15,14 @@
         <result column="ppt_name" jdbcType="VARCHAR" property="pptName"/>
         <result column="ppt_url" jdbcType="VARCHAR" property="preFile"/>
         <association property="team" javaType="Team">
-            <id column="tid" jdbcType="BIGINT" property="id"/>
-            <result column="klass_id" jdbcType="BIGINT" property="klassId"/>
-            <result column="course_id" jdbcType="BIGINT" property="courseId"/>
-            <result column="leader_id" jdbcType="BIGINT" property="leaderId"/>
-            <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
-            <result column="team_serial" jdbcType="TINYINT" property="serial"/>
-            <result column="status" jdbcType="TINYINT" property="status"/>
+            <id column="id" jdbcType="BIGINT" property="id" />
+            <result column="klass_id" jdbcType="BIGINT" property="klassId" />
+            <result column="course_id" jdbcType="BIGINT" property="courseId" />
+            <result column="leader_id" jdbcType="BIGINT" property="leaderId" />
+            <result column="team_name" jdbcType="VARCHAR" property="teamName" />
+            <result column="team_serial" jdbcType="TINYINT" property="serial" />
+            <result column="klass_serial" jdbcType="TINYINT" property="klassSerial" />
+            <result column="status" jdbcType="TINYINT" property="status" />
         </association>
     </resultMap>
 
@@ -42,7 +43,8 @@
                t.leader_id,
                t.team_name,
                t.team_serial,
-               t.status
+               t.status,
+               t.klass_serial
         FROM attendance a
                  left join team t on a.team_id = t.id
         where a.klass_seminar_id = #{klassSeminarId}

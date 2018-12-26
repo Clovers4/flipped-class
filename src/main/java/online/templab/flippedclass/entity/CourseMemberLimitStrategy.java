@@ -74,7 +74,6 @@ public class CourseMemberLimitStrategy implements Serializable, CourseStrategy {
                 return true;
             }
         }
-
         return false;
     }
 

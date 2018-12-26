@@ -199,6 +199,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
     @Override
     public List<Map<String, Object>> listByStudentId(Long studentId, Long courseId) {
         KlassStudent klassStudent=klassStudentMapper.selectOne(new KlassStudent().setStudentId(studentId).setCourseId(courseId));
+        //TODO: klassStudent 不能有 getTeam()
         List<KlassRound> klassRounds=klassRoundMapper.select(new KlassRound().setKlassId(klassStudent.getKlassId()));
         List<Map<String, Object>> result=new LinkedList<>();
         for(KlassRound klassRound:klassRounds){
