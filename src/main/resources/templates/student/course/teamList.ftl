@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
+    <script>
+        $(function () {
+            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
+        })
+    </script>
     <title>分组</title>
 </head>
 <body class="card-page sidebar-collapse" data-parallax="true">
@@ -41,61 +46,43 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised no-footer">
-    <#if teams?size ==0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
+<div class="main main-raised">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card content-card">
+                    <div class="card-body" data-toggle="modal" data-target="#notTeamedModal">
+                        <div class="body-header">
+                            <div class="body-title" style="text-align: center">未组队学生</div>
+                        </div>
+                        <div class="body-content">
+                            <hr>
+                            <div class="line">
+                                <label>数量</label>
+                                <div class="sep"></div>
+                                <div class="content">${students?size}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h4 class="info-title">这里空荡荡的</h4>
             </div>
         </div>
-    <#else>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body" data-toggle="modal" data-target="#notTeamedModal">
-                            <div class="body-header">
-                                <div class="body-title" style="text-align: center">未组队学生</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="line">
-                                    <label>数量</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${students?size}</div>
-                                </div>
-                            </div>
+        <hr>
+        <div class="row">
+            <#if teams?size ==0>
+                <div class="empty-tag">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
                         </div>
+                        <h4 class="info-title">这里空荡荡的</h4>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body" data-toggle="modal" data-target="#notTeamedModal">
-                            <div class="body-header">
-                                <div class="body-title" style="text-align: center">未组队学生</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="line">
-                                    <label>数量</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${students?size}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
+            <#else>
                 <#list teams as team>
                     <div class="col-lg-4 col-md-6">
                         <div class="card content-card">
-                            <div class="card-body" data-courseID="${team.id}" data-toggle="modal"
-                                 data-target="#teamModal${team.id}">
+                            <div class="card-body" data-toggle="modal" data-target="#teamModal${team.id}">
                                 <div class="body-header">
                                     <div class="body-title">${team.teamName}</div>
                                 </div>
@@ -121,10 +108,29 @@
                         </div>
                     </div>
                 </#list>
-            </div>
+            </#if>
         </div>
+    </div>
+</div>
+<div class="container foot-container flex-center" style="padding-bottom: 0">
+    <#if (myTeam??)>
+        <form hidden id="myTeamForm" action="/student/course/myTeam" method="post">
+            <input name="teamId" value="${myTeam.id}" placeholder="">
+        </form>
+        <button class="btn bg-dark" onclick="$('#myTeamForm').submit()">
+            进入我的小组
+            <i class="material-icons">arrow_forward_ios</i>
+        </button>
+    <#else >
+        <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();">
+            <i class="material-icons">add</i>
+            创建小组
+        </button>
     </#if>
 </div>
+<form hidden id="createTeamForm" action="/student/course/team/create" method="post">
+    <input id="courseIdInput" name="courseId" placeholder="">
+</form>
 
 <#list teams as team>
     <div class="modal fade" id="teamModal${team.id}">

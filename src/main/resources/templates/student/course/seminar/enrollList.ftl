@@ -15,6 +15,7 @@
     <title>讨论课报名</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -45,45 +46,58 @@
 <div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
-            <#assign i = 0/>
             <#list enrollList as attendance>
-                <#assign i = i+1/>
                 <div class="col-xl-4 col-md-6">
                     <div class="card enroll-card">
                         <#if attendance??>
-                        <div class="card-body">
-                            <div class="body-header flex-space-between">
-                                <div class="body-title">第${i}组</div>
-                                <div class="line team-line">
-                                    <label style="width: 50px">队伍</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${attendance.team.teamName}</div>
+                            <div class="card-body">
+                                <div class="body-header flex-space-between">
+                                    <div class="body-title">第${attendance?counter}组</div>
+                                    <div class="line team-line">
+                                        <label style="width: 50px">队伍</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${attendance.team.teamName}</div>
+                                    </div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <#if (team??) && (attendance.team.id = team.id)>
+                                            <li class="nav-item" id="uploadLi" data-atdId="${attendance.id}" data-toggle="modal" data-target="#pptModal">
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_upload</i>
+                                                    上传PPT
+                                                </a>
+                                            </li>
+                                        <#else >
+                                            <li <#if attendance.preFile??>class="nav-item download-ppt" data-fileName="${attendance.preFile}"<#else >class="nav-item disabled" </#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_download</i>
+                                                    下载PPT
+                                                </a>
+                                            </li>
+                                        </#if>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="body-content">
-                                <hr>
-                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="padding: 0;color: #AAAAAA;">
-                                            <i class="material-icons">cloud_download</i>
-                                            下载PPT
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                         <#else>
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">第${i}组</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="flex-center not-enroll">
-                                    尚未报名
+                            <div class="card-body">
+                                <div class="body-header">
+                                    <div class="body-title">第${attendance?counter}组</div>
+                                    <div class="line team-line">
+                                        <div class="content">尚无报名</div>
+                                    </div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="flex-center not-enroll">
+                                        <button data-idx="${attendance?counter}"
+                                                class="btn btn-lg btn-round bg-dark enroll" style="width: 100%"
+                                                <#if team??>disabled</#if>>报名
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </#if>
                     </div>
                 </div>
@@ -91,8 +105,65 @@
         </div>
     </div>
 </div>
-<form id="returnForm" action="/student/course/seminarList" method="post">
-    <input id="returnCourseId" name="courseId">
+<#if (team??)>
+    <form hidden id="enrollForm">
+        <input name="ksId" placeholder="" value="${ksId}">
+        <input name="teamId" placeholder="" value="${team.id}">
+        <input name="sn" id="snInput" placeholder="">
+    </form>
+    <div class="modal fade" id="pptModal">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 329px;">
+                <div class="modal-header">
+                    <h5 class="modal-title">上传PPT</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <div id="formBody" class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">
+                    <div class="row" style="height: 208px;">
+                        <div class="col-md-12 ml-auto mr-auto">
+                            <form hidden id="teamPPT" enctype="multipart/form-data">
+                                <input id="fileInput" name="file" type="file" placeholder="" class="form-control empty-verify" data-emptyMessage="请选择文件">
+                                <input id="attendanceId" name="attendanceId" type="text" placeholder="">
+                            </form>
+                            <div class="file-frame">
+                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                    <li class="nav-item" id="upload" style="width: 100%;">
+                                        <a class="nav-link">
+                                            <div class="icon">
+                                                <i class="material-icons">folder</i>
+                                            </div>
+                                            <div id="uploadName" style="text-transform: none">
+                                                上传文件
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex-space-around" style="margin-top: 20px">
+                                <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm" style="width: 40%">
+                                    <i class="material-icons">arrow_upward</i>
+                                    上传
+                                </button>
+                                <button data-dismiss="modal" class="btn btn-danger btn-round cancel" style="width: 40%">
+                                    <i class="material-icons">close</i>
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</#if>
+
+<form hidden id="returnForm" action="/student/course/seminarList" method="post">
+    <input id="returnCourseId" name="courseId" placeholder="">
+</form>
+<form hidden id="downloadFileForm" action="/student/course/seminar/downloadPPT" method="get">
+    <input id="fileNameInput" name="fileName" placeholder="">
 </form>
 
 <!--   Core JS Files   -->

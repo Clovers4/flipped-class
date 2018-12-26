@@ -124,9 +124,9 @@
                                 <#list round.seminars as seminar>
                                     <div class="tab-pane" id="pane${seminar.id}">
                                         <div class="info">
-                                            <div class="icon icon-primary flex-space-between">
+                                            <div class="icon icon-rose flex-space-between">
+                                                <i class="material-icons">group_work</i>
                                                 <span class="info-title" style="padding-left: 20px">${seminar.theme}</span>
-                                                <i class="material-icons" id="seminarInfo">library_books</i>
                                             </div>
                                         </div>
                                     </div>
@@ -143,10 +143,10 @@
                                                     报名
                                                 </a>
                                             </li>
-                                            <li class="nav-item" id="grade">
+                                            <li class="nav-item" id="seminarInfo">
                                                 <a class="nav-link">
-                                                    <i class="material-icons">assessment</i>
-                                                    成绩
+                                                    <i class="material-icons">library_books</i>
+                                                    信息
                                                 </a>
                                             </li>
                                         </ul>
@@ -155,6 +155,7 @@
                                 <div class="row">
                                     <div class="col-md-12 ml-auto mr-auto" style="padding: 0">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
+
                                             <li class="nav-item" id="report">
                                                 <a class="nav-link" >
                                                     <i class="material-icons">open_in_browser</i>
