@@ -264,8 +264,13 @@ TODO:文件
         for (Student student : team.getStudents()) {
             studentNumList.add(student.getStudentNum());
         }
-        teamService.create(team.getLeaderId(),
-                team.getKlassId(), team.getTeamName(), studentNumList);
+        try{
+            teamService.create(team.getLeaderId(),
+                    team.getKlassId(), team.getTeamName(), studentNumList);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 /*

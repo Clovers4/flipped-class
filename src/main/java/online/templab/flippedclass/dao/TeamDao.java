@@ -2,6 +2,7 @@ package online.templab.flippedclass.dao;
 
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
+import online.templab.flippedclass.entity.TeamStudent;
 
 import java.util.List;
 
@@ -117,4 +118,20 @@ public interface TeamDao {
      * @return
      */
     Long selectByKlassIdAndStudentId(Long klassId,Long studentId);
+
+    /**
+     * 根据 team id 获取一个team（未组装）
+     *
+     * @param id
+     * @return
+     */
+    Team selectByPrimaryKey(Long id);
+
+    /**
+     * 根据 teamid 获取teamStudent对象 list
+     *
+     * @param teamId
+     * @return
+     */
+    List<TeamStudent> selectTeamStudentByTeamId(Long teamId);
 }

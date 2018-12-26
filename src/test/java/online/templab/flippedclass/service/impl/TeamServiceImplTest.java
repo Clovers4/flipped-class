@@ -146,4 +146,10 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         logger.info(teamMapper.selectByPrimaryKey((long)25).toString());
     }
 
+    @Test
+    public void testGetByPrimaryKey()throws Exception{
+        Team team = teamService.getByPrimaryKey((long)25);
+        logger.info(team.toString());
+        Assert.assertNotNull(team);
+    }
 }
