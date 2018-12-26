@@ -1,11 +1,15 @@
 package online.templab.flippedclass.controller;
 
 import online.templab.flippedclass.common.websocket.QuestionPool;
+import online.templab.flippedclass.common.websocket.SeminarMonitor;
+import online.templab.flippedclass.common.websocket.WebSocketService;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.Question;
 import online.templab.flippedclass.entity.Student;
+import online.templab.flippedclass.entity.Team;
 import online.templab.flippedclass.service.SeminarService;
 import online.templab.flippedclass.service.StudentService;
+import online.templab.flippedclass.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
+import java.security.Principal;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -35,7 +40,14 @@ public class WebSocketController {
     private SeminarService seminarService;
 
     @Autowired
+    private TeamService teamService;
+
+    @Autowired
+    private WebSocketService webSocketService;
+
+    @Autowired
     private QuestionPool questionPool;
+
 
     @GetMapping("/webs")
     public String webs() {
@@ -43,19 +55,20 @@ public class WebSocketController {
     }
 
     @PostMapping("/student/course/seminar/processing")
-    public String seminarProcessing(Long klassId, Long seminarId, Model model, HttpSession session){
+    public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
-   //TODO     SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-    //    model.addAttribute("team", monitor.getTeamByStudentNum((String) session.getAttribute("studentId")));
+        SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+        model.addAttribute("studentNum", principal.getName());
+        model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
-   //     model.addAttribute("monitor", monitor);
+        model.addAttribute("monitor", monitor);
         return "student/course/seminar/progressing";
     }
 
     @PostMapping("/teacher/course/seminar/progressing")
-    public String seminarProgressing(String klassSeminarId, Model model) {
+    public String seminarProgressing(Long klassSeminarId, Model model) {
         model.addAttribute("ksId", klassSeminarId);
-   //TODO     model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
         return "teacher/course/seminar/progressing";
     }
 

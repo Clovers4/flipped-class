@@ -66,7 +66,7 @@
         </div>
     </div>
 </nav>
-<#if monitor.state.progressState = "TERMINATE">
+<#if monitor.progressState = "TERMINATE">
     <div class="main main-raised no-footer">
         <div class="empty-tag">
             <div class="info">

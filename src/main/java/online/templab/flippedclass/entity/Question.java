@@ -58,5 +58,10 @@ public class Question implements Serializable {
      */
     private Student student;
 
+    /**
+     * 对应的小组
+     */
+    private Team team;
+
     private static final long serialVersionUID = 1L;
 }
