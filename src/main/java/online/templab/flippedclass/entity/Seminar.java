@@ -3,6 +3,8 @@ package online.templab.flippedclass.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -66,12 +68,14 @@ public class Seminar implements Serializable {
      * 讨论课报名开始时间
      */
     @Column(name = "`enroll_start_time`")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date enrollStartDate;
 
     /**
      * 讨论课报名截止时间
      */
     @Column(name = "`enroll_end_time`")
+    @JsonFormat(pattern = "yyyy-MM-dd H:mm", timezone = "GMT+8")
     private Date enrollEndDate;
 
     private static final long serialVersionUID = 1L;

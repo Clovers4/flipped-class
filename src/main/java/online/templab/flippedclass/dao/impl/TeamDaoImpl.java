@@ -47,6 +47,12 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     TeamStrategyMapper teamStrategyMapper;
 
+    @Autowired
+    TeamStudentMapper teamStudentMapper;
+
+    @Autowired
+    KlassTeamMapper klassTeamMapper;
+
     void getSubStrategy(CourseStrategy courseStrategy){
 
         if(courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy){
@@ -112,12 +118,6 @@ public class TeamDaoImpl implements TeamDao {
         }
         return team;
     }
-
-    @Autowired
-    TeamStudentMapper teamStudentMapper;
-
-    @Autowired
-    KlassTeamMapper klassTeamMapper;
 
     @Override
     public List<Team> selectByCourseId(Long courseId) {
