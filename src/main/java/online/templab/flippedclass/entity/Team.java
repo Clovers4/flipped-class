@@ -66,12 +66,6 @@ public class Team implements Serializable {
     private Integer status;
 
     /**
-     * 班级序号
-     */
-    @Column(name = "`klass_serial`")
-    private Byte klassSerial;
-
-    /**
      * 队长
      */
     private Student leader;

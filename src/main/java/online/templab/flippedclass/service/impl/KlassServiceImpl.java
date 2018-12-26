@@ -107,6 +107,7 @@ public class KlassServiceImpl implements KlassService {
             //如果不在新表中删除队伍信息
             if(!oldStudents.contains(klassStudent)){
                 if(klassStudent.getTeamId()!=null) {
+                    //TODO
                     teamDao.deleteMemberById(klassStudent.getTeamId(),klassStudent.getStudentId());
                 }
             }
