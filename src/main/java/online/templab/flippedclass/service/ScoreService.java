@@ -3,6 +3,7 @@ package online.templab.flippedclass.service;
 import java.util.List;
 import java.util.Map;
 
+import online.templab.flippedclass.entity.RoundScore;
 import online.templab.flippedclass.entity.SeminarScore;
 
 /**
@@ -60,5 +61,14 @@ public interface ScoreService {
      * @param klassId
      * @return
      */
+
     Boolean update(SeminarScore seminarScore, Long seminarId, Long klassId);
+
+    /**
+     * 得到该组该轮的成绩
+     * @param teamId
+     * @param roundId
+     * @return
+     */
+    RoundScore getScoreOfRound(Long teamId,Long roundId);
 }

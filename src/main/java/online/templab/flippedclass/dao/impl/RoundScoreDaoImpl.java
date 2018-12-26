@@ -224,5 +224,10 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
         return result;
     }
 
+    @Override
+    public RoundScore selectScoreOfRound(Long teamId, Long roundId) {
+        return roundScoreMapper.selectOne(new RoundScore().setTeamId(teamId).setRoundId(roundId));
+    }
+
 
 }
