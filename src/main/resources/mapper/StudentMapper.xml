@@ -28,6 +28,18 @@
         </collection>
     </resultMap>
 
+    <resultMap id="CourseResultMap" type="online.templab.flippedclass.entity.Student">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="studentNum"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_active" jdbcType="TINYINT" property="activated"/>
+        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+    </resultMap>
+
     <update id="updateByStudentNumSelective" parameterType="Student">
         update student
         <set>
@@ -79,5 +91,16 @@
         LEFT JOIN team_student ts ON ts.student_id = s.id
         LEFT JOIN klass_student ks ON ks.student_id = s.id
         WHERE ts.team_id = #{teamId}
+    </select>
+
+    <select id="selectStudentsByKlassIdTeamId" resultMap="CourseResultMap">
+        select s.id, s.account, s.email, s.is_active, s.password, s.student_name
+        from team_student ts,
+             klass_student ks,
+             student s
+        where ts.team_id = #{teamId}
+          and ks.klass_id = #{klassId}
+          and ks.student_id = ts.student_id
+          and s.id = ts.student_id
     </select>
 </mapper>

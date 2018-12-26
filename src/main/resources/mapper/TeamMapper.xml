@@ -5,19 +5,19 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="klass_id" jdbcType="BIGINT" property="klassId" />
-        <result column="course_id" jdbcType="BIGINT" property="courseId" />
-        <result column="leader_id" jdbcType="BIGINT" property="leaderId" />
-        <result column="team_name" jdbcType="VARCHAR" property="teamName" />
-        <result column="team_serial" jdbcType="TINYINT" property="serial" />
-        <result column="klass_serial" jdbcType="TINYINT" property="klassSerial" />
-        <result column="status" jdbcType="TINYINT" property="status" />
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="klass_id" jdbcType="BIGINT" property="klassId"/>
+        <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+        <result column="leader_id" jdbcType="BIGINT" property="leaderId"/>
+        <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        <result column="team_serial" jdbcType="TINYINT" property="serial"/>
+        <result column="klass_serial" jdbcType="TINYINT" property="klassSerial"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
         <collection property="teamStrategyList" ofType="TeamStrategy">
-            <id column="cid" jdbcType="BIGINT" property="courseId" />
-            <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial" />
-            <result column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
-            <result column="strategy_id" jdbcType="BIGINT" property="strategyId" />
+            <id column="cid" jdbcType="BIGINT" property="courseId"/>
+            <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial"/>
+            <result column="strategy_name" jdbcType="VARCHAR" property="strategyName"/>
+            <result column="strategy_id" jdbcType="BIGINT" property="strategyId"/>
         </collection>
     </resultMap>
 
@@ -26,14 +26,6 @@
         from team
         where course_id = #{courseId}
           and klass_id = #{klassId}
-    </select>
-
-    <select id="selectByKlassIdAndStudentId" resultMap="BaseResultMap">
-        select team.id
-        from team
-                 left join klass_student on team.id = klass_student.team_id
-        where team.klass_id = #{klassId}
-          and klass_student.student_id = #{studentId}
     </select>
 
     <select id="selectByTeamId" parameterType="long" resultMap="BaseResultMap">

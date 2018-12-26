@@ -53,6 +53,9 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     KlassTeamMapper klassTeamMapper;
 
+    @Autowired
+    CourseMapper courseMapper;
+
     void getSubStrategy(CourseStrategy courseStrategy){
 
         if(courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy){
@@ -121,7 +124,38 @@ public class TeamDaoImpl implements TeamDao {
 
     @Override
     public List<Team> selectByCourseId(Long courseId) {
-        return teamMapper.select(new Team().setCourseId(courseId));
+        //找到所有klass
+        List<Long>klassIds=klassMapper.selectIdByCourseId(courseId);
+        List<Team>resultTeam=new LinkedList<>();
+        for(Long klassId:klassIds){
+            Klass klass=klassMapper.selectByPrimaryKey(klassId);
+            List<KlassTeam> klassTeams=klassTeamMapper.select(new KlassTeam().setKlassId(klassId));
+            for(KlassTeam klassTeam:klassTeams){
+                List<Student>students=studentMapper.selectStudentsByKlassIdTeamId(klassId,klassTeam.getTeamId());
+                Team team=teamMapper.selectOne(new Team().setId(klassTeam.getTeamId()));
+                team.setKlass(klass);
+                List<Student> memberStudent=new LinkedList<>();
+                Student leader=null;
+                for(Student student:students){
+                    if(!student.getId().equals(team.getLeaderId())){
+                        memberStudent.add(student);
+                    }
+                    else {
+                        leader=student;
+                    }
+                }
+                //如果组长不空直接加入
+                if(leader!=null){
+                    team.setLeader(leader);
+                }
+                else{
+                    team.setLeader(new Student().setStudentName("无").setStudentNum("无"));
+                }
+                team.setStudents(memberStudent);
+                resultTeam.add(team);
+            }
+        }
+        return resultTeam;
     }
 
     @Override
@@ -136,7 +170,7 @@ public class TeamDaoImpl implements TeamDao {
         KlassTeam klassTeam = klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId);
         System.out.print(klassTeam.getTeamId());
         // 获取队伍成员
-        List<Student> member = studentMapper.selectTeamMemberByTeamId(klassTeam.getTeamId());
+        List<Student> member = studentMapper.selectTeamMerberCourseIdByTeamId(klassTeam.getTeamId());
         // 通过 teamId 获取 team
         Team team = teamMapper.selectByPrimaryKey(klassTeam.getTeamId());
         // 队长

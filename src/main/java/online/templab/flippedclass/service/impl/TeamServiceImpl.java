@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service.impl;
 
+import online.templab.flippedclass.dao.CourseDao;
 import online.templab.flippedclass.dao.TeamDao;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
@@ -22,6 +23,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Autowired
     private TeamDao teamDao;
+
+    @Autowired
+    private CourseDao courseDao;
 
     @Override
     public int validOneTeamState(Long teamId) {
@@ -52,12 +56,12 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public List<Team> listByCourseId(Long courseId) {
         List<Team> teamList = teamDao.selectByCourseId(courseId);
-        for (int i = 0; i < teamList.size(); i++) {
-            Team tmp = get(courseId, teamList.get(i).getLeaderId());
-            if (tmp.getId() != 0) {
-                teamList.set(i, tmp);
-            }
-        }
+//        for (int i = 0; i < teamList.size(); i++) {
+//            Team tmp = get(courseId, teamList.get(i).getLeaderId());
+//            if (tmp.getId() != 0) {
+//                teamList.set(i, tmp);
+//            }
+//        }
         return teamList;
     }
 
