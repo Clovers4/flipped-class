@@ -328,8 +328,7 @@ public class StudentController {
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
     }
-/*
-TODO:恢复
+    /*
     @PostMapping("/course/grade")
     public String seminarGrade(Long courseId, Long klassId, Model model, HttpSession session) {
         List<Round> rounds = roundService.listByCourseId(courseId);
@@ -337,10 +336,9 @@ TODO:恢复
         Map<String, List<SeminarScore>> seminarScoreMap = new HashMap<>(rounds.size());
         Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
         rounds.forEach(round -> {
-            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
-            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
+            roundScoreMap.put(String.valueOf(round.getId()), scoreService.getScoreOfRound(team.getId(), round.getId()));
             round.getSeminars().forEach(seminar -> {
-                seminarScoreMap.computeIfAbsent(round.getId(), k -> new LinkedList<>());
+                seminarScoreMap.computeIfAbsent(String.valueOf(round.getId()), k -> new LinkedList<>());
                 seminarScoreMap.get(round.getId())
                         .add(scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminar(klassId, seminar.getId()).getId()));
             });
@@ -351,5 +349,4 @@ TODO:恢复
         return "student/course/grade";
     }
 */
-
 }
