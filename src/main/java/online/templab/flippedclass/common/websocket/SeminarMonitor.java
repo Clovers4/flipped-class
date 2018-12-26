@@ -72,4 +72,14 @@ public class SeminarMonitor {
         this.state = new SeminarState().setProgressState("PAUSE").setTimeStamp(0L);
     }
 
+    public List<Question> getAskedQuestion(Long attendanceId) {
+        return askedQuestion.getOrDefault(String.valueOf(attendanceId), new LinkedList<>());
+    }
+
+    public void putQuestion(Long attendanceId, Question question) {
+        List<Question> questions = askedQuestion.getOrDefault(String.valueOf(attendanceId), new LinkedList<>());
+        questions.add(question);
+        askedQuestion.put(String.valueOf(attendanceId), questions);
+    }
+
 }

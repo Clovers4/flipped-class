@@ -1,9 +1,11 @@
 package online.templab.flippedclass.common.websocket;
 
+import online.templab.flippedclass.entity.Attendance;
 import online.templab.flippedclass.entity.Question;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class QuestionPool {
@@ -12,7 +14,7 @@ public class QuestionPool {
      * Key 为 AttendanceId
      * Value 为 这个 Attendance 对应的提问列表
      */
-    private Map<Long, List<Question>> map = new HashMap<>();
+    private Map<Long, List<Question>> map = new ConcurrentHashMap();
 
     private Random random = new Random();
 
@@ -24,7 +26,7 @@ public class QuestionPool {
 
     public Question pick(Long attendanceId) {
         List<Question> questionList = map.get(attendanceId);
-        if (questionList == null) {
+        if (questionList.size() == 0 || questionList == null) {
             return null;
         }
         int randomIndex = random.nextInt(questionList.size());
@@ -34,5 +36,14 @@ public class QuestionPool {
         questionList.remove(question);
         map.put(attendanceId, questionList);
         return question;
+    }
+
+    public Integer size(Long attendanceId) {
+        List<Question> questions = map.get(attendanceId);
+        if (questions == null || questions.size() == 0) {
+            return 0;
+        } else {
+            return questions.size();
+        }
     }
 }

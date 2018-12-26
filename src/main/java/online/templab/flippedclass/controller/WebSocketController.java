@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
 import java.security.Principal;
 
 /**
@@ -37,8 +38,6 @@ public class WebSocketController {
     @Autowired
     private WebSocketService webSocketService;
 
-    @Autowired
-    private QuestionPool questionPool;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -63,7 +62,7 @@ public class WebSocketController {
 
     @PostMapping("/teacher/course/seminar/progressing")
     public String seminarProgressing(Long klassSeminarId, Model model) {
-        System.out.println( webSocketService.getMonitor(klassSeminarId));
+        System.out.println(webSocketService.getMonitor(klassSeminarId));
         model.addAttribute("ksId", klassSeminarId);
         model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
         return "teacher/course/seminar/progressing";
@@ -83,21 +82,12 @@ public class WebSocketController {
         }
     }
 
-
-    /*
-    @MessageMapping("/teacher/klassSeminar/{ksId}")
-    @SendTo("/topic/client/{ksId}")
-    public Question pickQuestion(@DestinationVariable Long attendanceId, String message) {
-        return questionPool.pick(attendanceId);
-    }
-
     @MessageMapping("/student/klassSeminar/{ksId}")
     @SendTo("/topic/client/{ksId}")
-    public String putQuestion(@DestinationVariable Long attendanceId, Question question, @AuthenticationPrincipal User user) {
-        Student student = studentService.getByStudentNum(user.getUsername());
-        question.setStudentId(student.getId());
-        question.setStudent(student);
-
-        return "有新的提问";
-    }*/
+    public RawMessage studentMessage(@DestinationVariable Long ksId, RawMessage message, Principal principal) throws IOException {
+        JsonNode jsonContent = objectMapper.readTree(message.getContent());
+        ((ObjectNode) jsonContent).put("studentNum", principal.getName());
+        message.setContent(jsonContent.toString());
+        return webSocketService.handleMessage(ksId, message);
+    }
 }
