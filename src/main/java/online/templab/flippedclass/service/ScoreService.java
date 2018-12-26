@@ -47,9 +47,10 @@ public interface ScoreService {
      *
      * @param seminarScore
      * @param seminarId
+     * @param klassId
      * @return
      */
-    Boolean markerScore(SeminarScore seminarScore, Long seminarId);
+    Boolean markerScore(SeminarScore seminarScore, Long seminarId,Long klassId);
 
     /**
      * 更新一个队伍的讨论课打分
@@ -57,7 +58,8 @@ public interface ScoreService {
      *
      * @param seminarScore
      * @param seminarId
+     * @param klassId
      * @return
      */
-    Boolean update(SeminarScore seminarScore, Long seminarId);
+    Boolean update(SeminarScore seminarScore, Long seminarId,Long klassId);
 }

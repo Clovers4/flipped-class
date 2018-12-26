@@ -15,9 +15,10 @@ public interface ScoreDao {
      *
      * @param seminarScore
      * @param seminarId
+     * @param klassId
      * @return
      */
-    Boolean insert(SeminarScore seminarScore, Long seminarId);
+    Boolean insert(SeminarScore seminarScore, Long seminarId,Long klassId);
 
     /**
      * 更新一个队伍的讨论课打分
@@ -25,7 +26,8 @@ public interface ScoreDao {
      *
      * @param seminarScore
      * @param seminarId
+     * @param klassId
      * @return
      */
-    Boolean update(SeminarScore seminarScore, Long seminarId);
+    Boolean update(SeminarScore seminarScore, Long seminarId,Long klassId);
 }

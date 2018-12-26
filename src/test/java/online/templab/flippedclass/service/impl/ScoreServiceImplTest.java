@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,25 +23,6 @@ import java.util.Date;
  */
 @Transactional
 public class ScoreServiceImplTest extends FlippedClassApplicationTest {
-
-    @Autowired
-    private CourseService courseService;
-
-    @Autowired
-    private KlassService klassService;
-
-    @Autowired
-    private SeminarService seminarService;
-
-    @Autowired
-    private RoundService roundService;
-
-    @Autowired
-    private SeminarScoreMapper seminarScoreMapper;
-
-    @Autowired
-    private TeamMapper teamMapper;
-
     @Autowired
     private ScoreService scoreService;
 
@@ -53,99 +35,11 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
     @Autowired
     KlassSeminarMapper klassSeminarMapper;
 
-    private void creatScore(){
-        courseService.insert(new Course()
-                .setId((long) 123)
-                .setTeamEndDate(new Date())
-                .setTeamStartDate(new Date())
-                .setReportPercentage(30)
-                .setQuesPercentage(20)
-                .setPrePercentage(50)
-                .setTeacherId((long) 1)
-                .setIntroduction("1")
-                .setCourseName("1"));
-        klassService.insert(new Klass()
-                .setCourseId((long) 123)
-                .setId((long) 213)
-                .setGrade(3)
-                .setLocation("")
-                .setSerial(1)
-                .setTime(""));
-        roundService.insert(new Round()
-                .setCourseId(123L)
-                .setPreScoreType(0)
-                .setQuesScoreType(1)
-                .setReportScoreType(0)
-                .setRoundNum(2)
-                .setId(111L));
-        seminarService.insert(new Seminar()
-                .setContent("")
-                .setCourseId((long) 123)
-                .setEnrollEndDate(new Date())
-                .setId((long) 12321)
-                .setMaxTeam(6)
-                .setEnrollStartDate(new Date())
-                .setRoundId((long) 111)
-                .setSerial(3)
-                .setVisible(true)
-                .setTheme("主题1"));
-        seminarService.insert(new Seminar()
-                .setContent("")
-                .setCourseId((long) 123)
-                .setEnrollEndDate(new Date())
-                .setId((long) 12322)
-                .setMaxTeam(6)
-                .setEnrollStartDate(new Date())
-                .setRoundId((long) 111)
-                .setSerial(4)
-                .setVisible(true)
-                .setTheme("主题2"));
-        seminarScoreMapper.insert(new SeminarScore()
-                .setTeamId(1L)
-                .setPresentationScore(new BigDecimal(3.5))
-                .setQuestionScore(new BigDecimal(4.5))
-                .setReportScore(new BigDecimal(5))
-                .setKlassSeminarId(seminarService.getKlassSeminar(213L,12321L).getId()));
-        seminarScoreMapper.insert(new SeminarScore()
-                .setTeamId(1L)
-                .setPresentationScore(new BigDecimal(5))
-                .setQuestionScore(new BigDecimal(5))
-                .setReportScore(new BigDecimal(5))
-                .setKlassSeminarId(seminarService.getKlassSeminar(213L,12322L).getId()));
-        seminarScoreMapper.insert(new SeminarScore()
-                .setTeamId(2L)
-                .setPresentationScore(new BigDecimal(5))
-                .setQuestionScore(new BigDecimal(5))
-                .setReportScore(new BigDecimal(5))
-                .setKlassSeminarId(seminarService.getKlassSeminar(213L,12321L).getId()));
-        teamMapper.insert(new Team()
-                .setKlassId(213L)
-                .setCourseId(123L)
-                .setLeaderId(12L)
-                .setStatus(1)
-                .setId(1L)
-                .setTeamName("1")
-                .setSerial(1));
-        teamMapper.insert(new Team()
-                .setKlassId(213L)
-                .setCourseId(123L)
-                .setLeaderId(123L)
-                .setStatus(1)
-                .setId(2L)
-                .setTeamName("1")
-                .setSerial(2));
-        klassStudentMapper.insert(new KlassStudent()
-                .setCourseId(123L)
-                .setStudentId(1L)
-                .setKlassId(213L)
-                .setTeamId(1L));
-    }
-
     private SeminarScore createSeminarScore() {
         return new SeminarScore()
-                .setPresentationScore(new BigDecimal(5))
-                .setQuestionScore(new BigDecimal(4.5))
-                .setReportScore(new BigDecimal(4.7))
+                .setPresentationScore(new BigDecimal(5 - random.nextDouble()))
+                .setQuestionScore(new BigDecimal(5 - random.nextDouble()))
+                .setReportScore(new BigDecimal(5.0 - random.nextDouble()))
                 .setTeamId((long) random.nextInt(100));
     }
 
@@ -158,26 +52,30 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void testUpdateRoundScoure(){
-        scoreService.updateRoundScore(3L,21L);
+    public void testUpdateRoundScoure() {
+        scoreService.updateRoundScore(3L, 21L);
         logger.info(roundScoreMapper.selectAll().toString());
     }
 
     @Test
     public void testGetByStudentIdCourseId() {
-        creatScore();
-        logger.info(scoreService.getByStudentIdCourseId(1L, 123L).toString());
+        logger.info(scoreService.getByStudentIdCourseId(212L, 16L).toString());
     }
 
     @Test
-    public void testInsert() throws Exception {
+    public void testMarkerScore() throws Exception {
         SeminarScore seminarScore = createSeminarScore();
         logger.info(seminarScore.toString());
         KlassSeminar klassSeminar = createKlassSeminar();
         klassSeminarMapper.insert(klassSeminar);
         logger.info(klassSeminar.toString());
-        Boolean success = scoreService.markerScore(seminarScore, klassSeminar.getSeminarId());
+        Boolean success = scoreService.markerScore(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
         logger.info(success.toString());
+        Assert.assertEquals(true, success);
+
+        seminarScore.setReportScore(new BigDecimal(4.14));
+        logger.info(seminarScore.toString());
+        success = scoreService.markerScore(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
         Assert.assertEquals(true, success);
     }
 
@@ -188,11 +86,11 @@ public class ScoreServiceImplTest extends FlippedClassApplicationTest {
         KlassSeminar klassSeminar = createKlassSeminar();
         klassSeminarMapper.insert(klassSeminar);
         logger.info(klassSeminar.toString());
-        scoreService.markerScore(seminarScore, klassSeminar.getSeminarId());
+        scoreService.markerScore(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
 
         seminarScore.setReportScore(new BigDecimal(3.14))
                 .setPresentationScore(new BigDecimal(3.14));
-        Boolean success = scoreService.update(seminarScore, klassSeminar.getSeminarId());
+        Boolean success = scoreService.update(seminarScore, klassSeminar.getSeminarId(),klassSeminar.getKlassId());
         logger.info(seminarScore.toString());
         Assert.assertEquals(true, success);
     }
