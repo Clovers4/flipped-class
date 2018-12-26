@@ -42,6 +42,9 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
     @Autowired
     KlassRoundMapper klassRoundMapper;
 
+    @Autowired
+    KlassTeamMapper klassTeamMapper;
+
     @Override
     public Boolean updateByRoundIdKlassId(Long roundId,Long klassId) {
         int countInsert=0;
@@ -210,7 +213,7 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                 //TODO:不确定前端所需的格式,可能要修改
                 SeminarScore seminarScore=seminarScoreMapper.selectOne(new SeminarScore()
                         .setKlassSeminarId(klassSeminarMapper.selectOneByKlassIdSeminarId(klassStudent.getKlassId(),seminar.getId()).getId())
-                        .setTeamId((klassStudent.getTeamId())));
+                        .setTeamId(klassTeamMapper.selectByKlassIdAndStudentId(klassStudent.getKlassId(),studentId).getTeamId()));
                 List<BigDecimal> scores=new LinkedList<>();
                 scores.add(seminarScore.getPresentationScore());
                 scores.add(seminarScore.getQuestionScore());

@@ -255,6 +255,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testDeleteEnroll() {
         createKlassSeminarTable();
+        //TODO：
         klassStudentMapper.insert(new KlassStudent()
                 .setStudentId((long) 2432016)
                 .setKlassId((long) 213)

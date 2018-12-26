@@ -5,9 +5,7 @@ import online.templab.flippedclass.entity.Attendance;
 import online.templab.flippedclass.entity.KlassSeminar;
 import online.templab.flippedclass.entity.KlassStudent;
 import online.templab.flippedclass.entity.Team;
-import online.templab.flippedclass.mapper.AttendanceMapper;
-import online.templab.flippedclass.mapper.KlassSeminarMapper;
-import online.templab.flippedclass.mapper.KlassStudentMapper;
+import online.templab.flippedclass.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +18,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
     AttendanceMapper attendanceMapper;
 
     @Autowired
-    KlassStudentMapper klassStudentMapper;
+    KlassTeamMapper klassTeamMapper;
 
     @Autowired
     KlassSeminarMapper klassSeminarMapper;
@@ -38,11 +36,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
     @Override
     public Boolean delete(Long klassSeminarId, Long studentId) {
         KlassSeminar klassSeminar = klassSeminarMapper.selectByPrimaryKey(klassSeminarId);
-        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent()
-                .setStudentId(studentId)
-                .setKlassId(klassSeminar.getKlassId()));
+        Long teamId=klassTeamMapper.selectByKlassIdAndStudentId(klassSeminar.getKlassId(),studentId).getTeamId();
         return attendanceMapper.delete(new Attendance()
-                .setTeamId(klassStudent.getTeamId())
+                .setTeamId(teamId)
                 .setKlassSeminarId(klassSeminarId)) == 1;
     }
 
