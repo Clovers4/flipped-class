@@ -176,30 +176,29 @@ public class TeacherController {
             List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
              model.addAttribute("STApps",shareTeamApplications);
             model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
-
+            //TODO:待完善
         return "teacher/notification";
     }
 
-/*
-//TODO: 恢复
     @PostMapping("/notification/handle")
     public @ResponseBody
     ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
         log.info(applicationHandleDTO.toString());
         switch (applicationHandleDTO.getAppType()) {
             case 0:
-                if (applicationService.handleShareSeminarApplication(applicationHandleDTO)) {
+                if (shareService.processShareSeminarApplication(applicationHandleDTO.getAppId(),applicationHandleDTO.getOperationType()==1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 1:
-                if (applicationService.handleShareTeamApplication(applicationHandleDTO)) {
+                if (shareService.processShareTeamApplication(applicationHandleDTO.getAppId(),applicationHandleDTO.getOperationType()==1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 2:
+                //TODO：待完善
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             default:
                 throw new RuntimeException();
@@ -212,7 +211,7 @@ public class TeacherController {
         model.addAttribute("courses", courseService.listByTeacherId(teacherId));
         return "teacher/courseList";
     }
-*/
+
     /**
      * Todo: Remains to be deepen designed
      */
