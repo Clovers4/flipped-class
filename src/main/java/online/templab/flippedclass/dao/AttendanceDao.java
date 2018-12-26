@@ -38,4 +38,12 @@ public interface AttendanceDao {
      * @return
      */
     Boolean selectCount(Attendance attendance);
+
+    /**
+     * 同过team和klassSeminar得到当前Attendance
+     * @param teamId
+     * @param klassSeminarId
+     * @return
+     */
+    Attendance selectByTeamIdKlassSeminarId(Long teamId,Long klassSeminarId);
 }

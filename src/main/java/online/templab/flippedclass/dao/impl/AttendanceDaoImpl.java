@@ -47,4 +47,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return attendanceMapper.selectCount(attendance) != 0;
     }
 
+    @Override
+    public Attendance selectByTeamIdKlassSeminarId(Long teamId, Long klassSeminarId) {
+        return attendanceMapper.selectOne(new Attendance().setKlassSeminarId(klassSeminarId).setTeamId(teamId));
+    }
+
 }
