@@ -11,14 +11,12 @@ public interface ScoreDao {
 
     /**
      * 给一个队伍的讨论课打分
-     * seminarScore 必须携带 teamId 三个分数项至少有一个即可
+     * seminarScore 必须携带 klassSeminarId、teamId 三个分数项至少有一个即可
      *
      * @param seminarScore
-     * @param seminarId
-     * @param klassId
      * @return
      */
-    Boolean insert(SeminarScore seminarScore, Long seminarId,Long klassId);
+    Boolean insert(SeminarScore seminarScore);
 
     /**
      * 更新一个队伍的讨论课打分

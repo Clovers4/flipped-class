@@ -30,6 +30,7 @@
             </if>
         </set>
         where `klass_seminar_id` = #{klassSeminarId}
+        and `team_id` = #{teamId}
     </update>
 
 </mapper>

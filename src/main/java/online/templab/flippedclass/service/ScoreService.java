@@ -2,6 +2,7 @@ package online.templab.flippedclass.service;
 
 import java.util.List;
 import java.util.Map;
+
 import online.templab.flippedclass.entity.SeminarScore;
 
 /**
@@ -35,22 +36,20 @@ public interface ScoreService {
      *
      * @param studentId
      * @param courseId
-     * @return map<" roundName " , String>map<"seminars",List<SeminarScore>>
+     * @return map<"   roundName   "   ,   String>map<"seminars",List<SeminarScore>>
      */
     List<Map<String, Object>> getByStudentIdCourseId(Long studentId, Long courseId);
 
     /**
      * 给一个队伍的讨论课打分
      * <p>
-     * seminarScore 必须携带
-     * teamId 三个分数项至少有一个即可
+     * seminarScore 必须携带 KlassSeminarId 、teamId
+     * 三个分数项至少有一个即可
      *
      * @param seminarScore
-     * @param seminarId
-     * @param klassId
      * @return
      */
-    Boolean markerScore(SeminarScore seminarScore, Long seminarId,Long klassId);
+    Boolean markerScore(SeminarScore seminarScore);
 
     /**
      * 更新一个队伍的讨论课打分
@@ -61,5 +60,5 @@ public interface ScoreService {
      * @param klassId
      * @return
      */
-    Boolean update(SeminarScore seminarScore, Long seminarId,Long klassId);
+    Boolean update(SeminarScore seminarScore, Long seminarId, Long klassId);
 }
