@@ -62,4 +62,12 @@ public interface CourseMapper extends Mapper<Course> {
      * @return
      */
     List<Course> selectCanShareTeam(Long id);
+
+    /**
+     * 根据 teamId 查一个队伍截止日期
+     *
+     * @param teamId
+     * @return
+     */
+    Course selectDateByTeamId(Long teamId);
 }

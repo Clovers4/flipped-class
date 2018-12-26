@@ -148,4 +148,11 @@
         where seminar_main_course_id = 0
     </select>
 
+    <select id="selectDateByTeamId" resultMap="BaseResultMap">
+        select course.team_end_time
+        from course
+        left join team on course.id = team.course_id
+        where team.id = #{teamId}
+    </select>
+
 </mapper>

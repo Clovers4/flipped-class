@@ -82,4 +82,12 @@ public interface CourseDao {
      * @return
      */
     List<Course> selectCanShareCourseByPrimaryKey(Long id, int type);
+
+    /**
+     * 根据 teamId 查到截止日期
+     *
+     * @param teamId
+     * @return
+     */
+    Course selectDateByTeamId(Long teamId);
 }
