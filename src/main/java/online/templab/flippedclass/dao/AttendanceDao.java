@@ -46,4 +46,11 @@ public interface AttendanceDao {
      * @return
      */
     Attendance selectByTeamIdKlassSeminarId(Long teamId,Long klassSeminarId);
+
+    /**
+     * 传入attendance进行更新
+     * @param attendance
+     * @return
+     */
+    Boolean updateSelective(Attendance attendance);
 }

@@ -160,4 +160,11 @@ public interface SeminarService {
      * @return
      */
     Attendance getByTeamIdKlassSeminarId(Long teamId,Long klassSeminarId);
+
+    /**
+     * 传入attendance进行更新
+     * @param attendance
+     * @return
+     */
+    Boolean updateAttendanceSelective(Attendance attendance);
 }

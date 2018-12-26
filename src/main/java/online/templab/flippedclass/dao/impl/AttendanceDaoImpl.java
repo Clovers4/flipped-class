@@ -52,4 +52,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return attendanceMapper.selectOne(new Attendance().setKlassSeminarId(klassSeminarId).setTeamId(teamId));
     }
 
+    @Override
+    public Boolean updateSelective(Attendance attendance) {
+        return attendanceMapper.updateByPrimaryKeySelective(attendance)==1;
+    }
+
 }
