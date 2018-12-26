@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -53,6 +54,9 @@ public class StudentController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private ScoreService scoreService;
 
     private final static String STUDENT_ID_GIST = "studentId";
 
@@ -181,33 +185,31 @@ public class StudentController {
         model.addAttribute("ksId", klassSeminar.getId());
         return "student/course/seminar/enrollList";
     }
-/*
-    TODO:恢复
+
     @PostMapping("/course/seminar/uploadPPT")
-    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
+    public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, Long attendanceId) {
         fileService.store(multipartFile);
-        studentService.uploadPreFile(attendanceId, multipartFile.getOriginalFilename());
+        seminarService.updateAttendanceSelective(
+                new Attendance().setId(attendanceId).setReportFile(multipartFile.getOriginalFilename())
+        );
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-*/
+
 
     @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<FileSystemResource> downloadPPT(String fileName) {
         return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
     }
 
-    /*
-    TODO:恢复
-        @PostMapping("/course/seminar/enroll")
-        public ResponseEntity<Object> seminarEnroll(Long ksId, Long teamId, Integer sn){
-            if (studentService.seminarEnroll(ksId, teamId, sn)){
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            }else{
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
+    @PostMapping("/course/seminar/enroll")
+    public ResponseEntity<Object> seminarEnroll(Long ksId, Long teamId, Integer sn) {
+        if (seminarService.enRoll(new Attendance().setKlassSeminarId(ksId).setTeamId(teamId).setSn(sn))) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
 
-    */
     @PostMapping("/course/seminar/report")
     public String seminarReport(Long klassId, Long seminarId, Model model, HttpSession session) {
         Klass klass = klassService.get(klassId);
@@ -222,15 +224,16 @@ public class StudentController {
         model.addAttribute("attendance", attendance);
         return "student/course/seminar/report";
     }
-/*
-TODO:恢复
+
     @PostMapping("/course/seminar/uploadReport")
-    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, String attendanceId) {
+    public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, Long attendanceId) {
         fileService.store(multipartFile);
-        studentService.uploadReportFile(attendanceId, multipartFile.getOriginalFilename());
+        seminarService.updateAttendanceSelective(
+                new Attendance().setId(attendanceId).setReportFile(multipartFile.getOriginalFilename())
+        );
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-*/
+
 
     @PostMapping("/course/teamList")
     public String teamList(Long courseId, Model model, HttpSession session) {
@@ -256,71 +259,77 @@ TODO:恢复
         for (Student student : team.getStudents()) {
             studentNumList.add(student.getStudentNum());
         }
-        try{
+        try {
             teamService.create(team.getLeaderId(),
                     team.getKlassId(), team.getTeamName(), studentNumList);
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-/*
-TODO:恢复
+
     @PostMapping("/course/myTeam")
-    public String myTeam(String teamId, Model model, HttpSession session) {
-        Team team = seminarService.getTeamByTeamId(teamId);
+    public String myTeam(Long teamId, Model model, HttpSession session) {
+        Team team = teamService.getByPrimaryKey(teamId);
+
         model.addAttribute("maxMember", MAX_MEMBER);
         model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", team);
-        model.addAttribute("students", studentService.getAllUnTeamedStudentsByCourseId(team.getCourseId()));
+        model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(team.getCourseId()));
         return "student/course/myTeam";
     }
-*//*
-* TODO：恢复
+
+
     @PostMapping("/course/myTeam/addMembers")
-    public ResponseEntity<Object> addMembers(String studentId, String teamId, HttpSession session) {
-        Team team = seminarService.getTeamByTeamId(teamId);
+    public ResponseEntity<Object> addMembers(Long studentId, Long teamId, HttpSession session) throws ParseException {
+        Team team = teamService.getByPrimaryKey(teamId);
+
         if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            List studentNumList=new LinkedList();
-            teamService.addMember(teamId,)
-            leaderService.addGroupMember(studentId, teamId);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }*/
-    /*TODO: 恢复
-    @PostMapping("/course/myTeam/deleteMember")
-    public ResponseEntity<Object> deleteMember(String studentId, String teamId, HttpSession session) {
-        Team team = seminarService.getTeamByTeamId(teamId);
-        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            leaderService.deleteGroupMember(studentId, teamId);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }*/
-/*
-TODO:恢复
-    @PostMapping("/course/myTeam/dissolveTeam")
-    public ResponseEntity<Object> dissolveTeam(String teamId, HttpSession session) {
-        Team team = seminarService.getTeamByTeamId(teamId);
-        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
-            leaderService.dissolveTeam(teamId);
+            // 生成一个 List 供 service使用
+            List studentNumList = new LinkedList();
+            studentNumList.add(studentService.getByPrimaryKey(studentId).getStudentNum());
+            teamService.addMember(teamId, studentNumList);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-*/
+
+    @PostMapping("/course/myTeam/deleteMember")
+    public ResponseEntity<Object> deleteMember(Long studentId, Long teamId, HttpSession session) throws ParseException {
+        Team team = teamService.getByPrimaryKey(teamId);
+
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            // 获得要删除的 studentNum
+            String studentNum = studentService.getByPrimaryKey(studentId).getStudentNum();
+            teamService.removeMember(teamId, studentNum);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+    @PostMapping("/course/myTeam/dissolveTeam")
+    public ResponseEntity<Object> dissolveTeam(Long teamId, HttpSession session) throws ParseException {
+        Team team = teamService.getByPrimaryKey(teamId);
+        if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
+            // 获得 leader 用于解散
+            Student leader = studentService.getByPrimaryKey((Long) session.getAttribute(STUDENT_ID_GIST));
+            teamService.dissolve(teamId, leader.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
 
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         return "student/course/info";
     }
-
 /*
+TODO:恢复
     @PostMapping("/course/grade")
     public String seminarGrade(Long courseId, Long klassId, Model model, HttpSession session) {
         List<Round> rounds = roundService.listByCourseId(courseId);
@@ -328,6 +337,7 @@ TODO:恢复
         Map<String, List<SeminarScore>> seminarScoreMap = new HashMap<>(rounds.size());
         Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
         rounds.forEach(round -> {
+            roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
             roundScoreMap.put(round.getId(), scoreService.calculateScoreOfOneRound(team.getId(), round.getId()));
             round.getSeminars().forEach(seminar -> {
                 seminarScoreMap.computeIfAbsent(round.getId(), k -> new LinkedList<>());
@@ -341,6 +351,5 @@ TODO:恢复
         return "student/course/grade";
     }
 */
-
 
 }
