@@ -64,6 +64,14 @@ public interface RoundDao {
     List<Round> selectByCourseIdKlassId(Long courseId, Long klassId);
 
     /**
+     * 通过 courseId 获得其课程下 round 数目
+     *
+     * @param couseId
+     * @return
+     */
+    int selectCount(Long couseId);
+
+    /**
      * 根据 roundId 和 courseId 获得一个 round
      * 注入 round下所有 seminar 和 klassRounds
      * klassRounds 注入 seminar

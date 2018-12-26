@@ -44,4 +44,11 @@ public interface RoundMapper extends Mapper<Round> {
      * @return
      */
     Round getOne(Long id);
+
+    /**
+     * 获得最大 Id
+     *
+     * @return
+     */
+    Integer getMaxId();
 }

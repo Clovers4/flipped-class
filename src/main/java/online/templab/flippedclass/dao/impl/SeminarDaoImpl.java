@@ -36,6 +36,9 @@ public class SeminarDaoImpl implements SeminarDao {
     @Autowired
     StudentMapper studentMapper;
 
+    @Autowired
+    RoundMapper roundMapper;
+
     @Override
     public Boolean insert(Seminar seminar) {
         //考虑从课程的关系创建
@@ -51,22 +54,16 @@ public class SeminarDaoImpl implements SeminarDao {
                 }
             }
         }
-        //主课程的关系创建
-        if (seminar.getRoundId() != null) {
-            int line = seminarMapper.insert(seminar);
-            List<Long> klassIds=klassMapper.selectIdByCourseId(seminar.getCourseId());
-            for(Long klassId:klassIds){
-                klassSeminarMapper.insert(new KlassSeminar()
-                        .setKlassId(klassId)
-                        .setSeminarId(seminar.getId())
-                        .setState(0));
-            }
-            return line == 1;
-        } else {
-            // TODO
-            // 对于 roundId为空情况 需要创建一个round 这里待完成
-            return true;
+    //主课程的关系创建
+        int line = seminarMapper.insert(seminar);
+        List<Long> klassIds=klassMapper.selectIdByCourseId(seminar.getCourseId());
+        for(Long klassId:klassIds){
+            klassSeminarMapper.insert(new KlassSeminar()
+                    .setKlassId(klassId)
+                    .setSeminarId(seminar.getId())
+                    .setState(0));
         }
+        return line == 1;
     }
 
     @Override
