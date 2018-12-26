@@ -172,45 +172,39 @@ public class TeacherController {
 
     @GetMapping("/notification")
     public String notification(Model model, HttpSession session) {
-        String teacherId = ((String) session.getAttribute(TEACHER_ID_GIST));
-        // TODO: 恢复
-        //STApps:ShareTeamApplications     SSApps:ShareSeminarApplications
-        //    List<ShareTeamApplication> shareTeamApplications = applicationService.getShareTeamApplicationByTeacherId(teacherId);
-        //     model.addAttribute("STApps",shareTeamApplications);
-        //    model.addAttribute("SSApps", applicationService.getShareSeminarApplicationByTeacherId(teacherId));
-
+        Long teacherId = ((Long)session.getAttribute(TEACHER_ID_GIST));
+            List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
+             model.addAttribute("STApps",shareTeamApplications);
+            model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
+            //TODO:待完善
         return "teacher/notification";
     }
 
-    /*
     @PostMapping("/notification/handle")
     public @ResponseBody
     ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
         log.info(applicationHandleDTO.toString());
-        *//*
-     * 0 : ShareSeminar
-     * 1 : ShareTeam
-     *//*
         switch (applicationHandleDTO.getAppType()) {
             case 0:
-                if (applicationService.handleShareSeminarApplication(applicationHandleDTO)) {
+                if (shareService.processShareSeminarApplication(applicationHandleDTO.getAppId(),applicationHandleDTO.getOperationType()==1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 1:
-                if (applicationService.handleShareTeamApplication(applicationHandleDTO)) {
+                if (shareService.processShareTeamApplication(applicationHandleDTO.getAppId(),applicationHandleDTO.getOperationType()==1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 2:
+                //TODO：待完善
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             default:
                 throw new RuntimeException();
         }
     }
-*/
+
     @GetMapping("/courseList")
     public String course(Model model, HttpSession session) {
         Long teacherId = (Long) session.getAttribute(TEACHER_ID_GIST);
