@@ -150,4 +150,9 @@ public class SeminarServiceImpl implements SeminarService {
         return attendanceDao.selectByTeamIdKlassSeminarId(teamId,klassSeminarId);
     }
 
+    @Override
+    public Boolean updateAttendanceSelective(Attendance attendance) {
+        return attendanceDao.updateSelective(attendance);
+    }
+
 }
