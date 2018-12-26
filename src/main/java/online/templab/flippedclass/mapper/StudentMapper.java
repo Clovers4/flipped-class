@@ -38,6 +38,14 @@ public interface StudentMapper extends Mapper<Student> {
 
     List<Student> selectTeamMemberByTeamId(@Param("courseId") Long courseId,@Param("teamId") Long teamId);
 
+    /**
+     * 通过 teamId 获得 team
+     * team 下注入 allStudent
+     * allStudent 注入 courseIdList
+     *
+     * @param teamId
+     * @return
+     */
     List<Student> selectTeamMerberCourseIdByTeamId(Long teamId);
 
     List<Student> selectTeamMemberByTeamId(@Param("teamId") Long teamId);
