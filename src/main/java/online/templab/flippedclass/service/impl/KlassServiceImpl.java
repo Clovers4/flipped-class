@@ -4,10 +4,7 @@ import online.templab.flippedclass.dao.KlassDao;
 import online.templab.flippedclass.dao.KlassStudentDao;
 import online.templab.flippedclass.dao.StudentDao;
 import online.templab.flippedclass.dao.TeamDao;
-import online.templab.flippedclass.entity.Klass;
-import online.templab.flippedclass.entity.KlassStudent;
-import online.templab.flippedclass.entity.Student;
-import online.templab.flippedclass.entity.Teacher;
+import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.KlassMapper;
 import online.templab.flippedclass.mapper.KlassStudentMapper;
 import online.templab.flippedclass.service.KlassService;
@@ -107,7 +104,7 @@ public class KlassServiceImpl implements KlassService {
             //如果不在新表中删除队伍信息
             if(!oldStudents.contains(klassStudent)){
                 if(klassStudent.getTeamId()!=null) {
-                    teamDao.deleteMemberById(klassStudent.getTeamId(),klassStudent.getStudentId());
+                    teamDao.deleteMemberById(teamDao.selectByKlassIdAndStudentId(id,klassStudent.getStudentId()),klassStudent.getStudentId());
                 }
             }
         }
