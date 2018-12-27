@@ -1,8 +1,6 @@
 package online.templab.flippedclass.dao;
 
-import online.templab.flippedclass.entity.Student;
-import online.templab.flippedclass.entity.Team;
-import online.templab.flippedclass.entity.TeamStudent;
+import online.templab.flippedclass.entity.*;
 
 import java.util.List;
 
@@ -22,6 +20,15 @@ public interface TeamDao {
      * @return
      */
     Team selectTeamValid(Long teamId);
+
+    /**
+     * 通过 courseId 获得 course
+     * 并注入 teamStrategyList
+     *
+     * @param courseId
+     * @return
+     */
+    List<TeamStrategy> selectTeamValidByCourseId(Long courseId);
 
     /**
      * 根据 courseId 查找该 course 下的所有 team
@@ -74,6 +81,22 @@ public interface TeamDao {
      * @return teamId
      */
     Long insert(Long studentId,Long klassId,String teamName,List<String> studentNum);
+
+    /**
+     * 将 teamStrategyList 插入各自的表
+     *
+     * @param teamStrategyList
+     * @return
+     */
+    Long insertTeamStratgyList(List<TeamStrategy> teamStrategyList);
+
+    /**
+     * 将 teamStrategyList 删除
+     *
+     * @param teamStrategyList
+     * @return
+     */
+    Long deleteTeamStratgyList(Long courseId);
 
     /**
      * 根据 account 删除组员

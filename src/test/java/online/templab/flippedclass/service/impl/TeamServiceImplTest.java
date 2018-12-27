@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service.impl;
 
+import net.sf.jsqlparser.expression.operators.relational.LikeExpression;
 import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.*;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,6 +32,12 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
     @Autowired
     TeamMapper teamMapper;
+
+    @Autowired
+    CourseMapper courseMapper;
+
+    @Autowired
+    ConflictCourseStrategyMapper conflictCourseStrategyMapper;
 
     private Student createStudent() {
         return new Student()
@@ -141,9 +150,98 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     }
 
     @Test
-    public void validAllTeamByCourseId(){
+    public void testValidAllTeamByCourseId(){
         teamService.validAllTeamByCourseId((long)16);
         logger.info(teamMapper.selectByPrimaryKey((long)25).toString());
+    }
+
+    @Test
+    public void testListTeamStategy(){
+        List<TeamStrategy> teamStrategyList = teamService.listTeamStategy(16L);
+        for( int i  = 0 ; i < teamStrategyList.size() ; ++i){
+            logger.info(teamStrategyList.get(i).toString());
+        }
+    }
+
+    @Test
+    public void testInsertTeamStratgyList(){
+
+        Course course =  new Course()
+                .setCourseName("test" + random.nextInt(1000))
+                .setIntroduction("test")
+                .setTeacherId((long) random.nextInt(100))
+                .setPrePercentage(30)
+                .setQuesPercentage(30)
+                .setReportPercentage(40)
+                .setTeamStartDate(new Date())
+                .setTeamEndDate(new Date())
+                .setTeamMainCourseId((long) 0)
+                .setSeminarMainCourseId((long) 0)
+                .setId(100L);
+        courseMapper.insert(course);
+
+        List<TeamStrategy> teamStrategyList = new LinkedList<>();
+
+        TeamStrategy teamStrategy = new TeamStrategy()
+                .setCourseId(100L)
+                .setStrategySerial(101)
+                .setStrategyName("MemberLimitStrategy")
+                .setStrategyId(100L);
+
+        List<CourseStrategy> courseStrategyList1 = new LinkedList<>();
+        MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy().setMax(200).setMin(100);
+        courseStrategyList1.add(memberLimitStrategy);
+        teamStrategy.setCourseStrategyList(courseStrategyList1);
+        teamStrategyList.add(teamStrategy);
+
+
+        teamStrategy = new TeamStrategy()
+                .setCourseId(100L)
+                .setStrategySerial(102)
+                .setStrategyName("TeamOrStrategy")
+                .setStrategyId(100L);
+        TeamOrStrategy teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy").setStrategyId(100L);
+        CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy().setCourseId(101L).setMin(30).setMax(null);
+        courseStrategyList1 = new LinkedList<>();
+        courseStrategyList1.add(courseMemberLimitStrategy);
+        teamOrStrategy.setCourseStrategyList(courseStrategyList1);
+
+        List<CourseStrategy> courseStrategyList2 = new LinkedList<>();
+        courseStrategyList2.add(teamOrStrategy);
+        teamStrategy.setCourseStrategyList(courseStrategyList2);
+
+        teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy").setStrategyId(101L);
+        courseMemberLimitStrategy = new CourseMemberLimitStrategy().setCourseId(102L).setMin(20).setMax(50);
+        courseStrategyList1 = new LinkedList<>();
+        courseStrategyList1.add(courseMemberLimitStrategy);
+        teamOrStrategy.setCourseStrategyList(courseStrategyList1);
+        teamStrategy.getCourseStrategyList().add(teamOrStrategy);
+
+        teamStrategyList.add(teamStrategy);
+
+        teamStrategy = new TeamStrategy()
+                .setCourseId(100L)
+                .setStrategySerial(103)
+                .setStrategyName("ConflictCourseStrategy")
+                .setStrategyId(103L);
+
+        for(int i = 0 ; i < 3 ; ++i){
+            ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy().setCourseId((long)105+i);
+            if(i == 0){
+                courseStrategyList1 = new LinkedList<>();
+                courseStrategyList1.add(conflictCourseStrategy);
+                teamStrategy.setCourseStrategyList(courseStrategyList1);
+            }
+            else{
+                teamStrategy.getCourseStrategyList().add(conflictCourseStrategy);
+            }
+
+        }
+        teamStrategyList.add(teamStrategy);
+
+        teamService.insertTeamStratgyList(teamStrategyList);
+        logger.info(conflictCourseStrategyMapper.select(new ConflictCourseStrategy().setId(103L)).toString());
+
     }
 
     @Test

@@ -1,6 +1,7 @@
 package online.templab.flippedclass.service;
 
 import online.templab.flippedclass.entity.Course;
+import online.templab.flippedclass.entity.TeamStrategy;
 
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,7 @@ public interface CourseService {
 
     /**
      * 通过当前coreseId找到其它所有课程
+     *
      * @param courseId
      * @return
      */
@@ -91,3 +93,4 @@ public interface CourseService {
      */
     List<Course> listCanShareCourseByPrimaryKey(Long id,int type);
 }
+

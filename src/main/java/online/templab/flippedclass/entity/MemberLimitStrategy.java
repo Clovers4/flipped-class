@@ -84,8 +84,28 @@ public class MemberLimitStrategy implements Serializable, CourseStrategy {
     }
 
     @Override
+    public List<CourseStrategy> getCourseStrategyList() {
+        return null;
+    }
+
+    @Override
     public Long getMyCourseId() {
         return null;
+    }
+
+    @Override
+    public Integer getMyMax() {
+        return this.max;
+    }
+
+    @Override
+    public Integer getMyMin() {
+        return this.min;
+    }
+
+    @Override
+    public Long getMyId() {
+        return this.id;
     }
 
 }

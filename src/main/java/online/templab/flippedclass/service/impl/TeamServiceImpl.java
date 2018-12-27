@@ -74,6 +74,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public List<TeamStrategy> listTeamStategy(Long courseId) {
+        List<TeamStrategy> teamStrategyList = teamDao.selectTeamValidByCourseId(courseId);
+        return teamStrategyList;
+    }
+
+    @Override
     public Team get(Long courseId, Long studentId) {
         return teamDao.selectTeam(courseId, studentId);
     }
@@ -262,5 +268,10 @@ public class TeamServiceImpl implements TeamService {
             List<TeamStudent> teamStudentList = teamDao.selectTeamStudentByTeamId(id);
             return get(team.getCourseId(),teamStudentList.get(0).getStudentId());
         }
+    }
+
+    @Override
+    public Boolean insertTeamStratgyList(List<TeamStrategy> teamStrategyList) {
+        return teamDao.insertTeamStratgyList(teamStrategyList) == 1;
     }
 }

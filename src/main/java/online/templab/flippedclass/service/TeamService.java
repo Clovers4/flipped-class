@@ -2,6 +2,7 @@ package online.templab.flippedclass.service;
 
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
+import online.templab.flippedclass.entity.TeamStrategy;
 
 import java.text.ParseException;
 import java.util.List;
@@ -45,6 +46,14 @@ public interface TeamService {
      * @return
      */
     List<Student> listUnTeamedStudentByCourseId(Long courseId);
+
+    /**
+     * 通过 courseId 获得此 course 下的 teamStrategyList
+     *
+     * @param courseId
+     * @return
+     */
+    List<TeamStrategy> listTeamStategy(Long courseId);
 
     /**
      * 根据 courseId 和 studentId 获取这名学生在这门课程下的队伍成员
@@ -118,4 +127,12 @@ public interface TeamService {
      * @return
      */
     Team getByPrimaryKey(Long id);
+
+    /**
+     * 将 teamStrategyList 插入各自的表
+     *
+     * @param teamStrategyList
+     * @return
+     */
+    Boolean insertTeamStratgyList(List<TeamStrategy> teamStrategyList);
 }

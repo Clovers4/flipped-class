@@ -26,6 +26,14 @@ public interface CourseStrategy {
 
     void setCourseStrategyList(List<CourseStrategy> courseStrategyList);
 
+    List<CourseStrategy> getCourseStrategyList();
+
     Long getMyCourseId();
+
+    Integer getMyMax();
+
+    Integer getMyMin();
+
+    Long getMyId();
 
 }

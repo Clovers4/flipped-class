@@ -56,6 +56,9 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
                     }
                 }
             }
+            else{
+                return true;
+            }
             if(orStrategyCount == 0){
                 return false;
             }
@@ -86,17 +89,33 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
         this.strategyId = strategyId;
     }
 
-    public List<CourseStrategy> getCourseStrategyList() {
-        return courseStrategyList;
-    }
-
     @Override
     public void setCourseStrategyList(List<CourseStrategy> courseStrategyList) {
         this.courseStrategyList = courseStrategyList;
     }
 
     @Override
+    public List<CourseStrategy> getCourseStrategyList() {
+        return courseStrategyList;
+    }
+
+    @Override
     public Long getMyCourseId() {
         return null;
+    }
+
+    @Override
+    public Integer getMyMax() {
+        return null;
+    }
+
+    @Override
+    public Integer getMyMin() {
+        return null;
+    }
+
+    @Override
+    public Long getMyId() {
+        return this.id;
     }
 }

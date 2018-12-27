@@ -25,6 +25,12 @@
             <result column="klass_time" jdbcType="VARCHAR" property="time" />
             <result column="klass_location" jdbcType="VARCHAR" property="location" />
         </collection>
+        <collection property="teamStrategyList" ofType="TeamStrategy">
+            <id column="cid" jdbcType="BIGINT" property="courseId"/>
+            <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial"/>
+            <result column="strategy_name" jdbcType="VARCHAR" property="strategyName"/>
+            <result column="strategy_id" jdbcType="BIGINT" property="strategyId"/>
+        </collection>
     </resultMap>
 
     <select id="selectByStudentId" parameterType="Long" resultMap="BaseResultMap">
@@ -157,5 +163,28 @@
         left join team on course.id = team.course_id
         where team.id = #{teamId}
     </select>
+
+    <select id="selectTeamStrategyListByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               ts.course_id 'cid',
+               ts.strategy_serial,
+               ts.strategy_name,
+               ts.strategy_id
+        FROM course c
+        LEFT JOIN team_strategy ts ON ts.course_id = c.id
+        WHERE c.id = #{courseId}
+    </select>
+
 
 </mapper>

@@ -100,6 +100,10 @@ public class Course implements Serializable {
     private List<Klass> klassList;
 
     // TODO: private 分组规则
+    /**
+     * 这个课程下的分组策略
+     */
+    private List<TeamStrategy> teamStrategyList;
 
     private static final long serialVersionUID = 1L;
 }

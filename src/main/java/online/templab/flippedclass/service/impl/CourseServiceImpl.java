@@ -1,7 +1,9 @@
 package online.templab.flippedclass.service.impl;
 
 import online.templab.flippedclass.dao.CourseDao;
+import online.templab.flippedclass.dao.TeamDao;
 import online.templab.flippedclass.entity.Course;
+import online.templab.flippedclass.entity.TeamStrategy;
 import online.templab.flippedclass.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,6 +25,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseDao courseDao;
+
+    @Autowired
+    private TeamDao teamDao;
 
 
     @Override
