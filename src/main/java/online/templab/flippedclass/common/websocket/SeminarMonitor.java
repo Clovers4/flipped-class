@@ -90,27 +90,6 @@ public class SeminarMonitor {
         }
     }
 
-    /**
-     * 获得某个 attendance的已提问列表
-     *
-     * @param attendanceId
-     * @return
-     */
-    public List<Question> getAskedQuestion(Long attendanceId) {
-        return askedQuestion.getOrDefault(String.valueOf(attendanceId), new LinkedList<>());
-    }
-
-    /**
-     * 将某个 question放入某个 attendance的已提问列表
-     *
-     * @param attendanceId
-     * @param question
-     */
-    public void putAskedQuestion(Long attendanceId, Question question) {
-        List<Question> questions = askedQuestion.getOrDefault(String.valueOf(attendanceId), new LinkedList<>());
-        questions.add(question);
-        askedQuestion.put(String.valueOf(attendanceId), questions);
-    }
 
     /**
      * 更新 monitor中的展示分数
@@ -168,22 +147,26 @@ public class SeminarMonitor {
     }
 
     /**
-     * 根据某个算法抽取一个 question
+     * 根据某个算法抽取一个 question,并将这个question放入 askedWaiting
      *
      * @param attendanceId
      * @return
      */
     public Question pickWaitingQuestions(Long attendanceId) {
-        List<Question> questionList = waitingQuestionsMap.get(attendanceId);
-        if (questionList.size() == 0 || questionList == null) {
+        // 获得 waitingQuestionList,若没有则返回 null
+        List<Question> waitingQuestionList = waitingQuestionsMap.get(attendanceId);
+        if (waitingQuestionList.size() == 0 || waitingQuestionList == null) {
             return null;
         }
-        int randomIndex = random.nextInt(questionList.size());
-        Question question = questionList.get(randomIndex);
+        // 根据某个算法抽取一个 question
+        int randomIndex = random.nextInt(waitingQuestionList.size());
+        Question question = waitingQuestionList.get(randomIndex);
 
-        // 从map中移除
-        questionList.remove(question);
-        waitingQuestionsMap.put(attendanceId, questionList);
+        // 从 waitingQuestionList中移除
+        waitingQuestionList.remove(question);
+        waitingQuestionsMap.put(attendanceId, waitingQuestionList);
+        // 放入 askedQuestionList
+        this.putAskedQuestion(attendanceId,question);
         // 更新monitor的当前提问数量
         this.raisedQuestionsCount = this.waitingQuestionsMap.get(attendanceId).size();
         return question;
@@ -201,6 +184,40 @@ public class SeminarMonitor {
         } else {
             return questions.size();
         }
+    }
+
+    /**
+     * 获得某个 attendance的已提问列表
+     *
+     * @param attendanceIdx
+     * @param questionIdx
+     * @return
+     */
+    public Question getAskedQuestion(Integer attendanceIdx, Integer questionIdx) {
+        Attendance enroll=enrollList.get(attendanceIdx);
+        return getAskedQuestion(enroll.getId()).get(questionIdx);
+    }
+
+    /**
+     * 获得某个 attendance的已提问列表
+     *
+     * @param attendanceId
+     * @return
+     */
+    private List<Question> getAskedQuestion(Long attendanceId) {
+        return askedQuestion.getOrDefault(String.valueOf(attendanceId), new LinkedList<>());
+    }
+
+    /**
+     * 将某个 question放入某个 attendance的已提问列表
+     *
+     * @param attendanceId
+     * @param question
+     */
+    private void putAskedQuestion(Long attendanceId, Question question) {
+        List<Question> questions = askedQuestion.getOrDefault(String.valueOf(attendanceId), new LinkedList<>());
+        questions.add(question);
+        askedQuestion.put(String.valueOf(attendanceId), questions);
     }
 
     /**

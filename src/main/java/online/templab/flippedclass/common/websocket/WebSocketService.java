@@ -142,10 +142,9 @@ public class WebSocketService {
             SeminarMonitor monitor = getMonitor(ksId);
             monitor.switchToNextAttendance();
 
+            // 这个讨论课结束时,更新 klassSeminar表的状态,同时更新 roundScore表
             if ("TERMINATE".equals(monitor.getState().getProgressState())) {
-                // 更新 klassSeminar表的状态
                 klassSeminarMapper.updateByPrimaryKeySelective(new KlassSeminar().setId(ksId).setState(2));
-                // 这个讨论课结束时,同时更新 roundScore表
                 KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
                 Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
                 scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
@@ -164,6 +163,7 @@ public class WebSocketService {
 
     private String handleRaiseQuestionRequest(Long ksId, RawMessage message) {
         try {
+            // 组装一个 question
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
             String studentNum = jsonContent.get("studentNum").asText();
             Student student = studentService.getByStudentNum(studentNum);
@@ -201,7 +201,6 @@ public class WebSocketService {
             Long onPreAttendanceId = getOnPreAttendanceId(ksId);
             SeminarMonitor monitor = getMonitor(ksId);
             Question question = monitor.pickWaitingQuestions(onPreAttendanceId);
-            monitor.putAskedQuestion(onPreAttendanceId, question);
 
             log.info("onPreAttendanceId : {}", onPreAttendanceId);
 
@@ -245,15 +244,8 @@ public class WebSocketService {
             } else if ("Question".equals(type)) {
                 Integer questionIdx = jsonContent.get("questionIdx").asInt();
                 Integer attendanceIdx = jsonContent.get("attendanceIdx").asInt();
-                Attendance attendance = monitor.getEnrollList().get(attendanceIdx);
-                // 获得 抽取提问
-                List<Question> askedQuestions = monitor.getAskedQuestion(monitor.getEnrollList().get(attendanceIdx).getId());
-                log.info("questionIdx : {}", questionIdx);
-                for (Question question : askedQuestions) {
-                    log.info("被提问的: {}", question.toString());
-                }
-                // 获得 question
-                Question question = askedQuestions.get(questionIdx);
+                // 获得已抽取的 question
+                Question question = monitor.getAskedQuestion(attendanceIdx, questionIdx);
                 log.info(question.toString());
                 // 将 question 的打分状况 更新/插入 到 question表
                 if (questionMapper.select(
