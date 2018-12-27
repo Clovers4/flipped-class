@@ -167,4 +167,11 @@ public interface SeminarService {
      * @return
      */
     Boolean updateAttendanceSelective(Attendance attendance);
+
+    /**
+     * 通过id得到attendance
+     * @param attendanceId
+     * @return
+     */
+    Attendance getAttendanceByPrimaryKey(Long attendanceId);
 }

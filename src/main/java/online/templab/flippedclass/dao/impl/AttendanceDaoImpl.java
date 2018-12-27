@@ -57,4 +57,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return attendanceMapper.updateByPrimaryKeySelective(attendance)==1;
     }
 
+    @Override
+    public Attendance selectByPrimaryKey(Long attendanceId) {
+        return attendanceMapper.selectByPrimaryKey(attendanceId);
+    }
+
 }
