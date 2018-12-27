@@ -28,9 +28,11 @@ $(function () {
 
     teams.click(function () {
         var team = $(this);
+       /* TODO:可能有问题
         if (parseInt(team.attr("data-idx")) > curAttendanceIdx) {
             return;
-        }
+        }*/
+        curAttendanceIdx=parseInt(team.attr("data-idx"));
         changeFocus(team);
     });
     questions.click(function () {

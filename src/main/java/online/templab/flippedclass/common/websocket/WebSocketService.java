@@ -45,9 +45,6 @@ public class WebSocketService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private QuestionPool questionPool;
-
     /**
      * K klassSeminarId
      * V SeminarMonitor
@@ -140,29 +137,20 @@ public class WebSocketService {
     private String handleSwitchTeamRequest(Long ksId, RawMessage message) {
         try {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
-            SeminarMonitor monitor = getMonitor(ksId);
-            // 更新当前正在进行的展示Index
-            monitor.setOnPreAttendanceIndex(monitor.getOnPreAttendanceIndex() + 1);
-            // 更新讨论课状态
-            SeminarState state = monitor.getState()
-                    .setProgressState("PAUSE")
-                    .setTimeStamp(0L);
 
-            // 更新当前提问数量
-            monitor.setRaisedQuestionsCount(0);
-            // 更新当前正在进行的展示
-            if (monitor.getOnPreAttendanceIndex() < monitor.getEnrollList().size()) {
-                monitor.setOnPreAttendance(monitor.getEnrollList().get(monitor.getOnPreAttendanceIndex()));
-            } else {
-                // 这个讨论课结束,更新 monitor的state
-                state.setProgressState("TERMINATE");
-                // 更新 klassSeminar表的状态
+            // monitor切换 attendance
+            SeminarMonitor monitor = getMonitor(ksId);
+            monitor.switchToNextAttendance();
+
+            // 这个讨论课结束时,更新 klassSeminar表的状态,同时更新 roundScore表
+            if ("TERMINATE".equals(monitor.getState().getProgressState())) {
                 klassSeminarMapper.updateByPrimaryKeySelective(new KlassSeminar().setId(ksId).setState(2));
-                // 这个讨论课结束时,同时更新 roundScore表
                 KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
                 Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
                 scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
             }
+
+            // 返回给前端的 json
             Map<String, Object> newContent = new HashMap<>();
             newContent.put("attendanceIndex", monitor.getOnPreAttendanceIndex());
             newContent.put("state", monitor.getState());
@@ -175,6 +163,7 @@ public class WebSocketService {
 
     private String handleRaiseQuestionRequest(Long ksId, RawMessage message) {
         try {
+            // 组装一个 question
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
             String studentNum = jsonContent.get("studentNum").asText();
             Student student = studentService.getByStudentNum(studentNum);
@@ -190,13 +179,13 @@ public class WebSocketService {
                     .setAttendanceId(onPreAttendanceId)
                     .setTeam(team);
             log.info(question.toString());
-            questionPool.put(onPreAttendanceId, question);
-            // 更新当前提问数量
+            // 放入提问池，并更新当前提问数量
             SeminarMonitor monitor = getMonitor(ksId);
-            monitor.setRaisedQuestionsCount(questionPool.size(onPreAttendanceId));
+            monitor.putWaitingQuestion(onPreAttendanceId, question);
 
+            // 返回给前端的 json
             Map<String, Object> newContent = new HashMap<>();
-            newContent.put("questionNum", questionPool.size(onPreAttendanceId));
+            newContent.put("questionNum", monitor.getRaisedQuestionsCount());
             return objectMapper.writeValueAsString(newContent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -208,21 +197,19 @@ public class WebSocketService {
         try {
             JsonNode jsonContent = objectMapper.readTree(message.getContent());
 
+            // 从提问池中提取提问,更新当前提问数量
             Long onPreAttendanceId = getOnPreAttendanceId(ksId);
-            Question question = questionPool.pick(onPreAttendanceId);
             SeminarMonitor monitor = getMonitor(ksId);
-            monitor.putQuestion(onPreAttendanceId, question);
+            Question question = monitor.pickWaitingQuestions(onPreAttendanceId);
 
             log.info("onPreAttendanceId : {}", onPreAttendanceId);
-            // 更新当前提问数量
-            monitor.setRaisedQuestionsCount(questionPool.size(onPreAttendanceId));
 
             // 返回给前端的 json
             Map<String, Object> newContent = new HashMap<>(4);
             newContent.put("studentNum", question.getStudent().getStudentNum());
             newContent.put("teamSerial", question.getTeam().getSerial());
             newContent.put("teamName", question.getTeam().getTeamName());
-            newContent.put("questionCount", questionPool.size(onPreAttendanceId));
+            newContent.put("questionCount", monitor.getRaisedQuestionsCount());
             return objectMapper.writeValueAsString(newContent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -257,15 +244,8 @@ public class WebSocketService {
             } else if ("Question".equals(type)) {
                 Integer questionIdx = jsonContent.get("questionIdx").asInt();
                 Integer attendanceIdx = jsonContent.get("attendanceIdx").asInt();
-                Attendance attendance = monitor.getEnrollList().get(attendanceIdx);
-                // 获得 抽取提问
-                List<Question> askedQuestions = monitor.getAskedQuestion(monitor.getEnrollList().get(attendanceIdx).getId());
-                log.info("questionIdx : {}", questionIdx);
-                for (Question question : askedQuestions) {
-                    log.info("被提问的: {}", question.toString());
-                }
-                // 获得 question
-                Question question = askedQuestions.get(questionIdx);
+                // 获得已抽取的 question
+                Question question = monitor.getAskedQuestion(attendanceIdx, questionIdx);
                 log.info(question.toString());
                 // 将 question 的打分状况 更新/插入 到 question表
                 if (questionMapper.select(

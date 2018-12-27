@@ -3,7 +3,6 @@ package online.templab.flippedclass.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import online.templab.flippedclass.common.websocket.QuestionPool;
 import online.templab.flippedclass.common.websocket.RawMessage;
 import online.templab.flippedclass.common.websocket.SeminarMonitor;
 import online.templab.flippedclass.common.websocket.WebSocketService;
@@ -52,7 +51,6 @@ public class WebSocketController {
     public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        System.out.println(monitor);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
