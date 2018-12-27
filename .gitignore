@@ -1,6 +1,8 @@
 # output #
 /target/
 /out/
+/admin-server/target/
+/ts-server/target/
 
 # upload #
 /upload/
