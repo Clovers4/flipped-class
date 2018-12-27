@@ -213,24 +213,19 @@ public class TeacherController {
     }
 
     @PostMapping("/course/info")
-    public String courseInfo(String courseId, Model model) {
-        model.addAttribute("course", courseService.get(Long.valueOf(courseId)));
-        //TODO     model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
+    public String courseInfo(Long courseId, Model model) {
+        model.addAttribute("course", courseService.get(courseId));
+        //TODO:     model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
         return "teacher/course/info";
     }
 
 
     @GetMapping("/course/create")
     public String courseCreate(Model model) {
-        // TODO:    model.addAttribute("courses", courseService.listAllCourses());
+        model.addAttribute("courses", courseService.listAllCourse());
         return "teacher/course/create";
     }
 
-    /**
-     * Todo[cesare]:
-     * Remain to
-     * be realized
-     */
     @PutMapping("/course")
     public @ResponseBody
     ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
@@ -248,7 +243,6 @@ public class TeacherController {
 
     @PostMapping("/course/seminarList")
     public String seminarList(Long courseId, Model model) {
-        // FIXME: roundService待修复，应采用left join的方式
         Course course = courseService.get(courseId);
         Boolean canAdd = course.getSeminarMainCourseId() == null;
         model.addAttribute("canAdd", canAdd);
@@ -260,13 +254,11 @@ public class TeacherController {
 
     @PostMapping("/course/round/setting")
     public String roundSetting(Long roundId, Long courseId, Model model) {
-        // FIXME: roundService待修复，应采用left join的方式
-        // TODO: roundService.get参数改变为 (Long roundId, Long courseId)
         Round round = roundService.get(roundId, courseId);
         Map<String, KlassRound> klassRoundMap = new HashMap<>(5);
         List<Klass> klasses = klassService.listByCourseId(courseId);
         klasses.forEach(klass -> {
-            //TODO      klassRoundMap.put(klass.getId(), seminarService.getKlassRoundsByKlassIdAndRoundId(klass.getId(), roundId).get(0));
+            klassRoundMap.put(String.valueOf(klass.getId()), roundService.getKlassRound(klass.getId(), roundId));
         });
         model.addAttribute("klasses", klasses);
         model.addAttribute("klassRoundMap", klassRoundMap);
@@ -294,10 +286,10 @@ public class TeacherController {
     }
 
     @PostMapping("/course/seminar/create")
-    public String seminarCreate(String courseId, Model model) {
-        Integer maxSerial = seminarService.getMaxSeminarSerialByCourseId(Long.valueOf(courseId));
+    public String seminarCreate(Long courseId, Model model) {
+        Integer maxSerial = seminarService.getMaxSeminarSerialByCourseId(courseId);
         model.addAttribute("maxSerial", maxSerial);
-        model.addAttribute("rounds", roundService.listByCourseId(Long.valueOf(courseId)));
+        model.addAttribute("rounds", roundService.listByCourseId(courseId));
         return "teacher/course/seminar/create";
     }
 
@@ -308,8 +300,8 @@ public class TeacherController {
     }
 
     @PostMapping("/course/seminar/option")
-    public String seminarOption(String seminarId, Model model) {
-        Seminar seminar = seminarService.get(Long.valueOf(seminarId));
+    public String seminarOption(Long seminarId, Model model) {
+        Seminar seminar = seminarService.get(seminarId);
         model.addAttribute("seminar", seminar);
         model.addAttribute("rounds", roundService.listByCourseId(seminar.getCourseId()));
         return "teacher/course/seminar/option";
@@ -329,21 +321,15 @@ public class TeacherController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    /**
-     * TODO:
-     * Should delete
-     * the klass
-     * seminar
-     */
     @DeleteMapping("/course/seminar/{seminarId}")
-    public ResponseEntity<Object> deleteSeminar(@PathVariable String seminarId) {
-        seminarService.delete(Long.valueOf(seminarId));
+    public ResponseEntity<Object> deleteSeminar(@PathVariable Long seminarId) {
+        seminarService.delete(seminarId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/seminar/info")
     public String seminarInfo(Long klassId, Long seminarId, Long ksId, Model model) {
-        KlassSeminar klassSeminar = null;
+        KlassSeminar klassSeminar;
         if (ksId != null) {
             klassSeminar = seminarService.getKlassSeminarById(ksId);
         } else {
@@ -371,15 +357,14 @@ public class TeacherController {
 
     @PostMapping("/course/seminar/grade/modify")
     public String modifyGrade(Long attendanceId, BigDecimal preScore, BigDecimal reportScore, Model model) {
-     /*
-     TODO   Attendance attendance=seminarService.getAttendance(attendanceId);
+        Attendance attendance = seminarService.getAttendanceByPrimaryKey(attendanceId);
         scoreService.markerScore(
                 new SeminarScore()
-                .setTeamId(attendance.getTeamId())
-                .setKlassSeminarId(attendance.getKlassSeminarId())
-                .setPresentationScore(preScore)
-                .setReportScore(reportScore)
-        );*/
+                        .setTeamId(attendance.getTeamId())
+                        .setKlassSeminarId(attendance.getKlassSeminarId())
+                        .setPresentationScore(preScore)
+                        .setReportScore(reportScore)
+        );
         return "teacher/course/seminar/grade";
     }
 
@@ -418,8 +403,8 @@ public class TeacherController {
     }
 
     @PostMapping("/course/klassList")
-    public String klassList(String courseId, Model model) {
-        model.addAttribute("klasses", klassService.listByCourseId(Long.valueOf(courseId)));
+    public String klassList(Long courseId, Model model) {
+        model.addAttribute("klasses", klassService.listByCourseId(courseId));
         return "teacher/course/klassList";
     }
 
@@ -450,13 +435,13 @@ public class TeacherController {
     }
 
     @PostMapping("/course/klass/insertStudents")
-    public ResponseEntity<Object> insertStudents(@RequestParam("file") MultipartFile multipartFile, String klassId) throws IOException {
+    public ResponseEntity<Object> insertStudents(@RequestParam("file") MultipartFile multipartFile, Long klassId) throws IOException {
         if (!ExcelUtil.isExcel(multipartFile.getOriginalFilename())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("文件格式不正确");
         }
 
         List<Student> students = excelService.loadStudentList(multipartFile);
-        klassService.resetStudentList(Long.valueOf(klassId), students);
+        klassService.resetStudentList(klassId, students);
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -481,7 +466,7 @@ public class TeacherController {
         List<Team> teams = teamService.listByCourseId(courseId);
         model.addAttribute("rounds", rounds);
         model.addAttribute("teams", teams);
-//TODO        model.addAttribute("roundScores", scoreService.calculateCourseScore(rounds, teams));
+//TODO:jh       model.addAttribute("roundScores", scoreService.calculateCourseScore(rounds, teams));
         return "teacher/course/grade";
     }
 
@@ -515,11 +500,11 @@ public class TeacherController {
     }
 
     @PostMapping("/course/share/create")
-    public String courseShareCreate(String courseId, Integer shareType, Model model) {
+    public String courseShareCreate(Long courseId, Integer shareType, Model model) {
         if (shareType == null) {
-            model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(Long.valueOf(courseId), 0));
+            model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(courseId, 0));
         } else {
-            model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(Long.valueOf(courseId), shareType));
+            model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(courseId, shareType));
         }
         return "teacher/course/share/create";
     }
