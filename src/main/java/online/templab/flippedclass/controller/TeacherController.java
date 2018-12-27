@@ -217,7 +217,7 @@ public class TeacherController {
     @PostMapping("/course/info")
     public String courseInfo(Long courseId, Model model) {
         model.addAttribute("course", courseService.get(courseId));
-        //TODO:     model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
+        //TODO:model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
         return "teacher/course/info";
     }
 
@@ -466,7 +466,7 @@ public class TeacherController {
         List<Team> teams = teamService.listByCourseId(courseId);
         model.addAttribute("rounds", rounds);
         model.addAttribute("teams", teams);
-//TODO:jh       model.addAttribute("roundScores", scoreService.calculateCourseScore(rounds, teams));
+        model.addAttribute("roundScores", scoreService.getRoundScores(rounds, teams));
         return "teacher/course/grade";
     }
 
@@ -510,14 +510,14 @@ public class TeacherController {
     }
 
     @PostMapping("/course/share/cancelTeamShare")
-    public ResponseEntity<Object> cancelTeamShare(Long subCourseId) {
-//TODO        teacherService.cancelTeamShare(subCourseId);
+    public ResponseEntity<Object> cancelTeamShare(String subCourseId) {
+        shareService.cancelShareTeamApplication(Long.valueOf(subCourseId));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/share/cancelSeminarShare")
     public ResponseEntity<Object> cancelSeminarShare(String subCourseId) {
-        //TODO     teacherService.cancelSeminarShare(subCourseId);
+        shareService.cancelShareSeminarApplication(Long.valueOf(subCourseId));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 

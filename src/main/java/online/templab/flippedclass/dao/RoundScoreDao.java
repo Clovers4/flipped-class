@@ -1,6 +1,8 @@
 package online.templab.flippedclass.dao;
 
+import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.entity.RoundScore;
+import online.templab.flippedclass.entity.Team;
 
 import java.util.List;
 import java.util.Map;
@@ -19,11 +21,12 @@ public interface RoundScoreDao {
     Boolean updateByRoundIdKlassId(Long roundId,Long klassId);
 
     /**
-     *通过roundId和KlassId得到round下的队名和相应的分数
-     * @param roundId
+     * 通过rounds和teams得到round下的队名和相应的分数
+     * @param rounds
+     * @param teams
      * @return
      */
-    List<Map<String,Object>> listRoundScore(Long roundId,Long klassId);
+    List<Map<String,Object>> listRoundScores(List<Round> rounds, List<Team> teams);
 
     /**
      * 通过学生id和courseId得到所有的分数

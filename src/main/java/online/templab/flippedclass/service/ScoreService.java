@@ -3,8 +3,10 @@ package online.templab.flippedclass.service;
 import java.util.List;
 import java.util.Map;
 
+import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.entity.RoundScore;
 import online.templab.flippedclass.entity.SeminarScore;
+import online.templab.flippedclass.entity.Team;
 
 /**
  * 分数计算 业务 接口类
@@ -22,22 +24,21 @@ public interface ScoreService {
      */
     Boolean updateRoundScore(Long roundId, Long klassId);
 
+
     /**
-     * 通过roundId和KlassId得到round下的队名和相应的分数
-     * TODO：返回值待确定
-     *
-     * @param roundId
-     * @param klassId
+     * 通过rounds和teams得到round下的队名和相应的分数
+     * @param rounds
+     * @param teams
      * @return
      */
-    List<Map<String, Object>> getRoundScore(Long roundId, Long klassId);
+    List<Map<String,Object>> getRoundScores(List<Round> rounds, List<Team> teams);
 
     /**
      * 通过学生id 和courseId 得到所有的分数
      *
      * @param studentId
      * @param courseId
-     * @return map<"   roundName   "   ,   String>map<"seminars",List<SeminarScore>>
+     * @return map<"teamId",SeminarScore>
      */
     List<Map<String, Object>> getByStudentIdCourseId(Long studentId, Long courseId);
 

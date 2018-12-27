@@ -44,17 +44,17 @@ public interface ShareService {
 
     /**
      * 主课程取消共享组队
-     * @param shareTeamApplicationId
+     * @param subCourseId
      * @return
      */
-    Boolean cancelShareTeamApplication(Long shareTeamApplicationId);
+    Boolean cancelShareTeamApplication(Long subCourseId);
 
     /**
      * 主课程取消共享讨论课
-     * @param shareSeminarApplicationId
+     * @param subCourseId
      * @return
      */
-    Boolean cancelShareSeminarApplication(Long shareSeminarApplicationId);
+    Boolean cancelShareSeminarApplication(Long subCourseId);
 
     /**
      * 传入要查询的 courseId,返回与这个 course 共享分组的 courses,并且这些 courses 是从课程（也可能自己就是从课程）

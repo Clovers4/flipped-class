@@ -41,13 +41,13 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public Boolean cancelShareTeamApplication(Long shareTeamApplicationId) {
-        return shareApplicationDao.deleteShareTeamApplication(shareTeamApplicationId);
+    public Boolean cancelShareTeamApplication(Long subCourseId) {
+        return shareApplicationDao.deleteShareTeamApplication(subCourseId);
     }
 
     @Override
-    public Boolean cancelShareSeminarApplication(Long shareSeminarApplicationId) {
-        return shareApplicationDao.deleteShareSeminarApplication(shareSeminarApplicationId);
+    public Boolean cancelShareSeminarApplication(Long subCourseId) {
+        return shareApplicationDao.deleteShareSeminarApplication(subCourseId);
     }
 
     @Override

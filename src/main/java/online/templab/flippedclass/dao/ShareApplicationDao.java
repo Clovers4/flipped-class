@@ -43,17 +43,17 @@ public interface ShareApplicationDao {
 
     /**
      * 主课程删除共享组队请求
-     * @param shareTeamApplicationId
+     * @param subCourseId
      * @return
      */
-    Boolean deleteShareTeamApplication(Long shareTeamApplicationId);
+    Boolean deleteShareTeamApplication(Long subCourseId);
 
     /**
      * 主课程删除共享讨论课请求
-     * @param shareSeminarApplicationId
+     * @param subCourseId
      * @return
      */
-    Boolean deleteShareSeminarApplication(Long shareSeminarApplicationId);
+    Boolean deleteShareSeminarApplication(Long subCourseId);
 
     /**
      * 传入要查询的 courseId,返回与这个 course 共享分组的 courses,并且这些 courses 是从课程（也可能自己就是从课程）

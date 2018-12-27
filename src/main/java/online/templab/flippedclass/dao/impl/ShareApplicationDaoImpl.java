@@ -204,13 +204,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     }
 
     @Override
-    public Boolean deleteShareTeamApplication(Long shareTeamApplicationId) {
-        Long subCourseId = 0L;
-        try {
-            subCourseId = shareTeamApplicationMapper.selectByPrimaryKey(shareTeamApplicationId).getSubCourseId();
-        } catch (Exception e) {
-            return false;
-        }
+    public Boolean deleteShareTeamApplication(Long subCourseId) {
         //删除从课程队伍信息
         List<Long> klassIds = klassMapper.selectIdByCourseId(subCourseId);
         for (Long klassId : klassIds) {
@@ -220,19 +214,12 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     }
 
     @Override
-    public Boolean deleteShareSeminarApplication(Long shareSeminarApplicationId) {
-        ShareSeminarApplication shareSeminarApplication;
-        try {
-            shareSeminarApplication = shareSeminarApplicationMapper.selectByPrimaryKey(shareSeminarApplicationId);
-        } catch (Exception e) {
-            return false;
-        }
+    public Boolean deleteShareSeminarApplication(Long subCourseId) {
         //删除从课程讨论课信息
-        Course course = courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
+        Course course = courseMapper.selcetByCourseId(subCourseId);
         for (Klass klass : course.getKlassList()) {
             klassSeminarMapper.delete(new KlassSeminar().setKlassId(klass.getId()));
         }
-
         //删除从课程 round 信息
         List<Round> subCourseRoundList = roundMapper.select(new Round().setCourseId(course.getId()));
         for(int i = 0 ; i < subCourseRoundList.size() ; ++i){
