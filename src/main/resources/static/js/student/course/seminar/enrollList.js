@@ -68,7 +68,7 @@ $(function () {
     });
     $(".download-ppt").click(function () {
         console.log(this);
-        fileNameInput.val('1-class.xlsx');
+        fileNameInput.val($(this).attr("data-fileName"));
         downloadFileForm.submit();
     })
 });

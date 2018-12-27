@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/student/course/seminar/report.js"></script>
-    <title>讨论课报名</title>
+    <title>提交报告</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>

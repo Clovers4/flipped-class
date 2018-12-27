@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/roundSetting.js"></script>
-    <title>创建课程</title>
+    <title>轮次设置</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -52,10 +52,10 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row flex-center">
-            <div class="col-md-6">
+            <div class="col-lg-10 col-md-8">
                 <div class="container">
                     <div class="row" style="padding-top: 20px;">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="card content-card">
                                 <div class="card-body">
                                     <div class="body-header">
@@ -180,18 +180,21 @@
                                         </div>
                                         <div class="body-content">
                                             <hr>
-                                            <#list round.klassRounds as klassRound>
-                                                <input hidden name="klassId" value="${klassRound.klassId}" placeholder="">
+                                            <#list klasses as klass>
+                                                <input hidden name="klassId" value="${klass.id}"
+                                                       placeholder="">
                                                 <div class="line">
-                                                <label>${klassMap[klassRound.klassId?c].klassName}</label>
-                                            <div class="sep"></div>
-                                                <div class="content">
-                                                <div class="form-group bmd-form-group" style="display: inline">
-                                            <input type="text" autocomplete="off" name="enrollLimit" placeholder=""
-                                                   class="form-control empty-verify klass-round-limit" value="${klassRound.enrollLimit}"
-                                                data-emptyMessage="请输入课堂展示权重">
-                                                </div>
-                                                </div>
+                                                    <label>${klass.klassName}</label>
+                                                    <div class="sep"></div>
+                                                    <div class="content">
+                                                        <div class="form-group bmd-form-group" style="display: inline">
+                                                            <input type="text" autocomplete="off" name="enrollLimit"
+                                                                   placeholder=""
+                                                                   class="form-control empty-verify klass-round-limit"
+                                                                   value="${klassRoundMap[klass.id].enrollLimit}"
+                                                                   data-emptyMessage="请输入课堂展示权重">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </#list>
                                         </div>

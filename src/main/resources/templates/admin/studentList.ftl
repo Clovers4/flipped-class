@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/admin/studentList.js"></script>
-    <title>教师列表</title>
+    <title>学生列表</title>
 </head>
 <body class="iframe-page table-page">
 

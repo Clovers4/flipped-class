@@ -12,9 +12,10 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/student/activation.js"></script>
-    <title>课程</title>
+    <title>账号激活</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <div class="container" style="margin-top: 15%">
     <div class="row">
         <div class="col-md-10 ml-auto mr-auto">
@@ -33,26 +34,22 @@
                             <form id="activationForm">
                                 <div class="form-group">
                                     <label for="password">密码</label>
-                                    <input name="password" type="text" class="form-control" id="password">
+                                    <input name="password" type="password" class="form-control empty-verify"
+                                           id="password" autocomplete="off"
+                                           data-emptyMessage="请输入密码">
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword">确认密码</label>
-                                    <input type="text" class="form-control" id="confirmPassword">
+                                    <input type="password" class="form-control empty-verify" id="confirmPassword"
+                                           autocomplete="off"
+                                           data-emptyMessage="请输入确认密码">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">邮箱</label>
-                                    <input class="form-control" name="email" id="email">
-                                </div>
-                                <div class="form-row" style="margin-left: 0;margin-right:0; ">
-                                    <div class="form-group col-7">
-                                        <label for="captcha">验证码</label>
-                                        <input name="captcha" class="form-control" id="captcha">
-                                    </div>
-                                    <div class="form-group col-5 flex-center">
-                                        <button id="getCaptchaBtn" type="button" class="btn btn-sm btn-inline bg-dark">
-                                            发送验证码
-                                        </button>
-                                    </div>
+                                    <input class="form-control empty-verify reg-verify" name="email" id="email"
+                                           autocomplete="off" data-emptyMessage="请输入邮箱"
+                                           data-reg="^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$"
+                                           data-regMessage="请输入正确的邮箱">
                                 </div>
                             </form>
                         </div>

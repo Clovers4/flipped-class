@@ -18,6 +18,21 @@ $(function () {
             }
         });
     });
+    $("#sendBtn").click(function () {
+        util.showLoading();
+        $.ajax({
+            type:"post",
+            url:"/student/course/myTeam/validApplication",
+            data: $("#validApplicationForm").serialize(),
+            success:function () {
+                window.location.reload();
+            },
+            error:function () {
+                util.hideLoading();
+                util.showAlert("danger", "发送失败，未知原因", 3);
+            }
+        });
+    });
     $("#dissolveBtn").click(function () {
         util.showLoading();
         $.ajax({
@@ -30,6 +45,21 @@ $(function () {
             error:function () {
                 util.hideLoading();
                 util.showAlert("danger", "解散失败，未知原因", 3);
+            }
+        });
+    });
+    $("#quitBtn").click(function () {
+        util.showLoading();
+        $.ajax({
+            type:"post",
+            url:"/student/course/myTeam/quitTeam",
+            data: {teamId:$("body").attr("data-teamId")},
+            success:function () {
+                $("#courseIdForm").submit();
+            },
+            error:function () {
+                util.hideLoading();
+                util.showAlert("danger", "退出失败，未知原因", 3);
             }
         });
     });

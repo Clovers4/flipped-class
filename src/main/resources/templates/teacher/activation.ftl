@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/activation.js"></script>
-    <title>课程</title>
+    <title>账号激活</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
@@ -48,20 +48,6 @@
                                     <label for="email">邮箱</label>
                                     <input class="form-control empty-verify reg-verify" name="email" id="email"
                                            autocomplete="off" value="${teacher.email}" disabled>
-                                </div>
-                                <div class="form-row" style="margin-left: 0;margin-right:0; ">
-                                    <div class="form-group col-7">
-                                        <label for="captcha">验证码</label>
-                                        <input name="captcha" class="form-control empty-verify" id="captcha"
-                                               autocomplete="off"
-                                               data-emptyMessage="请输入验证码">
-                                    </div>
-                                    <div class="form-group col-5 flex-center">
-                                        <button id="getCaptchaBtn" type="button"
-                                                class="btn btn-sm btn-inline bg-dark captcha-btn">
-                                            发送验证码
-                                        </button>
-                                    </div>
                                 </div>
                             </form>
                         </div>

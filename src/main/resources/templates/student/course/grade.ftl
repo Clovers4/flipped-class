@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
+    <script>
+        window.onbeforeunload = function () {
+            util.showLoading();
+        }
+    </script>
     <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
@@ -44,53 +49,126 @@
 <div class="main main-raised">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-toggle="modal" data-target="#teamModal${1}">
-                        <div class="body-header">
-                            <div class="body-title">第一轮</div>
+            <#if hasGrade>
+                <#list rounds as round>
+                    <div class="col-lg-12">
+                        <div class="card content-card">
+                            <div class="card-body">
+                                <div class="body-header">
+                                    <div class="body-title">第${round.roundNum}轮</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="row">
+                                        <#list round.seminars as seminar>
+                                            <div class="col-6">
+                                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                    <li class="nav-item" data-toggle="modal"
+                                                        data-target="#seminarScoreModal${seminar.id}">
+                                                        <a class="nav-link" style="padding-bottom: 0;">
+                                                            <i class="material-icons">equalizer</i>
+                                                            ${seminar.theme}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </#list>
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="grade-area">
+                                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">mic</i>
+                                                        展示分
+                                                        <h6><#if roundScoreMap[round.id].presentationScore??>${roundScoreMap[round.id].presentationScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">comment</i>
+                                                        提问分
+                                                        <h6><#if roundScoreMap[round.id].questionScore??>${roundScoreMap[round.id].questionScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">description</i>
+                                                        报告分
+                                                        <h6><#if roundScoreMap[round.id].reportScore??>${roundScoreMap[round.id].reportScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="vertical-separator"></div>
+                                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                <li class="nav-item">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">done_all</i>
+                                                        总分
+                                                        <h6><#if roundScoreMap[round.id].totalScore??>${roundScoreMap[round.id].totalScore}分<#else >无数据</#if></h6>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="body-content">
-                            <hr>
-                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                <li class="nav-item">
-                                    <a class="nav-link" style="padding-bottom: 0;">
-                                        <i class="material-icons">equalizer</i>
-                                        用例分析
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" style="padding-bottom: 0;">
-                                        <i class="material-icons round-setting">equalizer</i>
-                                        业务流程
-                                    </a>
-                                </li>
-                            </ul>
+                    </div>
+                </#list>
+            <#else >
+                <div class="empty-tag" style="height: 50%">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
                         </div>
-                        <div>
-                            <hr>
-                            <div class="row">
+                        <h4 class="info-title">您未加入任何队伍</h4>
+                    </div>
+                </div>
+            </#if>
+        </div>
+    </div>
+</div>
+
+<#if hasGrade>
+<#list rounds as round>
+    <#list round.seminars as seminar>
+        <div class="modal fade" id="seminarScoreModal${seminar.id}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">${seminar.theme}</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <#if seminarScoreMap[seminar.id]??>
                                 <div class="grade-area">
                                     <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                         <li class="nav-item">
                                             <a class="nav-link">
-                                                <i class="material-icons">dashboard</i>
+                                                <i class="material-icons">mic</i>
                                                 展示分
-                                                <h6>5分</h6>
+                                                <h6><#if seminarScoreMap[seminar.id].presentationScore??>${seminarScoreMap[seminar.id].presentationScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link">
-                                                <i class="material-icons">settings</i>
+                                                <i class="material-icons">description</i>
                                                 提问分
-                                                <h6>5分</h6>
+                                                <h6><#if seminarScoreMap[seminar.id].questionScore??>${seminarScoreMap[seminar.id].questionScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link">
-                                                <i class="material-icons">settings</i>
+                                                <i class="material-icons">done_all</i>
                                                 报告分
-                                                <h6>5分</h6>
+                                                <h6><#if seminarScoreMap[seminar.id].reportScore??>${seminarScoreMap[seminar.id].reportScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                     </ul>
@@ -100,19 +178,29 @@
                                             <a class="nav-link">
                                                 <i class="material-icons">settings</i>
                                                 总分
-                                                <h6>5分</h6>
+                                                <h6><#if seminarScoreMap[seminar.id].totalScore??>${seminarScoreMap[seminar.id].totalScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            <#else >
+                                <div class="empty-tag" style="height: 30%">
+                                    <div class="info">
+                                        <div class="icon icon-rose flex-center">
+                                            <i class="material-icons color-grey">portable_wifi_off</i>
+                                        </div>
+                                        <h4 class="info-title">您没有参与该讨论课</h4>
+                                    </div>
+                                </div>
+                            </#if>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </#list>
+</#list>
+</#if>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>

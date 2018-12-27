@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -49,7 +49,7 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-    <#if rounds?size ==0>
+    <#if rounds?size ==0 && !canAdd>
         <div class="empty-tag">
             <div class="info">
                 <div class="icon icon-rose flex-center">
@@ -61,36 +61,44 @@
     <#else>
         <div class="container">
             <div class="row">
-            <#list rounds as round>
-                <div class="col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">第${round.roundNum}轮</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item" data-toggle="modal" data-target="#round${round.id}Modal">
-                                        <a class="nav-link" style="padding-bottom: 0;">
-                                            <i class="material-icons">ballot</i>
-                                            讨论课
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="padding-bottom: 0;">
-                                            <i class="material-icons round-setting" data-roundId="${round.id}">settings</i>
-                                            轮次设置
-                                        </a>
-                                    </li>
-                                </ul>
+                <#list rounds as round>
+                    <div class="col-md-6">
+                        <div class="card content-card">
+                            <div class="card-body">
+                                <div class="body-header">
+                                    <div class="body-title">第${round.roundNum}轮</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item" data-toggle="modal" data-target="#round${round.id}Modal">
+                                            <a class="nav-link" style="padding-bottom: 0;">
+                                                <i class="material-icons">ballot</i>
+                                                讨论课
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" style="padding-bottom: 0;">
+                                                <i class="material-icons round-setting" data-roundId="${round.id}">settings</i>
+                                                轮次设置
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </#list>
+                </#list>
+
+            </div>
+        </div>
+    </#if>
+    <#if canAdd>
+        <div class="container">
+            <div class="row">
                 <div class="col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="createButton" style="margin-top: 10px;margin-bottom: 10px;">
+                    <a class="btn bg-transparent add-card-btn" id="createButton"
+                       style="margin-top: 10px;margin-bottom: 10px;">
                         <i class="material-icons add-icon">add_circle</i>
                     </a>
                 </div>
@@ -100,82 +108,87 @@
 </div>
 
 <#list rounds as round>
-<div class="modal seminar-modal fade" id="round${round.id}Modal" data-roundId="${round.id}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">第${round.roundNum}轮</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body" style="margin-top: 10px;margin-bottom: 10px;">
-                <#if round.seminars?size == 0>
-                    <div class="empty-tag modal-tag">
-                        <div class="info">
-                            <div class="icon icon-rose flex-center">
-                                <i class="material-icons color-grey">portable_wifi_off</i>
-                            </div>
-                            <h4 class="info-title">这里空荡荡的</h4>
-                        </div>
-                    </div>
-                <#else >
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 nav-col">
-                            <ul class="nav nav-pills nav-pills-icons flex-column">
-                                <#list round.seminars as seminar>
-                                    <li class="nav-item">
-                                        <a class="nav-link seminar" href="#pane${seminar.id}" data-toggle="tab"
-                                           data-seminarId="${seminar.id}">
-                                            <i class="material-icons">list</i>
-                                            <span>${seminar.serial}</span>
-                                            <span class="theme">-${seminar.theme}</span>
-                                        </a>
-                                    </li>
-                                </#list>
-                            </ul>
-                        </div>
-                        <div class="col-8 tab-col" style="margin-top: -20px">
-                            <div class="tab-content">
-                                <#list round.seminars as seminar>
-                                    <div class="tab-pane" id="pane${seminar.id}">
-                                        <div class="info">
-                                            <div class="icon icon-rose flex-space-between">
-                                                <i class="material-icons">group_work</i>
-                                                <span class="info-title" style="padding-right: 20px">${seminar.theme}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </#list>
-                            </div>
-                            <div class="container">
-                                <#if klasses?size == 0>
-                                    <div class="empty-tag" style="height: 200px;padding-top: 20px;">
-                                        <div class="info">
-                                            <div class="icon icon-rose flex-center">
-                                                <i class="material-icons color-grey">portable_wifi_off</i>
-                                            </div>
-                                            <h4 class="info-title">这里空荡荡的</h4>
-                                        </div>
-                                    </div>
-                                <#else >
-                                    <#list klasses as klass>
-                                        <button type="button" class="btn btn-round bg-dark klass-btn"
-                                        data-klassId="${klass.id}">${klass.klassName}</button>
-                                    </#list>
-                                </#if>
-                                <hr>
-                                <button type="button" class="btn btn-round bg-dark option-btn" style="width: 100%">设置</button>
-                            </div>
-                        </div>
-                    </div>
+    <div class="modal seminar-modal fade" id="round${round.id}Modal" data-roundId="${round.id}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">第${round.roundNum}轮</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="material-icons">clear</i>
+                    </button>
                 </div>
-                </#if>
+                <div class="modal-body" style="margin-top: 10px;margin-bottom: 10px;height: 80%">
+                    <#if round.seminars?size == 0>
+                        <div class="empty-tag modal-tag">
+                            <div class="info">
+                                <div class="icon icon-rose flex-center">
+                                    <i class="material-icons color-grey">portable_wifi_off</i>
+                                </div>
+                                <h4 class="info-title">这里空荡荡的</h4>
+                            </div>
+                        </div>
+                    <#else >
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 nav-col">
+                                    <ul class="nav nav-pills nav-pills-icons flex-column">
+                                        <#list round.seminars as seminar>
+                                            <li class="nav-item">
+                                                <a class="nav-link seminar <#if seminar?index=0>active</#if>"
+                                                   href="#pane${seminar.id}" data-toggle="tab"
+                                                   data-seminarId="${seminar.id}">
+                                                    <i class="material-icons">list</i>
+                                                    <span>${seminar.serial}</span>
+                                                    <span class="theme">-${seminar.theme}</span>
+                                                </a>
+                                            </li>
+                                        </#list>
+                                    </ul>
+                                </div>
+                                <div class="col-8 tab-col" style="margin-top: -20px">
+                                    <div class="tab-content">
+                                        <#list round.seminars as seminar>
+                                            <div class="tab-pane <#if seminar?index=0>active</#if>"
+                                                 id="pane${seminar.id}">
+                                                <div class="info">
+                                                    <div class="icon icon-rose flex-space-between">
+                                                        <i class="material-icons">group_work</i>
+                                                        <span class="info-title"
+                                                              style="padding-right: 20px">${seminar.theme}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </#list>
+                                    </div>
+                                    <div class="container">
+                                        <#if klasses?size == 0>
+                                            <div class="empty-tag" style="height: 200px;padding-top: 20px;">
+                                                <div class="info">
+                                                    <div class="icon icon-rose flex-center">
+                                                        <i class="material-icons color-grey">portable_wifi_off</i>
+                                                    </div>
+                                                    <h4 class="info-title">这里空荡荡的</h4>
+                                                </div>
+                                            </div>
+                                        <#else >
+                                            <#list klasses as klass>
+                                                <button type="button" class="btn btn-round bg-dark klass-btn"
+                                                        data-klassId="${klass.id}">${klass.klassName}</button>
+                                            </#list>
+                                        </#if>
+                                        <hr>
+                                        <button type="button" class="btn btn-round bg-dark option-btn"
+                                                style="width: 100%">设置
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </#if>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </#list>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
     <input id="seminarIdInput" name="seminarId" placeholder="">

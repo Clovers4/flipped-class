@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/admin/studentManage.js"></script>
-    <title>登录</title>
+    <title>学生管理</title>
 </head>
 <body>
 <div class="alert-area">

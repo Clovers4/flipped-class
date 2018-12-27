@@ -42,11 +42,11 @@ $(function () {
         console.log(seminarForm.form.serializeObject());
     });
 
-    $("#seminarInfo").click({url:'/student/course/seminar/info'}, moduleClick);
-    $("#enroll").click({url:'/student/course/seminar/enrollList'}, moduleClick);
-    $("#grade").click({url:'/student/course/seminar/grade'}, moduleClick);
-    $("#report").click({url:'/student/course/seminar/report'}, moduleClick);
-    $("#processing").click({url:'/student/course/seminar/processing'}, moduleClick);
+    $(".seminarInfo").click({url:'/student/course/seminar/info'}, moduleClick);
+    $(".enroll").click({url:'/student/course/seminar/enrollList'}, moduleClick);
+    $(".grade").click({url:'/student/course/seminar/grade'}, moduleClick);
+    $(".report").click({url:'/student/course/seminar/report'}, moduleClick);
+    $(".processing").click({url:'/student/course/seminar/processing'}, moduleClick);
 });
 
 

@@ -12,9 +12,10 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/enrollList.js"></script>
-    <title>讨论课报名</title>
+    <title>进行讨论课</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -39,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -57,39 +58,62 @@
                 <div class="col-xl-4 col-md-6">
                     <div class="card enroll-card">
                         <#if attendance??>
-                        <div class="card-body">
-                            <div class="body-header flex-space-between">
-                                <div class="body-title">第${i}组</div>
-                                <div class="line team-line">
-                                    <label style="width: 50px">队伍</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${attendance.team.teamName}</div>
+                            <div class="card-body">
+                                <div class="body-header flex-space-between">
+                                    <div class="body-title">第${i}组</div>
+                                    <div class="line team-line">
+                                        <label style="width: 50px">队伍</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${attendance.team.teamName}</div>
+                                    </div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <#if !hasEnd>
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li <#if attendance.preFile??>class="nav-item download-file"
+                                                data-fileName="${attendance.preFile}" data-teamId="${attendance.teamId}"
+                                                <#else >class="nav-item disabled" </#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_download</i>
+                                                    下载PPT
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    <#else >
+                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                            <li <#if attendance.reportFile??>class="nav-item download-file"
+                                                data-fileName="${attendance.reportFile}" data-teamId="${attendance.teamId}"
+                                                <#else >class="nav-item disabled" </#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">cloud_download</i>
+                                                    下载报告
+                                                </a>
+                                            </li>
+                                            <li <#if attendance.reportFile??>data-toggle="modal" data-target="#reportScoreModal"
+                                                class="nav-item score" data-teamId="${attendance.teamId}"
+                                                <#else >class="nav-item disabled"</#if>>
+                                                <a class="nav-link" style="padding: 0;">
+                                                    <i class="material-icons">edit</i>
+                                                    打分
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </#if>
                                 </div>
                             </div>
-                            <div class="body-content">
-                                <hr>
-                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="padding: 0;color: #AAAAAA;">
-                                            <i class="material-icons">cloud_download</i>
-                                            下载PPT
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                         <#else>
-                        <div class="card-body">
-                            <div class="body-header">
-                                <div class="body-title">第${i}组</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="flex-center not-enroll">
-                                    尚未报名
+                            <div class="card-body">
+                                <div class="body-header">
+                                    <div class="body-title">第${i}组</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="flex-center not-enroll">
+                                        尚未报名
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </#if>
                     </div>
                 </div>
@@ -97,9 +121,43 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="reportScoreModal">
+    <div class="modal-dialog" style="margin-top: 100px">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: #EEEEEE 1px solid;border-collapse: collapse">
+                <h5 class="modal-title">打分</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow: scroll;height: 20%;padding: 0 24px">
+                <form class="form" id="giveScoreForm">
+                    <input hidden name="ksId" value="${ksId}" placeholder="">
+                    <input hidden id="teamId" name="teamId" placeholder="">
+                    <div class="card-body">
+                        <div class="form-group bmd-form-group">
+                            <label for="score">分数</label>
+                            <input id="score" name="score" type="text" autocomplete="off"
+                                   class="form-control empty-verify" data-emptyMessage="请输入分数">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="padding: 10px;border-top: #EEEEEE 1px solid">
+                <button id="confirmBtn" class="btn bg-dark" style="margin-right: 20px">确定</button>
+                <button class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 <form hidden id="seminarForm" action="/teacher/course/seminar/info" method="post">
-    <input id="seminarIdInput" name="seminarId">
-    <input id="klassIdInput" name="klassId">
+    <input id="seminarIdInput" name="seminarId" placeholder="">
+    <input id="klassIdInput" name="klassId" placeholder="">
+</form>
+<form hidden id="downloadFileForm" action="/teacher/course/seminar/downloadPPT" method="get">
+    <input id="fileNameInput" name="fileName" placeholder="">
+    <input id="teamIdInput" name="teamId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="/static/lib/core/popper.min.js" type="text/javascript"></script>

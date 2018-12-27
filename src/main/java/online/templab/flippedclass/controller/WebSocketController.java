@@ -51,18 +51,27 @@ public class WebSocketController {
     public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
+        int on = 1;
+        Integer state = klassSeminar.getState();
+        model.addAttribute("state", state);
         model.addAttribute("studentNum", principal.getName());
-        model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());
-        model.addAttribute("monitor", monitor);
+        if(state == on) {
+            model.addAttribute("monitor", monitor);
+            model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
+        }
         return "student/course/seminar/progressing";
     }
 
     @PostMapping("/teacher/course/seminar/progressing")
     public String seminarProgressing(Long klassSeminarId, Model model) {
-        System.out.println(webSocketService.getMonitor(klassSeminarId));
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarById(klassSeminarId);
+        Boolean hasEnd = klassSeminar.getState() == 2;
         model.addAttribute("ksId", klassSeminarId);
-        model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        model.addAttribute("hasEnd", hasEnd);
+        if (!hasEnd) {
+            model.addAttribute("monitor", webSocketService.getMonitor(klassSeminarId));
+        }
         return "teacher/course/seminar/progressing";
     }
 

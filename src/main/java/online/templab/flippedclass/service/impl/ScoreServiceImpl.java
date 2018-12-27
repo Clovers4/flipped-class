@@ -59,7 +59,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public SeminarScore getByKlassSeminarIdAndTeamId(Long klassSeminerId, Long teamId) {
+    public SeminarScore getSeminarScore(Long klassSeminerId, Long teamId) {
         return scoreDao.selectSeminarScore(klassSeminerId,teamId);
     }
 }

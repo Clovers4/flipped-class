@@ -101,14 +101,16 @@ public class IndexController {
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
         String forgetType = "forgetType";
-        String studentType = "student";
-        String teacherType = "teacher";
+        String studentType = "student", teacherType = "teacher";
         String forgetAccount = (String) session.getAttribute("forgetAccount");
-
         if (studentType.equals(session.getAttribute(forgetType))) {
-            studentService.modifyPassword(forgetAccount, password);
+            if(!studentService.modifyPassword(forgetAccount, password)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
         } else if (teacherType.equals(session.getAttribute(forgetType))) {
-            teacherService.modifyPassword(forgetAccount, password);
+            if(!teacherService.modifyPassword(forgetAccount, password)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

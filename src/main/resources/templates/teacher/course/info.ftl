@@ -11,9 +11,28 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
+    <script>
+        $(function () {
+            $("#deleteBtn").click(function () {
+                util.showLoading();
+                $.ajax({
+                    type: "delete",
+                    url: "/teacher/course/" + $("body").attr("data-courseId"),
+                    success: function () {
+                        window.location = "/teacher/courseList"
+                    },
+                    error: function () {
+                        util.hideLoading();
+                        util.showAlert("danger", "删除失败，未知错误", 3);
+                    }
+                })
+            });
+        });
+    </script>
     <title>课程信息</title>
 </head>
-<body class="card-page sidebar-collapse">
+<body class="card-page sidebar-collapse" data-courseId="${course.id}">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -38,7 +57,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -60,21 +79,24 @@
                     <div class="container">
                         <div class="col-md-6 ml-auto mr-auto">
                             <div class="line">
-                                <label>轮次</label>
-                                <div class="sep"></div>
-                                <#--TODO:{}-->
-                                <div class="content">｛第二轮｝</div>
+                                <label>成绩计算规则</label>
                             </div>
-                            <div class="line">
-                                <label>班级</label>
-                                <div class="sep"></div>
-                                <#--TODO:{}-->
-                                <div class="content">｛2016(1)｝</div>
-                            </div>
-                            <div class="line">
-                                <label>小组人数</label>
-                                <div class="sep"></div>
-                                <div class="content" style="margin-left: 10px">{6~8}</div>
+                            <div style="margin-left: 30px">
+                                <div class="line">
+                                    <label>课堂展示</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${course.prePercentage}%</div>
+                                </div>
+                                <div class="line">
+                                    <label>课堂提问</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${course.quesPercentage}%</div>
+                                </div>
+                                <div class="line">
+                                    <label>书面报告</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${course.reportPercentage}%</div>
+                                </div>
                             </div>
                             <div class="line content-line">
                                 <label>组队开始时间</label>
@@ -95,7 +117,7 @@
 </div>
 <div class="container foot-container flex-center">
     <div class="col-md-10 ml-auto mr-auto" style="padding: 0;">
-        <button onclick="window.location='/logout'" class="btn bg-red" style="margin: 0">
+        <button id="deleteBtn" class="btn bg-red" style="margin: 0">
             <i class="material-icons">delete</i>
             删除课程
         </button>
