@@ -291,7 +291,7 @@ public class StudentController {
 
         if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
             // 生成一个 List 供 service使用
-            List studentNumList = new LinkedList();
+            List<String> studentNumList = new LinkedList<>();
             studentNumList.add(studentService.getByPrimaryKey(studentId).getStudentNum());
             teamService.addMember(teamId, studentNumList);
             return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -373,7 +373,8 @@ TODO:恢复
             rounds.forEach(round -> {
                 roundScoreMap.put(String.valueOf(round.getId()), scoreService.getScoreOfRound(team.getId(), round.getId()));
                 round.getSeminars().forEach(seminar -> {
-                    seminarScoreMap.put(String.valueOf(seminar.getId()), scoreService.getSeminarScore(team.getId(), seminarService.getKlassSeminar(klassId, seminar.getId()).getId()));
+                    seminarScoreMap.put(String.valueOf(seminar.getId()),
+                            scoreService.getSeminarScore(seminarService.getKlassSeminar(klassId, seminar.getId()).getId(), team.getId()));
                 });
             });
             model.addAttribute("rounds", rounds);

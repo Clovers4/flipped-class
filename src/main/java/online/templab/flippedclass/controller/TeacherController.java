@@ -4,17 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.common.excel.ExcelService;
 import online.templab.flippedclass.common.excel.ExcelUtil;
-import online.templab.flippedclass.dto.ApplicationHandleDTO;
-import online.templab.flippedclass.dto.KlassCreateDTO;
-import online.templab.flippedclass.dto.RoundSettingDTO;
-import online.templab.flippedclass.dto.ShareApplicationDTO;
+import online.templab.flippedclass.dto.*;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -104,18 +104,11 @@ public class TeacherController {
 
     @PostMapping("/activation")
     public @ResponseBody
-    ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
-        String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
-        Long teacherId = (Long) session.getAttribute(TEACHER_ID_GIST);
-        if (captcha.equals(senderCaptcha)) {
-            if (teacherService.activate(teacherId, password, email)) {
-                session.removeAttribute("activationCaptcha");
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("教师不存在");
-            }
+    ResponseEntity<Object> activate(String password, String email, HttpSession session) {
+        if (teacherService.activate(((Long) session.getAttribute(TEACHER_ID_GIST)), password, email)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("验证码错误");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("教师不存在");
         }
     }
 
@@ -160,11 +153,13 @@ public class TeacherController {
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
         Long teacherId = (Long) session.getAttribute("teacherId");
-        teacherService.updateById(
+        if (!teacherService.updateById(
                 new Teacher()
                         .setId(teacherId)
                         .setPassword(password)
-        );
+        )) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -174,14 +169,18 @@ public class TeacherController {
         List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
         model.addAttribute("STApps", shareTeamApplications);
         model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
-        //TODO:待完善
+        //TODO:     model.addAttribute("TVApps", applicationService.getTeamValidApplicationByTeacherId(teacherId));
         return "teacher/notification";
     }
 
     @PostMapping("/notification/handle")
     public @ResponseBody
     ResponseEntity<Object> handleApplication(@RequestBody ApplicationHandleDTO applicationHandleDTO) {
-        log.info(applicationHandleDTO.toString());
+        /*
+         * 0 : ShareSeminar
+         * 1 : ShareTeam
+         * 2 : Team valid
+         */
         switch (applicationHandleDTO.getAppType()) {
             case 0:
                 if (shareService.processShareSeminarApplication(applicationHandleDTO.getAppId(), applicationHandleDTO.getOperationType() == 1)) {
@@ -196,8 +195,11 @@ public class TeacherController {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 2:
-                //TODO：待完善
-                return ResponseEntity.status(HttpStatus.OK).body(null);
+             /*TODO:   if (applicationService.handleTeamValidApplication(applicationHandleDTO)) {
+                    return ResponseEntity.status(HttpStatus.OK).body(null);
+                } else {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+                }*/
             default:
                 throw new RuntimeException();
         }
@@ -210,18 +212,17 @@ public class TeacherController {
         return "teacher/courseList";
     }
 
-    /**
-     * Todo: Remains to be deepen designed
-     */
     @PostMapping("/course/info")
     public String courseInfo(String courseId, Model model) {
         model.addAttribute("course", courseService.get(Long.valueOf(courseId)));
+        //TODO     model.addAttribute("strategies", seminarService.getStrategiesByCourseId(courseId));
         return "teacher/course/info";
     }
 
 
     @GetMapping("/course/create")
-    public String courseCreate() {
+    public String courseCreate(Model model) {
+        // TODO:    model.addAttribute("courses", courseService.listAllCourses());
         return "teacher/course/create";
     }
 
@@ -232,29 +233,43 @@ public class TeacherController {
      */
     @PutMapping("/course")
     public @ResponseBody
-    ResponseEntity<Object> courseCreate(Course course) {
-        return null;
+    ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
+        Course course = courseCreateDTO.getCourse();
+        course.setTeacherId(((Long) session.getAttribute(TEACHER_ID_GIST)));
+        courseService.insert(course);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @DeleteMapping("/course/{courseId}")
+    public ResponseEntity<Object> deleteCourse(@PathVariable Long courseId) {
+        courseService.delete(courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/seminarList")
-    public String seminarList(String courseId, Model model) {
+    public String seminarList(Long courseId, Model model) {
         // FIXME: roundService待修复，应采用left join的方式
-        model.addAttribute("rounds", roundService.listByCourseId(Long.valueOf(courseId)));
-        model.addAttribute("klasses", klassService.listByCourseId(Long.valueOf(courseId)));
+        Course course = courseService.get(courseId);
+        Boolean canAdd = course.getSeminarMainCourseId() == null;
+        model.addAttribute("canAdd", canAdd);
+        model.addAttribute("rounds", roundService.listByCourseId(courseId));
+        model.addAttribute("klasses", klassService.listByCourseId(courseId));
 
         return "teacher/course/seminarList";
     }
 
     @PostMapping("/course/round/setting")
-    public String roundSetting(String roundId, String courseId, Model model) {
+    public String roundSetting(Long roundId, Long courseId, Model model) {
         // FIXME: roundService待修复，应采用left join的方式
         // TODO: roundService.get参数改变为 (Long roundId, Long courseId)
-        Round round = roundService.get(Long.valueOf(roundId), Long.valueOf(courseId));
-        Map<String, Klass> klassMap = new HashMap<>(5);
-        round.getKlassRounds().forEach(klassRound -> {
-            klassMap.put(String.valueOf(klassRound.getKlassId()), klassService.get(klassRound.getKlassId()));
+        Round round = roundService.get(roundId, courseId);
+        Map<String, KlassRound> klassRoundMap = new HashMap<>(5);
+        List<Klass> klasses = klassService.listByCourseId(courseId);
+        klasses.forEach(klass -> {
+            //TODO      klassRoundMap.put(klass.getId(), seminarService.getKlassRoundsByKlassIdAndRoundId(klass.getId(), roundId).get(0));
         });
-        model.addAttribute("klassMap", klassMap);
+        model.addAttribute("klasses", klasses);
+        model.addAttribute("klassRoundMap", klassRoundMap);
         model.addAttribute("round", round);
         return "teacher/course/roundSetting";
     }
@@ -264,6 +279,13 @@ public class TeacherController {
     ResponseEntity<Object> updateRoundSetting(@RequestBody RoundSettingDTO roundSettingDTO) {
         Round round = roundSettingDTO.getRound();
         List<KlassRound> klassRounds = roundSettingDTO.getKlassRounds();
+
+        if (!roundService.update(round)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
+        }
+        for (KlassRound klassRound : klassRounds) {
+            roundService.updateKlassRound(klassRound);
+        }
 
         roundService.update(round);
 
@@ -301,7 +323,9 @@ public class TeacherController {
             roundService.insert(round);
             seminar.setRoundId(round.getId());
         }
-        seminarService.update(seminar);
+        if (!seminarService.update(seminar)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -318,37 +342,79 @@ public class TeacherController {
     }
 
     @PostMapping("/course/seminar/info")
-    public String seminarInfo(String klassId, String seminarId, Model model) {
-        KlassSeminar klassSeminar = seminarService.getKlassSeminar(Long.valueOf(klassId), Long.valueOf(seminarId));
+    public String seminarInfo(Long klassId, Long seminarId, Long ksId, Model model) {
+        KlassSeminar klassSeminar = null;
+        if (ksId != null) {
+            klassSeminar = seminarService.getKlassSeminarById(ksId);
+        } else {
+            klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+        }
         if (klassSeminar == null) {
-            //TODO:need better code here.
             throw new RuntimeException("No klass seminar");
         }
         model.addAttribute("klassSeminar", klassSeminar);
         return "teacher/course/seminar/info";
     }
 
+    @PostMapping("/course/seminar/grade")
+    public String seminarGrade(Long klassSeminarId, Model model) {
+        List<Attendance> attendances = seminarService.getEnrollListByKlassSeminarId(klassSeminarId);
+        Map<String, SeminarScore> seminarScoreMap = new HashMap<>(attendances.size());
+        attendances.forEach(attendance -> {
+            seminarScoreMap.put(String.valueOf(attendance.getId()), scoreService.getSeminarScore(klassSeminarId, attendance.getTeamId()));
+        });
+        model.addAttribute("seminarScore", seminarScoreMap);
+        model.addAttribute("attendances", attendances);
+        model.addAttribute("ksId", klassSeminarId);
+        return "teacher/course/seminar/grade";
+    }
+
+    @PostMapping("/course/seminar/grade/modify")
+    public String modifyGrade(Long attendanceId, BigDecimal preScore, BigDecimal reportScore, Model model) {
+     /*
+     TODO   Attendance attendance=seminarService.getAttendance(attendanceId);
+        scoreService.markerScore(
+                new SeminarScore()
+                .setTeamId(attendance.getTeamId())
+                .setKlassSeminarId(attendance.getKlassSeminarId())
+                .setPresentationScore(preScore)
+                .setReportScore(reportScore)
+        );*/
+        return "teacher/course/seminar/grade";
+    }
+
 
     @PostMapping("/course/seminar/enrollList")
-    public String seminarEnrollList(String klassSeminarId, Model model) {
-        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(Long.valueOf(klassSeminarId)));
+    public String seminarEnrollList(Long klassSeminarId, Model model) {
+        KlassSeminar klassSeminar = seminarService.getKlassSeminarById(klassSeminarId);
+        Boolean hasEnd = klassSeminar.getState() == 2;
+        model.addAttribute("hasEnd", hasEnd);
+        model.addAttribute("ksId", klassSeminar.getId());
+        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(klassSeminarId));
         return "teacher/course/seminar/enrollList";
     }
 
-    /**
-     * Todo:
-     * Remain to
-     * be realize
-     */
-    @PostMapping("/course/seminar/grade")
-    public String seminarGrade(Long courseId, Model model) {
-        List<Round> rounds = roundService.listByCourseId(courseId);
-        List<Team> teams = teamService.listByCourseId(courseId);
-        Map<String, List<RoundScore>> scoreMap = new HashMap<>(rounds.size());
-        rounds.forEach(round -> {
-            List<RoundScore> roundScores = new LinkedList<>();
-        });
-        return "teacher/course/seminar/grade";
+    @PostMapping("/course/seminar/enrollList/giveScore")
+    public ResponseEntity<Object> giveScore(BigDecimal score, Long ksId, Long teamId) {
+        scoreService.markerScore(
+                new SeminarScore()
+                        .setTeamId(teamId)
+                        .setKlassSeminarId(ksId)
+                        .setReportScore(score)
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<FileSystemResource> downloadPPT(String fileName, String teamId) {
+//   TODO     return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
+        return null;
+    }
+
+    @GetMapping(value = "/course/seminar/downloadReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<FileSystemResource> downloadReport(String fileName, String teamId) {
+//  TODO      return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
+        return null;
     }
 
     @PostMapping("/course/klassList")
@@ -397,56 +463,54 @@ public class TeacherController {
 
     @DeleteMapping("/course/klass/{klassId}")
     public @ResponseBody
-    ResponseEntity<Object> deleteKlass(@PathVariable String klassId) {
-        klassService.delete(Long.valueOf(klassId));
+    ResponseEntity<Object> deleteKlass(@PathVariable Long klassId) {
+        klassService.delete(klassId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/teamList")
-    public String teamList(String courseId, Model model) {
-        model.addAttribute("teams", teamService.listByCourseId(Long.valueOf(courseId)));
+    public String teamList(Long courseId, Model model) {
+        model.addAttribute("teams", teamService.listByCourseId(courseId));
         return "teacher/course/teamList";
     }
 
-    /**
-     * Todo:
-     * Remain to
-     * be realize
-     */
     @PostMapping("/course/grade")
-    public String grade(String courseId) {
+    public String grade(Long courseId, Model model) {
+        //Map roundId - roundScores(for every team in the course)
+        List<Round> rounds = roundService.listByCourseId(courseId);
+        List<Team> teams = teamService.listByCourseId(courseId);
+        model.addAttribute("rounds", rounds);
+        model.addAttribute("teams", teams);
+//TODO        model.addAttribute("roundScores", scoreService.calculateCourseScore(rounds, teams));
         return "teacher/course/grade";
     }
 
     @PostMapping("/course/share")
-    public String courseShare(String courseId, Model model) {
+    public String courseShare(Long courseId, Model model) {
         // 读取与该课程共享的主课程,根据共享种类(共享分组、共享讨论课)分别放入map.team和map.seminar中
         // 由于前端使用的是List,因此这里也放入list来返回
         Map<String, List<Course>> mainCourse = new HashMap<>(2);
-
         List<Course> shareTeamMainCourse = new ArrayList<>();
-        Course course = shareService.getShareTeamMainCourse(Long.valueOf(courseId));
+        Course course = shareService.getShareTeamMainCourse(courseId);
         if (course != null) {
             shareTeamMainCourse.add(course);
         }
-        mainCourse.put("team", shareTeamMainCourse);
-
         List<Course> shareSeminarMainCourse = new ArrayList<>();
-        Course course1 = shareService.getShareSeminarMainCourse(Long.valueOf(courseId));
+        Course course1 = shareService.getShareSeminarMainCourse(courseId);
         if (course1 != null) {
             shareSeminarMainCourse.add(course);
         }
+        mainCourse.put("team", shareTeamMainCourse);
         mainCourse.put("seminar", shareSeminarMainCourse);
-
-        model.addAttribute("subCourse", mainCourse);
 
         // 读取与该课程共享的从课程,根据共享种类(共享分组、共享讨论课)分别放入map.team和map.seminar中
         Map<String, List<Course>> subCourse = new HashMap<>(2);
+        subCourse.put("team", shareService.listShareTeamSubCourse(courseId));
+        subCourse.put("seminar", shareService.listShareSeminarSubCourse(courseId));
 
-        subCourse.put("team", shareService.listShareTeamSubCourse(Long.valueOf(courseId)));
-        subCourse.put("seminar", shareService.listShareSeminarSubCourse(Long.valueOf(courseId)));
-
+        model.addAttribute("subCourse", mainCourse);
         model.addAttribute("mainCourse", subCourse);
+        model.addAttribute("course", courseService.get(courseId));
         return "teacher/course/share";
     }
 
@@ -454,10 +518,22 @@ public class TeacherController {
     public String courseShareCreate(String courseId, Integer shareType, Model model) {
         if (shareType == null) {
             model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(Long.valueOf(courseId), 0));
-        }else{
+        } else {
             model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(Long.valueOf(courseId), shareType));
         }
         return "teacher/course/share/create";
+    }
+
+    @PostMapping("/course/share/cancelTeamShare")
+    public ResponseEntity<Object> cancelTeamShare(Long subCourseId) {
+//TODO        teacherService.cancelTeamShare(subCourseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @PostMapping("/course/share/cancelSeminarShare")
+    public ResponseEntity<Object> cancelSeminarShare(String subCourseId) {
+        //TODO     teacherService.cancelSeminarShare(subCourseId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PutMapping("/course/shareApplication")
@@ -473,14 +549,21 @@ public class TeacherController {
             shareTeamApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareTeamApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareTeamApplication.setTeacherId(teacherId);
+            Course course = courseService.get(shareApplicationDTO.getSubCourseId());
+            if (course.getTeamMainCourseId() != null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
             if (shareService.sendShareTeamApplication(shareTeamApplication)) {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             } else {
-                System.out.println(1111111);
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
         } else if (shareApplicationDTO.getShareType() == 1) {
             ShareSeminarApplication shareSeminarApplication = new ShareSeminarApplication();
+            Course course = courseService.get(shareApplicationDTO.getSubCourseId());
+            if (course.getSeminarMainCourseId() != null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
             shareSeminarApplication.setMainCourseId(shareApplicationDTO.getMainCourseId());
             shareSeminarApplication.setSubCourseId(shareApplicationDTO.getSubCourseId());
             shareSeminarApplication.setTeacherId(teacherId);
