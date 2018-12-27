@@ -274,7 +274,7 @@ public class StudentController {
         Team team = teamService.getByPrimaryKey(teamId);
 
         model.addAttribute("maxMember", MAX_MEMBER);
-        model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
+        //model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", team);
         model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(team.getCourseId()));
         return "student/course/myTeam";
