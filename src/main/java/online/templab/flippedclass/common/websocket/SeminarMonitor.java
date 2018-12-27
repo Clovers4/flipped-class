@@ -173,8 +173,7 @@ public class SeminarMonitor {
             return null;
         }
         // 根据某个算法抽取一个 question
-        int randomIndex = random.nextInt(waitingQuestionList.size());
-        Question pickedQuestion = waitingQuestionList.get(randomIndex);
+        Question pickedQuestion = waitingQuestionList.get(0);
 
         // 从 waitingQuestionList中移除
         waitingQuestionList.remove(pickedQuestion);

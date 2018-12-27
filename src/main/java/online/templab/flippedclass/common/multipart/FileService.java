@@ -31,6 +31,13 @@ public interface FileService {
     void store(MultipartFile file);
 
     /**
+     * 存储一个文件,以 UUID为文件名
+     *
+     * @param file
+     */
+    String storeWithUUID(MultipartFile file);
+
+    /**
      * 导出所有的存在的文件的Stream
      *
      * @return

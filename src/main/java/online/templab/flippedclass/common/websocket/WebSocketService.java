@@ -254,6 +254,7 @@ public class WebSocketService {
                                 .setAttendanceId(question.getAttendanceId())
                                 .setStudentId(question.getStudentId())
                                 .setTeamId(question.getTeamId())
+                                .setIsSelected(1)
                 ).size() == 0) {
                     questionMapper.insert(question.setScore(BigDecimal.valueOf(score)));
                 } else {
