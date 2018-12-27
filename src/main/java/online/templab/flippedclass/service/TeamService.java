@@ -144,4 +144,21 @@ public interface TeamService {
      * @return
      */
     Boolean sendTeamValidApplication(TeamValidApplication teamValidApplication);
+
+    /**
+     *
+     * 通过老师ID得到所有请求
+     * @param teacherId
+     * @return
+     */
+    List<TeamValidApplication> getTeamApplicationByTeacherId(Long teacherId);
+
+    /**
+     * 老师处理队伍有效请求
+     * @param teamValidApplicationId
+     * @param teamId
+     * @param accept
+     * @return
+     */
+    Boolean processTeamValidApplication(Long teamValidApplicationId,Long teamId,Boolean accept);
 }

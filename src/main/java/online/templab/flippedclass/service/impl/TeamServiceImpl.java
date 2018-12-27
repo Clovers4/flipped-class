@@ -3,6 +3,7 @@ package online.templab.flippedclass.service.impl;
 import online.templab.flippedclass.dao.CourseDao;
 import online.templab.flippedclass.dao.TeamDao;
 import online.templab.flippedclass.entity.*;
+import online.templab.flippedclass.mapper.TeamValidApplicationMapper;
 import online.templab.flippedclass.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Autowired
     private CourseDao courseDao;
+
+    @Autowired
+    private TeamValidApplicationMapper teamValidApplicationMapper;
 
     @Override
     public int validOneTeamState(Long teamId) {
@@ -278,5 +282,15 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean sendTeamValidApplication(TeamValidApplication teamValidApplication) {
         return teamDao.insertTeamValidApplication(teamValidApplication);
+    }
+
+    @Override
+    public List<TeamValidApplication> getTeamApplicationByTeacherId(Long teacherId) {
+        return teamDao.selectTeamApplicationByTeacherId(teacherId);
+    }
+
+    @Override
+    public Boolean processTeamValidApplication(Long teamValidApplicationId,Long teamId, Boolean accept) {
+        return teamDao.updateTeamValidApplication(teamValidApplicationId,teamId,accept);
     }
 }

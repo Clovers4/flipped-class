@@ -170,7 +170,7 @@ public class TeacherController {
         List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
         model.addAttribute("STApps", shareTeamApplications);
         model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
-        //TODO:     model.addAttribute("TVApps", applicationService.getTeamValidApplicationByTeacherId(teacherId));
+        model.addAttribute("TVApps", teamService.getTeamApplicationByTeacherId(teacherId));
         return "teacher/notification";
     }
 
@@ -196,11 +196,12 @@ public class TeacherController {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 2:
-             /*TODO:   if (applicationService.handleTeamValidApplication(applicationHandleDTO)) {
+                if (teamService.processTeamValidApplication(applicationHandleDTO.getAppId(),
+                        applicationHandleDTO.getTeamId(),applicationHandleDTO.getOperationType()==1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-                }*/
+                }
             default:
                 throw new RuntimeException();
         }

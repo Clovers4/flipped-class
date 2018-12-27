@@ -11,5 +11,30 @@
         <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
         <result column="reason" jdbcType="VARCHAR" property="content"/>
         <result column="status" jdbcType="TINYINT" property="status"/>
+        <association property="team" javaType="Team">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="klass_id" jdbcType="BIGINT" property="klassId"/>
+            <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+            <result column="leader_id" jdbcType="BIGINT" property="leaderId"/>
+            <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        </association>
     </resultMap>
+
+    <select id="selectTeamApplicationByTeacherId" parameterType="long" resultMap="BaseResultMap">
+        SELECT a.id,
+               a.team_id,
+               a.teacher_id,
+               a.reason,
+               a.status,
+               t.id,
+               t.klass_id,
+               t.course_id,
+               t.leader_id,
+               t.team_name
+        FROM team_valid_application a,
+             team t
+        WHERE a.teacher_id = #{teacherId}
+          and t.id = a.team_id
+          and a.status IS NULL
+    </select>
 </mapper>
