@@ -3,8 +3,10 @@ package online.templab.flippedclass.service.impl;
 import online.templab.flippedclass.dao.RoundScoreDao;
 import online.templab.flippedclass.dao.KlassSeminarDao;
 import online.templab.flippedclass.dao.ScoreDao;
+import online.templab.flippedclass.entity.Round;
 import online.templab.flippedclass.entity.RoundScore;
 import online.templab.flippedclass.entity.SeminarScore;
+import online.templab.flippedclass.entity.Team;
 import online.templab.flippedclass.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +36,8 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public List<Map<String, Object>> getRoundScore(Long roundId, Long klassId) {
-        return roundScoreDao.listRoundScore(roundId, klassId);
+    public List<Map<String, Object>> getRoundScores(List<Round> rounds, List<Team> teams) {
+        return roundScoreDao.listRoundScores(rounds,teams);
     }
 
     @Override

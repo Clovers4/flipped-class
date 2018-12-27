@@ -175,21 +175,20 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
     }
 
     @Override
-    public List<Map<String, Object>> listRoundScore(Long roundId, Long klassId) {
+    public List<Map<String, Object>> listRoundScores(List<Round> rounds, List<Team> teams) {
         List<Map<String, Object>> result = new LinkedList<>();
         //得到该班的team
-        List<Team> teams = teamMapper.select(new Team().setKlassId(klassId));
-        for (Team team : teams) {
-            RoundScore roundScore = roundScoreMapper.selectOne(new RoundScore()
-                    .setRoundId(roundId)
-                    .setTeamId(team.getId()));
-            String teamName = team.getTeamName();
-            //TODO：前端需要数据未知，待完善
+        for(Round round:rounds){
             Map m = new HashMap();
-            m.put("teamName", team.getTeamName());
-            m.put("totalScore", roundScore.getTotalScore());
+            for (Team team : teams) {
+                RoundScore roundScore = roundScoreMapper.selectOne(new RoundScore()
+                        .setRoundId(round.getId())
+                        .setTeamId(team.getId()));
+                m.put(team.getId().toString(), roundScore);
+            }
             result.add(m);
         }
+
         return result;
     }
 

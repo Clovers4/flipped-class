@@ -204,35 +204,23 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     }
 
     @Override
-    public Boolean deleteShareTeamApplication(Long shareTeamApplicationId) {
-        Long subCourseId = 0L;
-        try {
-            subCourseId = shareTeamApplicationMapper.selectByPrimaryKey(shareTeamApplicationId).getSubCourseId();
-        } catch (Exception e) {
-            return false;
-        }
+    public Boolean deleteShareTeamApplication(Long subCourseId) {
+        Course course=courseMapper.selectByPrimaryKey(subCourseId);
         //删除从课程队伍信息
         List<Long> klassIds = klassMapper.selectIdByCourseId(subCourseId);
         for (Long klassId : klassIds) {
             klassTeamMapper.delete(new KlassTeam().setKlassId(klassId));
         }
-        return true;
+        return courseMapper.updateByPrimaryKey(course.setTeamMainCourseId(null))==1;
     }
 
     @Override
-    public Boolean deleteShareSeminarApplication(Long shareSeminarApplicationId) {
-        ShareSeminarApplication shareSeminarApplication;
-        try {
-            shareSeminarApplication = shareSeminarApplicationMapper.selectByPrimaryKey(shareSeminarApplicationId);
-        } catch (Exception e) {
-            return false;
-        }
+    public Boolean deleteShareSeminarApplication(Long subCourseId) {
         //删除从课程讨论课信息
-        Course course = courseMapper.selcetByCourseId(shareSeminarApplication.getSubCourseId());
+        Course course = courseMapper.selcetByCourseId(subCourseId);
         for (Klass klass : course.getKlassList()) {
             klassSeminarMapper.delete(new KlassSeminar().setKlassId(klass.getId()));
         }
-
         //删除从课程 round 信息
         List<Round> subCourseRoundList = roundMapper.select(new Round().setCourseId(course.getId()));
         for(int i = 0 ; i < subCourseRoundList.size() ; ++i){
@@ -240,7 +228,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
             //roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
         }
         roundMapper.delete(new Round().setCourseId(course.getId()));
-        return true;
+        return courseMapper.updateByPrimaryKey(course.setSeminarMainCourseId(null))==1;
     }
 
     @Override
