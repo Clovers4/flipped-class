@@ -19,7 +19,7 @@ public interface ExcelService {
     List<Student> loadStudentList(MultipartFile file);
 
     /**
-     * TODO:测试用
+     * 创建学生分数表（测试状态）,已废弃的功能点
      *
      * @param students
      * @return

@@ -47,7 +47,6 @@ public class AdminController {
         return "admin/teacherManage";
     }
 
-    //TODO:Many Method need @valid for entity check.
     @PostMapping("/teacherList")
     public String teacherList(Model model, TeacherFilter filter) {
         Teacher target = new Teacher().setTeacherName(filter.getName()).setTeacherNum(filter.getTeacherNum());
