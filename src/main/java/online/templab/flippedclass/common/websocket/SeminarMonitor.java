@@ -82,7 +82,7 @@ public class SeminarMonitor {
             preScoreMap.put(String.valueOf(enroll.getId()), -1);
         }
         this.onPreAttendanceIndex = 0;
-        this.onPreAttendance = enrollList.get(0);
+        this.onPreAttendance = enrollList.size() > 0 ? enrollList.get(0) : null;
         this.raisedQuestionsCount = 0;
         this.askedQuestion = new ConcurrentHashMap<>();
         for (Attendance enroll : enrollList) {

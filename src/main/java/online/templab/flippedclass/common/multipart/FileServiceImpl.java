@@ -62,8 +62,11 @@ public class FileServiceImpl implements FileService {
     @Override
     public String storeWithUUID(MultipartFile file) {
         UUID uuid = UUID.randomUUID();
-        store(file, uuid.toString());
-        return uuid.toString();
+        String orgfilename = StringUtils.cleanPath(file.getOriginalFilename());
+        String suffix = orgfilename.substring(orgfilename.lastIndexOf("."));
+        String uuidFilename = uuid + suffix;
+        store(file, uuidFilename);
+        return uuidFilename;
     }
 
     @Override
