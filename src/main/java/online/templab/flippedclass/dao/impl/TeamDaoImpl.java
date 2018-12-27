@@ -56,42 +56,38 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     CourseMapper courseMapper;
 
-    void getSubStrategy(CourseStrategy courseStrategy){
+    void getSubStrategy(CourseStrategy courseStrategy) {
 
-        if(courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy){
+        if (courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy) {
             String strategyName = courseStrategy.getMyStrategyName();
-            CourseStrategy subCourseStrategy= null;
+            CourseStrategy subCourseStrategy = null;
             List<CourseStrategy> courseStrategyList = new LinkedList<>();
 
-            if(strategyName.equals("TeamAndStrategy")){
+            if (strategyName.equals("TeamAndStrategy")) {
 //               subCourseStrategy = new TeamAndStrategy()
 //                                .setStrategyId(courseStrategy.getMyStrategyId());
 //                courseStrategyList = teamAndStrategyMapper.select(subCourseStrategy );
-                List<TeamAndStrategy> teamAndStrategyList = teamAndStrategyMapper.select(new TeamAndStrategy().setId(courseStrategy.getMyStrategyId()) );
-                for(TeamAndStrategy teamAndStrategy: teamAndStrategyList){
+                List<TeamAndStrategy> teamAndStrategyList = teamAndStrategyMapper.select(new TeamAndStrategy().setId(courseStrategy.getMyStrategyId()));
+                for (TeamAndStrategy teamAndStrategy : teamAndStrategyList) {
                     courseStrategyList.add(teamAndStrategy);
                 }
-            }
-            else if(strategyName.equals("TeamOrStrategy")){
+            } else if (strategyName.equals("TeamOrStrategy")) {
 //                subCourseStrategy = new TeamOrStrategy()
 //                        .setStrategyId(courseStrategy.getMyStrategyId());
 //                courseStrategyList = teamOrStrategyMapper.select(subCourseStrategy );
-                List<TeamOrStrategy> teamOrStrategyList = teamOrStrategyMapper.select(new TeamOrStrategy().setId(courseStrategy.getMyStrategyId()) );
-                for(TeamOrStrategy teamOrStrategy: teamOrStrategyList){
+                List<TeamOrStrategy> teamOrStrategyList = teamOrStrategyMapper.select(new TeamOrStrategy().setId(courseStrategy.getMyStrategyId()));
+                for (TeamOrStrategy teamOrStrategy : teamOrStrategyList) {
                     courseStrategyList.add(teamOrStrategy);
                 }
-            }
-            else if(strategyName.equals("MemberLimitStrategy")){
+            } else if (strategyName.equals("MemberLimitStrategy")) {
                 MemberLimitStrategy memberLimitStrategy = memberLimitStrategyMapper.selectByPrimaryKey(courseStrategy.getMyStrategyId());
                 courseStrategyList.add(memberLimitStrategy);
-            }
-            else if(strategyName.equals("CourseMemberLimitStrategy")){
+            } else if (strategyName.equals("CourseMemberLimitStrategy")) {
                 CourseMemberLimitStrategy courseMemberLimitStrategy = courseMemberLimitStrategyMapper.selectByPrimaryKey(courseStrategy.getMyStrategyId());
                 courseStrategyList.add(courseMemberLimitStrategy);
-            }
-            else if(strategyName.equals("ConflictCourseStrategy")){
+            } else if (strategyName.equals("ConflictCourseStrategy")) {
                 List<ConflictCourseStrategy> conflictCourseStrategyList = conflictCourseStrategyMapper.select(new ConflictCourseStrategy().setId(courseStrategy.getMyStrategyId()));
-                for(ConflictCourseStrategy conflictCourseStrategy: conflictCourseStrategyList){
+                for (ConflictCourseStrategy conflictCourseStrategy : conflictCourseStrategyList) {
                     courseStrategyList.add(conflictCourseStrategy);
                 }
             }
@@ -100,7 +96,7 @@ public class TeamDaoImpl implements TeamDao {
 //                subCourseStrategy.setMyStrategyName(courseStrategy.getMyStrategyName());
 //                subCourseStrategy.setMyStrategyId(courseStrategy.getMyStrategyId());
 
-            for(int j = 0 ; j < courseStrategyList.size();++j){
+            for (int j = 0; j < courseStrategyList.size(); ++j) {
                 getSubStrategy(courseStrategyList.get(j));
             }
 
@@ -112,10 +108,10 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Team selectTeamValid(Long teamId) {
 
-        Team team =teamMapper.selectByTeamId(teamId);
+        Team team = teamMapper.selectByTeamId(teamId);
         team.setAllStudents(studentMapper.selectTeamMerberCourseIdByTeamId(teamId));
         List<TeamStrategy> teamStrategyList = team.getTeamStrategyList();
-        for(int i = 0 ; i < teamStrategyList.size(); ++i){
+        for (int i = 0; i < teamStrategyList.size(); ++i) {
             TeamStrategy teamStrategy = teamStrategyList.get(i);
             getSubStrategy(teamStrategy);
         }
@@ -125,30 +121,31 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public List<Team> selectByCourseId(Long courseId) {
         //找到所有klass
-        List<Long>klassIds=klassMapper.selectIdByCourseId(courseId);
-        List<Team>resultTeam=new LinkedList<>();
-        for(Long klassId:klassIds){
-            Klass klass=klassMapper.selectByPrimaryKey(klassId);
-            List<KlassTeam> klassTeams=klassTeamMapper.select(new KlassTeam().setKlassId(klassId));
-            for(KlassTeam klassTeam:klassTeams){
-                List<Student>students=studentMapper.selectStudentsByKlassIdTeamId(klassId,klassTeam.getTeamId());
-                Team team=teamMapper.selectOne(new Team().setId(klassTeam.getTeamId()));
+        List<Long> klassIds = klassMapper.selectIdByCourseId(courseId);
+        List<Team> resultTeam = new LinkedList<>();
+        for (Long klassId : klassIds) {
+            Klass klass = klassMapper.selectByPrimaryKey(klassId);
+            List<KlassTeam> klassTeams = klassTeamMapper.select(new KlassTeam().setKlassId(klassId));
+            for (KlassTeam klassTeam : klassTeams) {
+                List<Student> students = studentMapper.selectStudentsByKlassIdTeamId(klassId, klassTeam.getTeamId());
+                Team team = teamMapper.selectOne(new Team().setId(klassTeam.getTeamId()));
+                System.out.println(klass);
                 team.setKlass(klass);
-                List<Student> memberStudent=new LinkedList<>();
-                Student leader=null;
-                for(Student student:students){
-                    if(!student.getId().equals(team.getLeaderId())){
+                List<Student> memberStudent = new LinkedList<>();
+                Student leader = null;
+                for (Student student : students) {
+                    System.out.println(student.getId());
+                    System.out.println(team.getLeaderId());
+                    if (!student.getId().equals(team.getLeaderId())) {
                         memberStudent.add(student);
-                    }
-                    else {
-                        leader=student;
+                    } else {
+                        leader = student;
                     }
                 }
                 //如果组长不空直接加入
-                if(leader!=null){
+                if (leader != null) {
                     team.setLeader(leader);
-                }
-                else{
+                } else {
                     team.setLeader(new Student().setStudentName("无").setStudentNum("无"));
                 }
                 team.setStudents(memberStudent);
@@ -201,7 +198,9 @@ public class TeamDaoImpl implements TeamDao {
         if (studentId.equals(team.getLeaderId())) {
             int deleteTeam = teamMapper.deleteByPrimaryKey(team.getId());
             int deleteRelation = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId));
-            return (deleteRelation + deleteTeam) > 0;
+            Long klassId = klassStudentMapper.selectOne(new KlassStudent().setStudentId(studentId).setCourseId(team.getCourseId())).getKlassId();
+            int deleteKlassTeam = klassTeamMapper.delete(new KlassTeam().setTeamId(teamId).setKlassId(klassId));
+            return (deleteRelation + deleteTeam + deleteKlassTeam) > 0;
         } else {
             int deleteRelation = teamStudentMapper.delete(new TeamStudent().setStudentId(studentId).setTeamId(teamId));
             return deleteRelation == 1;
