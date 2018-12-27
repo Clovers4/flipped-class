@@ -19,7 +19,7 @@ $(function () {
             appHandleForm.mainCourseId.val(operationDiv.attr("data-mainCourseId"));
             appHandleForm.subCourseId.val(operationDiv.attr("data-subCourseId"));
         }else{
-            //TODO:Team validation
+            appHandleForm.teamId.val(operationDiv.attr("data-teamId"))
         }
         ajaxSubmitForm();
     });
@@ -32,14 +32,11 @@ $(function () {
         if(operationDiv.attr("data-appType") !== "2") {
             appHandleForm.mainCourseId.val(operationDiv.attr("data-mainCourseId"));
             appHandleForm.subCourseId.val(operationDiv.attr("data-subCourseId"));
-            appHandleForm.operationType.val(0);
         }else{
-            //TODO:Team validation
+            appHandleForm.teamId.val(operationDiv.attr("data-teamId"));
         }
         ajaxSubmitForm();
     });
-
-
 
 
     dropdownCard.click(function (ev) {
@@ -52,16 +49,17 @@ $(function () {
 });
 
 function ajaxSubmitForm(){
-    console.log(appHandleForm.form.serializeObject());
+    util.showLoading();
     $.ajax({
         type: "post",
         url: "/teacher/notification/handle",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(appHandleForm.form.serializeObject()),
         success: function () {
-            window.location="/teacher/notification";
+            window.location.reload();
         },
         error: function () {
+            util.hideLoading();
             util.showAlert("danger", "操作失败", 3);
         }
     })

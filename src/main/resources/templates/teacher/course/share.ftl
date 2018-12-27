@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/share.js"></script>
-    <title>讨论课</title>
+    <title>课程共享</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -73,9 +73,14 @@
                         <div class="sep"></div>
                         <div class="content">主课程</div>
                     </div>
+                    <div class="line">
+                        <label>子课程教师</label>
+                        <div class="sep"></div>
+                        <div class="content">${teamCourse.teacher.teacherName}</div>
+                    </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn btn-primary bg-red" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-team-share" data-subCourseId="${teamCourse.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
@@ -108,9 +113,14 @@
                         <div class="sep"></div>
                         <div class="content">主课程</div>
                     </div>
+                    <div class="line">
+                        <label>子课程教师</label>
+                        <div class="sep"></div>
+                        <div class="content">${seminarCourse.teacher.teacherName}</div>
+                    </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${seminarCourse.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
@@ -145,7 +155,7 @@
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-team-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
@@ -180,7 +190,7 @@
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>

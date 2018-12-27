@@ -4,17 +4,18 @@ $(function () {
     courseIdForm.courseIdInput = $("#courseIdInput");
     courseIdForm.klassIdInput = $("#klassIdInput");
 
-    $(".seminar-nav").click({url:'/student/course/seminarList'},navClick);
-    $(".team-nav").click({url:'/student/course/teamList'},navClick);
-    $(".info-nav").click({url:'/student/course/info'},navClick);
-    $(".grade-nav").click({url:'/student/course/grade'},navClick);
+    $(".seminar-nav").click({url:'/student/course/seminarList'},navClickWithLoading);
+    $(".team-nav").click({url:'/student/course/teamList'},navClickWithLoading);
+    $(".info-nav").click({url:'/student/course/info'},navClickWithLoading);
+    $(".grade-nav").click({url:'/student/course/grade'},navClickWithLoading);
 
     $(".nav-item").click(function (ev) {
         ev.stopPropagation();//Prevent ev to be cached by upper dom
     });
 });
 
-function navClick(e) {
+function navClickWithLoading(e) {
+    util.showLoading();
     var courseId = $(this).parents(".card-body").attr("data-courseId");
     var klassId = $(this).parents(".card-body").attr("data-klassId");
     sessionStorage.setItem("courseId" , courseId);

@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/courseList.js"></script>
-    <title>课程</title>
+    <title>帐户设置</title>
 </head>
 <body class="card-page sidebar-collapse">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>

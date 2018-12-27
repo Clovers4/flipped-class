@@ -70,6 +70,15 @@
     height: 40%;
 }
 
+.team-state{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.close{
+    cursor: pointer;
+}
 /****** Component Style ******/
 .vertical-separator{
     background-color: #EEEEEE;
@@ -196,6 +205,7 @@
 .card-body .line .content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-left: 10px;
     width: 56%;
 }
@@ -340,7 +350,7 @@
 }
 /*Modal*/
 .modal .modal-dialog {
-    margin-top: 20vh;
+    margin-top: 10vh;
 }
 
 .modal .modal-header {
@@ -808,6 +818,7 @@
 }
 
 @media screen and (max-width: 768px) {
+
     .alert-area .alert {
         width: 100%;
     }

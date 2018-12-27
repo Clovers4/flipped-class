@@ -20,6 +20,10 @@
                 ksIdForm.attr("action", "/teacher/course/seminar/enrollList");
                 ksIdForm.submit();
             });
+            $("#grade").click(function () {
+                ksIdForm.attr("action", "/teacher/course/seminar/grade");
+                ksIdForm.submit();
+            });
             $("#enterSeminar").click(function () {
                 ksIdForm.attr("action", "/teacher/course/seminar/progressing");
                 ksIdForm.submit();
@@ -56,7 +60,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -107,6 +111,9 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 flex-space-around" style="margin-bottom: -49px">
+                        <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="grade">
+                            <i class="material-icons">equalizer</i>
+                        </button>
                         <button class="btn btn-fab btn-fab-mini btn-round btn-lg bg-dark" id="enterSeminar">
                             <i class="material-icons">arrow_forward_ios</i>
                         </button>

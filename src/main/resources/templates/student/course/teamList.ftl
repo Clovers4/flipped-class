@@ -13,10 +13,10 @@
     <script src="/static/js/util.js"></script>
     <script>
         $(function () {
-            $("#courseIdInput").val(sessionStorage.getItem("courseId"));
+            $(".courseId").val(sessionStorage.getItem("courseId"));
         })
     </script>
-    <title>分组</title>
+    <title>组队</title>
 </head>
 <body class="card-page sidebar-collapse" data-parallax="true">
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
@@ -46,7 +46,7 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised">
+<div class="main main-raised <#if (!myTeam?? && course.teamMainCourseId??)>no-footer</#if>">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -115,13 +115,14 @@
 <div class="container foot-container flex-center" style="padding-bottom: 0">
     <#if (myTeam??)>
         <form hidden id="myTeamForm" action="/student/course/myTeam" method="post">
+            <input class="courseId" name="courseId" placeholder="">
             <input name="teamId" value="${myTeam.id}" placeholder="">
         </form>
         <button class="btn bg-dark" onclick="$('#myTeamForm').submit()">
             进入我的小组
             <i class="material-icons">arrow_forward_ios</i>
         </button>
-    <#else >
+    <#elseif !course.teamMainCourseId??>
         <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();" <#if !permitCreate>disabled</#if>>
             <i class="material-icons">add</i>
             创建小组
@@ -129,7 +130,7 @@
     </#if>
 </div>
 <form hidden id="createTeamForm" action="/student/course/team/create" method="post">
-    <input id="courseIdInput" name="courseId" placeholder="">
+    <input class="courseId" name="courseId" placeholder="">
 </form>
 
 <#list teams as team>
@@ -208,8 +209,7 @@
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <hr>
-            <div class="modal-body" style="overflow: scroll;max-height: 80%;">
+            <div class="modal-body" style="overflow: scroll;height: 80%;">
                 <div class="row">
                     <#if (students?size > 0)>
                         <table class="table team-table" style="margin-top: 0;">

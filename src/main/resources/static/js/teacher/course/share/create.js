@@ -27,6 +27,8 @@ $(function () {
             error: function (xhr) {
                 if(xhr.status === 409){
                     util.showAlert("danger", "创建失败，该申请已存在", 3);
+                }else if(xhr.status === 400){
+                    util.showAlert("danger", "创建失败，该课程已共享", 3);
                 }else{
                     util.showAlert("danger", "创建失败，未知错误", 3);
                 }

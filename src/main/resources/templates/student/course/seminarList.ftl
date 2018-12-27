@@ -92,7 +92,7 @@
                     <i class="material-icons">clear</i>
                 </button>
             </div>
-            <div class="modal-body" style="margin-top: 10px;margin-bottom: 10px;">
+            <div class="modal-body" style="margin-top: 10px;margin-bottom: 10px;height: 80%">
                 <#if round.seminars?size == 0>
                     <div class="empty-tag modal-tag">
                         <div class="info">
@@ -109,7 +109,7 @@
                             <ul class="nav nav-pills nav-pills-icons flex-column">
                                 <#list round.seminars as seminar>
                                     <li class="nav-item">
-                                        <a class="nav-link seminar-link" href="#pane${seminar.id}" data-toggle="tab"
+                                        <a class="nav-link seminar-link <#if seminar?index=0>active</#if>" href="#pane${seminar.id}" data-toggle="tab"
                                            data-seminarId="${seminar.id}">
                                             <i class="material-icons">list</i>
                                             <span>${seminar.serial}</span>
@@ -122,7 +122,7 @@
                         <div class="col-8 tab-col" style="margin-top: -20px">
                             <div class="tab-content">
                                 <#list round.seminars as seminar>
-                                    <div class="tab-pane" id="pane${seminar.id}">
+                                    <div class="tab-pane <#if seminar?index=0>active</#if>" id="pane${seminar.id}">
                                         <div class="info">
                                             <div class="icon icon-rose flex-space-between">
                                                 <i class="material-icons">group_work</i>
@@ -137,13 +137,13 @@
                                 <div class="row">
                                     <div class="col-md-12 ml-auto mr-auto" style="padding: 0">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item" id="enroll">
+                                            <li class="nav-item enroll">
                                                 <a class="nav-link">
                                                     <i class="material-icons">ballot</i>
                                                     报名
                                                 </a>
                                             </li>
-                                            <li class="nav-item" id="seminarInfo">
+                                            <li class="nav-item seminarInfo">
                                                 <a class="nav-link">
                                                     <i class="material-icons">library_books</i>
                                                     信息
@@ -156,13 +156,13 @@
                                     <div class="col-md-12 ml-auto mr-auto" style="padding: 0">
                                         <ul class="nav nav-pills nav-pills-icons flex-space-around">
 
-                                            <li class="nav-item" id="report">
+                                            <li class="nav-item report">
                                                 <a class="nav-link" >
                                                     <i class="material-icons">open_in_browser</i>
                                                     提交报告
                                                 </a>
                                             </li>
-                                            <li class="nav-item" id="processing">
+                                            <li class="nav-item processing">
                                                 <a class="nav-link">
                                                     <i class="material-icons">arrow_forward</i>
                                                     进入讨论

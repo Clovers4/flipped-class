@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/icon.css">
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
-    <title>首页</title>
+    <title>主页</title>
 </head>
 <body class="profile-page sidebar-collapse">
 <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" id="sectionsNav">

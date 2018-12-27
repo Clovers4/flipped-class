@@ -12,9 +12,10 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/notification.js"></script>
-    <title>讨论课</title>
+    <title>通知</title>
 </head>
 <body class="card-page sidebar-collapse">
+<div class="alert-area"></div>
 <nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
@@ -51,117 +52,184 @@
 <div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
+            <#assign i = 0>
             <#list SSApps as SSApp>
+                <#assign i = i + 1 >
                 <div class="col-md-6">
-                <div class="card content-card dropdown-card">
-                <div class="card-body">
-                <div class="body-header app-header">
-                    <div class="body-title">共享讨论课请求</div>
-                    <div class="flex-center">
-                        <i class="material-icons">more_vert</i>
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header app-header">
+                                <div class="body-title">共享讨论课请求</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
+                                </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>源教师</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${SSApp.mainTeacher.teacherName}</div>
+                                </div>
+                                <div class="line">
+                                    <label>源课程</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${SSApp.mainCourse.courseName}</div>
+                                </div>
+                                <div class="line">
+                                    <label>您的课程</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${SSApp.subCourse.courseName}</div>
+                                </div>
+                                <div class="operation-div" data-appId="${SSApp.id}"
+                                     data-mainCourseId="${SSApp.mainCourseId}"
+                                     data-subCourseId="${SSApp.subCourseId}"
+                                     data-appType="0"
+                                     style="display: none">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link accept" style="padding-bottom: 0;">
+                                                <div class="icon icon-success">
+                                                    <i class="material-icons">check</i>
+                                                </div>
+                                                接受
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link reject" style="padding-bottom: 0;">
+                                                <div class="icon icon-danger">
+                                                    <i class="material-icons round-setting">close</i>
+                                                </div>
+                                                拒绝
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="body-content">
-                <hr>
-                <div class="line">
-                <label>源教师</label>
-                <div class="sep"></div>
-                <div class="content">${SSApp.mainTeacher.teacherName}</div>
-                </div>
-                <div class="line">
-                <label>源课程</label>
-                <div class="sep"></div>
-                <div class="content">${SSApp.mainCourse.courseName}</div>
-                </div>
-                <div class="line">
-                <label>您的课程</label>
-                <div class="sep"></div>
-                <div class="content">${SSApp.subCourse.courseName}</div>
-                </div>
-                <div class="operation-div" data-appId="${SSApp.id}"
-                data-mainCourseId="${SSApp.mainCourseId}"
-                data-subCourseId="${SSApp.subCourseId}"
-                data-appType="0"
-                style="display: none">
-                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                    <li class="nav-item">
-                        <a class="nav-link accept" style="padding-bottom: 0;">
-                            <div class="icon icon-success">
-                            <i class="material-icons">check</i>
-                            </div>
-                            接受
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link reject" style="padding-bottom: 0;">
-                            <div class="icon icon-danger">
-                            <i class="material-icons round-setting">close</i>
-                            </div>
-                            拒绝
-                        </a>
-                    </li>
-                </ul>
-                </div>
-                </div>
-                </div>
-                </div>
                 </div>
             </#list>
             <#list STApps as STApp>
+                <#assign i = i + 1 >
                 <div class="col-md-6">
-                <div class="card content-card dropdown-card">
-                <div class="card-body">
-                <div class="body-header app-header">
-                    <div class="body-title">共享分组请求</div>
-                    <div class="flex-center">
-                        <i class="material-icons">more_vert</i>
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header app-header">
+                                <div class="body-title">共享分组请求</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
+                                </div>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>源教师</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${STApp.mainTeacher.teacherName}</div>
+                                </div>
+                                <div class="line">
+                                    <label>源课程</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${STApp.mainCourse.courseName}</div>
+                                </div>
+                                <div class="line">
+                                    <label>您的课程</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${STApp.subCourse.courseName}</div>
+                                </div>
+                                <div class="operation-div" data-appId="${STApp.id}"
+                                     data-mainCourseId="${STApp.mainCourseId}"
+                                     data-subCourseId="${STApp.subCourseId}"
+                                     data-appType="1" style="display: none">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link accept" style="padding-bottom: 0;">
+                                                <div class="icon icon-success">
+                                                    <i class="material-icons">check</i>
+                                                </div>
+                                                接受
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link reject" style="padding-bottom: 0;">
+                                                <div class="icon icon-danger">
+                                                    <i class="material-icons round-setting">close</i>
+                                                </div>
+                                                拒绝
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="body-content">
-                <hr>
-                <div class="line">
-                <label>源教师</label>
-                <div class="sep"></div>
-                <div class="content">${STApp.mainTeacher.teacherName}</div>
-                </div>
-                <div class="line">
-                <label>源课程</label>
-                <div class="sep"></div>
-                <div class="content">${STApp.mainCourse.courseName}</div>
-                </div>
-                <div class="line">
-                <label>您的课程</label>
-                <div class="sep"></div>
-                <div class="content">${STApp.subCourse.courseName}</div>
-                </div>
-                <div class="operation-div"  data-appId="${STApp.id}"
-                data-mainCourseId="${STApp.mainCourseId}"
-                data-subCourseId="${STApp.subCourseId}"
-                data-appType="1" style="display: none">
-                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                        <li class="nav-item">
-                            <a class="nav-link accept" style="padding-bottom: 0;">
-                                <div class="icon icon-success">
-                                <i class="material-icons">check</i>
+            </#list>
+            <#list TVApps as TVApp>
+                <#assign i = i + 1 >
+                <div class="col-md-6">
+                    <div class="card content-card dropdown-card">
+                        <div class="card-body">
+                            <div class="body-header app-header">
+                                <div class="body-title">分组合法申请</div>
+                                <div class="flex-center">
+                                    <i class="material-icons">more_vert</i>
                                 </div>
-                                接受
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link reject" style="padding-bottom: 0;">
-                                <div class="icon icon-danger">
-                                <i class="material-icons round-setting">close</i>
+                            </div>
+                            <div class="body-content">
+                                <hr>
+                                <div class="line">
+                                    <label>队伍名</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${TVApp.team.teamName}</div>
                                 </div>
-                                拒绝
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                </div>
-                </div>
-                </div>
+                                <div class="line">
+                                    <label>队伍人数</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${TVApp.team.students?size}</div>
+                                </div>
+                                <div class="line content-line">
+                                    <label>申请原因</label>
+                                    <div class="sep"></div>
+                                    <div class="content">${TVApp.content}</div>
+                                </div>
+                                <div class="operation-div" data-appId="${TVApp.id}"
+                                     data-teamId="${TVApp.teamId}" data-appType="2" style="display: none">
+                                    <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link accept" style="padding-bottom: 0;">
+                                                <div class="icon icon-success">
+                                                    <i class="material-icons">check</i>
+                                                </div>
+                                                接受
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link reject" style="padding-bottom: 0;">
+                                                <div class="icon icon-danger">
+                                                    <i class="material-icons round-setting">close</i>
+                                                </div>
+                                                拒绝
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </#list>
+            <#if i = 0>
+                <div class="empty-tag">
+                    <div class="info">
+                        <div class="icon icon-rose flex-center">
+                            <i class="material-icons color-grey">portable_wifi_off</i>
+                        </div>
+                        <h4 class="info-title">无通知</h4>
+                    </div>
+                </div>
+            </#if>
         </div>
     </div>
 </div>

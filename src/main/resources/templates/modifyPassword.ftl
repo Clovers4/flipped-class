@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/modifyPassword.js"></script>
-    <title>课程</title>
+    <title>密码设置</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>

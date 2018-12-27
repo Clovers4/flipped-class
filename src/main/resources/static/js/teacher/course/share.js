@@ -14,4 +14,35 @@ $(function () {
     $("#addShare").click(function () {
         $("#createShareForm").submit();
     });
+
+    $(".cancel-team-share").click(function () {
+        util.showLoading();
+        $.ajax({
+            type:"post",
+            url:"/teacher/course/share/cancelTeamShare",
+            data: {subCourseId:$(this).attr("data-subCourseId")},
+            success:function () {
+                window.location.reload();
+            },
+            error:function () {
+                util.hideLoading();
+                util.showAlert("danger", "取消失败，未知原因", 3);
+            }
+        });
+    });
+    $(".cancel-seminar-share").click(function () {
+        util.showLoading();
+        $.ajax({
+            type:"post",
+            url:"/teacher/course/share/cancelSeminarShare",
+            data: {subCourseId:$(this).attr("data-subCourseId")},
+            success:function () {
+                window.location.reload();
+            },
+            error:function () {
+                util.hideLoading();
+                util.showAlert("danger", "取消失败，未知原因", 3);
+            }
+        });
+    })
 });

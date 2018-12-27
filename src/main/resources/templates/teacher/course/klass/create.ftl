@@ -12,7 +12,7 @@
     <script src="/static/lib/jquery-3.3.1.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/klass/create.js"></script>
-    <title>首页</title>
+    <title>创建班级</title>
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
+                    <a class="nav-link" onclick="window.location='/teacher/index'">
                         <i class="material-icons">notifications</i>
                         待办
                     </a>
@@ -71,12 +71,12 @@
 
                     <div class="container">
                         <div class="form-group bmd-form-group">
-                            <input id="klassTime" name="klassTime" type="text" autocomplete="off" placeholder="讨论课时间"
-                                   class="form-control empty-verify" data-emptyMessage="请输入讨论课时间">
+                            <input id="klassTime" name="klassTime" type="text" autocomplete="off" placeholder="上课时间"
+                                   class="form-control empty-verify" data-emptyMessage="请输入上课时间">
                         </div>
                         <div class="form-group bmd-form-group">
-                            <input id="location" name="location" type="text" autocomplete="off" placeholder="讨论课地点"
-                                   class="form-control empty-verify" data-emptyMessage="请输入讨论课地点">
+                            <input id="location" name="location" type="text" autocomplete="off" placeholder="上课地点"
+                                   class="form-control empty-verify" data-emptyMessage="请输入上课地点">
                         </div>
                     </div>
 

@@ -93,7 +93,7 @@
                                     <div class="flex-center not-enroll">
                                         <button data-idx="${attendance?counter}"
                                                 class="btn btn-lg btn-round bg-dark enroll" style="width: 100%"
-                                                <#if team??>disabled</#if>>报名
+                                                <#if !team?? || !canEnroll>disabled</#if>>报名
                                         </button>
                                     </div>
                                 </div>
