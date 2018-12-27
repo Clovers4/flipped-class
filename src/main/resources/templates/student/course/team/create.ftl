@@ -102,7 +102,7 @@
     </div>
 </div>
 
-<form id="returnForm" action="/student/course/teamList" method="post">
+<form hidden id="returnForm" action="/student/course/teamList" method="post">
     <input id="returnCourseId" name="courseId" placeholder="">
     <input id="returnKlassId" name="klassId" placeholder="">
 </form>

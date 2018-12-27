@@ -323,7 +323,7 @@ public class TeamDaoImpl implements TeamDao {
         Long klassId = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId)).getKlassId();
         KlassTeam klassTeam = klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId);
         if (klassTeam == null) {
-            return new Team();
+            return null;
         }
         // 获取队伍成员
         List<Student> member = studentMapper.selectTeamMerberCourseIdByTeamId(klassTeam.getTeamId());
@@ -332,7 +332,7 @@ public class TeamDaoImpl implements TeamDao {
         // 队长
         Student leader = new Student();
         if (member.size() == 0) {
-            return new Team();
+            return null;
         }
         for (int i = 0; i < member.size(); i++) {
             if (member.get(i).getId().equals(team.getLeaderId())) {
