@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.common.excel.ExcelService;
 import online.templab.flippedclass.common.excel.ExcelUtil;
+import online.templab.flippedclass.common.multipart.FileService;
 import online.templab.flippedclass.dto.*;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
@@ -69,8 +70,8 @@ public class TeacherController {
     @Autowired
     private ScoreService scoreService;
 
-    //   @Autowired
-//    private  FileService fileService;
+    @Autowired
+    private FileService fileService;
 
     private final static String TEACHER_ID_GIST = "teacherId";
 
@@ -392,14 +393,12 @@ public class TeacherController {
 
     @GetMapping(value = "/course/seminar/downloadPPT", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<FileSystemResource> downloadPPT(String fileName, String teamId) {
-//   TODO     return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
     }
 
     @GetMapping(value = "/course/seminar/downloadReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<FileSystemResource> downloadReport(String fileName, String teamId) {
-//  TODO      return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(new FileSystemResource(fileService.load(fileName)));
     }
 
     @PostMapping("/course/klassList")

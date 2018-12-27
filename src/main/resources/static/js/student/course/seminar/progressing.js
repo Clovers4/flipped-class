@@ -140,11 +140,11 @@ function handleEndQuestionResponse(content) {
     onAsk.removeClass("holder-visible");
     changeActive(teams.eq(curAttendanceIdx));
 }
-
 function handleScoreResponse(content) {
-
 }
-
+function handleEndSeminarResponse() {
+    window.location.reload();
+}
 function setQuestionCount(count) {
     questionCount.removeClass("static-question").addClass("active-question");
     setTimeout(function () {

@@ -187,9 +187,12 @@ public class StudentController {
 
     @PostMapping("/course/seminar/uploadPPT")
     public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, Long attendanceId) {
-        fileService.store(multipartFile);
+        String uuidFilename = fileService.storeWithUUID(multipartFile);
         seminarService.updateAttendanceSelective(
-                new Attendance().setId(attendanceId).setReportFile(multipartFile.getOriginalFilename())
+                new Attendance()
+                        .setId(attendanceId)
+                        .setPreFile(uuidFilename)
+                        .setPptName(multipartFile.getOriginalFilename())
         );
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
@@ -226,9 +229,12 @@ public class StudentController {
 
     @PostMapping("/course/seminar/uploadReport")
     public ResponseEntity<Object> uploadReport(@RequestParam("file") MultipartFile multipartFile, Long attendanceId) {
-        fileService.store(multipartFile);
+        String uuidFilename = fileService.storeWithUUID(multipartFile);
         seminarService.updateAttendanceSelective(
-                new Attendance().setId(attendanceId).setReportFile(multipartFile.getOriginalFilename())
+                new Attendance()
+                        .setId(attendanceId)
+                        .setReportName(multipartFile.getOriginalFilename())
+                        .setReportFile(uuidFilename)
         );
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }

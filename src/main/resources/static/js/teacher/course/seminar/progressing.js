@@ -1,5 +1,5 @@
 var client = null, ksId, timer, startBtn, pauseBtn, stopBtn, scoreInput,
-    giveScoreBtn, patchScoreBtn, switchTeamBtn, endPreBtn;
+    giveScoreBtn, patchScoreBtn, switchTeamBtn, endPreBtn, pullQuestionBtn;
 
 var questionCount, teams, questions, teamName, teamOperation;
 
@@ -15,6 +15,7 @@ $(function () {
     giveScoreBtn = $("#giveScore");
     patchScoreBtn = $("#patchScore");
     switchTeamBtn = $("#switchTeam");
+    pullQuestionBtn = $("#pullQuestion");
     endPreBtn = $("#endPre");
     questionCount = $("#questionCount");
     teams = $(".btn-team:not(.question)");
@@ -56,7 +57,6 @@ function changeFocus(target, none) {
         tabContent.children(".tab-pane").hide();
         $(tab).show();
     }
-    console.log(curOnfocus.attr("data-score"));
     changeScore(parseInt(curOnfocus.attr("data-score")));
 }
 
@@ -91,16 +91,16 @@ $(function () {
         teamOperation.text("暂停中...");
         sendRequest("SeminarStateRequest", {request: "PAUSE", timeStamp: timer.getTime()});
     });
-    $([switchTeamBtn, endPreBtn]).each(function () {
-        this.click(function () {
-            sendRequest("SwitchTeamRequest", {});
-        })
+    switchTeamBtn.click(function () {
+        sendRequest("SwitchTeamRequest", {});
     });
-    $("#pullQuestion").click(function () {
+    pullQuestionBtn.click(function () {
         if (parseInt(questionCount.text()) <= 0) {
             util.showAlert("warning", "当前提问数为零", 3);
             return;
         }
+        pullQuestionBtn.hide();
+        switchTeamBtn.hide();
         sendRequest("PullQuestionRequest", {});
     });
     $([giveScoreBtn, patchScoreBtn]).each(function () {
@@ -128,8 +128,13 @@ $(function () {
         });
     });
     stopBtn.click(function () {
+        pullQuestionBtn.show();
+        switchTeamBtn.show();
         sendRequest("EndQuestionRequest", {});
     });
+    endPreBtn.click(function () {
+        sendRequest("EndSeminarRequest", {});
+    })
 });
 
 function connect() {
@@ -182,7 +187,7 @@ function handleSwitchTeamResponse(content) {
             $("#endPre").show();
         }
     } else {
-        window.location.reload();
+
     }
     setQuestionCount(0);
     pauseAt(content.state.timeStamp);
@@ -208,6 +213,10 @@ function handleEndQuestionResponse(content) {
 
 function handleScoreResponse(content) {
     alert("打分成功");
+}
+
+function handleEndSeminarResponse() {
+    window.location.reload();
 }
 
 function setQuestionCount(count) {
