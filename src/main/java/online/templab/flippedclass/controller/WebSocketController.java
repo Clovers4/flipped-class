@@ -41,24 +41,19 @@ public class WebSocketController {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-    @GetMapping("/webs")
-    public String webs() {
-        return "webs";
-    }
-
     @PostMapping("/student/course/seminar/processing")
     public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        int on = 1;
+
         Integer state = klassSeminar.getState();
         model.addAttribute("state", state);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("ksId", klassSeminar.getId());
-        if(state == on) {
+        model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
+        int end = 2;
+        if (state != end) {
             model.addAttribute("monitor", monitor);
-            model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
         }
         return "student/course/seminar/progressing";
     }

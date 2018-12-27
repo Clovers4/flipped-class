@@ -99,6 +99,10 @@ public class WebSocketService {
                 newMessage.setType("EndQuestionResponse")
                         .setContent(handleEndQuestionRequest(ksId, message));
                 break;
+            case "EndSeminarRequest":
+                newMessage.setType("EndSeminarResponse")
+                        .setContent(handleEndSeminarRequest(ksId, message));
+                break;
             default:
                 throw new RuntimeException();
         }
@@ -141,14 +145,6 @@ public class WebSocketService {
             // monitor切换 attendance
             SeminarMonitor monitor = getMonitor(ksId);
             monitor.switchToNextAttendance();
-
-            // 这个讨论课结束时,更新 klassSeminar表的状态,同时更新 roundScore表
-            if ("TERMINATE".equals(monitor.getState().getProgressState())) {
-                klassSeminarMapper.updateByPrimaryKeySelective(new KlassSeminar().setId(ksId).setState(2));
-                KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
-                Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
-                scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
-            }
 
             // 返回给前端的 json
             Map<String, Object> newContent = new HashMap<>();
@@ -285,6 +281,26 @@ public class WebSocketService {
 
     private String handleEndQuestionRequest(Long ksId, RawMessage message) {
         try {
+            // 返回给前端的 JSON 信息
+            Map<String, Object> newContent = new HashMap<>();
+            return objectMapper.writeValueAsString(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private String handleEndSeminarRequest(Long ksId, RawMessage message) {
+        try {
+            // 这个讨论课结束时,更新 monitor的 state
+            SeminarMonitor monitor = getMonitor(ksId);
+            monitor.getState().setProgressState("TERMINATE").setTimeStamp(0L);
+
+            // 这个讨论课结束时,更新 klassSeminar表的状态,同时更新 roundScore表
+            klassSeminarMapper.updateByPrimaryKeySelective(new KlassSeminar().setId(ksId).setState(2));
+            KlassSeminar klassSeminar = seminarService.getKlassSeminarById(ksId);
+            Seminar seminar = seminarService.get(klassSeminar.getSeminarId());
+            scoreService.updateRoundScore(seminar.getRoundId(), klassSeminar.getKlassId());
 
             // 返回给前端的 JSON 信息
             Map<String, Object> newContent = new HashMap<>();
@@ -294,5 +310,6 @@ public class WebSocketService {
         }
         return "";
     }
+
 
 }
