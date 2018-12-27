@@ -83,6 +83,22 @@ public interface TeamDao {
     Long insert(Long studentId,Long klassId,String teamName,List<String> studentNum);
 
     /**
+     * 将 teamStrategyList 插入各自的表
+     *
+     * @param teamStrategyList
+     * @return
+     */
+    Long insertTeamStratgyList(List<TeamStrategy> teamStrategyList);
+
+    /**
+     * 将 teamStrategyList 删除
+     *
+     * @param teamStrategyList
+     * @return
+     */
+    Long deleteTeamStratgyList(Long courseId);
+
+    /**
      * 根据 account 删除组员
      *
      * @param teamId

@@ -125,8 +125,9 @@ public class TeamStrategy implements Serializable , CourseStrategy{
         this.strategyId = strategyId;
     }
 
+    @Override
     public List<CourseStrategy> getCourseStrategyList() {
-        return courseStrategyList;
+        return this.courseStrategyList;
     }
 
     @Override
@@ -136,6 +137,21 @@ public class TeamStrategy implements Serializable , CourseStrategy{
 
     @Override
     public Long getMyCourseId() {
+        return null;
+    }
+
+    @Override
+    public Integer getMyMax() {
+        return null;
+    }
+
+    @Override
+    public Integer getMyMin() {
+        return null;
+    }
+
+    @Override
+    public Long getMyId() {
         return null;
     }
 

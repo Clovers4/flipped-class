@@ -59,8 +59,28 @@ public class ConflictCourseStrategy implements Serializable, CourseStrategy {
     }
 
     @Override
+    public List<CourseStrategy> getCourseStrategyList() {
+        return null;
+    }
+
+    @Override
     public Long getMyCourseId() {
         return this.courseId;
+    }
+
+    @Override
+    public Integer getMyMax() {
+        return null;
+    }
+
+    @Override
+    public Integer getMyMin() {
+        return null;
+    }
+
+    @Override
+    public Long getMyId() {
+        return this.id;
     }
 
 }

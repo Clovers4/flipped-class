@@ -269,4 +269,9 @@ public class TeamServiceImpl implements TeamService {
             return get(team.getCourseId(),teamStudentList.get(0).getStudentId());
         }
     }
+
+    @Override
+    public Boolean insertTeamStratgyList(List<TeamStrategy> teamStrategyList) {
+        return teamDao.insertTeamStratgyList(teamStrategyList) == 1;
+    }
 }

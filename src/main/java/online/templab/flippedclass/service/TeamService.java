@@ -127,4 +127,12 @@ public interface TeamService {
      * @return
      */
     Team getByPrimaryKey(Long id);
+
+    /**
+     * 将 teamStrategyList 插入各自的表
+     *
+     * @param teamStrategyList
+     * @return
+     */
+    Boolean insertTeamStratgyList(List<TeamStrategy> teamStrategyList);
 }
