@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -117,11 +118,16 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public List<Course> selectCanShareCourseByPrimaryKey(Long id, int type) {
+        List<Course> courseList = new ArrayList<>();
         if (type == 0) {
-            return courseMapper.selectCanShareSeminar(id);
+            courseList = courseMapper.selectCanShareTeam(id);
         } else {
-            return courseMapper.selectCanShareTeam(id);
+            courseList = courseMapper.selectCanShareSeminar(id);
         }
+        for(int i=0;i<courseList.size();i++){
+            courseList.get(i).setTeacher(teacherMapper.selectByPrimaryKey(courseList.get(i).getTeacherId()));
+        }
+        return courseList;
     }
 
     @Override

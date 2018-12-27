@@ -66,11 +66,11 @@ public class CourseServiceImpl implements CourseService {
     public List<Map<String, Object>> listCourseKlassByStudentId(Long studentId) {
         List<Course> courseList = courseDao.selectCourseKlassByStudentId(studentId);
         List<Map<String, Object>> list = new LinkedList<>();
-        if(courseList != null){
-            for(Course course : courseList){
+        if (courseList != null) {
+            for (Course course : courseList) {
                 Map m = new HashMap();
-                m.put("course",course);
-                m.put("klass",course.getKlassList().get(0));
+                m.put("course", course);
+                m.put("klass", course.getKlassList().get(0));
                 list.add(m);
             }
         }
@@ -80,6 +80,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> listOtherCourse(Long courseId) {
         return courseDao.selectOtherCourse(courseId);
+    }
+
+    @Override
+    public List<Course> listCanShareCourseByPrimaryKey(Long id, int type) {
+        return courseDao.selectCanShareCourseByPrimaryKey(id, type);
     }
 
 }
