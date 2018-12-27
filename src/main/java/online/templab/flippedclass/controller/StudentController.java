@@ -92,17 +92,11 @@ public class StudentController {
 
     @PostMapping("/activation")
     public @ResponseBody
-    ResponseEntity<Object> activate(String password, String email, String captcha, HttpSession session) {
-        String senderCaptcha = ((String) session.getAttribute("activationCaptcha"));
-        if (captcha.equals(senderCaptcha)) {
-            if (studentService.activate((Long) session.getAttribute(STUDENT_ID_GIST), password, email)) {
-                session.removeAttribute("activationCaptcha");
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("学生不存在");
-            }
+    ResponseEntity<Object> activate(String password, String email, HttpSession session) {
+        if (studentService.activate(((Long) session.getAttribute(STUDENT_ID_GIST)), password, email)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("验证码错误");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("学生不存在");
         }
     }
 
@@ -145,18 +139,20 @@ public class StudentController {
     @PostMapping("/modifyPassword")
     public @ResponseBody
     ResponseEntity<Object> modifyPassword(String password, HttpSession session) {
-        studentService.update(
+        if (!studentService.update(
                 new Student()
                         .setId((Long) session.getAttribute(STUDENT_ID_GIST))
                         .setPassword(password)
-        );
+        )) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @GetMapping("/courseList")
     public String courses(Model model, HttpSession session) {
         Long studentId = (Long) session.getAttribute(STUDENT_ID_GIST);
-        model.addAttribute("klasses", klassService.listByStudentId((Long) session.getAttribute(STUDENT_ID_GIST)));
+        model.addAttribute("klasses", klassService.listByStudentId(studentId));
         return "student/courseList";
     }
 
@@ -180,9 +176,12 @@ public class StudentController {
         Long studentId = (Long) session.getAttribute("studentId");
         Klass klass = klassService.get(klassId);
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+        Boolean canEnroll = new Date().compareTo(klassSeminar.getSeminar().getEnrollEndDate()) < 0;
+
         model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(klassSeminar.getId()));
         model.addAttribute("team", teamService.get(klass.getCourseId(), studentId));
         model.addAttribute("ksId", klassSeminar.getId());
+        model.addAttribute("canEnroll", canEnroll);
         return "student/course/seminar/enrollList";
     }
 
@@ -239,6 +238,7 @@ public class StudentController {
     public String teamList(Long courseId, Model model, HttpSession session) {
         Course course = courseService.get(courseId);
         Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
+        model.addAttribute("course", course);
         model.addAttribute("permitCreate", mPermitCreate);
         model.addAttribute("myTeam", teamService.get(courseId, ((Long) session.getAttribute("studentId"))));
         model.addAttribute("teams", teamService.listByCourseId(courseId));
@@ -270,12 +270,15 @@ public class StudentController {
     }
 
     @PostMapping("/course/myTeam")
-    public String myTeam(Long teamId, Model model, HttpSession session) {
-        Team team = teamService.getByPrimaryKey(teamId);
+    public String myTeam(Long courseId, Long teamId, Model model, HttpSession session) {
+        Course course = courseService.get(courseId);
+        Boolean canChange = new Date().compareTo(course.getTeamEndDate()) < 0;
 
+        model.addAttribute("canChange", canChange);
+        model.addAttribute("course", course);
         model.addAttribute("maxMember", MAX_MEMBER);
-        //model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
-        model.addAttribute("team", team);
+        // TODO:??? model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
+        model.addAttribute("team", teamService.get(courseId, (Long) session.getAttribute(STUDENT_ID_GIST)));
         model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(team.getCourseId()));
         return "student/course/myTeam";
     }
@@ -303,7 +306,9 @@ public class StudentController {
         if (team.getLeaderId().equals(session.getAttribute(STUDENT_ID_GIST))) {
             // 获得要删除的 studentNum
             String studentNum = studentService.getByPrimaryKey(studentId).getStudentNum();
-            teamService.removeMember(teamId, studentNum);
+            if (!teamService.removeMember(teamId, studentNum)) {
+                ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -323,30 +328,58 @@ public class StudentController {
         }
     }
 
-
-    @PostMapping("/course/info")
-    public String courseInfo(String courseId, Model model) {
-        return "student/course/info";
+    @PostMapping("/course/myTeam/quitTeam")
+    public ResponseEntity<Object> quitTeam(Long teamId, HttpSession session) throws ParseException {
+        teamService.quitTeam(teamId, (Long) session.getAttribute(STUDENT_ID_GIST));
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    /*
-    @PostMapping("/course/grade")
-    public String seminarGrade(Long courseId, Long klassId, Model model, HttpSession session) {
-        List<Round> rounds = roundService.listByCourseId(courseId);
-        Team team = teamService.get(courseId, ((Long) session.getAttribute(STUDENT_ID_GIST)));
-        Map<String, List<SeminarScore>> seminarScoreMap = new HashMap<>(rounds.size());
-        Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
-        rounds.forEach(round -> {
-            roundScoreMap.put(String.valueOf(round.getId()), scoreService.getScoreOfRound(team.getId(), round.getId()));
-            round.getSeminars().forEach(seminar -> {
-                seminarScoreMap.computeIfAbsent(String.valueOf(round.getId()), k -> new LinkedList<>());
-                seminarScoreMap.get(round.getId())
-                        .add(scoreService.calculateScoreOfOneSeminar(team.getId(), seminarService.getKlassSeminar(klassId, seminar.getId()).getId()));
-            });
-        });
-        model.addAttribute("rounds", rounds);
-        model.addAttribute("seminarScoreMap", seminarScoreMap);
-        model.addAttribute("roundScoreMap", roundScoreMap);
-        return "student/course/grade";
+/*
+TODO:恢复
+    @PostMapping("/course/myTeam/validApplication")
+    public ResponseEntity<Object> validApplication(Long teamId, String content) {
+        Team team = teamService.getByPrimaryKey(teamId);
+        if (team.getStatus() != 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        team.setStatus(2);
+        studentService.updateTeam(team);
+        TeamValidApplication teamValidApplication = new TeamValidApplication()
+                .setTeamId(teamId)
+                .setContent(content)
+                .setTeacherId(courseService.get(team.getCourseId()).getTeacherId());
+        if (!applicationService.createTeamValidApplication(teamValidApplication)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("该申请已存在");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 */
+
+    @PostMapping("/course/info")
+    public String courseInfo(Long courseId, Model model) {
+        model.addAttribute("course", courseService.get(courseId));
+        return "student/course/info";
+    }
+
+    @PostMapping("/course/grade")
+    public String seminarGrade(Long courseId, Long klassId, Model model, HttpSession session) {
+        Team team = teamService.get(courseId, ((Long) session.getAttribute(STUDENT_ID_GIST)));
+        Boolean hasGrade = (team != null);
+        model.addAttribute("hasGrade", hasGrade);
+        if (hasGrade) {
+            List<Round> rounds = roundService.listByCourseId(courseId);
+            Map<String, SeminarScore> seminarScoreMap = new HashMap<>(rounds.size());
+            Map<String, RoundScore> roundScoreMap = new HashMap<>(rounds.size());
+            rounds.forEach(round -> {
+                roundScoreMap.put(String.valueOf(round.getId()), scoreService.getScoreOfRound(team.getId(), round.getId()));
+                round.getSeminars().forEach(seminar -> {
+                    seminarScoreMap.put(String.valueOf(seminar.getId()), scoreService.getSeminarScore(team.getId(), seminarService.getKlassSeminar(klassId, seminar.getId()).getId()));
+                });
+            });
+            model.addAttribute("rounds", rounds);
+            model.addAttribute("seminarScoreMap", seminarScoreMap);
+            model.addAttribute("roundScoreMap", roundScoreMap);
+        }
+        return "student/course/grade";
+    }
+
 }

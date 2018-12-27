@@ -79,5 +79,5 @@ public interface ScoreService {
      * @param teamId
      * @return
      */
-    SeminarScore getByKlassSeminarIdAndTeamId(Long klassSeminerId,Long teamId);
+    SeminarScore getSeminarScore(Long klassSeminerId, Long teamId);
 }
