@@ -510,14 +510,14 @@ public class TeacherController {
     }
 
     @PostMapping("/course/share/cancelTeamShare")
-    public ResponseEntity<Object> cancelTeamShare(String subCourseId) {
-        shareService.cancelShareTeamApplication(Long.valueOf(subCourseId));
+    public ResponseEntity<Object> cancelTeamShare(Long subCourseId) {
+        shareService.cancelShareTeamApplication(subCourseId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PostMapping("/course/share/cancelSeminarShare")
-    public ResponseEntity<Object> cancelSeminarShare(String subCourseId) {
-        shareService.cancelShareSeminarApplication(Long.valueOf(subCourseId));
+    public ResponseEntity<Object> cancelSeminarShare(Long subCourseId) {
+        shareService.cancelShareSeminarApplication(subCourseId);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 

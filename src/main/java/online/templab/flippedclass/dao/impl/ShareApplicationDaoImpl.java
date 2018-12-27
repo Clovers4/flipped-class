@@ -205,12 +205,13 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
 
     @Override
     public Boolean deleteShareTeamApplication(Long subCourseId) {
+        Course course=courseMapper.selectByPrimaryKey(subCourseId);
         //删除从课程队伍信息
         List<Long> klassIds = klassMapper.selectIdByCourseId(subCourseId);
         for (Long klassId : klassIds) {
             klassTeamMapper.delete(new KlassTeam().setKlassId(klassId));
         }
-        return true;
+        return courseMapper.updateByPrimaryKey(course.setTeamMainCourseId(null))==1;
     }
 
     @Override
@@ -227,7 +228,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
             //roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
         }
         roundMapper.delete(new Round().setCourseId(course.getId()));
-        return true;
+        return courseMapper.updateByPrimaryKey(course.setSeminarMainCourseId(null))==1;
     }
 
     @Override
