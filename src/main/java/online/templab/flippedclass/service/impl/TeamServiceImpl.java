@@ -91,7 +91,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean quitTeam(Long teamId, Long studentId) throws ParseException {
         int compare = 0;
-        try{
+        try {
             //设置日期格式
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             // new Date()为获取当前系统时间
@@ -115,7 +115,7 @@ public class TeamServiceImpl implements TeamService {
         // 创建一个队伍 成功返回teamId
         Long teamId = teamDao.insert(studentId, klassId, teamName, studentNum);
         int compare = 0;
-        try{
+        try {
             //设置日期格式
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             // new Date()为获取当前系统时间
@@ -146,7 +146,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean removeMember(Long teamId, String studentNum) throws ParseException {
         int compare = 0;
-        try{
+        try {
             //设置日期格式
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             // new Date()为获取当前系统时间
@@ -171,18 +171,15 @@ public class TeamServiceImpl implements TeamService {
         if (statueForm == 2) {
             return false;
         }
-        // 如果此时队伍合法，才能进行删除组员
-        if (statueForm == 1) {
-            // 删除组员
-            Boolean deleteSuccess = teamDao.deleteByStudentNum(teamId, studentNum);
-            // 如果删除组员成功
-            if (deleteSuccess == true) {
-                // 判断删除组员后队伍状态
-                int statueLater = validOneTeamState(teamId);
-                // 如果增加组员后组队合法
-                if (statueLater == 1) {
-                    return true;
-                }
+        // 删除组员
+        Boolean deleteSuccess = teamDao.deleteByStudentNum(teamId, studentNum);
+        // 如果删除组员成功
+        if (deleteSuccess == true) {
+            // 判断删除组员后队伍状态
+            int statueLater = validOneTeamState(teamId);
+            // 如果增加组员后组队合法
+            if (statueLater == 1) {
+                return true;
             }
         }
         return false;
@@ -191,7 +188,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean addMember(Long teamId, List<String> studentNum) throws ParseException {
         int compare = 0;
-        try{
+        try {
             //设置日期格式
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             // new Date()为获取当前系统时间
@@ -217,18 +214,15 @@ public class TeamServiceImpl implements TeamService {
         if (statueForm == 2) {
             return false;
         }
-        // 如果此时队伍合法，才能进行增加组员
-        if (statueForm == 1) {
-            // 增加组员
-            Boolean addSuccess = teamDao.updateByStudentNum(teamId, studentNum);
-            // 增加组员成功了
-            if (addSuccess == true) {
-                // 判断增加组员后队伍状态
-                int statueLater = validOneTeamState(teamId);
-                // 如果增加组员后组队合法
-                if (statueLater == 1) {
-                    return true;
-                }
+        // 增加组员
+        Boolean addSuccess = teamDao.updateByStudentNum(teamId, studentNum);
+        // 增加组员成功了
+        if (addSuccess == true) {
+            // 判断增加组员后队伍状态
+            int statueLater = validOneTeamState(teamId);
+            // 如果增加组员后组队合法
+            if (statueLater == 1) {
+                return true;
             }
         }
         return false;
@@ -237,7 +231,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Boolean dissolve(Long teamId, Long studentId) throws ParseException {
         int compare = 0;
-        try{
+        try {
             //设置日期格式
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             // new Date()为获取当前系统时间
@@ -267,10 +261,10 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamDao.selectByPrimaryKey(id);
         // 如果组长非空 ，根据组长id 和 courseId 去获取一个组装好的team
         if (team.getLeaderId() != null || team.getLeaderId() != 0) {
-            return get(team.getCourseId(),team.getLeaderId());
-        }else{ // 如果组长是空的 根据组员id 和 courseId 去获取一个组装team
+            return get(team.getCourseId(), team.getLeaderId());
+        } else { // 如果组长是空的 根据组员id 和 courseId 去获取一个组装team
             List<TeamStudent> teamStudentList = teamDao.selectTeamStudentByTeamId(id);
-            return get(team.getCourseId(),teamStudentList.get(0).getStudentId());
+            return get(team.getCourseId(), teamStudentList.get(0).getStudentId());
         }
     }
 
@@ -290,7 +284,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Boolean processTeamValidApplication(Long teamValidApplicationId,Long teamId, Boolean accept) {
-        return teamDao.updateTeamValidApplication(teamValidApplicationId,teamId,accept);
+    public Boolean processTeamValidApplication(Long teamValidApplicationId, Long teamId, Boolean accept) {
+        return teamDao.updateTeamValidApplication(teamValidApplicationId, teamId, accept);
     }
 }
