@@ -159,8 +159,9 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
             List<Round> subCourseRoundList = roundMapper.select(new Round().setCourseId(subCourse.getId()));
             for(int i = 0 ; i < subCourseRoundList.size() ; ++i){
                 klassRoundMapper.delete(new KlassRound().setRoundId(subCourseRoundList.get(i).getId()));
-                roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
+                //roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
             }
+            roundMapper.delete(new Round().setCourseId(subCourse.getId()));
 
             //删 klassSeminar, 新增 roundSeminar
             if(subCourseklassList != null){
@@ -238,6 +239,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
             klassRoundMapper.delete(new KlassRound().setRoundId(subCourseRoundList.get(i).getId()));
             //roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
         }
+        roundMapper.delete(new Round().setCourseId(course.getId()));
         return true;
     }
 
