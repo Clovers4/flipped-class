@@ -30,15 +30,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private AdminMapper adminMapper;
 
-    @Autowired
-    private TeacherMapper teacherMapper;
-
-    @Autowired
-    private StudentMapper studentMapper;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO:修正
         UserWithRole userWithRole = loadUserWithRole(username);
 
         if (userWithRole == null) {
@@ -53,16 +46,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     private UserWithRole loadUserWithRole(String username) {
         UserWithRole userWithRole = loadAdmin(username);
-
-        // admin中没有该账号
-        if (userWithRole == null) {
-            userWithRole = loadTeacher(username);
-        }
-
-        // teacher中没有该账号
-        if (userWithRole == null) {
-            userWithRole = loadStudent(username);
-        }
 
         return userWithRole;
     }
@@ -79,31 +62,4 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 .setRole("ROLE_admin");
         return userWithRole;
     }
-
-    private UserWithRole loadTeacher(String username) {
-        Teacher teacher = teacherMapper.selectOne(new Teacher().setTeacherNum(username));
-        if (teacher == null) {
-            return null;
-        }
-
-        UserWithRole userWithRole = new UserWithRole()
-                .setUsername(teacher.getTeacherNum())
-                .setPassword(teacher.getPassword())
-                .setRole("ROLE_teacher");
-        return userWithRole;
-    }
-
-    private UserWithRole loadStudent(String username) {
-        Student student = studentMapper.selectOne(new Student().setStudentNum(username));
-        if (student == null) {
-            return null;
-        }
-
-        UserWithRole userWithRole = new UserWithRole()
-                .setUsername(student.getStudentNum())
-                .setPassword(student.getPassword())
-                .setRole("ROLE_student");
-        return userWithRole;
-    }
-
 }

@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AjaxAuthFailureHandler ajaxAuthFailureHandler;
 
     @Autowired
-    private  MyAccessDeniedHandler myAccessDeniedHandler;
+    private MyAccessDeniedHandler myAccessDeniedHandler;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -52,13 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/admin", "/admin/login").permitAll()
-//                .antMatchers("/admin/**").hasRole("admin");
-                .antMatchers("/student/**").hasRole("student")
-                .antMatchers("/teacher/**").hasRole("teacher");
+                .antMatchers("/admin/**").hasRole("admin");
 
         http.formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
+                .loginPage("/admin/login")
+                .loginProcessingUrl("/admin/login")
                 .usernameParameter("account")
                 .passwordParameter("password")
                 .successHandler(ajaxAuthSuccessHandler)
@@ -66,8 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
         http.logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutUrl("/admin/logout")
+                .logoutSuccessUrl("/admin/login")
                 .permitAll();
 
         // 开启 Iframe
