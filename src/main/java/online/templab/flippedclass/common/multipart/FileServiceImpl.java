@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,23 +56,14 @@ public class FileServiceImpl implements FileService {
     @Override
     public void store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        try {
-            if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
-            }
-            if (filename.contains("..")) {
-                // This is a security check
-                throw new StorageException(
-                        "Cannot store file with relative path outside current directory "
-                                + filename);
-            }
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(filename),
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (IOException e) {
-            throw new StorageException("Failed to store file " + filename, e);
-        }
+        store(file, filename);
+    }
+
+    @Override
+    public String storeWithUUID(MultipartFile file) {
+        UUID uuid = UUID.randomUUID();
+        store(file, uuid.toString());
+        return uuid.toString();
     }
 
     @Override
@@ -103,6 +95,32 @@ public class FileServiceImpl implements FileService {
             }
         } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
+    }
+
+    /**
+     * 存储一个文件（存储的文件名非本名,而是 filename,因而可以使用 UUID作为文件名）
+     *
+     * @param file     存储文件本体
+     * @param filename
+     */
+    private void store(MultipartFile file, String filename) {
+        try {
+            if (file.isEmpty()) {
+                throw new StorageException("Failed to store empty file " + filename);
+            }
+            if (filename.contains("..")) {
+                // This is a security check
+                throw new StorageException(
+                        "Cannot store file with relative path outside current directory "
+                                + filename);
+            }
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, this.rootLocation.resolve(filename),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file " + filename, e);
         }
     }
 
