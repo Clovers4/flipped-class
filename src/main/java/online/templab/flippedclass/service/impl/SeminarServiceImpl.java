@@ -155,4 +155,9 @@ public class SeminarServiceImpl implements SeminarService {
         return attendanceDao.updateSelective(attendance);
     }
 
+    @Override
+    public Attendance getAttendanceByPrimaryKey(Long attendanceId) {
+        return attendanceDao.selectByPrimaryKey(attendanceId);
+    }
+
 }
