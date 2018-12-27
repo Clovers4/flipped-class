@@ -51,10 +51,5 @@ public class Teacher implements Serializable {
     @Column(name = "`email`")
     private String email;
 
-    /**
-     * 教授的课程
-     */
-    private List<Course> courses;
-
     private static final long serialVersionUID = 1L;
 }

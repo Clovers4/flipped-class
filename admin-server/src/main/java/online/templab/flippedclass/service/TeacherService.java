@@ -1,7 +1,6 @@
 package online.templab.flippedclass.service;
 
 import com.github.pagehelper.Page;
-import online.templab.flippedclass.entity.Course;
 import online.templab.flippedclass.entity.Teacher;
 import org.apache.ibatis.session.RowBounds;
 

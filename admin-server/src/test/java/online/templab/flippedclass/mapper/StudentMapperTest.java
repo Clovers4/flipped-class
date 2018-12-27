@@ -1,7 +1,6 @@
 package online.templab.flippedclass.mapper;
 
 import online.templab.flippedclass.FlippedClassApplicationTest;
-import online.templab.flippedclass.entity.KlassStudent;
 import online.templab.flippedclass.entity.Student;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,9 +18,6 @@ public class StudentMapperTest extends FlippedClassApplicationTest {
 
     @Autowired
     StudentMapper studentMapper;
-
-    @Autowired
-    KlassStudentMapper klassStudentMapper;
 
     private Student createStudent() {
         return new Student()
