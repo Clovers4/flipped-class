@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.TeacherMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Teacher">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="teacherNum"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="teacher_name" jdbcType="VARCHAR" property="teacherName"/>
+        <result column="is_active" jdbcType="TINYINT" property="activated"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+    </resultMap>
+
+    <update id="updateByTeacherNumSelective" parameterType="Teacher">
+        update teacher
+        <set>
+            <if test="password != null">
+                `password` = #{password},
+            </if>
+            <if test="teacherName != null">
+                teacher_name = #{teacherName},
+            </if>
+            <if test="activated != null">
+                is_active = #{activated},
+            </if>
+            <if test="email != null">
+                email = #{email}
+            </if>
+        </set>
+        where `account` = #{teacherNum}
+    </update>
+</mapper>

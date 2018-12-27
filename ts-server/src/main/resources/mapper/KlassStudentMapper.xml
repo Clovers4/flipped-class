@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.KlassStudentMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.KlassStudent">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="klass_id" jdbcType="BIGINT" property="klassId"/>
+        <id column="student_id" jdbcType="BIGINT" property="studentId"/>
+        <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+        <result column="team_id" jdbcType="BIGINT" property="teamId"/>
+    </resultMap>
+
+    <select id="selectOneByStudentNum" resultMap="BaseResultMap">
+        select k.klass_id, k.student_id, k.course_id, k.team_id
+        from klass_student k,
+             student
+        where klass_id = #{klassId}
+          and k.student_id = student.id
+          and student.account = #{studentNum}
+    </select>
+</mapper>

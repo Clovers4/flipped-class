@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.SeminarScoreMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.SeminarScore">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="klass_seminar_id" jdbcType="BIGINT" property="klassSeminarId"/>
+        <id column="team_id" jdbcType="BIGINT" property="teamId"/>
+        <result column="total_score" jdbcType="DECIMAL" property="totalScore"/>
+        <result column="presentation_score" jdbcType="DECIMAL" property="presentationScore"/>
+        <result column="question_score" jdbcType="DECIMAL" property="questionScore"/>
+        <result column="report_score" jdbcType="DECIMAL" property="reportScore"/>
+    </resultMap>
+
+    <update id="updateByKlassSeminarId" parameterType="SeminarScore">
+        update seminar_score
+        <set>
+            <if test="totalScore !=null">
+                `total_score` = #{totalScore},
+            </if>
+            <if test="presentationScore != null">
+                presentation_score = #{presentationScore},
+            </if>
+            <if test="questionScore != null">
+                question_score = #{questionScore},
+            </if>
+            <if test="reportScore != null">
+                report_score = #{reportScore}
+            </if>
+        </set>
+        where `klass_seminar_id` = #{klassSeminarId}
+        and `team_id` = #{teamId}
+    </update>
+
+</mapper>

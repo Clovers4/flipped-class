@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.KlassSeminarMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.KlassSeminar">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="klass_id" jdbcType="BIGINT" property="klassId"/>
+        <result column="seminar_id" jdbcType="BIGINT" property="seminarId"/>
+        <result column="report_ddl" jdbcType="TIMESTAMP" property="reportDeadline"/>
+        <result column="status" jdbcType="TINYINT" property="state"/>
+        <association property="seminar" javaType="Seminar">
+            <id column="sid" jdbcType="BIGINT" property="id"/>
+            <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+            <result column="round_id" jdbcType="BIGINT" property="roundId"/>
+            <result column="seminar_name" jdbcType="VARCHAR" property="theme"/>
+            <result column="introduction" jdbcType="VARCHAR" property="content"/>
+            <result column="max_team" jdbcType="TINYINT" property="maxTeam"/>
+            <result column="is_visible" jdbcType="TINYINT" property="visible"/>
+            <result column="seminar_serial" jdbcType="TINYINT" property="serial"/>
+            <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartDate"/>
+            <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndDate"/>
+        </association>
+        <collection property="attendances" ofType="Attendance">
+            <id column="aid" jdbcType="BIGINT" property="id"/>
+            <result column="klass_seminar_id" jdbcType="BIGINT" property="klassSeminarId"/>
+            <result column="team_id" jdbcType="BIGINT" property="teamId"/>
+            <result column="team_order" jdbcType="TINYINT" property="sn"/>
+            <result column="is_present" jdbcType="TINYINT" property="presenting"/>
+            <result column="report_name" jdbcType="VARCHAR" property="reportName"/>
+            <result column="report_url" jdbcType="VARCHAR" property="reportFile"/>
+            <result column="ppt_name" jdbcType="VARCHAR" property="pptName"/>
+            <result column="ppt_url" jdbcType="VARCHAR" property="preFile"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectOneByKlassIdSeminarId" resultMap="BaseResultMap">
+        SELECT k.id,
+               k.seminar_id,
+               k.klass_id,
+               k.report_ddl,
+               k.status,
+               s.id 'sid',
+               s.course_id,
+               s.round_id,
+               s.seminar_name,
+               s.introduction,
+               s.max_team,
+               s.is_visible,
+               s.seminar_serial,
+               s.enroll_end_time,
+               s.enroll_start_time,
+               a.id 'aid',
+               a.klass_seminar_id,
+               a.team_id,
+               a.team_order,
+               a.is_present,
+               a.report_name,
+               a.report_url,
+               a.ppt_name,
+               a.ppt_url
+        FROM klass_seminar k
+                 left join seminar s on k.seminar_id = s.id
+                 left join attendance a on k.id = a.klass_seminar_id
+        where k.klass_id = #{klassId}
+          and k.seminar_id = #{seminarId}
+    </select>
+
+</mapper>

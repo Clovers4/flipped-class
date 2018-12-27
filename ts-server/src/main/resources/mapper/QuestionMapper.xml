@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.QuestionMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Question">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="klass_seminar_id" jdbcType="BIGINT" property="klassSeminarId"/>
+        <result column="attendance_id" jdbcType="BIGINT" property="attendanceId"/>
+        <result column="team_id" jdbcType="BIGINT" property="teamId"/>
+        <result column="student_id" jdbcType="BIGINT" property="studentId"/>
+        <result column="is_selected" jdbcType="TINYINT" property="isSelected"/>
+        <result column="score" jdbcType="DECIMAL" property="score"/>
+    </resultMap>
+
+
+    <update id="updateByUniqueKey">
+        update question
+        set is_selected = 1,
+            score       = #{score}
+        where klass_seminar_id = #{klassSeminarId} and
+              attendance_id = #{attendanceId} and
+              team_id = #{teamId} and
+              student_id = #{studentId}
+    </update>
+</mapper>
