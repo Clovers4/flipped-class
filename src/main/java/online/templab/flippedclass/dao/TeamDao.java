@@ -165,4 +165,20 @@ public interface TeamDao {
      * @return
      */
     Boolean insertTeamValidApplication(TeamValidApplication teamValidApplication);
+
+    /**
+     * 通过老师ID得到所有请求
+     * @param teacherId
+     * @return
+     */
+    List<TeamValidApplication> selectTeamApplicationByTeacherId(Long teacherId);
+
+    /**
+     * 老师处理队伍有效请求
+     * @param teamValidApplicationId
+     * @param teamId
+     * @param accept
+     * @return
+     */
+    Boolean updateTeamValidApplication(Long teamValidApplicationId,Long teamId,Boolean accept);
 }

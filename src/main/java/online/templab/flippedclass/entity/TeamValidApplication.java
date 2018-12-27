@@ -43,5 +43,10 @@ public class TeamValidApplication implements Serializable {
     @Column(name = "`status`")
     private Integer status;
 
+    /**
+     * 该申请的队伍
+     */
+    private Team team;
+
     private static final long serialVersionUID = 1L;
 }
