@@ -51,7 +51,6 @@ public class WebSocketController {
     public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
-        System.out.println(monitor);
         model.addAttribute("studentNum", principal.getName());
         model.addAttribute("team", webSocketService.getTeamByStudentNum(klassSeminar.getId(), principal.getName()));
         model.addAttribute("ksId", klassSeminar.getId());

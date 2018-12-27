@@ -52,6 +52,9 @@ public class SeminarMonitor {
      */
     private Map<String, List<Question>> askedQuestion;
 
+    /**
+     * 讨论课状态
+     */
     private SeminarState state;
 
     /**
@@ -60,6 +63,9 @@ public class SeminarMonitor {
      */
     private Map<Long, List<Question>> waitingQuestionsMap;
 
+    /**
+     * 随机器
+     */
     private Random random = new Random();
 
     /**
@@ -71,14 +77,14 @@ public class SeminarMonitor {
     public SeminarMonitor(Long klassSeminarId, List<Attendance> enrollList) {
         this.klassSeminarId = klassSeminarId;
         this.enrollList = enrollList;
-        this.preScoreMap = new HashMap<>(6);
+        this.preScoreMap = new ConcurrentHashMap<>(6);
         for (Attendance enroll : enrollList) {
             preScoreMap.put(String.valueOf(enroll.getId()), -1);
         }
         this.onPreAttendanceIndex = 0;
         this.onPreAttendance = enrollList.get(0);
         this.raisedQuestionsCount = 0;
-        this.askedQuestion = new HashMap<>();
+        this.askedQuestion = new ConcurrentHashMap<>();
         for (Attendance enroll : enrollList) {
             this.askedQuestion.put(String.valueOf(enroll.getId()), new LinkedList<>());
         }
@@ -134,12 +140,20 @@ public class SeminarMonitor {
      */
     public void putWaitingQuestion(Long attendanceId, Question question) {
         List<Question> questionList = waitingQuestionsMap.getOrDefault(attendanceId, new LinkedList<>());
+        // 检测一下这个 question是否已经在提问池中,若已经在了,则不放入
         for (Question questionInList : questionList) {
             // 这个人已经提问了,因此现在不能再提问了
             if (questionInList.getStudentId().equals(question.getStudentId())) {
                 return;
             }
         }
+        // 检测一下这个 team是否已经对这个展示提过问题，如果已经提过,则不放入
+        for (Question askedQuestion : getAskedQuestion(attendanceId)) {
+            if (askedQuestion.getTeamId().equals(question.getTeamId())) {
+                return;
+            }
+        }
+        // 通过检测,放入提问池
         questionList.add(question);
         this.waitingQuestionsMap.put(attendanceId, questionList);
         // 更新monitor的当前提问数量
@@ -160,16 +174,16 @@ public class SeminarMonitor {
         }
         // 根据某个算法抽取一个 question
         int randomIndex = random.nextInt(waitingQuestionList.size());
-        Question question = waitingQuestionList.get(randomIndex);
+        Question pickedQuestion = waitingQuestionList.get(randomIndex);
 
         // 从 waitingQuestionList中移除
-        waitingQuestionList.remove(question);
+        waitingQuestionList.remove(pickedQuestion);
         waitingQuestionsMap.put(attendanceId, waitingQuestionList);
         // 放入 askedQuestionList
-        this.putAskedQuestion(attendanceId,question);
+        this.putAskedQuestion(attendanceId, pickedQuestion);
         // 更新monitor的当前提问数量
         this.raisedQuestionsCount = this.waitingQuestionsMap.get(attendanceId).size();
-        return question;
+        return pickedQuestion;
     }
 
     /**
@@ -194,7 +208,7 @@ public class SeminarMonitor {
      * @return
      */
     public Question getAskedQuestion(Integer attendanceIdx, Integer questionIdx) {
-        Attendance enroll=enrollList.get(attendanceIdx);
+        Attendance enroll = enrollList.get(attendanceIdx);
         return getAskedQuestion(enroll.getId()).get(questionIdx);
     }
 
