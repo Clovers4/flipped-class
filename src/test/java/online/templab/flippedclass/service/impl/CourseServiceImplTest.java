@@ -157,4 +157,12 @@ public class CourseServiceImplTest extends FlippedClassApplicationTest {
         }
     }
 
+    @Test
+    public void testListAllCourse()throws Exception{
+        List<Course> courseList = courseService.listAllCourse();
+        for(int i=0;i<courseList.size();i++){
+            logger.info(courseList.get(i).toString());
+        }
+        Assert.assertNotNull(courseList);
+    }
 }

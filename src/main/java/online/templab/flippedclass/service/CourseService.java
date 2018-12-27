@@ -92,5 +92,11 @@ public interface CourseService {
      * @return
      */
     List<Course> listCanShareCourseByPrimaryKey(Long id,int type);
-}
 
+    /**
+     * 获取所有课程
+     *
+     * @return
+     */
+    List<Course> listAllCourse();
+}

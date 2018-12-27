@@ -92,4 +92,9 @@ public class CourseServiceImpl implements CourseService {
         return courseDao.selectCanShareCourseByPrimaryKey(id, type);
     }
 
+    @Override
+    public List<Course> listAllCourse() {
+        return courseDao.selectAll();
+    }
+
 }
