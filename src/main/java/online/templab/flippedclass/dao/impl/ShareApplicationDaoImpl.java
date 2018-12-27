@@ -236,7 +236,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
         List<Round> subCourseRoundList = roundMapper.select(new Round().setCourseId(course.getId()));
         for(int i = 0 ; i < subCourseRoundList.size() ; ++i){
             klassRoundMapper.delete(new KlassRound().setRoundId(subCourseRoundList.get(i).getId()));
-            roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
+            //roundMapper.delete(new Round().setId(subCourseRoundList.get(i).getId()));
         }
         return true;
     }
