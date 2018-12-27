@@ -129,7 +129,8 @@
                team_main_course_id,
                seminar_main_course_id
         from course
-        where team_main_course_id = 0
+        where seminar_main_course_id is null
+        and id != #{courseId}
     </select>
 
     <select id="selectCanShareTeam" resultMap="BaseResultMap">
@@ -145,7 +146,8 @@
                team_main_course_id,
                seminar_main_course_id
         from course
-        where seminar_main_course_id = 0
+        where team_main_course_id is null
+          and id != #{courseId}
     </select>
 
     <select id="selectDateByTeamId" resultMap="BaseResultMap">

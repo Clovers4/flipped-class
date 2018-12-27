@@ -76,6 +76,7 @@ public interface CourseDao {
 
     /**
      * 根据 courseId 查看该课程可以共享给的课程list
+     * 0 是 分组 ， 1 是 讨论课
      *
      * @param id
      * @param type

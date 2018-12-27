@@ -80,4 +80,14 @@ public interface CourseService {
      * @return
      */
     List<Course> listOtherCourse(Long courseId);
+
+    /**
+     * 根据 courseId 查看该课程可以共享给的课程list
+     * 0 是 分組 ， 1 是 讨论课
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    List<Course> listCanShareCourseByPrimaryKey(Long id,int type);
 }

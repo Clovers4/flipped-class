@@ -170,11 +170,11 @@ public class TeacherController {
 
     @GetMapping("/notification")
     public String notification(Model model, HttpSession session) {
-        Long teacherId = ((Long)session.getAttribute(TEACHER_ID_GIST));
-            List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
-             model.addAttribute("STApps",shareTeamApplications);
-            model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
-            //TODO:待完善
+        Long teacherId = ((Long) session.getAttribute(TEACHER_ID_GIST));
+        List<ShareTeamApplication> shareTeamApplications = shareService.listShareTeamApplication(teacherId);
+        model.addAttribute("STApps", shareTeamApplications);
+        model.addAttribute("SSApps", shareService.listShareSeminarApplication(teacherId));
+        //TODO:待完善
         return "teacher/notification";
     }
 
@@ -184,13 +184,13 @@ public class TeacherController {
         log.info(applicationHandleDTO.toString());
         switch (applicationHandleDTO.getAppType()) {
             case 0:
-                if (shareService.processShareSeminarApplication(applicationHandleDTO.getAppId(),applicationHandleDTO.getOperationType()==1)) {
+                if (shareService.processShareSeminarApplication(applicationHandleDTO.getAppId(), applicationHandleDTO.getOperationType() == 1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
                 }
             case 1:
-                if (shareService.processShareTeamApplication(applicationHandleDTO.getAppId(),applicationHandleDTO.getOperationType()==1)) {
+                if (shareService.processShareTeamApplication(applicationHandleDTO.getAppId(), applicationHandleDTO.getOperationType() == 1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
@@ -249,7 +249,7 @@ public class TeacherController {
     public String roundSetting(String roundId, String courseId, Model model) {
         // FIXME: roundService待修复，应采用left join的方式
         // TODO: roundService.get参数改变为 (Long roundId, Long courseId)
-        Round round = roundService.get(Long.valueOf(roundId),Long.valueOf(courseId));
+        Round round = roundService.get(Long.valueOf(roundId), Long.valueOf(courseId));
         Map<String, Klass> klassMap = new HashMap<>(5);
         round.getKlassRounds().forEach(klassRound -> {
             klassMap.put(String.valueOf(klassRound.getKlassId()), klassService.get(klassRound.getKlassId()));
@@ -451,8 +451,12 @@ public class TeacherController {
     }
 
     @PostMapping("/course/share/create")
-    public String courseShareCreate(String courseId, Model model) {
-        model.addAttribute("otherCourses", courseService.listOtherCourse(Long.valueOf(courseId)));
+    public String courseShareCreate(String courseId, Integer shareType, Model model) {
+        if (shareType == null) {
+            model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(Long.valueOf(courseId), 0));
+        }else{
+            model.addAttribute("otherCourses", courseService.listCanShareCourseByPrimaryKey(Long.valueOf(courseId), shareType));
+        }
         return "teacher/course/share/create";
     }
 
