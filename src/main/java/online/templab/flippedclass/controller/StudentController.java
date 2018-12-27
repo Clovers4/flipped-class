@@ -280,12 +280,12 @@ public class StudentController {
         Course course = courseService.get(courseId);
         Boolean canChange = new Date().compareTo(course.getTeamEndDate()) < 0;
         Team team = teamService.get(courseId, (Long) session.getAttribute(STUDENT_ID_GIST));
-        System.out.println(team);
 
         model.addAttribute("canChange", canChange);
         model.addAttribute("course", course);
         model.addAttribute("maxMember", MAX_MEMBER);
-        // TODO:??? model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
+        // 不需要这一行也可以跑
+        // model.addAttribute("studentId", session.getAttribute(STUDENT_ID_GIST));
         model.addAttribute("team", team);
         model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(team.getCourseId()));
         return "student/course/myTeam";
