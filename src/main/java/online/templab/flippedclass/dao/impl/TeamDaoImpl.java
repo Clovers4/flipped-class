@@ -285,7 +285,6 @@ public class TeamDaoImpl implements TeamDao {
         return 1L;
     }
 
-
     @Override
     public List<Team> selectByCourseId(Long courseId) {
         //找到所有klass
@@ -331,13 +330,18 @@ public class TeamDaoImpl implements TeamDao {
         // 获取队伍id
         Long klassId = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId)).getKlassId();
         KlassTeam klassTeam = klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId);
-        System.out.print(klassTeam.getTeamId());
+        if(klassTeam == null){
+            return new Team();
+        }
         // 获取队伍成员
         List<Student> member = studentMapper.selectTeamMerberCourseIdByTeamId(klassTeam.getTeamId());
         // 通过 teamId 获取 team
         Team team = teamMapper.selectByPrimaryKey(klassTeam.getTeamId());
         // 队长
         Student leader = new Student();
+        if(member.size()==0){
+            return new Team();
+        }
         for (int i = 0; i < member.size(); i++) {
             if (member.get(i).getId().equals(team.getLeaderId())) {
                 leader = member.get(i);
@@ -404,7 +408,6 @@ public class TeamDaoImpl implements TeamDao {
     public Boolean deleteByStudentNum(Long teamId, String studentNum) {
         Student student = studentMapper.selectOne(new Student().setStudentNum(studentNum));
         int line = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId).setStudentId(student.getId()));
-        System.out.println(line);
         return line == 1;
     }
 
@@ -430,7 +433,8 @@ public class TeamDaoImpl implements TeamDao {
     public Boolean delete(Long teamId, Long studentId) {
         int deleteTeam = teamMapper.deleteByPrimaryKey(teamId);
         int deleteRelation = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId));
-        return (deleteTeam + deleteRelation) > 0;
+        int deleteKlassTeam = klassTeamMapper.delete(new KlassTeam().setTeamId(teamId));
+        return (deleteTeam + deleteRelation + deleteKlassTeam) > 0;
     }
 
     @Override
