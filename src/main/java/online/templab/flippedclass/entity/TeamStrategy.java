@@ -92,6 +92,9 @@ public class TeamStrategy implements Serializable , CourseStrategy{
                     }
                 }
             }
+            else{
+                return true;
+            }
             if(orStrategyCount == 0){
                 return false;
             }

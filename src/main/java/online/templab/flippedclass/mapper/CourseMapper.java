@@ -70,4 +70,13 @@ public interface CourseMapper extends Mapper<Course> {
      * @return
      */
     Course selectDateByTeamId(Long teamId);
+
+    /**
+     * 根据 teamId 得到 team
+     * 并注入 teamStrategyList
+     *
+     * @param courseId
+     * @return
+     */
+    Course selectTeamStrategyListByCourseId(Long courseId);
 }

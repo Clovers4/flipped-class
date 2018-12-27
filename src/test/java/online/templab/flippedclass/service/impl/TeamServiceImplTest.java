@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service.impl;
 
+import net.sf.jsqlparser.expression.operators.relational.LikeExpression;
 import online.templab.flippedclass.FlippedClassApplicationTest;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.mapper.*;
@@ -144,6 +145,14 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
     public void validAllTeamByCourseId(){
         teamService.validAllTeamByCourseId((long)16);
         logger.info(teamMapper.selectByPrimaryKey((long)25).toString());
+    }
+
+    @Test
+    public void testListTeamStategy(){
+        List<TeamStrategy> teamStrategyList = teamService.listTeamStategy(16L);
+        for( int i  = 0 ; i < teamStrategyList.size() ; ++i){
+            logger.info(teamStrategyList.get(i).toString());
+        }
     }
 
     @Test

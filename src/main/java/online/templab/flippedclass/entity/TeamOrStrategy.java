@@ -48,7 +48,6 @@ public class TeamOrStrategy implements Serializable , CourseStrategy{
                 }
             }
         }
-
         else if(this.strategyName.equals("TeamOrStrategy")){
             int orStrategyCount = this.courseStrategyList.size();
             if(orStrategyCount != 0){
@@ -57,6 +56,9 @@ public class TeamOrStrategy implements Serializable , CourseStrategy{
                         --orStrategyCount;
                     }
                 }
+            }
+            else{
+                return true;
             }
             if(orStrategyCount == 0){
                 return false;

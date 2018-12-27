@@ -56,6 +56,9 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
                     }
                 }
             }
+            else{
+                return true;
+            }
             if(orStrategyCount == 0){
                 return false;
             }

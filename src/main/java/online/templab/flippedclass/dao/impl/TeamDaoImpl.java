@@ -56,7 +56,7 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     CourseMapper courseMapper;
 
-    void getSubStrategy(CourseStrategy courseStrategy) {
+    void getSubStrategy(CourseStrategy courseStrategy){
 
         if (courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy) {
             String strategyName = courseStrategy.getMyStrategyName();
@@ -116,6 +116,17 @@ public class TeamDaoImpl implements TeamDao {
             getSubStrategy(teamStrategy);
         }
         return team;
+    }
+
+    @Override
+    public List<TeamStrategy> selectTeamValidByCourseId(Long courseId) {
+        Course course = courseMapper.selectTeamStrategyListByCourseId(courseId);
+        List<TeamStrategy> teamStrategyList = course.getTeamStrategyList();
+        for(int i = 0 ; i < teamStrategyList.size(); ++i){
+            TeamStrategy teamStrategy = teamStrategyList.get(i);
+            getSubStrategy(teamStrategy);
+        }
+        return course.getTeamStrategyList();
     }
 
     @Override
