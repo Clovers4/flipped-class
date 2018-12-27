@@ -16,7 +16,7 @@
     <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/progressing.js"></script>
-    <title>讨论课报名</title>
+    <title>进行讨论课</title>
     <style>
         input::-ms-input-placeholder {
             text-align: center;
@@ -66,7 +66,7 @@
         </div>
     </div>
 </nav>
-<#if monitor.state.progressState = "TERMINATE">
+<#if hasEnd>
     <div class="main main-raised no-footer">
         <div class="empty-tag">
             <div class="info">
