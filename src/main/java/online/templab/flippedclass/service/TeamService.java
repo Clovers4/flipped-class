@@ -3,6 +3,7 @@ package online.templab.flippedclass.service;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Team;
 import online.templab.flippedclass.entity.TeamStrategy;
+import online.templab.flippedclass.entity.TeamValidApplication;
 
 import java.text.ParseException;
 import java.util.List;
@@ -135,4 +136,12 @@ public interface TeamService {
      * @return
      */
     Boolean insertTeamStratgyList(List<TeamStrategy> teamStrategyList);
+
+    /**
+     * 发送队伍有效请求
+     *
+     * @param teamValidApplication
+     * @return
+     */
+    Boolean sendTeamValidApplication(TeamValidApplication teamValidApplication);
 }

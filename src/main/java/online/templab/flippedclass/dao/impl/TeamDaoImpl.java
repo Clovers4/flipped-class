@@ -56,6 +56,9 @@ public class TeamDaoImpl implements TeamDao {
     @Autowired
     CourseMapper courseMapper;
 
+    @Autowired
+    TeamValidApplicationMapper teamValidApplicationMapper;
+
     void deleteSubStrategy(CourseStrategy courseStrategy){
 
         List<CourseStrategy> courseStrategyList = courseStrategy.getCourseStrategyList();
@@ -450,5 +453,12 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public List<TeamStudent> selectTeamStudentByTeamId(Long teamId) {
         return teamStudentMapper.select(new TeamStudent().setTeamId(teamId));
+    }
+
+    @Override
+    public Boolean insertTeamValidApplication(TeamValidApplication teamValidApplication) {
+        //设置队伍状态为审核中
+        teamMapper.updateByPrimaryKeySelective(new Team().setId(teamValidApplication.getTeamId()).setStatus(2));
+        return teamValidApplicationMapper.insert(teamValidApplication)==1;
     }
 }

@@ -274,4 +274,9 @@ public class TeamServiceImpl implements TeamService {
     public Boolean insertTeamStratgyList(List<TeamStrategy> teamStrategyList) {
         return teamDao.insertTeamStratgyList(teamStrategyList) == 1;
     }
+
+    @Override
+    public Boolean sendTeamValidApplication(TeamValidApplication teamValidApplication) {
+        return teamDao.insertTeamValidApplication(teamValidApplication);
+    }
 }

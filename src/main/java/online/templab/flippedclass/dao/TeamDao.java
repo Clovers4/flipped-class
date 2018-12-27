@@ -157,4 +157,12 @@ public interface TeamDao {
      * @return
      */
     List<TeamStudent> selectTeamStudentByTeamId(Long teamId);
+
+    /**
+     * 发送队伍有效请求
+     *
+     * @param teamValidApplication
+     * @return
+     */
+    Boolean insertTeamValidApplication(TeamValidApplication teamValidApplication);
 }

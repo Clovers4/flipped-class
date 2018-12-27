@@ -335,26 +335,23 @@ public class StudentController {
         teamService.quitTeam(teamId, (Long) session.getAttribute(STUDENT_ID_GIST));
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-/*
-TODO:恢复
+
     @PostMapping("/course/myTeam/validApplication")
     public ResponseEntity<Object> validApplication(Long teamId, String content) {
         Team team = teamService.getByPrimaryKey(teamId);
         if (team.getStatus() != 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-        team.setStatus(2);
-        studentService.updateTeam(team);
         TeamValidApplication teamValidApplication = new TeamValidApplication()
                 .setTeamId(teamId)
                 .setContent(content)
                 .setTeacherId(courseService.get(team.getCourseId()).getTeacherId());
-        if (!applicationService.createTeamValidApplication(teamValidApplication)) {
+        if (!teamService.sendTeamValidApplication(teamValidApplication)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("该申请已存在");
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-*/
+
 
     @PostMapping("/course/info")
     public String courseInfo(Long courseId, Model model) {
