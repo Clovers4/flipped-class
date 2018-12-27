@@ -2,10 +2,7 @@ package online.templab.flippedclass.dao.impl;
 
 import online.templab.flippedclass.dao.KlassDao;
 import online.templab.flippedclass.entity.*;
-import online.templab.flippedclass.mapper.KlassMapper;
-import online.templab.flippedclass.mapper.KlassRoundMapper;
-import online.templab.flippedclass.mapper.KlassSeminarMapper;
-import online.templab.flippedclass.mapper.KlassStudentMapper;
+import online.templab.flippedclass.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
@@ -28,11 +25,29 @@ public class KlassDaoImpl implements KlassDao {
     @Autowired
     private KlassSeminarMapper klassSeminarMapper;
 
+    @Autowired
+    private CourseMapper courseMapper;
+
     @Override
     public Boolean insert(Klass klass) {
         int line = 0;
         try {
             line = klassMapper.insert(klass);
+            Course course = courseMapper.selectRoundListByCourseId(klass.getCourseId());
+            List<Round> roundList = course.getRoundList();
+            List<Seminar> seminarList = course.getSeminarList();
+            for(int i = 0 ; i < roundList.size() ; ++i){
+                klassRoundMapper.insertSelective(new KlassRound().setRoundId(roundList.get(i).getId()).setKlassId(klass.getId()).setEnrollLimit(1));
+            }
+            for(int i = 0 ; i < seminarList.size() ; ++i){
+                klassSeminarMapper.insertSelective(new KlassSeminar()
+                        .setKlassId(klass.getId())
+                        .setSeminarId(seminarList.get(i).getId())
+                        .setState(0)
+                );
+            }
+
+
         } catch (DuplicateKeyException e) {
             return false;
         }

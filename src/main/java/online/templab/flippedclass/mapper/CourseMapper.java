@@ -79,4 +79,6 @@ public interface CourseMapper extends Mapper<Course> {
      * @return
      */
     Course selectTeamStrategyListByCourseId(Long courseId);
+
+    Course selectRoundListByCourseId(Long courseId);
 }

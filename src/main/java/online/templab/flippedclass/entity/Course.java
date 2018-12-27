@@ -85,6 +85,10 @@ public class Course implements Serializable {
     @Column(name = "`seminar_main_course_id`")
     private Long seminarMainCourseId;
 
+    private List<Round> roundList;
+
+    private List<Seminar> seminarList;
+
     /**
      * 对应的教师
      */
