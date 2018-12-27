@@ -158,5 +158,10 @@ public class RoundDaoImpl implements RoundDao {
         return round;
     }
 
+    @Override
+    public KlassRound getKlassRound(Long klassId, Long roundId) {
+        return klassRoundMapper.selectByPrimaryKey(new KlassRound().setKlassId(klassId).setRoundId(roundId));
+    }
+
 
 }

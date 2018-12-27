@@ -55,4 +55,9 @@ public class RoundServiceImpl implements RoundService {
     public Round get(Long roundId, Long courseId) {
         return roundDao.getOne(roundId,courseId);
     }
+
+    @Override
+    public KlassRound getKlassRound(Long klassId, Long roundId) {
+        return roundDao.getKlassRound(klassId,roundId);
+    }
 }

@@ -80,4 +80,12 @@ public interface RoundService {
      */
     Round get(Long roundId, Long courseId);
 
+    /**
+     * 通过 klassId 和 roundId 获得 klassRound
+     *
+     * @param klassId
+     * @param roundId
+     * @return
+     */
+    KlassRound getKlassRound(Long klassId, Long roundId);
 }
