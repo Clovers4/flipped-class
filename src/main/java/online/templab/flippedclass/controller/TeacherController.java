@@ -262,6 +262,7 @@ public class TeacherController {
         klasses.forEach(klass -> {
             klassRoundMap.put(String.valueOf(klass.getId()), roundService.getKlassRound(klass.getId(), roundId));
         });
+        System.out.println(klassRoundMap);
         model.addAttribute("klasses", klasses);
         model.addAttribute("klassRoundMap", klassRoundMap);
         model.addAttribute("round", round);

@@ -31,6 +31,26 @@
             <result column="strategy_name" jdbcType="VARCHAR" property="strategyName"/>
             <result column="strategy_id" jdbcType="BIGINT" property="strategyId"/>
         </collection>
+        <collection property="roundList" ofType="Round">
+            <id column="rid" jdbcType="BIGINT" property="id"/>
+            <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+            <result column="round_serial" jdbcType="TINYINT" property="roundNum"/>
+            <result column="presentation_score_method" jdbcType="TINYINT" property="preScoreType"/>
+            <result column="report_score_method" jdbcType="TINYINT" property="reportScoreType"/>
+            <result column="question_score_method" jdbcType="TINYINT" property="quesScoreType"/>
+        </collection>
+        <collection property="seminarList" ofType="Seminar">
+            <id column="sid" jdbcType="BIGINT" property="id" />
+            <result column="course_id" jdbcType="BIGINT" property="courseId" />
+            <result column="round_id" jdbcType="BIGINT" property="roundId" />
+            <result column="seminar_name" jdbcType="VARCHAR" property="theme" />
+            <result column="introduction" jdbcType="VARCHAR" property="content" />
+            <result column="max_team" jdbcType="TINYINT" property="maxTeam" />
+            <result column="is_visible" jdbcType="TINYINT" property="visible" />
+            <result column="seminar_serial" jdbcType="TINYINT" property="serial" />
+            <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartDate" />
+            <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndDate" />
+        </collection>
     </resultMap>
 
     <select id="selectByStudentId" parameterType="Long" resultMap="BaseResultMap">
@@ -183,6 +203,41 @@
                ts.strategy_id
         FROM course c
         LEFT JOIN team_strategy ts ON ts.course_id = c.id
+        WHERE c.id = #{courseId}
+    </select>
+
+    <select id="selectRoundListByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               r.id 'rid',
+               r.course_id,
+               r.round_serial,
+               r.presentation_score_method,
+               r.question_score_method,
+               r.question_score_method,
+               s.id 'sid',
+               s.course_id,
+               s.round_id,
+               s.seminar_name,
+               s.introduction,
+               s.max_team,
+               s.is_visible,
+               s.seminar_serial,
+               s.enroll_end_time,
+               s.enroll_start_time
+        FROM course c
+        LEFT JOIN round r ON r.course_id = c.id
+        LEFT JOIN seminar s ON r.course_id = s.course_id
         WHERE c.id = #{courseId}
     </select>
 

@@ -191,7 +191,7 @@
                                                             <input type="text" autocomplete="off" name="enrollLimit"
                                                                    placeholder=""
                                                                    class="form-control empty-verify klass-round-limit"
-                                                                   value="${klassRoundMap[klass.id].enrollLimit}"
+                                                                   value="${klassRoundMap[klass.id?c].enrollLimit}"
                                                                    data-emptyMessage="请输入课堂展示权重">
                                                         </div>
                                                     </div>
