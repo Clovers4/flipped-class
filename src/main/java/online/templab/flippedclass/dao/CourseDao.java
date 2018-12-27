@@ -91,4 +91,11 @@ public interface CourseDao {
      * @return
      */
     Course selectDateByTeamId(Long teamId);
+
+    /**
+     * 获取表里所有课程
+     *
+     * @return
+     */
+    List<Course> selectAll();
 }

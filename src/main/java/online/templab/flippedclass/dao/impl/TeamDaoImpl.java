@@ -302,8 +302,6 @@ public class TeamDaoImpl implements TeamDao {
                 List<Student> memberStudent = new LinkedList<>();
                 Student leader = null;
                 for (Student student : students) {
-                    System.out.println(student.getId());
-                    System.out.println(team.getLeaderId());
                     if (!student.getId().equals(team.getLeaderId())) {
                         memberStudent.add(student);
                     } else {
@@ -397,6 +395,8 @@ public class TeamDaoImpl implements TeamDao {
         }
         // 插入 klass_student 表关系
         int lineKlassStudent = teamStudentMapper.insertList(team.getId(), studentPrimaryKeyList);
+        // 插入 klass_team 表关系
+        int lineKlassTeam = klassTeamMapper.insert(new KlassTeam().setTeamId(team.getId()).setKlassId(klassId));
         return team.getId();
     }
 
@@ -404,6 +404,7 @@ public class TeamDaoImpl implements TeamDao {
     public Boolean deleteByStudentNum(Long teamId, String studentNum) {
         Student student = studentMapper.selectOne(new Student().setStudentNum(studentNum));
         int line = teamStudentMapper.delete(new TeamStudent().setTeamId(teamId).setStudentId(student.getId()));
+        System.out.println(line);
         return line == 1;
     }
 

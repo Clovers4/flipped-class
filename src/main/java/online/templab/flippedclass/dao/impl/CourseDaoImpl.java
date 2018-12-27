@@ -134,4 +134,9 @@ public class CourseDaoImpl implements CourseDao {
     public Course selectDateByTeamId(Long teamId) {
         return courseMapper.selectDateByTeamId(teamId);
     }
+
+    @Override
+    public List<Course> selectAll() {
+        return courseMapper.selectAll();
+    }
 }
