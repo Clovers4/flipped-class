@@ -47,9 +47,15 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
 
     @Override
     public Boolean updateByRoundIdKlassId(Long roundId, Long klassId) {
-        int countInsert = 0;
+        int countInsert= 0;
+        int enrollNumber=0;
         //得到次数限制
-        int enrollNumber = klassRoundMapper.selectOne(new KlassRound().setKlassId(klassId).setRoundId(roundId)).getEnrollLimit();
+        try{
+            enrollNumber = klassRoundMapper.selectOne(new KlassRound().setKlassId(klassId).setRoundId(roundId)).getEnrollLimit();
+        }
+        catch (Exception e){
+            enrollNumber=1;
+        }
         //得到该班的team
         List<Team> teams = teamMapper.select(new Team().setKlassId(klassId));
         //得到Round（包含分数计算规则）
