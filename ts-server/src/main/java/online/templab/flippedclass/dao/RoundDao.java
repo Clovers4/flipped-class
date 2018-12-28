@@ -91,4 +91,12 @@ public interface RoundDao {
      */
     KlassRound getKlassRound(Long klassId, Long roundId);
 
+    /**
+     * 根据 klassSeminarId 获取 roundId
+     *
+     * @param klassSeminarId
+     * @return
+     */
+    Long getRoundIdByKlassSeminarId(Long klassSeminarId);
+
 }

@@ -17,4 +17,12 @@ public interface SeminarMapper extends Mapper<Seminar> {
      * @return
      */
     Integer selectMaxSeminarSerialByCourseId(Long courseId);
+
+    /**
+     * 根据 klassSeminarId 获取 round id
+     *
+     * @param klassSeminarId
+     * @return
+     */
+    Seminar selectRoundIdByKlassSeminarId(Long klassSeminarId);
 }
