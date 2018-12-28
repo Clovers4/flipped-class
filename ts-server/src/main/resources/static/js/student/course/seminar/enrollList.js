@@ -10,10 +10,24 @@ $(function () {
     downloadFileForm = $("#downloadFileForm");
     fileNameInput = $("#fileNameInput");
 
-    var uploadLi = $("#uploadLi");
-    if(uploadLi.length > 0){
-        $("#attendanceId").val(uploadLi.attr("data-atdId"));
+    var uploadPPTBtn = $("#uploadPPTBtn");
+    if(uploadPPTBtn.length > 0){
+        $("#attendanceId").val(uploadPPTBtn.attr("data-atdId"));
     }
+
+    $("#cancelEnroll").click(function () {
+        $.ajax({
+            type: "post",
+            url: "/student/course/seminar/cancelEnroll",
+            data: $("#cancelEnrollForm").serialize(),
+            success: function () {
+                window.location.reload();
+            },
+            error: function () {
+                util.showAlert("danger", "取消失败，未知原因", 3)
+            }
+        })
+    });
 
     $("#returnCourseId").val(sessionStorage.getItem("courseId"));
     $("#backBtn").click(function () {

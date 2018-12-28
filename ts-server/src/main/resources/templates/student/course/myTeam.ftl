@@ -21,7 +21,7 @@
 </head>
 <body class="profile-page sidebar-collapse" data-maxMember="${maxMember}" data-teamId="${team.id}">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" id="returnBtn">

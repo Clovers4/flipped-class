@@ -14,7 +14,7 @@
     <title>首页</title>
 </head>
 <body class="profile-page sidebar-collapse">
-<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" id="sectionsNav">
+<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg">
     <div class="container">
         <div class="navbar-translate">
             <a class="navbar-brand" style="visibility: hidden">

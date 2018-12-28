@@ -46,7 +46,7 @@ $(function () {
     $(".enroll").click({url:'/student/course/seminar/enrollList'}, moduleClick);
     $(".grade").click({url:'/student/course/seminar/grade'}, moduleClick);
     $(".report").click({url:'/student/course/seminar/report'}, moduleClick);
-    $(".processing").click({url:'/student/course/seminar/processing'}, moduleClick);
+    $(".progressing").click({url:'/student/course/seminar/progressing'}, moduleClick);
 });
 
 

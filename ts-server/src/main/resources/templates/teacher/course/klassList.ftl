@@ -16,7 +16,7 @@
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">
@@ -52,32 +52,35 @@
 <div class="main main-raised no-footer">
     <div class="container">
         <div class="row">
-            <#list klasses as klass>
-            <div class="col-lg-4 col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-klassID="${klass.id}" data-toggle="modal" data-target="#klassModal">
-                        <div class="body-header">
-                            <div class="body-title">${klass.klassName}</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>讨论课时间</label>
-                                <div class="sep"></div>
-                                <div class="content">${klass.time}</div>
-                            </div>
-                            <div class="line">
-                                <label>讨论课地点</label>
-                                <div class="sep"></div>
-                                <div class="content">${klass.location}</div>
+            <#if klasses?size != 0>
+                <#list klasses as klass>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card content-card">
+                            <div class="card-body" data-klassID="${klass.id}" data-toggle="modal"
+                                 data-target="#klassModal">
+                                <div class="body-header">
+                                    <div class="body-title">${klass.klassName}</div>
+                                </div>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="line">
+                                        <label>讨论课时间</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${klass.time}</div>
+                                    </div>
+                                    <div class="line">
+                                        <label>讨论课地点</label>
+                                        <div class="sep"></div>
+                                        <div class="content">${klass.location}</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            </#list>
+                </#list>
+            </#if>
             <div class="col-lg-4 col-md-6">
-                <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/klass/create'"
+                <a class="btn bg-transparent add-card-btn" onclick="window.location='/teacher/course/klass/create'"
                    style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
                     <i class="material-icons add-icon">add_circle</i>
                 </a>
@@ -125,7 +128,8 @@
                 <div class="row" style="height: 208px;">
                     <div class="col-md-12 ml-auto mr-auto">
                         <form id="studentFiles" enctype="multipart/form-data">
-                            <input hidden id="fileInput" name="file" type="file" placeholder="" class="form-control empty-verify" data-emptyMessage="请选择名单">
+                            <input hidden id="fileInput" name="file" type="file" placeholder=""
+                                   class="form-control empty-verify" data-emptyMessage="请选择名单">
                             <input hidden id="klassIdInput" name="klassId" type="text" placeholder="">
                         </form>
                         <div class="file-frame">
@@ -143,7 +147,8 @@
                             </ul>
                         </div>
                         <div class="flex-space-around" style="margin-top: 20px">
-                            <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm" style="width: 40%">
+                            <button id="confirmUpload" class="btn btn-dark btn-round bg-dark confirm"
+                                    style="width: 40%">
                                 <i class="material-icons">arrow_upward</i>
                                 上传
                             </button>

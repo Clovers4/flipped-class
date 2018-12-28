@@ -16,10 +16,15 @@
             util.showLoading();
         }
     </script>
+    <style>
+        .nav-link{
+            padding: 0 !important;
+        }
+    </style>
     <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/courseList'">
@@ -60,24 +65,6 @@
                                 <div class="body-content">
                                     <hr>
                                     <div class="row">
-                                        <#list round.seminars as seminar>
-                                            <div class="col-6">
-                                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                                    <li class="nav-item" data-toggle="modal"
-                                                        data-target="#seminarScoreModal${seminar.id}">
-                                                        <a class="nav-link" style="padding-bottom: 0;">
-                                                            <i class="material-icons">equalizer</i>
-                                                            ${seminar.theme}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </#list>
-                                    </div>
-                                </div>
-                                <div>
-                                    <hr>
-                                    <div class="row">
                                         <div class="grade-area">
                                             <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                                 <li class="nav-item">
@@ -113,6 +100,22 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <#list round.seminars as seminar>
+                                            <div class="col-6">
+                                                <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                    <li class="nav-item" data-toggle="modal"
+                                                        data-target="#seminarScoreModal${seminar.id}">
+                                                        <a class="nav-link" style="padding-bottom: 0;">
+                                                            <i class="material-icons">equalizer</i>
+                                                            ${seminar.theme}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </#list>
                                     </div>
                                 </div>
                             </div>
