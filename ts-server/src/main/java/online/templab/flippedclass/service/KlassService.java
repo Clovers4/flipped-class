@@ -53,7 +53,7 @@ public interface KlassService {
     List<Klass> listByCourseId(Long courseId);
 
     /**
-     * 将学生名单录入到该班级中
+     * 将学生名单重新录入到该班级中
      *
      * @param id
      * @param students
@@ -67,4 +67,13 @@ public interface KlassService {
      * @return
      */
     List<Klass> listByStudentId(Long studentId);
+
+    /**
+     * 将学生名单录入到该班级中
+     *
+     * @param id
+     * @param students
+     * @return 成功则返回 true ,失败则返回 false
+     */
+    Boolean setStudentList(Long id,List<Student> students);
 }

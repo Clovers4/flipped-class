@@ -115,4 +115,31 @@ public class KlassServiceImpl implements KlassService {
     public List<Klass> listByStudentId(Long studentId) {
         return klassDao.selectByStudentId(studentId);
     }
+
+    @Override
+    public Boolean setStudentList(Long id, List<Student> students) {
+        int count = 0;
+        Long courseId = klassDao.select(id).getCourseId();
+        //删除该班级的旧表
+        klassStudentDao.delete(new KlassStudent().setKlassId(id));
+        //插入名单中的新学生，并判断如果没有该学生则创建
+        for (Student student : students) {
+            //未有账号学生
+            if (studentDao.selectByStudentNum(student.getStudentNum()) == null) {
+                studentDao.insert(student);
+                count += klassStudentDao.insert(new KlassStudent()
+                        .setStudentId(student.getId())
+                        .setKlassId(id)
+                        .setCourseId(courseId));
+            }
+            //有账号学生
+            else {
+                count += klassStudentDao.insert(new KlassStudent()
+                        .setStudentId(studentDao.selectByStudentNum(student.getStudentNum()).getId())
+                        .setKlassId(id)
+                        .setCourseId(courseId));
+            }
+        }
+        return count == students.size();
+    }
 }
