@@ -587,7 +587,7 @@ TODO：可删除
             for (Student student : students) {
                 log.info(student.toString());
             }
-            klassService.resetStudentList(klass.getId(), students);
+            klassService.setStudentList(klass.getId(), students);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
