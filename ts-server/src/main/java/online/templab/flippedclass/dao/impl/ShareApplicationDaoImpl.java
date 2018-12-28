@@ -31,8 +31,7 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
 
     @Autowired
     TeamMapper teamMapper;
-
-
+    
     @Autowired
     KlassTeamMapper klassTeamMapper;
 
@@ -47,6 +46,9 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
 
     @Autowired
     KlassRoundMapper klassRoundMapper;
+
+    @Autowired
+    TeacherMapper teacherMapper;
 
     @Override
     public Boolean insertShareTeamApplication(ShareTeamApplication shareTeamApplication) {
@@ -234,12 +236,20 @@ public class ShareApplicationDaoImpl implements ShareApplicationDao {
     @Override
     public List<Course> selectShareTeamSubCourse(Long id) {
         List<Course> courseList = courseMapper.select(new Course().setTeamMainCourseId(id));
+        for(int i=0;i<courseList.size();i++){
+            Course course=courseList.get(i);
+            courseList.set(i,course.setTeacher(teacherMapper.selectByPrimaryKey(course.getTeacherId())));
+        }
         return courseList;
     }
 
     @Override
     public List<Course> selectShareSeminarSubCourse(Long id) {
         List<Course> courseList = courseMapper.select(new Course().setSeminarMainCourseId(id));
+        for(int i=0;i<courseList.size();i++){
+            Course course=courseList.get(i);
+            courseList.set(i,course.setTeacher(teacherMapper.selectByPrimaryKey(course.getTeacherId())));
+        }
         return courseList;
     }
 

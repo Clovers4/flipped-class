@@ -80,7 +80,7 @@
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-team-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-team-share" data-subCourseId="${teamCourse.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${seminarCourse.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
@@ -155,7 +155,7 @@
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-team-share" data-subCourseId="${teamCourse.id}" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-team-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
@@ -190,7 +190,7 @@
                     </div>
                     <div class="operation-div" style="display: none">
                         <div class="col-md-10 ml-auto mr-auto" style="margin-top: 20px;padding: 0;">
-                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${seminarCourse.id}" style="margin: 0;width: 100%;">
+                            <button class="btn bg-red cancel-seminar-share" data-subCourseId="${course.id}" style="margin: 0;width: 100%;">
                                 <i class="material-icons">close</i>
                                 取消共享
                             </button>
