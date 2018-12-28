@@ -162,7 +162,7 @@
                                                     提交报告
                                                 </a>
                                             </li>
-                                            <li class="nav-item processing">
+                                            <li class="nav-item progressing">
                                                 <a class="nav-link">
                                                     <i class="material-icons">arrow_forward</i>
                                                     进入讨论
