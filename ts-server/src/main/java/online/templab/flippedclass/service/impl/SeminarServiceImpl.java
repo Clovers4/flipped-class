@@ -136,7 +136,7 @@ public class SeminarServiceImpl implements SeminarService {
         }
         log.info("排序的且添加null的attendanceList：{}",resultAttendanceList.toString());
 
-        return attendanceList;
+        return resultAttendanceList;
     }
 
     @Override
