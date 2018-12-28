@@ -110,6 +110,16 @@ public interface SeminarService {
      * @param klassSeminarId
      * @return
      */
+    List<Attendance> getEnrollListWithNullByKlassSeminarId(Long klassSeminarId);
+
+
+    /**
+     * 获得某个 klassSeminar 下的注册展示
+     * Attention 需要包括 team ,team 需要包括 teamName
+     *
+     * @param klassSeminarId
+     * @return
+     */
     List<Attendance> getEnrollListByKlassSeminarId(Long klassSeminarId);
 
     /**

@@ -107,7 +107,7 @@ public class SeminarServiceImpl implements SeminarService {
     }
 
     @Override
-    public List<Attendance> getEnrollListByKlassSeminarId(Long klassSeminarId) {
+    public List<Attendance> getEnrollListWithNullByKlassSeminarId(Long klassSeminarId) {
         List<Attendance> attendanceList = attendanceDao.selectByKlassSeminarId(klassSeminarId);
         Long seminarId = klassSeminarDao.selectByPrimaryKey(klassSeminarId).getSeminarId();
         Seminar seminar = seminarDao.selectByPrimaryKey(seminarId);
@@ -138,6 +138,22 @@ public class SeminarServiceImpl implements SeminarService {
         log.info("排序的且添加null的attendanceList：{}", resultAttendanceList.toString());
 
         return resultAttendanceList;
+    }
+
+    @Override
+    public List<Attendance> getEnrollListByKlassSeminarId(Long klassSeminarId) {
+        List<Attendance> attendanceList = attendanceDao.selectByKlassSeminarId(klassSeminarId);
+        Long seminarId = klassSeminarDao.selectByPrimaryKey(klassSeminarId).getSeminarId();
+        Seminar seminar = seminarDao.selectByPrimaryKey(seminarId);
+
+        Collections.sort(attendanceList, new Comparator<Attendance>() {
+            @Override
+            public int compare(Attendance o1, Attendance o2) {
+                return o1.getSn() - o2.getSn();
+            }
+        });
+
+        return attendanceList;
     }
 
     @Override
