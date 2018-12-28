@@ -1,5 +1,7 @@
 package online.templab.flippedclass.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.common.excel.ExcelService;
@@ -23,10 +25,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import net.sf.json.JSONArray;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -69,6 +74,9 @@ public class TeacherController {
 
     @Autowired
     private ScoreService scoreService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private FileService fileService;
@@ -197,7 +205,7 @@ public class TeacherController {
                 }
             case 2:
                 if (teamService.processTeamValidApplication(applicationHandleDTO.getAppId(),
-                        applicationHandleDTO.getTeamId(),applicationHandleDTO.getOperationType()==1)) {
+                        applicationHandleDTO.getTeamId(), applicationHandleDTO.getOperationType() == 1)) {
                     return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
@@ -221,13 +229,73 @@ public class TeacherController {
         return "teacher/course/info";
     }
 
+    /// TODO 陈旭辉组
+    /*@PostMapping("/course")
+    @ResponseBody
+    public ResponseEntity<String> courseCreate(HttpServletRequest request, Model model, HttpSession session) throws IOException {
+        // TODO:下面的BIgInteger都用LOng代替了，不知道有没有问题，若没有问题删掉该TODO
+        Long teacherId = (Long) session.getAttribute(TEACHER_ID_GIST);
+        log.info("courseName : {}", request.getParameter("courseName"));
 
+        Course course = new Course()
+                .setCourseName(request.getParameter("courseName"))
+                .setIntroduction(request.getParameter("introduction"))
+                .setPrePercentage(Integer.valueOf(request.getParameter("presentationPercentage")))
+                .setQuesPercentage(Integer.valueOf(request.getParameter("questionPercentage")))
+                .setReportPercentage(Integer.valueOf(request.getParameter("reportPercentage")));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            course.setTeamStartDate(sdf.parse(request.getParameter("teamStartTime")))
+                    .setTeamEndDate(sdf.parse(request.getParameter("teamEndTime")));
+        } catch (Exception e) {
+            log.warn("时间格式出错！");
+        }
+
+        MemberLimitStrategy thisCourse = new MemberLimitStrategy()
+                .setMin(Integer.valueOf(request.getParameter("minTeamMember")))
+                .setMax(Integer.valueOf(request.getParameter("maxTeamMember")));
+
+
+        List<CourseMemberLimitStrategy> courseMemberLimitStrategyList = new ArrayList<>();
+        String members = request.getParameter("members");
+        JSONArray myArray = JSONArray.fromObject(members);
+        for (int i = 0; i < myArray.size(); i++) {
+            JSONArray secondArray = (JSONArray) myArray.get(i);
+            Long cid = (Long) secondArray.get(0);
+            CourseMemberLimitStrategy optionCourse = new CourseMemberLimitStrategy()
+                    .setCourseId(cid)
+                    .setMax(Integer.valueOf((String) secondArray.get(1)))
+                    .setMin(Integer.valueOf((String) secondArray.get(2)));
+            courseMemberLimitStrategyList.add(optionCourse);
+        }
+        List<ConflictCourseStrategy> conflictCourseStrategyArrayList = new ArrayList<>();
+        String conflicts = request.getParameter("conflicts");
+        JSONArray conflictsArray = JSONArray.fromObject(conflicts);
+        for (int i = 0; i < conflictsArray.size(); i++) {
+            JSONArray secondArray = (JSONArray) conflictsArray.get(i);
+            ConflictCourseStrategy conflictCourse = new ConflictCourseStrategy();
+            List<Long> courseIdList = new ArrayList<>();
+            for (int j = 0; j < secondArray.size(); j++) {
+                courseIdList.add((Long) secondArray.get(j));
+            }
+            conflictCourse.setConflictCourseIdList(courseIdList);
+            conflictCourseStrategyArrayList.add(conflictCourse);
+        }
+        Integer choose = Integer.valueOf(request.getParameter("choose"));
+        courseService.insertCourse(course, teacherId, conflictCourseStrategyArrayList, courseMemberLimitStrategyList, thisCourse, choose);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }*/
+
+
+    // TODO: 这里将courses修改成了courseList，确认可以接上cxh组的代码之后可以删掉TODO以及后面的courseCreate
     @GetMapping("/course/create")
     public String courseCreate(Model model) {
-        model.addAttribute("courses", courseService.listAllCourse());
+        model.addAttribute("courseList", courseService.listAllCourse());
         return "teacher/course/create";
     }
-
+/*
+TODO：可删除
     @PutMapping("/course")
     public @ResponseBody
     ResponseEntity<Object> courseCreate(@RequestBody CourseCreateDTO courseCreateDTO, HttpSession session) {
@@ -236,6 +304,7 @@ public class TeacherController {
         courseService.insert(course);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+*/
 
     @DeleteMapping("/course/{courseId}")
     public ResponseEntity<Object> deleteCourse(@PathVariable Long courseId) {
