@@ -15,6 +15,7 @@ $(function () {
     teamName = $("#teamName");
     teamOperation = $("#teamOperation");
     onAsk = $("#onAsk");
+    onAsk.hide();
 
     tabContent = $("#tabContent");
     curActive = curOnfocus = $(".active-team");
