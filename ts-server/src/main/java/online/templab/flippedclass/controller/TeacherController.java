@@ -402,6 +402,7 @@ TODO：可删除
     @PostMapping("/course/seminar/info")
     public String seminarInfo(Long klassId, Long seminarId, Long ksId, Model model) {
         KlassSeminar klassSeminar;
+        System.out.println("ksid:"+ksId);
         if (ksId != null) {
             klassSeminar = seminarService.getKlassSeminarById(ksId);
         } else {

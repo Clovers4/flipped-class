@@ -142,7 +142,9 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public KlassSeminar getKlassSeminarById(Long klassSeminarId) {
-        return klassSeminarDao.selectByPrimaryKey(klassSeminarId);
+        KlassSeminar klassSeminar = klassSeminarDao.selectByPrimaryKey(klassSeminarId);
+        klassSeminar.setSeminar(seminarDao.selectByPrimaryKey(klassSeminar.getSeminarId()));
+        return klassSeminar;
     }
 
     @Override
