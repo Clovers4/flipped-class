@@ -150,6 +150,8 @@ public class RoundScoreDaoImpl implements RoundScoreDao {
                         }
                     }
                 }
+                System.out.println(enrollNumber);
+                System.out.println(sumScore);
                 questionScore = sumScore.divide(new BigDecimal(enrollNumber));
             }
             //计算总分

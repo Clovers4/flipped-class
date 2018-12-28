@@ -25,4 +25,11 @@
     where course_id = #{courseId}
   </select>
 
+  <select id="selectRoundIdByKlassSeminarId" resultMap="BaseResultMap">
+    select round_id
+    from seminar
+    left join klass_seminar on seminar.id = klass_seminar.seminar_id
+    where klass_seminar.id = #{klassSeminarId}
+  </select>
+
 </mapper>

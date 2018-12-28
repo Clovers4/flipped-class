@@ -1,12 +1,10 @@
 package online.templab.flippedclass.service.impl;
 
+import online.templab.flippedclass.dao.RoundDao;
 import online.templab.flippedclass.dao.RoundScoreDao;
 import online.templab.flippedclass.dao.KlassSeminarDao;
 import online.templab.flippedclass.dao.ScoreDao;
-import online.templab.flippedclass.entity.Round;
-import online.templab.flippedclass.entity.RoundScore;
-import online.templab.flippedclass.entity.SeminarScore;
-import online.templab.flippedclass.entity.Team;
+import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +28,9 @@ public class ScoreServiceImpl implements ScoreService {
     @Autowired
     KlassSeminarDao klassSeminarDao;
 
+    @Autowired
+    RoundDao roundDao;
+
     @Override
     public Boolean updateRoundScore(Long roundId, Long klassId) {
         return roundScoreDao.updateByRoundIdKlassId(roundId, klassId);
@@ -47,7 +48,10 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Boolean markerScore(SeminarScore seminarScore) {
-        return scoreDao.insert(seminarScore);
+        Boolean success = scoreDao.insert(seminarScore);
+        KlassSeminar klassSeminar = klassSeminarDao.selectByPrimaryKey(seminarScore.getKlassSeminarId());
+        roundScoreDao.updateByRoundIdKlassId(roundDao.getRoundIdByKlassSeminarId(seminarScore.getKlassSeminarId()),klassSeminar.getKlassId());
+        return success;
     }
 
     @Override

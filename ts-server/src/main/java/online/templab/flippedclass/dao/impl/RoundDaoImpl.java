@@ -5,10 +5,7 @@ import online.templab.flippedclass.entity.Course;
 import online.templab.flippedclass.entity.Klass;
 import online.templab.flippedclass.entity.KlassRound;
 import online.templab.flippedclass.entity.Round;
-import online.templab.flippedclass.mapper.CourseMapper;
-import online.templab.flippedclass.mapper.KlassMapper;
-import online.templab.flippedclass.mapper.KlassRoundMapper;
-import online.templab.flippedclass.mapper.RoundMapper;
+import online.templab.flippedclass.mapper.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,6 +34,9 @@ public class RoundDaoImpl implements RoundDao {
 
     @Autowired
     KlassMapper klassMapper;
+
+    @Autowired
+    SeminarMapper seminarMapper;
 
     @Override
     public int insert(Round round) {
@@ -161,6 +161,11 @@ public class RoundDaoImpl implements RoundDao {
     @Override
     public KlassRound getKlassRound(Long klassId, Long roundId) {
         return klassRoundMapper.selectByPrimaryKey(new KlassRound().setKlassId(klassId).setRoundId(roundId));
+    }
+
+    @Override
+    public Long getRoundIdByKlassSeminarId(Long klassSeminarId) {
+        return seminarMapper.selectRoundIdByKlassSeminarId(klassSeminarId).getRoundId();
     }
 
 
