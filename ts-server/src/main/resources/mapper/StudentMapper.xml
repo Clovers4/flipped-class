@@ -64,7 +64,7 @@
               and student.id not in (select team_student.student_id
                                      from team_student
                                          left join klass_team on team_student.team_id = klass_team.team_id
-                                                                 and klass_team.klass_id in (select klass_id
+                                                                  WHERE klass_team.klass_id in (select klass_id
                                                                                              from klass_student
                                                                                              where course_id =
                                                                                                    #{courseId}))

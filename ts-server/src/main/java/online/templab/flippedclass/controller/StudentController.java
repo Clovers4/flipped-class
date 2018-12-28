@@ -277,6 +277,7 @@ public class StudentController {
         model.addAttribute("myTeam", teamService.get(courseId, ((Long) session.getAttribute("studentId"))));
         model.addAttribute("teams", teamService.listByCourseId(courseId));
         model.addAttribute("students", teamService.listUnTeamedStudentByCourseId(courseId));
+        System.out.println(teamService.listUnTeamedStudentByCourseId(courseId));
         return "student/course/teamList";
     }
 
