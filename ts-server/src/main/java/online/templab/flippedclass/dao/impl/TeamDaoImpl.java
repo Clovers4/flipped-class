@@ -482,8 +482,8 @@ public class TeamDaoImpl implements TeamDao {
     public Boolean insertTeamValidApplication(TeamValidApplication teamValidApplication) {
         //设置队伍状态为审核中
         Team team = teamMapper.selectByPrimaryKey(teamValidApplication.getTeamId());
-        team = selectTeam(team.getCourseId(), team.getCourseId());
-        if (team.getStudents().size() >= 5) {
+        team = selectTeam(team.getCourseId(), team.getLeaderId());
+        if (team.getStudents().size() > 5) {
             teamMapper.updateByPrimaryKeySelective(new Team().setId(teamValidApplication.getTeamId()).setStatus(0));
             return true;
         }
