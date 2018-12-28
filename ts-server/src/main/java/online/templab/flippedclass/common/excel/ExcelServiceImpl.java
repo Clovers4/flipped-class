@@ -18,6 +18,31 @@ import java.util.List;
 @Service
 public class ExcelServiceImpl implements ExcelService {
 
+    /**
+     * 去掉全角空格、半角空格
+     *
+     * @param s
+     * @return
+     */
+    private String trimBlank(String s) {
+        String textContent = s.trim();
+        String a = "　";
+        while (textContent.startsWith(a)) {
+            textContent = textContent.substring(1, textContent.length()).trim();
+        }
+        while (textContent.endsWith(a)) {
+            textContent = textContent.substring(0, textContent.length() - 1).trim();
+        }
+        String b = " ";
+        while (textContent.startsWith(b)) {
+            textContent = textContent.substring(1, textContent.length()).trim();
+        }
+        while (textContent.endsWith(b)) {
+            textContent = textContent.substring(0, textContent.length() - 1).trim();
+        }
+        return textContent;
+    }
+
     @Override
     public List<Student> loadStudentList(MultipartFile file) {
         List<Student> students = new ArrayList<>();
@@ -29,12 +54,12 @@ public class ExcelServiceImpl implements ExcelService {
             // 从第三行开始是数据
             for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) {
                 Row row = sheet.getRow(i);
-                String account = row.getCell(0).getStringCellValue().trim();
-                String name = row.getCell(1).getStringCellValue().trim();
+                String account = row.getCell(0).getStringCellValue();
+                String name = row.getCell(1).getStringCellValue();
 
                 Student record = new Student()
-                        .setStudentNum(account)
-                        .setStudentName(name);
+                        .setStudentNum(trimBlank(account))
+                        .setStudentName(trimBlank(name));
                 students.add(record);
             }
         } catch (IOException e) {
