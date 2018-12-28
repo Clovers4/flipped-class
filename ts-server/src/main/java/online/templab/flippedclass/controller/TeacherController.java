@@ -230,7 +230,7 @@ public class TeacherController {
     }
 
     /// TODO 陈旭辉组
-    /*@PostMapping("/course")
+    @PostMapping("/course")
     @ResponseBody
     public ResponseEntity<String> courseCreate(HttpServletRequest request, Model model, HttpSession session) throws IOException {
         // TODO:下面的BIgInteger都用LOng代替了，不知道有没有问题，若没有问题删掉该TODO
@@ -252,12 +252,12 @@ public class TeacherController {
             log.warn("时间格式出错！");
         }
 
-        MemberLimitStrategy thisCourse = new MemberLimitStrategy()
+        MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy()
                 .setMin(Integer.valueOf(request.getParameter("minTeamMember")))
                 .setMax(Integer.valueOf(request.getParameter("maxTeamMember")));
 
 
-        List<CourseMemberLimitStrategy> courseMemberLimitStrategyList = new ArrayList<>();
+        List<CourseMemberLimitStrategy> courseMemberLimitStrategyList = new LinkedList<>();
         String members = request.getParameter("members");
         JSONArray myArray = JSONArray.fromObject(members);
         for (int i = 0; i < myArray.size(); i++) {
@@ -269,23 +269,107 @@ public class TeacherController {
                     .setMin(Integer.valueOf((String) secondArray.get(2)));
             courseMemberLimitStrategyList.add(optionCourse);
         }
+//        List<ConflictCourseStrategy> conflictCourseStrategyArrayList = new ArrayList<>();
+//        String conflicts = request.getParameter("conflicts");
+//        JSONArray conflictsArray = JSONArray.fromObject(conflicts);
+//        for (int i = 0; i < conflictsArray.size(); i++) {
+//            JSONArray secondArray = (JSONArray) conflictsArray.get(i);
+//            ConflictCourseStrategy conflictCourse = new ConflictCourseStrategy();
+//            List<Long> courseIdList = new ArrayList<>();
+//            for (int j = 0; j < secondArray.size(); j++) {
+//                courseIdList.add((Long) secondArray.get(j));
+//            }
+//            conflictCourse.setConflictCourseIdList(courseIdList);
+//            conflictCourseStrategyArrayList.add(conflictCourse);
+//        }
+
+        //这个choose
+        Integer choose = Integer.valueOf(request.getParameter("choose"));
+
+        course.setTeacherId(teacherId);
+        courseService.insert(course);
+        //courseService.insertCourse(course, teacherId, conflictCourseStrategyArrayList, courseMemberLimitStrategyList, thisCourse, choose);
+
+        Long courseId = course.getId();
+        List<TeamStrategy> teamStrategyList = new LinkedList<>();
+
+        //组装 MemberLimitStrategy
+        List<CourseStrategy> courseStrategyList = new LinkedList<>();
+        courseStrategyList.add(memberLimitStrategy);
+        TeamStrategy teamStrategy = new TeamStrategy()
+                .setCourseId(courseId)
+                .setStrategyName("MemberLimitStrategy");
+        teamStrategy.setCourseStrategyList(courseStrategyList);
+        teamStrategyList.add(teamStrategy);
+
+        //组装 CourseMemberLimitStrategyList
+        courseStrategyList = new LinkedList<>();
+        if(choose == 1){
+            TeamOrStrategy teamOrStrategy = new TeamOrStrategy()
+                    .setStrategyName("CourseMemberLimitStrategyList");
+            for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
+                courseStrategyList.add(courseMemberLimitStrategyList.get(i));
+            }
+            teamOrStrategy.setCourseStrategyList(courseStrategyList);
+            courseStrategyList = new LinkedList<>();
+            courseStrategyList.add(teamOrStrategy);
+            teamStrategy.setCourseStrategyList(courseStrategyList);
+            teamStrategy = new TeamStrategy()
+                    .setCourseId(courseId)
+                    .setStrategyName("TeamOrStrategyList");
+            teamStrategyList.add(teamStrategy);
+        }
+        else{
+            TeamAndStrategy teamAndStrategy = new TeamAndStrategy()
+                    .setStrategyName("CourseMemberLimitStrategyList");
+            for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
+                courseStrategyList.add(courseMemberLimitStrategyList.get(i));
+            }
+            teamAndStrategy.setCourseStrategyList(courseStrategyList);
+            courseStrategyList = new LinkedList<>();
+            courseStrategyList.add(teamAndStrategy);
+            teamStrategy.setCourseStrategyList(courseStrategyList);
+            teamStrategy = new TeamStrategy()
+                    .setCourseId(courseId)
+                    .setStrategyName("TeamAndStrategyList");
+            teamStrategyList.add(teamStrategy);
+        }
+//        for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
+//            courseStrategyList.add(courseMemberLimitStrategyList.get(i));
+//        }
+//        teamStrategy.setCourseStrategyList(courseStrategyList);
+//        teamStrategyList.add(teamStrategy);
+
+        //组装 ConflictCourseStrategy
         List<ConflictCourseStrategy> conflictCourseStrategyArrayList = new ArrayList<>();
         String conflicts = request.getParameter("conflicts");
         JSONArray conflictsArray = JSONArray.fromObject(conflicts);
         for (int i = 0; i < conflictsArray.size(); i++) {
             JSONArray secondArray = (JSONArray) conflictsArray.get(i);
-            ConflictCourseStrategy conflictCourse = new ConflictCourseStrategy();
-            List<Long> courseIdList = new ArrayList<>();
+            teamStrategy = new TeamStrategy()
+                    .setCourseId(courseId)
+                    .setStrategyName("ConflictCourseStrategy");
+            courseStrategyList = new LinkedList<>();
+
             for (int j = 0; j < secondArray.size(); j++) {
-                courseIdList.add((Long) secondArray.get(j));
+                ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy()
+                        .setCourseId((long)secondArray.get(j));
+                courseStrategyList.add(conflictCourseStrategy);
+                //courseIdList.add((Long) secondArray.get(j));
             }
-            conflictCourse.setConflictCourseIdList(courseIdList);
-            conflictCourseStrategyArrayList.add(conflictCourse);
+            teamStrategy.setCourseStrategyList(courseStrategyList);
+            teamStrategyList.add(teamStrategy);
+//            conflictCourse.setConflictCourseIdList(courseIdList);
+//            conflictCourseStrategyArrayList.add(conflictCourse);
         }
-        Integer choose = Integer.valueOf(request.getParameter("choose"));
-        courseService.insertCourse(course, teacherId, conflictCourseStrategyArrayList, courseMemberLimitStrategyList, thisCourse, choose);
+
+        System.out.println(courseStrategyList);
+        teamService.insertTeamStratgyList(teamStrategyList);
+
+
+
         return new ResponseEntity<>("", HttpStatus.OK);
-    }*/
+    }
 
 
     // TODO: 这里将courses修改成了courseList，确认可以接上cxh组的代码之后可以删掉TODO以及后面的courseCreate
