@@ -22,5 +22,6 @@ public interface TeamOrStrategyMapper extends Mapper<TeamOrStrategy> {
      *
      * @return
      */
+    @Options(useGeneratedKeys=true, keyProperty = "id", keyColumn = "id")
     Integer myInsert(TeamOrStrategy teamOrStrategy);
 }
