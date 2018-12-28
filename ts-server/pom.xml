@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>flipped-class</name>
+    <name>flipped-class-ts-server</name>
     <description>flipped class management system,ts-server</description>
 
     <parent>

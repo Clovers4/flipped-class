@@ -6,13 +6,13 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <link rel="apple-touch-icon" sizes="76x76" href="/static/imgs/apple-icon.png">
     <link rel="icon" type="image/png" href="/static/imgs/favicon.png">
-    <link rel="stylesheet" href="/static/css/material-kit.css?v=2.0.4">
+    <link rel="stylesheet" href="http://cdn.staticfile.org/material-kit/2.0.4/css/material-kit.min.css">
     <link rel="stylesheet" href="/static/css/user.css">
     <link rel="stylesheet" href="/static/css/icon.css">
     <link rel="stylesheet" href="/static/css/countup.css">
     <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.js"></script>
     <script src="/static/lib/stomp.js"></script>
-    <script src="/static/lib/jquery-3.3.1.js"></script>
+    <script src="http://cdn.staticfile.org/jquery/3.3.1/jquery.js"></script>
     <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/seminar/progressing.js"></script>
