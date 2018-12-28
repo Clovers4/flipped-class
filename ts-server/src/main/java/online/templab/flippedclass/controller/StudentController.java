@@ -3,6 +3,7 @@ package online.templab.flippedclass.controller;
 import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.common.multipart.FileService;
+import online.templab.flippedclass.common.websocket.WebSocketService;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,9 @@ public class StudentController {
 
     @Autowired
     private ScoreService scoreService;
+
+    @Autowired
+    private WebSocketService webSocketService;
 
     private final static String STUDENT_ID_GIST = "studentId";
 
@@ -195,6 +199,7 @@ public class StudentController {
         Long studentId = (Long) session.getAttribute("studentId");
         Attendance attendance = seminarService.getAttendanceByPrimaryKey(attendanceId);
         seminarService.deleteEnroll(attendance.getKlassSeminarId(), studentId);
+        webSocketService.resetMonitor(attendance.getKlassSeminarId());
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -220,6 +225,7 @@ public class StudentController {
     public ResponseEntity<Object> seminarEnroll(Long ksId, Long teamId, Integer sn) {
         log.info("报名讨论课 ksid:{},teamid:{},sn:{}", ksId, teamId, sn);
         if (seminarService.enRoll(new Attendance().setKlassSeminarId(ksId).setTeamId(teamId).setSn(sn))) {
+            webSocketService.resetMonitor(ksId);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -228,16 +234,16 @@ public class StudentController {
 
     @PostMapping("/course/seminar/report")
     public String seminarReport(Long klassId, Long seminarId, Model model, HttpSession session) {
-        System.out.println("klassId:"+klassId+" seminarId:"+seminarId);
+        System.out.println("klassId:" + klassId + " seminarId:" + seminarId);
         Klass klass = klassService.get(klassId);
-        System.out.println("kalss:"+klass.toString());
+        System.out.println("kalss:" + klass.toString());
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
-        System.out.println("klassSeminar:"+klassSeminar.toString());
+        System.out.println("klassSeminar:" + klassSeminar.toString());
         Team team = teamService.get(klass.getCourseId(), ((Long) session.getAttribute("studentId")));
-        System.out.println("team:"+team.toString());
+        System.out.println("team:" + team.toString());
         Attendance attendance;
         if (team != null) {
-            System.out.println(team.getId()+","+klassSeminar.getId());
+            System.out.println(team.getId() + "," + klassSeminar.getId());
             attendance = seminarService.getByTeamIdKlassSeminarId(team.getId(), klassSeminar.getId());
         } else {
             attendance = null;

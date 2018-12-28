@@ -57,6 +57,15 @@ public class WebSocketService {
         return seminarMonitor;
     }
 
+    /**
+     * 清空一次monitor
+     *
+     * @param klassSeminarId
+     */
+    public void resetMonitor(Long klassSeminarId) {
+        SEMINAR_MONITOR_MAP.remove(klassSeminarId);
+    }
+
     public Long getOnPreAttendanceId(Long klassSeminarId) {
         return getMonitor(klassSeminarId).getOnPreAttendance().getId();
     }
