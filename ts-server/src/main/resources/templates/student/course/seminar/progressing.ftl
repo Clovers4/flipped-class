@@ -128,7 +128,7 @@
                     <h3 style="text-align: center;margin-top: 10px;color: #FFFFFF;">${team.teamName}</h3>
                 </div>
             </div>
-            <div class="row" id="onAsk" style="visibility: hidden">
+            <div class="row" id="onAsk">
                 <div class="col-6 col-md-4 ml-auto mr-auto team-brand" style="background-color: #e91e63;">
                     <h4 style="text-align: center;margin-top: 10px;color: #FFFFFF;">您的提问时间</h4>
                 </div>
