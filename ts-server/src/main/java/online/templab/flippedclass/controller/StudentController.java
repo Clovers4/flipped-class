@@ -244,6 +244,15 @@ public class StudentController {
     public String teamList(Long courseId, Model model, HttpSession session) {
         Course course = courseService.get(courseId);
         Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
+
+        List<Team> teamList = teamService.listByCourseId(courseId);
+        for(Team team : teamList){
+            System.out.println(team);
+        }
+
+        System.out.println(courseId+" , "+((Long) session.getAttribute("studentId")));
+        System.out.println(teamService.get(courseId, ((Long) session.getAttribute("studentId"))));
+
         model.addAttribute("course", course);
         model.addAttribute("permitCreate", mPermitCreate);
         model.addAttribute("myTeam", teamService.get(courseId, ((Long) session.getAttribute("studentId"))));
@@ -261,13 +270,9 @@ public class StudentController {
 
     @PutMapping("/course/team")
     public ResponseEntity<Object> createTeam(@RequestBody Team team) {
-        List<String> studentNumList = new ArrayList<>();
-        for (Student student : team.getStudents()) {
-            studentNumList.add(student.getStudentNum());
-        }
         try {
-            teamService.create(team.getLeaderId(),
-                    team.getKlassId(), team.getTeamName(), studentNumList);
+            System.out.println(team);
+            teamService.create(team);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } catch (Exception exception) {
             exception.printStackTrace();

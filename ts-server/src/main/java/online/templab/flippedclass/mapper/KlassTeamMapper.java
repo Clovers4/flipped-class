@@ -22,4 +22,12 @@ public interface KlassTeamMapper extends Mapper<KlassTeam> {
      */
     KlassTeam selectByKlassIdAndStudentId(@Param("klassId") Long klassId, @Param("studentId") Long studentId);
 
+    /**
+     * 根据 courseId 和 studentId 获取teamId
+     *
+     * @param courseId
+     * @param studentId
+     * @return
+     */
+    KlassTeam selectByCourseIdAndStudentId(@Param("courseId") Long courseId, @Param("studentId") Long studentId);
 }
