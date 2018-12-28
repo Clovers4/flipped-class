@@ -505,7 +505,7 @@ TODO：可删除
 
     @PostMapping("/course/seminar/grade")
     public String seminarGrade(Long klassSeminarId, Model model) {
-        List<Attendance> attendances = seminarService.getEnrollListWithNullByKlassSeminarId(klassSeminarId);
+        List<Attendance> attendances = seminarService.getEnrollListByKlassSeminarId(klassSeminarId);
         Map<String, SeminarScore> seminarScoreMap = new HashMap<>(attendances.size());
         attendances.forEach(attendance -> {
             seminarScoreMap.put(String.valueOf(attendance.getId()), scoreService.getSeminarScore(klassSeminarId, attendance.getTeamId()));
