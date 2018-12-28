@@ -1,5 +1,6 @@
 package online.templab.flippedclass.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
 import online.templab.flippedclass.common.multipart.FileService;
 import online.templab.flippedclass.entity.*;
@@ -24,6 +25,7 @@ import java.util.*;
 /**
  * @author wk
  */
+@Slf4j
 @Controller
 @RequestMapping("/student")
 public class StudentController {
@@ -213,6 +215,7 @@ public class StudentController {
 
     @PostMapping("/course/seminar/enroll")
     public ResponseEntity<Object> seminarEnroll(Long ksId, Long teamId, Integer sn) {
+        log.info("报名讨论课 ksid:{},teamid:{},sn:{}",ksId,teamId,sn);
         if (seminarService.enRoll(new Attendance().setKlassSeminarId(ksId).setTeamId(teamId).setSn(sn))) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {

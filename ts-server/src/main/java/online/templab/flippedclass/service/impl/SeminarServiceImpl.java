@@ -1,5 +1,6 @@
 package online.templab.flippedclass.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.dao.AttendanceDao;
 import online.templab.flippedclass.dao.KlassSeminarDao;
 import online.templab.flippedclass.dao.RoundDao;
@@ -9,12 +10,16 @@ import online.templab.flippedclass.service.SeminarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * @author fj
  * @author jh
  */
+@Slf4j
 @Service
 public class SeminarServiceImpl implements SeminarService {
 
@@ -103,7 +108,35 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public List<Attendance> getEnrollListByKlassSeminarId(Long klassSeminarId) {
-        return attendanceDao.selectByKlassSeminarId(klassSeminarId);
+        List<Attendance> attendanceList = attendanceDao.selectByKlassSeminarId(klassSeminarId);
+        Long seminarId = klassSeminarDao.selectByPrimaryKey(klassSeminarId).getSeminarId();
+        Seminar seminar = seminarDao.selectByPrimaryKey(seminarId);
+
+        Collections.sort(attendanceList, new Comparator<Attendance>() {
+            @Override
+            public int compare(Attendance o1, Attendance o2) {
+                return o1.getSn()-o2.getSn();
+            }
+        });
+
+        List<Attendance> resultAttendanceList = new ArrayList<>();
+        int flag = 0;
+        for(int i=1;i<=seminar.getMaxTeam();i++){
+           for(Attendance attendance:attendanceList){
+               if(attendance.getSn() ==(i)){
+                   resultAttendanceList.add(attendance);
+                   flag=1;
+                   break;
+               }
+           }
+           if(flag==0){
+               resultAttendanceList.add(null);
+           }
+           flag=0;
+        }
+        log.info("排序的且添加null的attendanceList：{}",resultAttendanceList.toString());
+
+        return attendanceList;
     }
 
     @Override
