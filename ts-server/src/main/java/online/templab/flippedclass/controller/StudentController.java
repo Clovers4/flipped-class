@@ -229,11 +229,16 @@ public class StudentController {
 
     @PostMapping("/course/seminar/report")
     public String seminarReport(Long klassId, Long seminarId, Model model, HttpSession session) {
+        System.out.println("klassId:"+klassId+" seminarId:"+seminarId);
         Klass klass = klassService.get(klassId);
+        System.out.println("kalss:"+klass.toString());
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
+        System.out.println("klassSeminar:"+klassSeminar.toString());
         Team team = teamService.get(klass.getCourseId(), ((Long) session.getAttribute("studentId")));
+        System.out.println("team:"+team.toString());
         Attendance attendance;
         if (team != null) {
+            System.out.println(team.getId()+","+klassSeminar.getId());
             attendance = seminarService.getByTeamIdKlassSeminarId(team.getId(), klassSeminar.getId());
         } else {
             attendance = null;
