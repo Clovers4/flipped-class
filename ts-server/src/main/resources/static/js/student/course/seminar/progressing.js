@@ -131,13 +131,13 @@ function handlePullQuestionResponse(content) {
     console.log(content.studentNum);
     console.log(studentNum);
     if (content.studentNum === studentNum) {
-        onAsk.addClass("holder-visible");
+        onAsk.show();
     }
 }
 
 function handleEndQuestionResponse(content) {
     pauseAt(preTimeStamp);
-    onAsk.removeClass("holder-visible");
+    onAsk.hide();
     changeActive(teams.eq(curAttendanceIdx));
 }
 function handleScoreResponse(content) {
