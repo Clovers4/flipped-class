@@ -258,7 +258,7 @@ public class TeacherController {
         for (int i = 0; i < myArray.size(); i++) {
             JSONArray secondArray = (JSONArray) myArray.get(i);
             //Long cid = (Long) secondArray.get(0);
-            Long cid = Long.valueOf((String)secondArray.get(0)) ;
+            Long cid = Long.valueOf((String) secondArray.get(0));
             CourseMemberLimitStrategy optionCourse = new CourseMemberLimitStrategy()
                     .setCourseId(cid)
                     .setMax(Integer.valueOf((String) secondArray.get(1)))
@@ -303,10 +303,10 @@ public class TeacherController {
         //组装 CourseMemberLimitStrategyList
         List<CourseStrategy> courseStrategyListResutlt = new LinkedList<>();
         courseStrategyList = new LinkedList<>();
-        if(choose == 1){
-            for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
+        if (choose == 1) {
+            for (int i = 0; i < courseMemberLimitStrategyList.size(); ++i) {
                 courseStrategyList.add(courseMemberLimitStrategyList.get(i));
-                TeamOrStrategy teamOrStrategy = new TeamOrStrategy() .setStrategyName("CourseMemberLimitStrategy");
+                TeamOrStrategy teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy");
                 teamOrStrategy.setCourseStrategyList(courseStrategyList);
                 courseStrategyList = new LinkedList<>();
                 courseStrategyListResutlt.add(teamOrStrategy);
@@ -318,10 +318,9 @@ public class TeacherController {
             teamStrategy.setCourseStrategyList(courseStrategyListResutlt);
             System.out.println(teamStrategy);
             teamStrategyList.add(teamStrategy);
-        }
-        else{
+        } else {
 
-            for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i) {
+            for (int i = 0; i < courseMemberLimitStrategyList.size(); ++i) {
                 courseStrategyList.add(courseMemberLimitStrategyList.get(i));
                 TeamAndStrategy teamAndStrategy = new TeamAndStrategy()
                         .setStrategyName("CourseMemberLimitStrategy");
@@ -356,7 +355,7 @@ public class TeacherController {
 
             for (int j = 0; j < secondArray.size(); j++) {
                 ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy()
-                        .setCourseId(Long.valueOf((String)secondArray.get(j)));
+                        .setCourseId(Long.valueOf((String) secondArray.get(j)));
                 courseStrategyList.add(conflictCourseStrategy);
                 //courseIdList.add((Long) secondArray.get(j));
             }
@@ -369,7 +368,6 @@ public class TeacherController {
 
         System.out.println(courseStrategyList);
         teamService.insertTeamStratgyList(teamStrategyList);
-
 
 
         return new ResponseEntity<>("", HttpStatus.OK);
@@ -435,13 +433,15 @@ TODO：可删除
         if (!roundService.update(round)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("更新轮次分数计算失败");
         }
-        for (KlassRound klassRound : klassRounds) {
-            roundService.updateKlassRound(klassRound);
-        }
 
+        if (klassRounds != null) {
+            for (KlassRound klassRound : klassRounds) {
+                roundService.updateKlassRound(klassRound);
+                roundService.updateKlassRound(klassRound);
+            }
+        }
         roundService.update(round);
 
-        klassRounds.forEach(roundService::updateKlassRound);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
@@ -490,7 +490,7 @@ TODO：可删除
     @PostMapping("/course/seminar/info")
     public String seminarInfo(Long klassId, Long seminarId, Long ksId, Model model) {
         KlassSeminar klassSeminar;
-        System.out.println("ksid:"+ksId);
+        System.out.println("ksid:" + ksId);
         if (ksId != null) {
             klassSeminar = seminarService.getKlassSeminarById(ksId);
         } else {
