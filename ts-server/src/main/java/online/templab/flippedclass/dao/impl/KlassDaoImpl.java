@@ -34,11 +34,13 @@ public class KlassDaoImpl implements KlassDao {
         try {
             line = klassMapper.insert(klass);
             Course course = courseMapper.selectRoundListByCourseId(klass.getCourseId());
+            System.out.println(course);
             List<Round> roundList = course.getRoundList();
             List<Seminar> seminarList = course.getSeminarList();
             for(int i = 0 ; i < roundList.size() ; ++i){
                 klassRoundMapper.insertSelective(new KlassRound().setRoundId(roundList.get(i).getId()).setKlassId(klass.getId()).setEnrollLimit(1));
             }
+            System.out.println("ll:"+seminarList);
             for(int i = 0 ; i < seminarList.size() ; ++i){
                 klassSeminarMapper.insertSelective(new KlassSeminar()
                         .setKlassId(klass.getId())
