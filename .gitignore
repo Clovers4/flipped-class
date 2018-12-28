@@ -1,9 +1,15 @@
 # output #
 /target/
 /out/
+/admin-server/target/
+/ts-server/target/
+/admin-server/out/
+/ts-server/out/
 
 # upload #
 /upload/
+/admin-server/upload/
+/ts-server/upload/
 
 ### Maven ###
 .mvn

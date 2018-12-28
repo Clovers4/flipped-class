@@ -1,0 +1,307 @@
+html {
+    font-size: 15px;
+    font-weight: 400;
+}
+iframe {
+    border: 0;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+
+/*login page*/
+.login-page {
+    background: url(/static/imgs/admin/loginBGI.jpg) no-repeat center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.card-login .card-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.card-login .card-body {
+    padding: 0 20px 0 20px;
+}
+
+.card-login .form {
+    min-height: 300px;
+}
+
+.card-login .form {
+    font-size: 16px;
+}
+
+.popover-body {
+    padding: 10px 15px;
+}
+
+.card-login .footer {
+    position: absolute;
+    width: 100%;
+    background: transparent;
+    bottom: 0;
+    color: #fff;
+    z-index: 1;
+}
+
+/*index page*/
+.index-page {
+    overflow: hidden;
+}
+
+.index-page .page-body {
+    display: flex;
+}
+
+.page-body .card{
+    margin-top: 15px;
+}
+
+.navbar {
+    padding: 5px 20px;
+    margin-bottom: 0;
+}
+
+.nav-item {
+    cursor: pointer;
+}
+
+.navbar.sidebar {
+    padding: 10px 0;
+    width: 221px;
+    height: calc(100% - 60px);
+    align-items: flex-start;
+    background-color: #EEEEEE !important;
+}
+
+.sidebar .nav-pills {
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar .nav-pills .nav-item {
+    width: 100%;
+}
+
+.sidebar .nav-pills .nav-item .nav-link {
+    font-size: 14px;
+}
+
+.sidebar .nav-pills .nav-item .nav-link.active {
+    background-color: #212121;
+    border-radius: 0;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(33, 33, 33, 0.46);
+}
+
+.sidebar .nav-pills .nav-item + .nav-item {
+    margin-top: 0;
+}
+
+.index-page .page-content {
+    width: calc(100% - 221px);
+    height: calc(100% - 60px);
+    background-color: #ffffff;
+}
+
+.index-page .page-content .tab {
+    display: none;
+}
+
+.index-page .page-content .tab.on-show {
+    display: block;
+}
+
+/*iframe*/
+.iframe-page {
+    padding: 20px 20px;
+}
+
+.iframe-page.table-page {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.iframe-page .navbar-transparent {
+    padding: 0;
+}
+.iframe-page .dropdown .dropdown-toggle {
+    font-size: 15px !important;
+}
+.iframe-page .dropdown .dropdown-item:hover {
+    color: #FFFFFF;
+}
+
+.iframe-page .navbar .nav-item .btn {
+    padding: 12px 12px;
+    margin-right: 12px;
+}
+
+.iframe-page .form-inline .material-icons {
+    color: #333;
+    font-size: 27px
+}
+
+.iframe-page .page-body {
+    display: flex;
+    min-height: calc(100% - 98px);
+}
+
+.iframe-page .card {
+    margin-bottom: 0;
+}
+
+.iframe-page .card-body {
+    padding-bottom: 0;
+}
+
+.iframe-page .card-body .table-content {
+    overflow: hidden;
+    margin: 0;
+    height: 77%;
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15);
+}
+
+.iframe-page .card-body .table-content iframe {
+    height: calc(100% - 43px);
+}
+
+.iframe-page .card .card-footer {
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.iframe-page .pagination{
+    margin-bottom: 0;
+}
+.iframe-page .navbar-nav.count-limit{
+    position: absolute;
+    left: 30px;
+}
+.iframe-page .navbar-nav.count-limit .navbar-brand{
+    font-size: 14px;
+    font-weight: 400;
+    color: #767676;
+    margin-right: 0;
+}
+.iframe-page .navbar-nav.count-limit .dropdown .dropdown-toggle {
+    display: inline;
+    font-size: 14px !important;
+    padding: 0;
+}
+
+.iframe-page .table {
+    margin-bottom: 0;
+}
+
+.iframe-page .table .form-check {
+    margin-bottom: 0;
+    margin-top: 0;
+    height: 18px;
+}
+
+.iframe-page .table th {
+    text-align: center;
+    color: #212121;
+    font-size: 14px;
+    font-weight: 400;
+    /*border: 0;*/
+}
+
+.iframe-page .table th.checkbox, .iframe-page .table td.checkbox {
+    width: 20px;
+}
+
+.iframe-page .table thead {
+    border-color: #e6e6e6;
+}
+
+.iframe-page .table thead th {
+    color: #767676;
+}
+
+.iframe-page .table tbody {
+    margin-right: 17px;
+    overflow-y: scroll;
+}
+
+.iframe-page .table tbody tr {
+    text-align: center;
+    color: #212121;
+    border: 0;
+    transition-duration: 0.5s;
+}
+
+.iframe-page .table tbody tr:hover:not(.empty) {
+    background-color: #EEEEEE;
+}
+
+.iframe-page .table tbody tr.empty {
+    text-align: center;
+    color: #767676;
+    border: 0;
+}
+
+.iframe-page .table tbody tr.chosen {
+    background-color: #f2f2f2;
+}
+
+.iframe-page .table tbody td.btnColumn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.alert-area {
+    z-index: 3;
+    pointer-events: none;/*不阻止点击事件*/
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+}
+.alert-area .alert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 0;
+}
+.alert-area .alert b{
+    font-size: 16px;
+}
+
+.modal .modal-header {
+    border-bottom: #e6e6e6;
+}
+
+.modal .modal-header .modal-title {
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 0;
+    color: #767676;
+}
+
+.modal .modal-body p {
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.color-warning {
+    color: #ff9800;
+}
+
+.color-danger {
+    color: #f44336;
+}
+
+.left-align {
+    text-align: left;
+}
