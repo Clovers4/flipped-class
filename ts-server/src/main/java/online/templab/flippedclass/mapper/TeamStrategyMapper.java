@@ -8,4 +8,11 @@ import tk.mybatis.mapper.common.Mapper;
  */
 @Component
 public interface TeamStrategyMapper extends Mapper<TeamStrategy> {
+
+    /**
+     * 获得最大 Id
+     *
+     * @return
+     */
+    Integer getMaxStrategySerial();
 }

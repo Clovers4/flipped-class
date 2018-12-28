@@ -10,4 +10,15 @@
     <id column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
     <id column="strategy_id" jdbcType="BIGINT" property="strategyId" />
   </resultMap>
+
+  <select id="getMaxId" resultType="Integer">
+    select ifnull(max(id), 0) as serial
+    from team_or_strategy
+  </select>
+
+  <insert id="myInsert" useGeneratedKeys="true" keyProperty="id" parameterType="TeamOrStrategy" keyColumn="id">
+    insert into team_or_strategy(id,strategy_name,strategy_id)
+    values(#{id},#{strategyName},#{strategyId})
+  </insert>
+
 </mapper>

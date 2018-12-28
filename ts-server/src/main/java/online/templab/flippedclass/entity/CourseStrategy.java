@@ -36,4 +36,6 @@ public interface CourseStrategy {
 
     Long getMyId();
 
+    void setMyId(Long id);
+
 }

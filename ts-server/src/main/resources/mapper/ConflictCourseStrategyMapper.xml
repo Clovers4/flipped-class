@@ -9,4 +9,15 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <id column="course_id" jdbcType="BIGINT" property="courseId" />
   </resultMap>
+
+  <select id="getMaxId" resultType="Integer">
+    select ifnull(max(id), 0) as serial
+    from conflict_course_strategy
+  </select>
+
+  <insert id="myInsert" useGeneratedKeys="true" keyProperty="id" parameterType="ConflictCourseStrategy" keyColumn="id">
+    insert into conflict_course_strategy(id,course_id)
+    values(#{id},#{courseId})
+  </insert>
+
 </mapper>

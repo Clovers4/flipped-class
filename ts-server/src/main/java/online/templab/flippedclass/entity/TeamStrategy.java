@@ -155,4 +155,8 @@ public class TeamStrategy implements Serializable , CourseStrategy{
         return null;
     }
 
+    @Override
+    public void setMyId(Long id) {
+    }
+
 }

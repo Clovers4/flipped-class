@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="/static/lib/layui/css/layui.css">
     <script src="http://cdn.staticfile.org/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/jqueryui/1.9.2/i18n/jquery-ui-i18n.min.js"></script>
-    <script src="/static/js/other/snap.js"></script>
-    <script src="/static/js/other/custom.js"></script>
     <script src="/static/js/other/framework.js"></script>
     <script src="/static/js/other/framework.launcher.js"></script>
     <script src="/static/lib/layui/layui.js"></script>
