@@ -29,8 +29,8 @@ public class ExcelServiceImpl implements ExcelService {
             // 从第三行开始是数据
             for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) {
                 Row row = sheet.getRow(i);
-                String account = row.getCell(0).getStringCellValue();
-                String name = row.getCell(1).getStringCellValue();
+                String account = row.getCell(0).getStringCellValue().trim();
+                String name = row.getCell(1).getStringCellValue().trim();
 
                 Student record = new Student()
                         .setStudentNum(account)
