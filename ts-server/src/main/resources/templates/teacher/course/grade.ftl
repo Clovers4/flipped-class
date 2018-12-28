@@ -102,28 +102,28 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <#if roundScores[round?index][team.id]??>
+                            <#if roundScores[round?index][team.id?c]??>
                                 <div class="grade-area">
                                     <ul class="nav nav-pills nav-pills-icons flex-space-around">
                                         <li class="nav-item">
                                             <a class="nav-link">
                                                 <i class="material-icons">mic</i>
                                                 展示分
-                                                <h6><#if roundScores[round?index][team.id].presentationScore??>${roundScores[round?index][team.id].presentationScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id?c].presentationScore??>${roundScores[round?index][team.id?c].presentationScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link">
                                                 <i class="material-icons">description</i>
                                                 提问分
-                                                <h6><#if roundScores[round?index][team.id].questionScore??>${roundScores[round?index][team.id].questionScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id?c].questionScore??>${roundScores[round?index][team.id?c].questionScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link">
                                                 <i class="material-icons">done_all</i>
                                                 报告分
-                                                <h6><#if roundScores[round?index][team.id].reportScore??>${roundScores[round?index][team.id].reportScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id?c].reportScore??>${roundScores[round?index][team.id?c].reportScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                     </ul>
@@ -133,7 +133,7 @@
                                             <a class="nav-link">
                                                 <i class="material-icons">settings</i>
                                                 总分
-                                                <h6><#if roundScores[round?index][team.id].totalScore??>${roundScores[round?index][team.id].totalScore}分<#else >无数据</#if></h6>
+                                                <h6><#if roundScores[round?index][team.id?c].totalScore??>${roundScores[round?index][team.id?c].totalScore}分<#else >无数据</#if></h6>
                                             </a>
                                         </li>
                                     </ul>
