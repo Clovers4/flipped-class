@@ -84,21 +84,21 @@
                                                     <a class="nav-link">
                                                         <i class="material-icons">mic</i>
                                                         展示分
-                                                        <h6><#if roundScoreMap[round.id].presentationScore??>${roundScoreMap[round.id].presentationScore}分<#else >无数据</#if></h6>
+                                                        <h6><#if roundScoreMap[round.id?c].presentationScore??>${roundScoreMap[round.id?c].presentationScore}分<#else >无数据</#if></h6>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link">
                                                         <i class="material-icons">comment</i>
                                                         提问分
-                                                        <h6><#if roundScoreMap[round.id].questionScore??>${roundScoreMap[round.id].questionScore}分<#else >无数据</#if></h6>
+                                                        <h6><#if roundScoreMap[round.id?c].questionScore??>${roundScoreMap[round.id?c].questionScore}分<#else >无数据</#if></h6>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link">
                                                         <i class="material-icons">description</i>
                                                         报告分
-                                                        <h6><#if roundScoreMap[round.id].reportScore??>${roundScoreMap[round.id].reportScore}分<#else >无数据</#if></h6>
+                                                        <h6><#if roundScoreMap[round.id?c].reportScore??>${roundScoreMap[round.id?c].reportScore}分<#else >无数据</#if></h6>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -108,7 +108,7 @@
                                                     <a class="nav-link">
                                                         <i class="material-icons">done_all</i>
                                                         总分
-                                                        <h6><#if roundScoreMap[round.id].totalScore??>${roundScoreMap[round.id].totalScore}分<#else >无数据</#if></h6>
+                                                        <h6><#if roundScoreMap[round.id?c].totalScore??>${roundScoreMap[round.id?c].totalScore}分<#else >无数据</#if></h6>
                                                     </a>
                                                 </li>
                                             </ul>
