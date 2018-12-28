@@ -428,16 +428,17 @@ TODO：可删除
     }
 
     @PostMapping("/course/seminar/grade/modify")
-    public String modifyGrade(Long attendanceId, BigDecimal preScore, BigDecimal reportScore, Model model) {
+    public ResponseEntity<Object> modifyGrade(Long attendanceId, BigDecimal preScore, BigDecimal queScore, BigDecimal reportScore, Model model) {
         Attendance attendance = seminarService.getAttendanceByPrimaryKey(attendanceId);
         scoreService.markerScore(
                 new SeminarScore()
                         .setTeamId(attendance.getTeamId())
                         .setKlassSeminarId(attendance.getKlassSeminarId())
                         .setPresentationScore(preScore)
+                        .setQuestionScore(queScore)
                         .setReportScore(reportScore)
         );
-        return "teacher/course/seminar/grade";
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 

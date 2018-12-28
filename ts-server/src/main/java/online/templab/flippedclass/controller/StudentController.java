@@ -185,6 +185,14 @@ public class StudentController {
         return "student/course/seminar/enrollList";
     }
 
+    @PostMapping("/course/seminar/cancelEnroll")
+    public ResponseEntity<Object> cancelEnroll(Long attendanceId, HttpSession session) {
+        Long studentId = (Long) session.getAttribute("studentId");
+        Attendance attendance = seminarService.getAttendanceByPrimaryKey(attendanceId);
+        seminarService.deleteEnroll(attendance.getKlassSeminarId(), studentId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
     @PostMapping("/course/seminar/uploadPPT")
     public ResponseEntity<Object> uploadPPT(@RequestParam("file") MultipartFile multipartFile, Long attendanceId) {
         String uuidFilename = fileService.storeWithUUID(multipartFile);
@@ -246,11 +254,11 @@ public class StudentController {
         Boolean mPermitCreate = course.getTeamEndDate().compareTo(new Date()) > 0;
 
         List<Team> teamList = teamService.listByCourseId(courseId);
-        for(Team team : teamList){
+        for (Team team : teamList) {
             System.out.println(team);
         }
 
-        System.out.println(courseId+" , "+((Long) session.getAttribute("studentId")));
+        System.out.println(courseId + " , " + ((Long) session.getAttribute("studentId")));
         System.out.println(teamService.get(courseId, ((Long) session.getAttribute("studentId"))));
 
         model.addAttribute("course", course);
