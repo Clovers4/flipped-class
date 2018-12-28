@@ -94,8 +94,8 @@
                             <div class="body-header">
                                 <div class="body-title">${attendance.team.teamName}</div>
                                 <button data-atdId="${attendance.id}"
-                                        data-preScore="<#if seminarScore[attendance.id].presentationScore??>${seminarScore[attendance.id].presentationScore}<#else >无数据</#if>"
-                                        data-reportScore="<#if seminarScore[attendance.id].reportScore??>${seminarScore[attendance.id].reportScore}<#else >无数据</#if>"
+                                        data-preScore="<#if seminarScore[attendance.id?c].presentationScore??>${seminarScore[attendance.id?c].presentationScore}<#else >无数据</#if>"
+                                        data-reportScore="<#if seminarScore[attendance.id?c].reportScore??>${seminarScore[attendance.id?c].reportScore}<#else >无数据</#if>"
                                         class="btn btn-danger modify" style="padding: 5px 10px" data-toggle="modal"
                                         data-target="#modifyScoreModal">修改
                                 </button>
@@ -109,21 +109,21 @@
                                                 <a class="nav-link">
                                                     <i class="material-icons">mic</i>
                                                     展示分
-                                                    <h6><#if seminarScore[attendance.id].presentationScore??>${seminarScore[attendance.id].presentationScore}分<#else >无数据</#if></h6>
+                                                    <h6><#if seminarScore[attendance.id?c].presentationScore??>${seminarScore[attendance.id?c].presentationScore}分<#else >无数据</#if></h6>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link">
                                                     <i class="material-icons">comment</i>
                                                     提问分
-                                                    <h6><#if seminarScore[attendance.id].questionScore??>${seminarScore[attendance.id].questionScore}分<#else >无数据</#if></h6>
+                                                    <h6><#if seminarScore[attendance.id?c].questionScore??>${seminarScore[attendance.id?c].questionScore}分<#else >无数据</#if></h6>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link">
                                                     <i class="material-icons">description</i>
                                                     报告分
-                                                    <h6><#if seminarScore[attendance.id].reportScore??>${seminarScore[attendance.id].reportScore}分<#else >无数据</#if></h6>
+                                                    <h6><#if seminarScore[attendance.id?c].reportScore??>${seminarScore[attendance.id?c].reportScore}分<#else >无数据</#if></h6>
                                                 </a>
                                             </li>
                                         </ul>
@@ -133,7 +133,7 @@
                                                 <a class="nav-link">
                                                     <i class="material-icons">done_all</i>
                                                     总分
-                                                    <h6><#if seminarScore[attendance.id].totalScore??>${seminarScore[attendance.id].totalScore}分<#else >无数据</#if></h6>
+                                                    <h6><#if seminarScore[attendance.id?c].totalScore??>${seminarScore[attendance.id?c].totalScore}分<#else >无数据</#if></h6>
                                                 </a>
                                             </li>
                                         </ul>
