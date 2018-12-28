@@ -30,13 +30,16 @@ public class AttendanceDaoImpl implements AttendanceDao {
 
     @Override
     public Boolean insert(Attendance attendance) {
+        if (attendance.getPresenting() == null) {
+            attendance.setPresenting(false);
+        }
         return attendanceMapper.insertSelective(attendance) == 1;
     }
 
     @Override
     public Boolean delete(Long klassSeminarId, Long studentId) {
         KlassSeminar klassSeminar = klassSeminarMapper.selectByPrimaryKey(klassSeminarId);
-        Long teamId=klassTeamMapper.selectByKlassIdAndStudentId(klassSeminar.getKlassId(),studentId).getTeamId();
+        Long teamId = klassTeamMapper.selectByKlassIdAndStudentId(klassSeminar.getKlassId(), studentId).getTeamId();
         return attendanceMapper.delete(new Attendance()
                 .setTeamId(teamId)
                 .setKlassSeminarId(klassSeminarId)) == 1;
@@ -54,7 +57,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 
     @Override
     public Boolean updateSelective(Attendance attendance) {
-        return attendanceMapper.updateByPrimaryKeySelective(attendance)==1;
+        return attendanceMapper.updateByPrimaryKeySelective(attendance) == 1;
     }
 
     @Override

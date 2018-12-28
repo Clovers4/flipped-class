@@ -16,7 +16,7 @@
         <result column="ppt_name" jdbcType="VARCHAR" property="pptName"/>
         <result column="ppt_url" jdbcType="VARCHAR" property="preFile"/>
         <association property="team" javaType="Team">
-            <id column="id" jdbcType="BIGINT" property="id" />
+            <id column="tid" jdbcType="BIGINT" property="id" />
             <result column="klass_id" jdbcType="BIGINT" property="klassId" />
             <result column="course_id" jdbcType="BIGINT" property="courseId" />
             <result column="leader_id" jdbcType="BIGINT" property="leaderId" />

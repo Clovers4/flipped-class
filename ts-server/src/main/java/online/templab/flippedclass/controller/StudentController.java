@@ -180,8 +180,12 @@ public class StudentController {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         Boolean canEnroll = new Date().compareTo(klassSeminar.getSeminar().getEnrollEndDate()) < 0;
 
-        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(klassSeminar.getId()));
-        model.addAttribute("team", teamService.get(klass.getCourseId(), studentId));
+        List<Attendance> enrollList = seminarService.getEnrollListByKlassSeminarId(klassSeminar.getId());
+        Team team = teamService.get(klass.getCourseId(), studentId);
+        log.info("enrollList : {}", enrollList.toString());
+        log.info("team : {}", team.toString());
+        model.addAttribute("enrollList", enrollList);
+        model.addAttribute("team", team);
         model.addAttribute("ksId", klassSeminar.getId());
         model.addAttribute("canEnroll", canEnroll);
         return "student/course/seminar/enrollList";
@@ -215,7 +219,7 @@ public class StudentController {
 
     @PostMapping("/course/seminar/enroll")
     public ResponseEntity<Object> seminarEnroll(Long ksId, Long teamId, Integer sn) {
-        log.info("报名讨论课 ksid:{},teamid:{},sn:{}",ksId,teamId,sn);
+        log.info("报名讨论课 ksid:{},teamid:{},sn:{}", ksId, teamId, sn);
         if (seminarService.enRoll(new Attendance().setKlassSeminarId(ksId).setTeamId(teamId).setSn(sn))) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } else {

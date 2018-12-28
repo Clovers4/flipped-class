@@ -37,18 +37,18 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public Boolean insert(Seminar seminar) {
-        if(seminar.getRoundId() == null){
+        if (seminar.getRoundId() == null) {
             int courseRoundCount = roundDao.selectCount(seminar.getCourseId());
-            int roundCount= roundDao.selectCount(null);
+            int roundCount = roundDao.selectCount(null);
             roundDao.insert(new Round().setCourseId(seminar.getCourseId())
-                                        .setRoundNum(courseRoundCount+1)
-                                        .setReportScoreType(0)
-                                        .setQuesScoreType(0)
-                                        .setPreScoreType(0)
-                                        .setId((long)roundCount+1)
+                    .setRoundNum(courseRoundCount + 1)
+                    .setReportScoreType(0)
+                    .setQuesScoreType(0)
+                    .setPreScoreType(0)
+                    .setId((long) roundCount + 1)
 
             );
-            seminar.setRoundId((long)roundCount+1);
+            seminar.setRoundId((long) roundCount + 1);
         }
         return seminarDao.insert(seminar);
     }
@@ -115,26 +115,27 @@ public class SeminarServiceImpl implements SeminarService {
         Collections.sort(attendanceList, new Comparator<Attendance>() {
             @Override
             public int compare(Attendance o1, Attendance o2) {
-                return o1.getSn()-o2.getSn();
+                return o1.getSn() - o2.getSn();
             }
         });
 
         List<Attendance> resultAttendanceList = new ArrayList<>();
         int flag = 0;
-        for(int i=1;i<=seminar.getMaxTeam();i++){
-           for(Attendance attendance:attendanceList){
-               if(attendance.getSn() ==(i)){
-                   resultAttendanceList.add(attendance);
-                   flag=1;
-                   break;
-               }
-           }
-           if(flag==0){
-               resultAttendanceList.add(null);
-           }
-           flag=0;
+        log.info("排序的但未添加null的attendanceList：{}", attendanceList.toString());
+        for (int i = 1; i <= seminar.getMaxTeam(); i++) {
+            for (Attendance attendance : attendanceList) {
+                if (attendance.getSn() == (i)) {
+                    resultAttendanceList.add(attendance);
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                resultAttendanceList.add(null);
+            }
+            flag = 0;
         }
-        log.info("排序的且添加null的attendanceList：{}",resultAttendanceList.toString());
+        log.info("排序的且添加null的attendanceList：{}", resultAttendanceList.toString());
 
         return resultAttendanceList;
     }
@@ -182,7 +183,7 @@ public class SeminarServiceImpl implements SeminarService {
 
     @Override
     public Attendance getByTeamIdKlassSeminarId(Long teamId, Long klassSeminarId) {
-        return attendanceDao.selectByTeamIdKlassSeminarId(teamId,klassSeminarId);
+        return attendanceDao.selectByTeamIdKlassSeminarId(teamId, klassSeminarId);
     }
 
     @Override
