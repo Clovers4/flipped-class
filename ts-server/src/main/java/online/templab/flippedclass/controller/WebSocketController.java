@@ -41,7 +41,7 @@ public class WebSocketController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @PostMapping("/student/course/seminar/processing")
+    @PostMapping("/student/course/seminar/progressing")
     public String seminarProcessing(Long klassId, Long seminarId, Model model, Principal principal) {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         SeminarMonitor monitor = webSocketService.getMonitor(klassSeminar.getId());
