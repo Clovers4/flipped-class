@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="/static/imgs/favicon.png">
     <link rel="stylesheet" href="http://cdn.staticfile.org/material-kit/2.0.4/css/material-kit.min.css">
     <link rel="stylesheet" href="/static/css/user.css">
-    <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons">
     <script src="http://cdn.staticfile.org/jquery/3.3.1/jquery.js"></script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/teacher/course/klassList.js"></script>

@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="/static/imgs/favicon.png">
     <link rel="stylesheet" href="http://cdn.staticfile.org/material-kit/2.0.4/css/material-kit.min.css">
     <link rel="stylesheet" href="/static/css/user.css">
-    <link rel="stylesheet" href="/static/css/icon.css">
+    <link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons">
     <link rel="stylesheet" href="/static/css/countup.css">
     <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.js"></script>
     <script src="/static/lib/stomp.js"></script>
