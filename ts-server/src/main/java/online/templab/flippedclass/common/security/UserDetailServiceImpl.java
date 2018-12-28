@@ -1,9 +1,7 @@
 package online.templab.flippedclass.common.security;
 
-import online.templab.flippedclass.entity.Admin;
 import online.templab.flippedclass.entity.Student;
 import online.templab.flippedclass.entity.Teacher;
-import online.templab.flippedclass.mapper.AdminMapper;
 import online.templab.flippedclass.mapper.StudentMapper;
 import online.templab.flippedclass.mapper.TeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,6 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AdminMapper adminMapper;
-
-    @Autowired
     private TeacherMapper teacherMapper;
 
     @Autowired
@@ -38,7 +33,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO:修正
         UserWithRole userWithRole = loadUserWithRole(username);
 
         if (userWithRole == null) {
@@ -52,31 +46,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     private UserWithRole loadUserWithRole(String username) {
-        UserWithRole userWithRole = loadAdmin(username);
-
-        // admin中没有该账号
-        if (userWithRole == null) {
-            userWithRole = loadTeacher(username);
-        }
+        UserWithRole userWithRole  = loadTeacher(username);
 
         // teacher中没有该账号
         if (userWithRole == null) {
             userWithRole = loadStudent(username);
         }
 
-        return userWithRole;
-    }
-
-    private UserWithRole loadAdmin(String username) {
-        Admin admin = adminMapper.selectOne(new Admin().setAdminName(username));
-        if (admin == null) {
-            return null;
-        }
-
-        UserWithRole userWithRole = new UserWithRole()
-                .setUsername(admin.getAdminName())
-                .setPassword(admin.getPassword())
-                .setRole("ROLE_admin");
         return userWithRole;
     }
 

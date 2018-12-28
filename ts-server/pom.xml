@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>online.templab</groupId>
-    <artifactId>flipped-class</artifactId>
+    <artifactId>flipped-class-ts-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>flipped-class</name>
-    <description>flipped class management system</description>
+    <description>flipped class management system,ts-server</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -167,7 +167,7 @@
     </dependencies>
 
     <build>
-        <finalName>flipped_class</finalName>
+        <finalName>flipped_class_ts_server</finalName>
         <plugins>
             <!-- Spring Boot Maven 插件 -->
             <plugin>
