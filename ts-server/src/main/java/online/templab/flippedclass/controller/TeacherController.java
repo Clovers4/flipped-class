@@ -563,8 +563,8 @@ TODO：可删除
         subCourse.put("team", shareService.listShareTeamSubCourse(courseId));
         subCourse.put("seminar", shareService.listShareSeminarSubCourse(courseId));
 
-        model.addAttribute("subCourse", mainCourse);
-        model.addAttribute("mainCourse", subCourse);
+        model.addAttribute("subCourse", subCourse);
+        model.addAttribute("mainCourse", mainCourse);
         model.addAttribute("course", courseService.get(courseId));
         return "teacher/course/share";
     }
