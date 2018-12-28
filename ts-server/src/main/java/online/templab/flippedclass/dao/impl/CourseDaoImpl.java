@@ -73,10 +73,7 @@ public class CourseDaoImpl implements CourseDao {
         exampleTeam.or().andCondition("sub_course_id =",id);
         shareTeamApplicationMapper.deleteByExample(exampleTeam);
         //删除和strategy相关
-        Example exampleConflict=new Example(ConflictCourseStrategy.class);
-        exampleConflict.createCriteria().andCondition("course_1_id =",id);
-        exampleConflict.or().andCondition("course_2_id =",id);
-        conflictCourseStrategyMapper.deleteByExample(exampleConflict);
+        conflictCourseStrategyMapper.deleteByPrimaryKey(id);
         //删除课程
         int line = courseMapper.deleteByPrimaryKey(id);
         return line == 1;

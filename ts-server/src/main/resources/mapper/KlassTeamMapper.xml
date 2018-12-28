@@ -12,9 +12,10 @@
 
     <select id="selectByKlassIdAndStudentId" resultMap="BaseResultMap">
         select klass_team.team_id
-        from klass_team
-                 left join team_student on klass_team.team_id = team_student.team_id
-        where klass_team.klass_id = #{klassId}
+        from klass_team,
+             team_student
+        where klass_team.team_id = team_student.team_id
+          and klass_team.klass_id = #{klassId}
           and team_student.student_id = #{studentId}
     </select>
 </mapper>
