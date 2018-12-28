@@ -108,7 +108,7 @@
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>
 <script src="http://cdn.staticfile.org/moment.js/2.14.1/moment.min.js"></script>
 <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-<script src="/static/lib/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<script src="http://cdn.staticfile.org/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
 <script src="/static/lib/plugins/nouislider.min.js" type="text/javascript"></script>
 <!-- Place this tag in your head or just before your close body tag. -->
