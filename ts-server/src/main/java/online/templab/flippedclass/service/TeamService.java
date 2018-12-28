@@ -77,13 +77,10 @@ public interface TeamService {
     /**
      * 队长创建队伍
      *
-     * @param studentId  队长id
-     * @param klassId    班级id
-     * @param teamName   队伍名称
-     * @param studentNum 成员学号/账号 list
+     * @param team
      * @return
      */
-    Boolean create(Long studentId, Long klassId, String teamName, List<String> studentNum) throws ParseException;
+    Boolean create(Team team) throws ParseException;
 
     /**
      * 根据 studentNum 删除组员

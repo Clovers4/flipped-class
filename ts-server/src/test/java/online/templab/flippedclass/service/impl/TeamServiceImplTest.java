@@ -80,7 +80,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         studentNumList.add("24320162202845");
         studentNumList.add("24320162202916");
         studentNumList.add("24320162202818");
-        Boolean success = teamService.create((long) 210, (long) 24, "test", studentNumList);
+        Boolean success = teamService.create(new Team());
         logger.info(success.toString());
         Assert.assertNotNull(success);
     }

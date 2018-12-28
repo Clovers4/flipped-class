@@ -288,15 +288,15 @@ public class TeamDaoImpl implements TeamDao {
             for (KlassTeam klassTeam : klassTeams) {
                 List<Student> students = studentMapper.selectStudentsByKlassIdTeamId(klassId, klassTeam.getTeamId());
                 Team team = teamMapper.selectOne(new Team().setId(klassTeam.getTeamId()));
-                System.out.println(klass);
                 team.setKlass(klass);
                 List<Student> memberStudent = new LinkedList<>();
                 Student leader = null;
+                if (team.getLeaderId() != null) {
+                    leader = studentMapper.selectByPrimaryKey(team.getLeaderId());
+                }
                 for (Student student : students) {
                     if (!student.getId().equals(team.getLeaderId())) {
                         memberStudent.add(student);
-                    } else {
-                        leader = student;
                     }
                 }
                 //如果组长不空直接加入
@@ -320,8 +320,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public Team selectTeam(Long courseId, Long studentId) {
         // 获取队伍id
-        Long klassId = klassStudentMapper.selectOne(new KlassStudent().setCourseId(courseId).setStudentId(studentId)).getKlassId();
-        KlassTeam klassTeam = klassTeamMapper.selectByKlassIdAndStudentId(klassId, studentId);
+        KlassTeam klassTeam = klassTeamMapper.selectByCourseIdAndStudentId(courseId, studentId);
         if (klassTeam == null) {
             return null;
         }
@@ -331,9 +330,6 @@ public class TeamDaoImpl implements TeamDao {
         Team team = teamMapper.selectByPrimaryKey(klassTeam.getTeamId());
         // 队长
         Student leader = new Student();
-        if (member.size() == 0) {
-            return null;
-        }
         for (int i = 0; i < member.size(); i++) {
             if (member.get(i).getId().equals(team.getLeaderId())) {
                 leader = member.get(i);
@@ -341,12 +337,13 @@ public class TeamDaoImpl implements TeamDao {
                 break;
             }
         }
-        Klass klass = klassMapper.selectByPrimaryKey(klassId);
+        Klass klass = klassMapper.selectByPrimaryKey(team.getKlassId());
         // 组装 team
         team.setLeader(leader)
                 .setStudents(member)
                 .setKlass(klass)
                 .setKlassSerial((byte) 1);
+        System.out.println(team);
         return team;
     }
 
@@ -370,29 +367,18 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Long insert(Long studentId, Long klassId, String teamName, List<String> studentNum) {
-        // 获取 courseId
-        KlassStudent klassStudent = klassStudentMapper.selectOne(new KlassStudent().setKlassId(klassId).setStudentId(studentId));
-        // 创建队伍
-        Team team = new Team()
-                .setLeaderId(studentId)
-                .setKlassId(klassId)
-                .setTeamName(teamName)
-                .setCourseId(klassStudent.getCourseId())
-                .setSerial((int) teamMapper.getMaxTeamSerial(klassStudent.getCourseId(), klassId) + 1)
-                .setStatus(1)
-                .setKlassSerial((byte) 1);
+    public Long insert(Team team) {
         // 插入队伍
-        int lineTeam = teamMapper.insert(team);
-        // 通过list<Long> studentNum 获取对应学生id
+        int lineTeam = teamMapper.insert(team
+                .setKlassSerial((byte) klassMapper.selectByPrimaryKey(team.getKlassId()).getSerial().intValue())
+                .setSerial(teamMapper.getMaxTeamSerial(team.getCourseId(), team.getKlassId()) + 1)
+                .setStatus(0));
         List<Long> studentPrimaryKeyList = new ArrayList<>();
-        for (int i = 0; i < studentNum.size(); i++) {
-            studentPrimaryKeyList.add(studentMapper.selectOne(new Student().setStudentNum(studentNum.get(i))).getId());
-        }
+        studentPrimaryKeyList.add(team.getLeaderId());
         // 插入 klass_student 表关系
         int lineKlassStudent = teamStudentMapper.insertList(team.getId(), studentPrimaryKeyList);
         // 插入 klass_team 表关系
-        int lineKlassTeam = klassTeamMapper.insert(new KlassTeam().setTeamId(team.getId()).setKlassId(klassId));
+        int lineKlassTeam = klassTeamMapper.insert(new KlassTeam().setTeamId(team.getId()).setKlassId(team.getKlassId()));
         return team.getId();
     }
 
@@ -464,17 +450,16 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Boolean updateTeamValidApplication(Long teamValidApplicationId,Long teamId, Boolean accept) {
-        int line=0;
+    public Boolean updateTeamValidApplication(Long teamValidApplicationId, Long teamId, Boolean accept) {
+        int line = 0;
         //更新队伍信息
-        if(accept){
+        if (accept) {
             teamMapper.updateByPrimaryKeySelective(new Team().setId(teamId).setStatus(1));
-            line+=teamValidApplicationMapper.updateByPrimaryKeySelective(new TeamValidApplication().setId(teamValidApplicationId).setStatus(1));
-        }
-        else {
+            line += teamValidApplicationMapper.updateByPrimaryKeySelective(new TeamValidApplication().setId(teamValidApplicationId).setStatus(1));
+        } else {
             teamMapper.updateByPrimaryKeySelective(new Team().setId(teamId).setStatus(0));
-            line+=teamValidApplicationMapper.updateByPrimaryKeySelective(new TeamValidApplication().setId(teamValidApplicationId).setStatus(0));
+            line += teamValidApplicationMapper.updateByPrimaryKeySelective(new TeamValidApplication().setId(teamValidApplicationId).setStatus(0));
         }
-        return line==1;
+        return line == 1;
     }
 }

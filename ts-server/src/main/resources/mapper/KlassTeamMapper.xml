@@ -12,10 +12,23 @@
 
     <select id="selectByKlassIdAndStudentId" resultMap="BaseResultMap">
         select klass_team.team_id
-        from klass_team,
+        from klass,
+             klass_team,
              team_student
-        where klass_team.team_id = team_student.team_id
-          and klass_team.klass_id = #{klassId}
+        where klass.course_id = (select klass.course_id from klass where klass.id = #{klassId})
+          and klass_team.klass_id = klass.id
+          and klass_team.team_id = team_student.team_id
+          and team_student.student_id = #{studentId}
+    </select>
+
+    <select id="selectByCourseIdAndStudentId" resultMap="BaseResultMap">
+        select klass_team.team_id
+        from klass,
+             klass_team,
+             team_student
+        where klass.course_id = #{courseId}
+          and klass_team.klass_id = klass.id
+          and klass_team.team_id = team_student.team_id
           and team_student.student_id = #{studentId}
     </select>
 </mapper>

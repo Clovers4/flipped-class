@@ -111,29 +111,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Boolean create(Long studentId, Long klassId, String teamName, List<String> studentNum) throws ParseException {
+    public Boolean create(Team team){
         // 创建一个队伍 成功返回teamId
-        Long teamId = teamDao.insert(studentId, klassId, teamName, studentNum);
-        int compare = 0;
-        try {
-            //设置日期格式
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            // new Date()为获取当前系统时间
-            String nowDate = df.format(new Date());
-            Date date = df.parse(nowDate);
-            // 获取组队截止日期
-            Course course = courseDao.selectDateByTeamId(teamId);
-            // 比较
-            compare = date.compareTo(course.getTeamEndDate());
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        // 如果当前时间过了截止时间 不允许创建队伍
-        if (compare == 1) {
-            teamDao.delete(teamId, studentId);
-            return false;
-        }
-        // 如果没有超过截止日期
+        Long teamId = teamDao.insert(team);
         // 合法性判断
         int statue = validOneTeamState(teamId);
         // 如果状态合法

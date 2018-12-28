@@ -48,7 +48,7 @@ public interface TeamDao {
 
     /**
      * 根据 courseId 和 studentId 获取这名学生在这门课程下的队伍成员
-     *
+     * <p>
      * 还没有组装courseStrategyList ！！！
      *
      * @param courseId
@@ -68,19 +68,14 @@ public interface TeamDao {
     Boolean deleteMemberById(Long teamId, Long studentId);
 
     /**
-     *
-     * !!! 还没有对队伍合法性进行判断 等之后合法性判断函数写完再回来完善
      * 队伍序号也是个问题 为什么不是string类型rw
-     *
+     * <p>
      * 队长创建队伍
      *
-     * @param studentId 队长id
-     * @param klassId 班级id
-     * @param teamName 队伍名称
-     * @param studentNum 成员id list
+     * @param team
      * @return teamId
      */
-    Long insert(Long studentId,Long klassId,String teamName,List<String> studentNum);
+    Long insert(Team team);
 
     /**
      * 将 teamStrategyList 插入各自的表
@@ -93,7 +88,7 @@ public interface TeamDao {
     /**
      * 将 teamStrategyList 删除
      *
-     * @param teamStrategyList
+     * @param courseId
      * @return
      */
     Long deleteTeamStratgyList(Long courseId);
@@ -105,7 +100,7 @@ public interface TeamDao {
      * @param studentNum
      * @return
      */
-    Boolean deleteByStudentNum(Long teamId,String studentNum);
+    Boolean deleteByStudentNum(Long teamId, String studentNum);
 
     /**
      * 添加组员
@@ -114,7 +109,7 @@ public interface TeamDao {
      * @param studentNum
      * @return
      */
-    Boolean updateByStudentNum(Long teamId,List<String> studentNum);
+    Boolean updateByStudentNum(Long teamId, List<String> studentNum);
 
     /**
      * 更新 team
@@ -131,7 +126,7 @@ public interface TeamDao {
      * @param studentId
      * @return
      */
-    Boolean delete(Long teamId,Long studentId);
+    Boolean delete(Long teamId, Long studentId);
 
     /**
      * 根据 klassId 和 studentId 获取一个 teamId
@@ -140,7 +135,7 @@ public interface TeamDao {
      * @param studentId
      * @return
      */
-    Long selectByKlassIdAndStudentId(Long klassId,Long studentId);
+    Long selectByKlassIdAndStudentId(Long klassId, Long studentId);
 
     /**
      * 根据 team id 获取一个team（未组装）
@@ -168,6 +163,7 @@ public interface TeamDao {
 
     /**
      * 通过老师ID得到所有请求
+     *
      * @param teacherId
      * @return
      */
@@ -175,10 +171,11 @@ public interface TeamDao {
 
     /**
      * 老师处理队伍有效请求
+     *
      * @param teamValidApplicationId
      * @param teamId
      * @param accept
      * @return
      */
-    Boolean updateTeamValidApplication(Long teamValidApplicationId,Long teamId,Boolean accept);
+    Boolean updateTeamValidApplication(Long teamValidApplicationId, Long teamId, Boolean accept);
 }
