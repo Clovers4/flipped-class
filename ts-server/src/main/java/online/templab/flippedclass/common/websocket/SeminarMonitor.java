@@ -3,6 +3,7 @@ package online.templab.flippedclass.common.websocket;
 import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.entity.*;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author wk
  */
+@Slf4j
 @Getter
 @Accessors(chain = true)
 public class SeminarMonitor {
@@ -79,12 +81,12 @@ public class SeminarMonitor {
         this.enrollList = enrollList;
         this.preScoreMap = new ConcurrentHashMap<>(6);
         for (Attendance enroll : enrollList) {
-            if (enroll != null) {
-                preScoreMap.put(String.valueOf(enroll.getId()), -1);
-            }
+            preScoreMap.put(String.valueOf(enroll.getId()), -1);
         }
         this.onPreAttendanceIndex = 0;
         this.onPreAttendance = enrollList.size() > 0 ? enrollList.get(0) : null;
+        log.info("enrollList:{}", this.enrollList.toString());
+        log.info("onPreAttendance：{}", this.onPreAttendance.toString());
         this.raisedQuestionsCount = 0;
         this.askedQuestion = new ConcurrentHashMap<>();
         for (Attendance enroll : enrollList) {
