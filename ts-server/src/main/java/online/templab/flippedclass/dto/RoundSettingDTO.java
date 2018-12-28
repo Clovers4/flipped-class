@@ -31,6 +31,9 @@ public class RoundSettingDTO {
     }
 
     public List<KlassRound> getKlassRounds() {
+        if (klassId == null || enrollLimit == null) {
+            return null;
+        }
         if (klassId.length != enrollLimit.length) {
             return null;
         }
