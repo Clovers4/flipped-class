@@ -242,7 +242,7 @@
     <input name="operationType" id="operationTypeInput" placeholder="">
 </form>
 <!--   Core JS Files   -->
-<script src="/static/lib/core/popper.min.js" type="text/javascript"></script>
+<script src="http://cdn.staticfile.org/popper.js/1.12.6/umd/popper.min.js" type="text/javascript"></script>
 <script src="/static/lib/core/bootstrap-material-design.min.js" type="text/javascript"></script>
 <script src="http://cdn.staticfile.org/moment.js/2.14.1/moment.min.js"></script>
 <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
