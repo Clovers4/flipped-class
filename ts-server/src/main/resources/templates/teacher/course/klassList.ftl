@@ -50,51 +50,40 @@
     </div>
 </nav>
 <div class="main main-raised no-footer">
-    <#if klasses?size == 0>
-        <div class="empty-tag">
-            <div class="info">
-                <div class="icon icon-rose flex-center">
-                    <i class="material-icons color-grey">portable_wifi_off</i>
-                </div>
-                <h4 class="info-title">这里空荡荡的</h4>
-            </div>
-        </div>
-    <#else >
-        <div class="container">
-            <div class="row">
-                <#list klasses as klass>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body" data-klassID="${klass.id}" data-toggle="modal" data-target="#klassModal">
-                            <div class="body-header">
-                                <div class="body-title">${klass.klassName}</div>
+    <div class="container">
+        <div class="row">
+            <#list klasses as klass>
+            <div class="col-lg-4 col-md-6">
+                <div class="card content-card">
+                    <div class="card-body" data-klassID="${klass.id}" data-toggle="modal" data-target="#klassModal">
+                        <div class="body-header">
+                            <div class="body-title">${klass.klassName}</div>
+                        </div>
+                        <div class="body-content">
+                            <hr>
+                            <div class="line">
+                                <label>讨论课时间</label>
+                                <div class="sep"></div>
+                                <div class="content">${klass.time}</div>
                             </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="line">
-                                    <label>讨论课时间</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${klass.time}</div>
-                                </div>
-                                <div class="line">
-                                    <label>讨论课地点</label>
-                                    <div class="sep"></div>
-                                    <div class="content">${klass.location}</div>
-                                </div>
+                            <div class="line">
+                                <label>讨论课地点</label>
+                                <div class="sep"></div>
+                                <div class="content">${klass.location}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </#list>
-                <div class="col-lg-4 col-md-6">
-                    <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/klass/create'"
-                       style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
-                        <i class="material-icons add-icon">add_circle</i>
-                    </a>
-                </div>
+            </div>
+            </#list>
+            <div class="col-lg-4 col-md-6">
+                <a class="btn bg-transparent add-card-btn" id="addRound" onclick="window.location='/teacher/course/klass/create'"
+                   style="height: 135px;margin-top: 10px;margin-bottom: 10px;">
+                    <i class="material-icons add-icon">add_circle</i>
+                </a>
             </div>
         </div>
-    </#if>
+    </div>
 </div>
 
 <div class="modal fade" id="klassModal">
