@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/icon?family=Material+Icons">
     <link rel="stylesheet" href="/static/css/countup.css">
     <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.js"></script>
-    <script src="/static/lib/stomp.js"></script>
+    <script src="http://cdn.staticfile.org/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="http://cdn.staticfile.org/jquery/3.3.1/jquery.js"></script>
     <script src="/static/lib/countup.js"></script>
     <script src="/static/js/util.js"></script>
