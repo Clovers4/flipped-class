@@ -27,8 +27,8 @@ function getCaptcha() {
                 getCaptchaBtn.attr("disabled", true);
                 countInterval=setInterval("countDown()", 1000);
             },
-            error:function () {
-                util.showAlert("danger", "账户不存在", 3);
+            error:function (xhr) {
+                util.showAlert("danger", xhr.responseText, 3);
             }
         })
     }

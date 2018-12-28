@@ -29,7 +29,7 @@ $(function () {
         if (verify == null) {
             var sum = parseInt(prePer.val()) + parseInt(quePer.val()) + parseInt(repPer.val());
             if(sum!==100){
-                util.showAlert("warning", "成绩权重和非一百", 3)
+                util.showAlert("warning", "成绩权重和非一百", 3);
                 dropdown(prePer.parents(".dropdown-card"));
                 prePer.focus();
                 return;
@@ -40,7 +40,7 @@ $(function () {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(createCourseForm.serializeObject()),
                 success: function () {
-                    back();
+                    window.location='/teacher/courseList';
                 },
                 error: function () {
                     util.showAlert("danger", "创建失败，未知错误", 3);

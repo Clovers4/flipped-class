@@ -4,10 +4,6 @@
     height: 0;
 }
 
-.holder-visible{
-    visibility: visible !important;
-}
-
 .flex-center {
     display: flex;
     align-items: center;
@@ -286,7 +282,9 @@
 .seminar-card .card-body .line.content-line label {
     padding-top: 5px;
     align-items: flex-start;
+    width: 20%;
 }
+
 
 .seminar-card .card-body .line.status-line {
     margin-top: 50px;
