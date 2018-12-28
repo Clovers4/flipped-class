@@ -23,5 +23,6 @@ public interface ConflictCourseStrategyMapper  extends Mapper<ConflictCourseStra
      *
      * @return
      */
+    @Options(useGeneratedKeys=true, keyProperty = "id", keyColumn = "id")
     Integer myInsert(ConflictCourseStrategy conflictCourseStrategy);
 }

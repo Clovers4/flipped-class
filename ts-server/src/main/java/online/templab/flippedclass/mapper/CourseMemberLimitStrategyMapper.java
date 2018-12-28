@@ -22,5 +22,6 @@ public interface CourseMemberLimitStrategyMapper extends Mapper<CourseMemberLimi
      *
      * @return
      */
+    @Options(useGeneratedKeys=true, keyProperty = "id", keyColumn = "id")
     Integer myInsert(CourseMemberLimitStrategy courseMemberLimitStrategy);
 }

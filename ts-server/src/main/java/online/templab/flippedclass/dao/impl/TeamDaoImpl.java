@@ -123,9 +123,11 @@ public class TeamDaoImpl implements TeamDao {
         if (courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy) {
             if (courseStrategy.getMyStrategyName().equals("ConflictCourseStrategy") && courseStrategyList.size()!=0) {
                 ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy().setCourseId(courseStrategyList.get(0).getMyCourseId());
-                conflictCourseStrategyMapper.myInsert(conflictCourseStrategy);
+                conflictCourseStrategyMapper.insert(conflictCourseStrategy);
+                System.out.println(conflictCourseStrategy);
                 courseStrategyList.get(0).setMyId(conflictCourseStrategy.getId());
                 courseStrategy.setMyStrategyId(conflictCourseStrategy.getId());
+                System.out.println(courseStrategy);
                 for (int i = 1; i < courseStrategyList.size(); ++i) {
                     conflictCourseStrategyMapper.insert(new ConflictCourseStrategy()
                             .setId(courseStrategy.getMyStrategyId())
@@ -139,7 +141,8 @@ public class TeamDaoImpl implements TeamDao {
                 TeamAndStrategy teamAndStrategy = new TeamAndStrategy().
                         setStrategyId(courseStrategyList.get(0).getCourseStrategyList().get(0).getMyId())
                         .setStrategyName(courseStrategyList.get(0).getMyStrategyName());
-                teamAndStrategyMapper.myInsert(teamAndStrategy);
+                teamAndStrategyMapper.insert(teamAndStrategy);
+                System.out.println("1111"+teamAndStrategy);
                 courseStrategyList.get(0).setMyId(teamAndStrategy.getId());
                 courseStrategy.setMyStrategyId(teamAndStrategy.getId());
                 for (int i = 1; i < courseStrategyList.size(); ++i) {
@@ -155,7 +158,8 @@ public class TeamDaoImpl implements TeamDao {
 
                 TeamOrStrategy teamOrStrategy = new TeamOrStrategy().setStrategyId(courseStrategyList.get(0).getCourseStrategyList().get(0).getMyId())
                         .setStrategyName(courseStrategyList.get(0).getMyStrategyName());
-                teamOrStrategyMapper.myInsert(teamOrStrategy);
+                teamOrStrategyMapper.insert(teamOrStrategy);
+                System.out.println("1111"+teamOrStrategy);
                 courseStrategyList.get(0).setMyId(teamOrStrategy.getId());
                 courseStrategy.setMyStrategyId(teamOrStrategy.getId());
                 for (int i = 1; i < courseStrategyList.size(); ++i) {
@@ -169,9 +173,11 @@ public class TeamDaoImpl implements TeamDao {
                         .setMin(courseStrategyList.get(0).getMyMin())
                         .setMax(courseStrategyList.get(0).getMyMax())
                         .setCourseId(courseStrategyList.get(0).getMyCourseId());
-                courseMemberLimitStrategyMapper.myInsert(courseMemberLimitStrategy);
+                courseMemberLimitStrategyMapper.insert(courseMemberLimitStrategy);
+                System.out.println("dao:"+courseMemberLimitStrategy);
                 courseStrategyList.get(0).setMyId(courseMemberLimitStrategy.getId());
                 courseStrategy.setMyStrategyId(courseMemberLimitStrategy.getId());
+                System.out.println(courseStrategy);
                 for (int i = 1; i < courseStrategyList.size(); ++i) {
                     courseMemberLimitStrategyMapper.insert(new CourseMemberLimitStrategy()
                             .setId(courseStrategy.getMyStrategyId())
@@ -183,7 +189,7 @@ public class TeamDaoImpl implements TeamDao {
                 MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy()
                         .setMin(courseStrategyList.get(0).getMyMin())
                         .setMax(courseStrategyList.get(0).getMyMax());
-                memberLimitStrategyMapper.myInsert(memberLimitStrategy);
+                memberLimitStrategyMapper.insert(memberLimitStrategy);
                 courseStrategyList.get(0).setMyId(memberLimitStrategy.getId());
                 courseStrategy.setMyStrategyId(memberLimitStrategy.getId());
                 for (int i = 1; i < courseStrategyList.size(); ++i) {
@@ -304,6 +310,9 @@ public class TeamDaoImpl implements TeamDao {
                 teamStrategy.setStrategySerial(maxStrategySerial+1);
 
                 insertSubStrategy(teamStrategy);
+                teamStrategy.setStrategyId(teamStrategy.getCourseStrategyList().get(0).getMyId());
+
+                System.out.println("teamStrategy"+teamStrategy);
                 teamStrategyMapper.insert(teamStrategy);
 
 

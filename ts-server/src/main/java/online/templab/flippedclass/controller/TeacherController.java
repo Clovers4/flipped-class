@@ -262,12 +262,14 @@ public class TeacherController {
         JSONArray myArray = JSONArray.fromObject(members);
         for (int i = 0; i < myArray.size(); i++) {
             JSONArray secondArray = (JSONArray) myArray.get(i);
-            Long cid = (Long) secondArray.get(0);
+            //Long cid = (Long) secondArray.get(0);
+            Long cid = Long.valueOf((String)secondArray.get(0)) ;
             CourseMemberLimitStrategy optionCourse = new CourseMemberLimitStrategy()
                     .setCourseId(cid)
                     .setMax(Integer.valueOf((String) secondArray.get(1)))
                     .setMin(Integer.valueOf((String) secondArray.get(2)));
             courseMemberLimitStrategyList.add(optionCourse);
+            System.out.println(optionCourse);
         }
 //        List<ConflictCourseStrategy> conflictCourseStrategyArrayList = new ArrayList<>();
 //        String conflicts = request.getParameter("conflicts");
@@ -300,38 +302,44 @@ public class TeacherController {
                 .setCourseId(courseId)
                 .setStrategyName("MemberLimitStrategy");
         teamStrategy.setCourseStrategyList(courseStrategyList);
+        System.out.println(teamStrategy);
         teamStrategyList.add(teamStrategy);
 
         //组装 CourseMemberLimitStrategyList
+        List<CourseStrategy> courseStrategyListResutlt = new LinkedList<>();
         courseStrategyList = new LinkedList<>();
         if(choose == 1){
-            TeamOrStrategy teamOrStrategy = new TeamOrStrategy()
-                    .setStrategyName("CourseMemberLimitStrategyList");
             for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
                 courseStrategyList.add(courseMemberLimitStrategyList.get(i));
+                TeamOrStrategy teamOrStrategy = new TeamOrStrategy() .setStrategyName("CourseMemberLimitStrategy");
+                teamOrStrategy.setCourseStrategyList(courseStrategyList);
+                courseStrategyList = new LinkedList<>();
+                courseStrategyListResutlt.add(teamOrStrategy);
             }
-            teamOrStrategy.setCourseStrategyList(courseStrategyList);
-            courseStrategyList = new LinkedList<>();
-            courseStrategyList.add(teamOrStrategy);
-            teamStrategy.setCourseStrategyList(courseStrategyList);
+
             teamStrategy = new TeamStrategy()
                     .setCourseId(courseId)
-                    .setStrategyName("TeamOrStrategyList");
+                    .setStrategyName("TeamOrStrategy");
+            teamStrategy.setCourseStrategyList(courseStrategyListResutlt);
+            System.out.println(teamStrategy);
             teamStrategyList.add(teamStrategy);
         }
         else{
-            TeamAndStrategy teamAndStrategy = new TeamAndStrategy()
-                    .setStrategyName("CourseMemberLimitStrategyList");
-            for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
+
+            for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i) {
                 courseStrategyList.add(courseMemberLimitStrategyList.get(i));
+                TeamAndStrategy teamAndStrategy = new TeamAndStrategy()
+                        .setStrategyName("CourseMemberLimitStrategy");
+                teamAndStrategy.setCourseStrategyList(courseStrategyList);
+                courseStrategyList = new LinkedList<>();
+                courseStrategyListResutlt.add(teamAndStrategy);
             }
-            teamAndStrategy.setCourseStrategyList(courseStrategyList);
-            courseStrategyList = new LinkedList<>();
-            courseStrategyList.add(teamAndStrategy);
-            teamStrategy.setCourseStrategyList(courseStrategyList);
+
             teamStrategy = new TeamStrategy()
                     .setCourseId(courseId)
-                    .setStrategyName("TeamAndStrategyList");
+                    .setStrategyName("TeamAndStrategy");
+            teamStrategy.setCourseStrategyList(courseStrategyListResutlt);
+            System.out.println(teamStrategy);
             teamStrategyList.add(teamStrategy);
         }
 //        for(int i = 0; i < courseMemberLimitStrategyList.size() ; ++i){
@@ -353,11 +361,12 @@ public class TeacherController {
 
             for (int j = 0; j < secondArray.size(); j++) {
                 ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy()
-                        .setCourseId((long)secondArray.get(j));
+                        .setCourseId(Long.valueOf((String)secondArray.get(j)));
                 courseStrategyList.add(conflictCourseStrategy);
                 //courseIdList.add((Long) secondArray.get(j));
             }
             teamStrategy.setCourseStrategyList(courseStrategyList);
+            System.out.println(teamStrategy);
             teamStrategyList.add(teamStrategy);
 //            conflictCourse.setConflictCourseIdList(courseIdList);
 //            conflictCourseStrategyArrayList.add(conflictCourse);
