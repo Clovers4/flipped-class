@@ -26,7 +26,7 @@
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" id="backBtn">
@@ -102,7 +102,7 @@
     </div>
 </div>
 
-<form hidden id="returnForm" action="/student/course/teamList" method="post">
+<form id="returnForm" action="/student/course/teamList" method="post">
     <input id="returnCourseId" name="courseId" placeholder="">
     <input id="returnKlassId" name="klassId" placeholder="">
 </form>

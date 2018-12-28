@@ -16,10 +16,15 @@
             util.showLoading();
         }
     </script>
+    <style>
+        .nav-link{
+            padding: 0 !important;
+        }
+    </style>
     <title>成绩</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/teacher/courseList'">

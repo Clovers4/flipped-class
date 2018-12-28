@@ -12,13 +12,10 @@
     <script src="http://cdn.staticfile.org/jquery/3.3.1/jquery.js"></script>
     <script src="/static/js/util.js"></script>
     <script>
-        var ksIdForm;
         $(function () {
-            ksIdForm=$("#ksIdForm");
             $("#courseIdInput").val(sessionStorage.getItem("courseId"));
             $("#enterSeminar").click(function () {
-                ksIdForm.attr("action", "/student/course/seminar/progressing");
-                ksIdForm.submit();
+                $("#ksIdForm").submit();
             });
             $("#backBtn").click(function () {
                 $("#courseIdForm").submit();
@@ -28,7 +25,7 @@
     <title>讨论课信息</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-fab-mini btn-round" id="backBtn">
@@ -68,22 +65,22 @@
                 </div>
                 <div class="card-body">
                     <div class="container">
-                        <div class="col-md-6 ml-auto mr-auto">
+                        <div class="col-md-10 ml-auto mr-auto">
                             <div class="line content-line">
-                                <label>课程要求</label>
-                                <div class="sep"></div>
-                                <div class="content">${klassSeminar.seminar.content}</div>
+                                <label style="width: 20%">课程要求</label>
+                                <div style="width: 5%" class="sep"></div>
+                                <div style="width: 75%" class="content">${klassSeminar.seminar.content}</div>
                             </div>
-                            <div class="line status-line">
+                            <div class="line" style="margin-top: 50px">
                                 <label>状态</label>
                                 <div class="sep"></div>
-                                <div class="content">
+                                <div class="content" style="justify-content: center">
                                     <#if klassSeminar.state == 0>
-                                        尚未开始
+                                        <span class="badge badge-pill badge-success">尚未开始</span>
                                     <#elseif klassSeminar.state == 1>
-                                        正在进行
+                                        <span class="badge badge-pill badge-warning">正在进行</span>
                                     <#else>
-                                        已经结束
+                                        <span class="badge badge-pill badge-secondary">已经结束</span>
                                     </#if>
                                 </div>
                             </div>
@@ -102,11 +99,12 @@
     </div>
 </div>
 
-<form hidden id="ksIdForm" method="post">
-    <input id="ksIdInput" name="klassSeminarId" value="${klassSeminar.id}">
+<form hidden id="ksIdForm" method="post" action="/student/course/seminar/progressing">
+    <input placeholder="" name="klassId" value="${klassSeminar.klassId}">
+    <input placeholder="" name="seminarId" value="${klassSeminar.seminar.id}">
 </form>
-<form hidden id="courseIdForm" action="/student/course/seminarList" method="post">
-    <input id="courseIdInput" name="courseId">
+<form hidden id="courseIdForm" method="post" action="/student/course/seminarList">
+    <input id="courseIdInput" name="courseId" placeholder="">
 </form>
 <!--   Core JS Files   -->
 <script src="http://cdn.staticfile.org/popper.js/1.12.6/umd/popper.min.js" type="text/javascript"></script>

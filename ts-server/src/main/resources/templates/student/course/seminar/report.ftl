@@ -16,7 +16,7 @@
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" id="backBtn">
@@ -43,8 +43,8 @@
         </div>
     </div>
 </nav>
-<#if attendance??>
-    <div class="main main-raised" style="height: auto;">
+<#if attendances?? && (attendances?size > 0)>
+    <div class="main main-raised" style="height: auto;width: auto">
         <div class="container">
             <div class="row">
                 <div id="formBody" class="modal-body" style="margin-top: 20px;margin-bottom: 10px;">

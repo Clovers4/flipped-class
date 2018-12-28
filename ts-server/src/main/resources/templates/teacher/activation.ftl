@@ -16,7 +16,7 @@
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
-<div class="container" style="margin-top: 15%">
+<div class="container" style="margin-top: 15vh">
     <div class="row">
         <div class="col-md-10 ml-auto mr-auto">
             <div class="card seminar-card">

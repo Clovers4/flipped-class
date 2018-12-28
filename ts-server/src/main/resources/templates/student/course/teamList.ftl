@@ -46,28 +46,8 @@
         </div>
     </div>
 </nav>
-<div class="main main-raised <#if (!myTeam?? && course.teamMainCourseId??)>no-footer</#if>">
+<div class="main main-raised">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card content-card">
-                    <div class="card-body" data-toggle="modal" data-target="#notTeamedModal">
-                        <div class="body-header">
-                            <div class="body-title" style="text-align: center">未组队学生</div>
-                        </div>
-                        <div class="body-content">
-                            <hr>
-                            <div class="line">
-                                <label>数量</label>
-                                <div class="sep"></div>
-                                <div class="content">${students?size}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
         <div class="row">
             <#if teams?size ==0>
                 <div class="empty-tag">
@@ -113,17 +93,22 @@
     </div>
 </div>
 <div class="container foot-container flex-center" style="padding-bottom: 0">
+    <button class="btn bg-dark" data-toggle="modal" data-target="#notTeamedModal">
+        未组队学生
+        <span class="badge badge-pill badge-rose" style="padding: 4px 12px;">${students?size}</span>
+    </button>
     <#if (myTeam??)>
         <form hidden id="myTeamForm" action="/student/course/myTeam" method="post">
             <input class="courseId" name="courseId" placeholder="">
             <input name="teamId" value="${myTeam.id}" placeholder="">
         </form>
-        <button class="btn bg-dark" onclick="$('#myTeamForm').submit()">
+        <button class="btn bg-dark" onclick="$('#myTeamForm').submit()" style="margin-left: 20px">
             进入我的小组
             <i class="material-icons">arrow_forward_ios</i>
         </button>
     <#elseif !course.teamMainCourseId??>
-        <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();" <#if !permitCreate>disabled</#if>>
+        <button class="btn bg-dark" id="createTeam" onclick="$('#createTeamForm').submit();"
+                <#if !permitCreate>disabled</#if> >
             <i class="material-icons">add</i>
             创建小组
         </button>

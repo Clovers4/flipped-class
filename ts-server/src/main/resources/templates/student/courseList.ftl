@@ -15,7 +15,7 @@
     <title>课程</title>
 </head>
 <body class="card-page sidebar-collapse">
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" onclick="window.location='/student/index'">
@@ -46,55 +46,59 @@
     <div class="container">
         <div class="row">
             <#list klasses as klass>
-                <div class="col-md-6">
-                    <div class="card content-card">
-                        <div class="card-body" data-courseID="${klass.course.id}" data-klassId="${klass.id}">
-                            <div class="body-header flex-space-between">
-                                <div class="body-title" style="text-align: left;font-size: 20px">${klass.course.courseName}</div>
-                                <div class="body-title" style="text-align: right;font-size: 12px">${klass.klassName}</div>
-                            </div>
-                            <div class="body-content">
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12 ml-auto mr-auto">
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item seminar-nav">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">event_note</i>
-                                                    讨论课
-                                                </a>
-                                            </li>
-                                            <li class="nav-item team-nav">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">group</i>
-                                                     组队
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                <#if klass.course??>
+                    <div class="col-md-6">
+                        <div class="card content-card">
+                            <div class="card-body" data-courseID="${klass.course.id}" data-klassId="${klass.id}">
+                                <div class="body-header flex-space-between">
+                                    <div class="body-title"
+                                         style="text-align: left;font-size: 20px">${klass.course.courseName}</div>
+                                    <div class="body-title"
+                                         style="text-align: right;font-size: 12px">${klass.klassName}</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12 ml-auto mr-auto">
-                                        <ul class="nav nav-pills nav-pills-icons flex-space-around">
-                                            <li class="nav-item info-nav">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">description</i>
-                                                    课程信息
-                                                </a>
-                                            </li>
-                                            <li class="nav-item grade-nav">
-                                                <a class="nav-link">
-                                                    <i class="material-icons">equalizer</i>
-                                                    成绩
-                                                </a>
-                                            </li>
-                                        </ul>
+                                <div class="body-content">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 ml-auto mr-auto">
+                                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                <li class="nav-item seminar-nav">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">event_note</i>
+                                                        讨论课
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item team-nav">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">group</i>
+                                                        组队
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 ml-auto mr-auto">
+                                            <ul class="nav nav-pills nav-pills-icons flex-space-around">
+                                                <li class="nav-item info-nav">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">description</i>
+                                                        课程信息
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item grade-nav">
+                                                    <a class="nav-link">
+                                                        <i class="material-icons">equalizer</i>
+                                                        成绩
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </#if>
             </#list>
         </div>
     </div>

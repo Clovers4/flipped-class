@@ -17,7 +17,7 @@
 </head>
 <body class="card-page sidebar-collapse">
 <div class="alert-area"></div>
-<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark" id="sectionsNav">
+<nav class="navbar navbar-color-on-scroll navbar-expand-lg bg-dark">
     <div class="container">
         <div class="navbar-translate">
             <a class="btn btn-link btn-fab btn-round" id="backBtn">
@@ -61,7 +61,8 @@
                             <div class="form-group col-2" style="padding-left: 0;">
                                 <label for="serial">序号</label>
                                 <input id="serial" name="serial" type="text" autocomplete="off" value="<#if maxSerial??>${maxSerial + 1}<#else>1</#if>"
-                                       class="form-control empty-verify" data-emptyMessage="请输入讨论课序号">
+                                       class="form-control empty-verify reg-verify" data-reg="^\d*$"
+                                       data-regMessage="非合法数字" data-emptyMessage="请输入讨论课序号">
                             </div>
                             <div class="form-group col-10">
                                 <label for="theme" style="padding-left: 5px;">讨论课主题</label>
@@ -79,7 +80,9 @@
                                 <div class="form-group">
                                     <label for="maxTeam">报名组数</label>
                                     <input id="maxTeam" name="maxTeam" type="text" autocomplete="off"
-                                           class="form-control empty-verify" data-emptyMessage="请输入报名组数" style="margin-top: 5px">
+                                           class="form-control empty-verify reg-verify" data-reg="^\d*$"
+                                           data-regMessage="非合法数字"
+                                           data-emptyMessage="请输入报名组数" style="margin-top: 5px">
                                 </div>
                             </div>
                             <div class="col">
