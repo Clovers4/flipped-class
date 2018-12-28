@@ -1,9 +1,11 @@
 package online.templab.flippedclass.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import online.templab.flippedclass.entity.Course;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -24,8 +26,12 @@ public class CourseCreateDTO {
 
     private Integer repPer;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date teamStartDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date teamEndDate;
 
     private Integer teamMax;
