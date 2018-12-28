@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.ws.Action;
 import java.util.Date;
 import java.util.List;
 
@@ -228,7 +227,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
     @Test
     public void testGetEnrollListByKlassSeminarId() {
         createKlassSeminarTable();
-        List<Attendance> attendances = seminarService.getEnrollListByKlassSeminarId((long) klassSeminarMapper
+        List<Attendance> attendances = seminarService.getEnrollListWithNullByKlassSeminarId((long) klassSeminarMapper
                 .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId());
         logger.info(attendances.toString());
     }
@@ -238,7 +237,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
         createKlassSeminarTable();
         Long klassSeminarId=(long) klassSeminarMapper
                 .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId();
-        logger.info(seminarService.getEnrollListByKlassSeminarId(klassSeminarId).toString());
+        logger.info(seminarService.getEnrollListWithNullByKlassSeminarId(klassSeminarId).toString());
         seminarService.enRoll(new Attendance()
                 .setKlassSeminarId((long) klassSeminarMapper
                         .selectOneByKlassIdSeminarId((long) 213, (long) 12321).getId())
@@ -249,7 +248,7 @@ public class SeminarServiceImplTest extends FlippedClassApplicationTest {
                 .setReportName("reportname")
                 .setReportFile("reporturl")
                 .setSn(5));
-        logger.info(seminarService.getEnrollListByKlassSeminarId(klassSeminarId).toString());
+        logger.info(seminarService.getEnrollListWithNullByKlassSeminarId(klassSeminarId).toString());
     }
 
     @Test

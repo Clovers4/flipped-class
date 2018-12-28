@@ -1,6 +1,5 @@
 package online.templab.flippedclass.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import online.templab.flippedclass.common.email.EmailService;
@@ -10,16 +9,12 @@ import online.templab.flippedclass.common.multipart.FileService;
 import online.templab.flippedclass.dto.*;
 import online.templab.flippedclass.entity.*;
 import online.templab.flippedclass.service.*;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -510,7 +505,7 @@ TODO：可删除
 
     @PostMapping("/course/seminar/grade")
     public String seminarGrade(Long klassSeminarId, Model model) {
-        List<Attendance> attendances = seminarService.getEnrollListByKlassSeminarId(klassSeminarId);
+        List<Attendance> attendances = seminarService.getEnrollListWithNullByKlassSeminarId(klassSeminarId);
         Map<String, SeminarScore> seminarScoreMap = new HashMap<>(attendances.size());
         attendances.forEach(attendance -> {
             seminarScoreMap.put(String.valueOf(attendance.getId()), scoreService.getSeminarScore(klassSeminarId, attendance.getTeamId()));
@@ -542,7 +537,7 @@ TODO：可删除
         Boolean hasEnd = klassSeminar.getState() == 2;
         model.addAttribute("hasEnd", hasEnd);
         model.addAttribute("ksId", klassSeminar.getId());
-        model.addAttribute("enrollList", seminarService.getEnrollListByKlassSeminarId(klassSeminarId));
+        model.addAttribute("enrollList", seminarService.getEnrollListWithNullByKlassSeminarId(klassSeminarId));
         return "teacher/course/seminar/enrollList";
     }
 

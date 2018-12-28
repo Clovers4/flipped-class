@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -180,7 +179,7 @@ public class StudentController {
         KlassSeminar klassSeminar = seminarService.getKlassSeminar(klassId, seminarId);
         Boolean canEnroll = new Date().compareTo(klassSeminar.getSeminar().getEnrollEndDate()) < 0;
 
-        List<Attendance> enrollList = seminarService.getEnrollListByKlassSeminarId(klassSeminar.getId());
+        List<Attendance> enrollList = seminarService.getEnrollListWithNullByKlassSeminarId(klassSeminar.getId());
         Team team = teamService.get(klass.getCourseId(), studentId);
         log.info("enrollList : {}", enrollList.toString());
         log.info("team : {}", team.toString());
