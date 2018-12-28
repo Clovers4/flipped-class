@@ -310,10 +310,13 @@ public class TeamDaoImpl implements TeamDao {
                 teamStrategy.setStrategySerial(maxStrategySerial+1);
 
                 insertSubStrategy(teamStrategy);
-                teamStrategy.setStrategyId(teamStrategy.getCourseStrategyList().get(0).getMyId());
+                if(teamStrategy.getCourseStrategyList().size()!=0){
+                    teamStrategy.setStrategyId(teamStrategy.getCourseStrategyList().get(0).getMyId());
 
-                System.out.println("teamStrategy"+teamStrategy);
-                teamStrategyMapper.insert(teamStrategy);
+                    System.out.println("teamStrategy"+teamStrategy);
+                    teamStrategyMapper.insert(teamStrategy);
+                }
+
 
 
             }
