@@ -10,6 +10,7 @@ import online.templab.flippedclass.service.StudentService;
 import online.templab.flippedclass.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,23 +57,29 @@ public class IndexController {
 
         Teacher teacher = teacherService.getByTeacherNum(account);
         if (teacher != null) {
+            if (!teacher.getActivated()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("该教师尚未激活");
+            }
             log.info("teacher forget password,captcha is {}", captcha);
             session.setAttribute("forgetPasswordCaptcha", captcha);
             session.setAttribute("forgetType", "teacher");
             session.setAttribute("forgetAccount", account);
             emailService.sendCaptcha(teacher.getEmail(), captcha);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
         }
         Student student = studentService.getByStudentNum(account);
         if (student != null) {
+            if (!student.getActivated()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("该学生尚未激活");
+            }
             log.info("student forget password,captcha is {}", captcha);
             session.setAttribute("forgetPasswordCaptcha", captcha);
             session.setAttribute("forgetType", "student");
             session.setAttribute("forgetAccount", account);
             emailService.sendCaptcha(student.getEmail(), captcha);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON_UTF8).body("账户不存在");
     }
 
     @PostMapping("/forgetPassword")
@@ -104,11 +111,11 @@ public class IndexController {
         String studentType = "student", teacherType = "teacher";
         String forgetAccount = (String) session.getAttribute("forgetAccount");
         if (studentType.equals(session.getAttribute(forgetType))) {
-            if(!studentService.modifyPassword(forgetAccount, password)){
+            if (!studentService.modifyPassword(forgetAccount, password)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
         } else if (teacherType.equals(session.getAttribute(forgetType))) {
-            if(!teacherService.modifyPassword(forgetAccount, password)){
+            if (!teacherService.modifyPassword(forgetAccount, password)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
             }
         } else {
@@ -116,5 +123,4 @@ public class IndexController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
 }
