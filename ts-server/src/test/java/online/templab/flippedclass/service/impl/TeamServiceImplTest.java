@@ -161,6 +161,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         for( int i  = 0 ; i < teamStrategyList.size() ; ++i){
             logger.info(teamStrategyList.get(i).toString());
         }
+        logger.info(teamStrategyList.get(0).getCourseStrategyList().toString());
     }
 
     @Test
@@ -184,9 +185,8 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
         TeamStrategy teamStrategy = new TeamStrategy()
                 .setCourseId(100L)
-                .setStrategySerial(101)
                 .setStrategyName("MemberLimitStrategy")
-                .setStrategyId(100L);
+                ;
 
         List<CourseStrategy> courseStrategyList1 = new LinkedList<>();
         MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy().setMax(200).setMin(100);
@@ -197,10 +197,8 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
         teamStrategy = new TeamStrategy()
                 .setCourseId(100L)
-                .setStrategySerial(102)
-                .setStrategyName("TeamOrStrategy")
-                .setStrategyId(100L);
-        TeamOrStrategy teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy").setStrategyId(100L);
+                .setStrategyName("TeamOrStrategy");
+        TeamOrStrategy teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy");
         CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy().setCourseId(101L).setMin(30).setMax(null);
         courseStrategyList1 = new LinkedList<>();
         courseStrategyList1.add(courseMemberLimitStrategy);
@@ -210,7 +208,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
         courseStrategyList2.add(teamOrStrategy);
         teamStrategy.setCourseStrategyList(courseStrategyList2);
 
-        teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy").setStrategyId(101L);
+        teamOrStrategy = new TeamOrStrategy().setStrategyName("CourseMemberLimitStrategy");
         courseMemberLimitStrategy = new CourseMemberLimitStrategy().setCourseId(102L).setMin(20).setMax(50);
         courseStrategyList1 = new LinkedList<>();
         courseStrategyList1.add(courseMemberLimitStrategy);
@@ -221,9 +219,7 @@ public class TeamServiceImplTest extends FlippedClassApplicationTest {
 
         teamStrategy = new TeamStrategy()
                 .setCourseId(100L)
-                .setStrategySerial(103)
-                .setStrategyName("ConflictCourseStrategy")
-                .setStrategyId(103L);
+                .setStrategyName("ConflictCourseStrategy");
 
         for(int i = 0 ; i < 3 ; ++i){
             ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy().setCourseId((long)105+i);

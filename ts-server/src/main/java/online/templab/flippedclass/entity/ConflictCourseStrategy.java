@@ -83,4 +83,9 @@ public class ConflictCourseStrategy implements Serializable, CourseStrategy {
         return this.id;
     }
 
+    @Override
+    public void setMyId(Long id) {
+        this.id = id;
+    }
+
 }

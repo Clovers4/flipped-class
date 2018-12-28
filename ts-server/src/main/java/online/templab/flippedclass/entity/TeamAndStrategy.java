@@ -118,4 +118,9 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
     public Long getMyId() {
         return this.id;
     }
+
+    @Override
+    public void setMyId(Long id) {
+        this.id = id;
+    }
 }

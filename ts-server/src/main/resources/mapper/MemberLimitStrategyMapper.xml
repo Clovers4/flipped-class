@@ -10,4 +10,15 @@
     <result column="min_member" jdbcType="TINYINT" property="min" />
     <result column="max_member" jdbcType="TINYINT" property="max" />
   </resultMap>
+
+  <select id="getMaxId" resultType="Integer">
+    select ifnull(max(id), 0) as serial
+    from member_limit_strategy
+  </select>
+
+    <insert id="myInsert" useGeneratedKeys="true" keyProperty="id" parameterType="MemberLimitStrategy" keyColumn="id">
+        insert into member_limit_strategy(id,min_member,max_member)
+        values(#{id},#{min},#{max})
+    </insert>
+
 </mapper>

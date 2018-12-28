@@ -11,4 +11,10 @@
     <result column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
     <result column="strategy_id" jdbcType="BIGINT" property="strategyId" />
   </resultMap>
+
+    <select id="getMaxStrategySerial" resultType="Integer">
+        select ifnull(max(strategy_serial), 0) as serial
+        from team_strategy
+    </select>
+
 </mapper>
