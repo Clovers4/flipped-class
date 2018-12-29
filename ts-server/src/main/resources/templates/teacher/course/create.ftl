@@ -139,6 +139,7 @@
                     <label class="layui-form-label">小组人数上限</label>
                     <div class="layui-input-block">
                         <select name="maxTeamMember" lay-filter="aihao">
+                            <option value="3">3人</option>
                             <option value="4">4人</option>
                             <option value="5" selected>5人</option>
                             <option value="6">6人</option>
