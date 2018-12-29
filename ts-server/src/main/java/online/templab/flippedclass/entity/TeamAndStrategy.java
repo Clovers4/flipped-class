@@ -40,14 +40,14 @@ public class TeamAndStrategy implements Serializable, CourseStrategy {
     @Override
     public Boolean isValid(List<Student> studentList) {
 
-        if(this.strategyName.equals("TeamAndStrategy")){
+        if("TeamAndStrategy".equals(this.strategyName)){
             for(int i = 0 ; i < this.courseStrategyList.size() ; ++i){
                 if(!courseStrategyList.get(i).isValid(studentList)){
                     return false;
                 }
             }
         }
-        else if(this.strategyName.equals("TeamOrStrategy")){
+        else if("TeamOrStrategy".equals(this.strategyName)){
             int orStrategyCount = this.courseStrategyList.size();
             if(orStrategyCount != 0){
                 for(int i = 0 ; i < this.courseStrategyList.size(); ++i){
