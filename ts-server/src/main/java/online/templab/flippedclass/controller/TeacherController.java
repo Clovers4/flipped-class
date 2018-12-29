@@ -643,7 +643,7 @@ TODO：可删除
         List<Course> shareSeminarMainCourse = new ArrayList<>();
         Course course1 = shareService.getShareSeminarMainCourse(courseId);
         if (course1 != null) {
-            shareSeminarMainCourse.add(course);
+            shareSeminarMainCourse.add(course1);
         }
         mainCourse.put("team", shareTeamMainCourse);
         mainCourse.put("seminar", shareSeminarMainCourse);
