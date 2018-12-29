@@ -64,7 +64,7 @@ public class TeamDaoImpl implements TeamDao {
         List<CourseStrategy> courseStrategyList = courseStrategy.getCourseStrategyList();
 
         if (courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy) {
-            if (courseStrategy.getMyStrategyName().equals("ConflictCourseStrategy")) {
+            if ("ConflictCourseStrategy".equals(courseStrategy.getMyStrategyName())) {
                 for (int i = 0; i < courseStrategyList.size(); ++i) {
                     CourseStrategy courseStrategy1 = courseStrategyList.get(i);
                     conflictCourseStrategyMapper.delete(new ConflictCourseStrategy()
@@ -72,7 +72,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setCourseId(courseStrategy1.getMyCourseId())
                     );
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("TeamAndStrategy")) {
+            } else if ("TeamAndStrategy".equals(courseStrategy.getMyStrategyName())) {
                 for (int i = 0; i < courseStrategyList.size(); ++i) {
                     CourseStrategy courseStrategy1 = courseStrategyList.get(i);
                     teamAndStrategyMapper.delete(new TeamAndStrategy()
@@ -80,7 +80,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setStrategyId(courseStrategy1.getMyStrategyId())
                             .setStrategyName(courseStrategy1.getMyStrategyName()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("TeamOrStrategy")) {
+            } else if ("TeamOrStrategy".equals(courseStrategy.getMyStrategyName())) {
                 for (int i = 0; i < courseStrategyList.size(); ++i) {
                     CourseStrategy courseStrategy1 = courseStrategyList.get(i);
                     teamOrStrategyMapper.delete(new TeamOrStrategy()
@@ -88,7 +88,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setStrategyId(courseStrategy1.getMyStrategyId())
                             .setStrategyName(courseStrategy1.getMyStrategyName()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("CourseMemberLimitStrategy")) {
+            } else if ("CourseMemberLimitStrategy".equals(courseStrategy.getMyStrategyName())) {
                 for (int i = 0; i < courseStrategyList.size(); ++i) {
                     CourseStrategy courseStrategy1 = courseStrategyList.get(i);
                     courseMemberLimitStrategyMapper.delete(new CourseMemberLimitStrategy()
@@ -97,7 +97,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setMax(courseStrategy1.getMyMax())
                             .setCourseId(courseStrategy1.getMyCourseId()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("MemberLimitStrategy")) {
+            } else if ("MemberLimitStrategy".equals(courseStrategy.getMyStrategyName())) {
                 for (int i = 0; i < courseStrategyList.size(); ++i) {
                     CourseStrategy courseStrategy1 = courseStrategyList.get(i);
                     memberLimitStrategyMapper.delete(new MemberLimitStrategy()
@@ -121,7 +121,7 @@ public class TeamDaoImpl implements TeamDao {
         List<CourseStrategy> courseStrategyList = courseStrategy.getCourseStrategyList();
 
         if (courseStrategy instanceof TeamStrategy || courseStrategy instanceof TeamOrStrategy || courseStrategy instanceof TeamAndStrategy) {
-            if (courseStrategy.getMyStrategyName().equals("ConflictCourseStrategy") && courseStrategyList.size() != 0) {
+            if ("ConflictCourseStrategy".equals(courseStrategy.getMyStrategyName()) && courseStrategyList.size() != 0) {
                 ConflictCourseStrategy conflictCourseStrategy = new ConflictCourseStrategy().setCourseId(courseStrategyList.get(0).getMyCourseId());
                 conflictCourseStrategyMapper.insert(conflictCourseStrategy);
                 System.out.println(conflictCourseStrategy);
@@ -133,7 +133,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setId(courseStrategy.getMyStrategyId())
                             .setCourseId(courseStrategyList.get(i).getMyCourseId()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("TeamAndStrategy") && courseStrategyList.size() != 0) {
+            } else if ("TeamAndStrategy".equals(courseStrategy.getMyStrategyName()) && courseStrategyList.size() != 0) {
                 for (int j = 0; j < courseStrategyList.size(); ++j) {
                     insertSubStrategy(courseStrategyList.get(j));
                 }
@@ -151,7 +151,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setStrategyId(courseStrategyList.get(i).getCourseStrategyList().get(0).getMyId())
                             .setStrategyName(courseStrategyList.get(i).getMyStrategyName()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("TeamOrStrategy") && courseStrategyList.size() != 0) {
+            } else if ("TeamOrStrategy".equals(courseStrategy.getMyStrategyName()) && courseStrategyList.size() != 0) {
                 for (int j = 0; j < courseStrategyList.size(); ++j) {
                     insertSubStrategy(courseStrategyList.get(j));
                 }
@@ -168,7 +168,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setStrategyId(courseStrategyList.get(i).getCourseStrategyList().get(0).getMyId())
                             .setStrategyName(courseStrategyList.get(i).getMyStrategyName()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("CourseMemberLimitStrategy") && courseStrategyList.size() != 0) {
+            } else if ("CourseMemberLimitStrategy".equals(courseStrategy.getMyStrategyName()) && courseStrategyList.size() != 0) {
                 CourseMemberLimitStrategy courseMemberLimitStrategy = new CourseMemberLimitStrategy()
                         .setMin(courseStrategyList.get(0).getMyMin())
                         .setMax(courseStrategyList.get(0).getMyMax())
@@ -185,7 +185,7 @@ public class TeamDaoImpl implements TeamDao {
                             .setMax(courseStrategyList.get(i).getMyMax())
                             .setCourseId(courseStrategyList.get(i).getMyCourseId()));
                 }
-            } else if (courseStrategy.getMyStrategyName().equals("MemberLimitStrategy") && courseStrategyList.size() != 0) {
+            } else if ("MemberLimitStrategy".equals(courseStrategy.getMyStrategyName()) && courseStrategyList.size() != 0) {
                 MemberLimitStrategy memberLimitStrategy = new MemberLimitStrategy()
                         .setMin(courseStrategyList.get(0).getMyMin())
                         .setMax(courseStrategyList.get(0).getMyMax());
@@ -212,7 +212,7 @@ public class TeamDaoImpl implements TeamDao {
             CourseStrategy subCourseStrategy = null;
             List<CourseStrategy> courseStrategyList = new LinkedList<>();
 
-            if (strategyName.equals("TeamAndStrategy")) {
+            if ("TeamAndStrategy".equals(strategyName)) {
 //               subCourseStrategy = new TeamAndStrategy()
 //                                .setStrategyId(courseStrategy.getMyStrategyId());
 //                courseStrategyList = teamAndStrategyMapper.select(subCourseStrategy );
@@ -220,7 +220,7 @@ public class TeamDaoImpl implements TeamDao {
                 for (int i = 0; i < teamAndStrategyList.size(); ++i) {
                     courseStrategyList.add(teamAndStrategyList.get(i));
                 }
-            } else if (strategyName.equals("TeamOrStrategy")) {
+            } else if ("TeamOrStrategy".equals(strategyName)) {
 //                subCourseStrategy = new TeamOrStrategy()
 //                        .setStrategyId(courseStrategy.getMyStrategyId());
 //                courseStrategyList = teamOrStrategyMapper.select(subCourseStrategy );
@@ -229,17 +229,17 @@ public class TeamDaoImpl implements TeamDao {
                 for (int i = 0; i < teamOrStrategyList.size(); ++i) {
                     courseStrategyList.add(teamOrStrategyList.get(i));
                 }
-            } else if (strategyName.equals("MemberLimitStrategy")) {
+            } else if ("MemberLimitStrategy".equals(strategyName)) {
                 List<MemberLimitStrategy> memberLimitStrategyList = memberLimitStrategyMapper.select(new MemberLimitStrategy().setId(courseStrategy.getMyStrategyId()));
                 for (int i = 0; i < memberLimitStrategyList.size(); ++i) {
                     courseStrategyList.add(memberLimitStrategyList.get(i));
                 }
-            } else if (strategyName.equals("CourseMemberLimitStrategy")) {
+            } else if ("CourseMemberLimitStrategy".equals(strategyName)) {
                 List<CourseMemberLimitStrategy> courseMemberLimitStrategyList = courseMemberLimitStrategyMapper.select(new CourseMemberLimitStrategy().setId(courseStrategy.getMyStrategyId()));
                 for (int i = 0; i < courseMemberLimitStrategyList.size(); ++i) {
                     courseStrategyList.add(courseMemberLimitStrategyList.get(i));
                 }
-            } else if (strategyName.equals("ConflictCourseStrategy")) {
+            } else if ("ConflictCourseStrategy".equals(strategyName)) {
                 List<ConflictCourseStrategy> conflictCourseStrategyList = conflictCourseStrategyMapper.select(new ConflictCourseStrategy().setId(courseStrategy.getMyStrategyId()));
                 for (int i = 0; i < conflictCourseStrategyList.size(); ++i) {
                     courseStrategyList.add(conflictCourseStrategyList.get(i));

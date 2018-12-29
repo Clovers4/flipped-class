@@ -19,6 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableConfigurationProperties(StorageProperties.class)
 public class FlippedClassApplication {
 
+    /**
+     * 这里使用这个 deprecated类是因为security需要passwordEncoder,而本项目密码不需要加密。
+     * 因此使用NoOpPasswordEncoder加密,在以后即使要替换成BCypt等加密器时过渡也会更加简单。
+     *
+     * @return
+     */
     @SuppressWarnings("deprecation")
     @Bean()
     public PasswordEncoder passwordEncoder() {

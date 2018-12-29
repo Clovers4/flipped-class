@@ -73,11 +73,6 @@ public class SeminarServiceImpl implements SeminarService {
         return seminarDao.selectByPrimaryKey(id);
     }
 
-    //TODO:
-    @Override
-    public void downloadPPT(Long klassSeminarId, String PPTurl) {
-
-    }
 
     //TODO:
     @Override
