@@ -29,7 +29,9 @@
 1. 管理（CRUD）老师 / 学生账号
 
 ##  <div id = "demo-picture" />演示图片 
-详见：[demo-picture](/Demo Picture.md)
+详见：
+
+[demo-picture](Demo Picture.md)
 
 ## <div id = "project-tech-stack" /> 项目技术栈 
 
@@ -132,7 +134,9 @@
 
 
 ##  <div id = "task-and-code-standard" /> 任务 & 代码规范 
-详见：[Task & Code Standard](/Task & Code Standard.md)
+详见：
+
+[Task & Code Standard](Task & Code Standard.md)
 
 
 ## <div id = "project-summary" />  项目总结 
