@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.TeamMapper">
+    <!-- <cache/>-->
+
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Team">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="klass_id" jdbcType="BIGINT" property="klassId"/>
+        <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+        <result column="leader_id" jdbcType="BIGINT" property="leaderId"/>
+        <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        <result column="team_serial" jdbcType="TINYINT" property="serial"/>
+        <result column="klass_serial" jdbcType="TINYINT" property="klassSerial"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <collection property="teamStrategyList" ofType="TeamStrategy">
+            <id column="cid" jdbcType="BIGINT" property="courseId"/>
+            <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial"/>
+            <result column="strategy_name" jdbcType="VARCHAR" property="strategyName"/>
+            <result column="strategy_id" jdbcType="BIGINT" property="strategyId"/>
+        </collection>
+    </resultMap>
+
+    <select id="getMaxTeamSerial" resultType="Integer">
+        select ifnull(max(team_serial), 0) as serial
+        from team
+        where course_id = #{courseId}
+          and klass_id = #{klassId}
+    </select>
+
+    <select id="selectByTeamId" parameterType="long" resultMap="BaseResultMap">
+        SELECT t.id,
+               t.klass_id,
+               t.course_id,
+               t.leader_id,
+               t.team_name,
+               t.team_serial,
+               t.status,
+               ts.course_id 'cid',
+               ts.strategy_serial,
+               ts.strategy_name,
+               ts.strategy_id
+        FROM team t
+                 LEFT JOIN team_strategy ts ON t.course_id = ts.course_id
+        WHERE t.id = #{teamId}
+    </select>
+
+</mapper>

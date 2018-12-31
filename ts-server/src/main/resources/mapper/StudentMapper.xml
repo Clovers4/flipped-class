@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.StudentMapper">
+
+    <!-- <cache/>-->
+
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Student">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="studentNum"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_active" jdbcType="TINYINT" property="activated"/>
+        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+    </resultMap>
+
+    <resultMap id="CourseResultMap" type="online.templab.flippedclass.entity.Student">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="studentNum"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_active" jdbcType="TINYINT" property="activated"/>
+        <result column="student_name" jdbcType="VARCHAR" property="studentName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <collection property="couseIdList" ofType="long">
+            <result column="course_id" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateByStudentNumSelective" parameterType="Student">
+        update student
+        <set>
+            <if test="password !=null">
+                `password` = #{password},
+            </if>
+            <if test="studentName != null">
+                student_name = #{studentName},
+            </if>
+            <if test="activated != null">
+                is_active = #{activated},
+            </if>
+            <if test="email != null">
+                email = #{email}
+            </if>
+        </set>
+        where `account` = #{studentNum}
+    </update>
+
+    <select id="selectUnTeamedStudentByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        select
+            student.id,
+            student.account,
+            student.password,
+            student.is_active,
+            student.student_name,
+            student.email
+        from student
+            left join klass_student on student.id = klass_student.student_id
+        where klass_student.course_id = #{courseId}
+              and student.id not in (select team_student.student_id
+                                     from team_student
+                                         left join klass_team on team_student.team_id = klass_team.team_id
+                                                                  WHERE klass_team.klass_id in (select klass_id
+                                                                                             from klass_student
+                                                                                             where course_id =
+                                                                                                   #{courseId}))
+    </select>
+
+    <select id="selectTeamMemberByTeamId" resultMap="BaseResultMap">
+        select
+            student.id,
+            student.account,
+            student.password,
+            student.is_active,
+            student.student_name,
+            student.email
+        from student
+            left join team_student on student.id = team_student.student_id
+        where team_student.team_id = #{teamId}
+    </select>
+
+    <select id="selectTeamMerberCourseIdByTeamId" parameterType="long" resultMap="CourseResultMap">
+        SELECT s.id,
+               s.account,
+               s.password,
+               s.is_active,
+               s.student_name,
+               s.email,
+               ks.course_id
+        FROM student s
+            LEFT JOIN team_student ts ON ts.student_id = s.id
+            LEFT JOIN klass_student ks ON ks.student_id = s.id
+        WHERE ts.team_id = #{teamId}
+    </select>
+
+    <select id="selectStudentsByKlassIdTeamId" resultMap="BaseResultMap">
+        select
+            s.id,
+            s.account,
+            s.email,
+            s.is_active,
+            s.password,
+            s.student_name
+        from team_student ts,
+            klass_student ks,
+            student s
+        where ts.team_id = #{teamId}
+              and ks.klass_id = #{klassId}
+              and ks.student_id = ts.student_id
+              and s.id = ts.student_id
+    </select>
+</mapper>

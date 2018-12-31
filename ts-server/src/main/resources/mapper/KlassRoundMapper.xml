@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.KlassRoundMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.KlassRound">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="klass_id" jdbcType="BIGINT" property="klassId" />
+        <id column="round_id" jdbcType="BIGINT" property="roundId" />
+        <result column="enroll_number" jdbcType="TINYINT" property="enrollLimit" />
+        <association property="klass" javaType="Klass">
+            <id column="id" jdbcType="BIGINT" property="id" />
+            <result column="course_id" jdbcType="BIGINT" property="courseId" />
+            <result column="grade" jdbcType="INTEGER" property="grade" />
+            <result column="klass_serial" jdbcType="TINYINT" property="serial" />
+            <result column="klass_time" jdbcType="VARCHAR" property="time" />
+            <result column="klass_location" jdbcType="VARCHAR" property="location" />
+        </association>
+    </resultMap>
+
+    <update id="updateByRoundIdKlassIdSelective" parameterType="KlassRound">
+        update klass_round
+        <set>
+            <if test="enrollLimit != null">
+                `enroll_number` = #{enrollLimit},
+            </if>
+        </set>
+        where `round_id` = #{roundId} AND `klass_id` = #{klassId}
+    </update>
+
+    <select id="selectByRoundId" parameterType="long" resultMap="BaseResultMap">
+        SELECT ks.klass_id,
+               ks.round_id,
+               ks.enroll_number,
+               k.id,
+               k.course_id,
+               k.grade,
+               k.klass_serial,
+               k.klass_time,
+               k.klass_location
+        FROM klass_round ks
+                 LEFT JOIN klass k ON ks.klass_id = k.id
+        WHERE ks.round_id = #{roundId} AND k.course_id = #{courseId}
+    </select>
+
+    <select id="selectByRoundIdKlassId" resultMap="BaseResultMap">
+        SELECT ks.klass_id,
+               ks.round_id,
+               ks.enroll_number,
+               k.id,
+               k.course_id,
+               k.grade,
+               k.klass_serial,
+               k.klass_time,
+               k.klass_location
+        FROM klass_round ks
+                 LEFT JOIN klass k ON ks.klass_id = k.id
+        WHERE ks.round_id=#{roundId} AND ks.klass_id = #{klassId}
+    </select>
+
+</mapper>

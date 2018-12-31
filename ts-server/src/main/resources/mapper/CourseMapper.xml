@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.CourseMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Course">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
+        <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+        <result column="presentation_percentage" jdbcType="TINYINT" property="prePercentage"/>
+        <result column="question_percentage" jdbcType="TINYINT" property="quesPercentage"/>
+        <result column="report_percentage" jdbcType="TINYINT" property="reportPercentage"/>
+        <result column="team_start_time" jdbcType="TIMESTAMP" property="teamStartDate"/>
+        <result column="team_end_time" jdbcType="TIMESTAMP" property="teamEndDate"/>
+        <result column="team_main_course_id" jdbcType="BIGINT" property="teamMainCourseId"/>
+        <result column="seminar_main_course_id" jdbcType="BIGINT" property="seminarMainCourseId"/>
+        <collection property="klassList" ofType="Klass">
+            <id column="kid" jdbcType="BIGINT" property="id" />
+            <result column="course_id" jdbcType="BIGINT" property="courseId" />
+            <result column="grade" jdbcType="INTEGER" property="grade" />
+            <result column="klass_serial" jdbcType="TINYINT" property="serial" />
+            <result column="klass_time" jdbcType="VARCHAR" property="time" />
+            <result column="klass_location" jdbcType="VARCHAR" property="location" />
+        </collection>
+        <collection property="teamStrategyList" ofType="TeamStrategy">
+            <id column="cid" jdbcType="BIGINT" property="courseId"/>
+            <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial"/>
+            <result column="strategy_name" jdbcType="VARCHAR" property="strategyName"/>
+            <result column="strategy_id" jdbcType="BIGINT" property="strategyId"/>
+        </collection>
+        <collection property="roundList" ofType="Round">
+            <id column="rid" jdbcType="BIGINT" property="id"/>
+            <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+            <result column="round_serial" jdbcType="TINYINT" property="roundNum"/>
+            <result column="presentation_score_method" jdbcType="TINYINT" property="preScoreType"/>
+            <result column="report_score_method" jdbcType="TINYINT" property="reportScoreType"/>
+            <result column="question_score_method" jdbcType="TINYINT" property="quesScoreType"/>
+        </collection>
+        <collection property="seminarList" ofType="Seminar">
+            <id column="sid" jdbcType="BIGINT" property="id" />
+            <result column="scid" jdbcType="BIGINT" property="courseId" />
+            <result column="round_id" jdbcType="BIGINT" property="roundId" />
+            <result column="seminar_name" jdbcType="VARCHAR" property="theme" />
+            <result column="sint" jdbcType="VARCHAR" property="content" />
+            <result column="max_team" jdbcType="TINYINT" property="maxTeam" />
+            <result column="is_visible" jdbcType="TINYINT" property="visible" />
+            <result column="seminar_serial" jdbcType="TINYINT" property="serial" />
+            <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartDate" />
+            <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndDate" />
+        </collection>
+    </resultMap>
+
+    <select id="selectByStudentId" parameterType="Long" resultMap="BaseResultMap">
+        select course.id,
+               teacher_id,
+               course_name,
+               introduction,
+               presentation_percentage,
+               question_percentage,
+               report_percentage,
+               team_start_time,
+               team_end_time,
+               team_main_course_id,
+               seminar_main_course_id
+        from course,
+             klass_student
+        where course.id = klass_student.course_id
+          and klass_student.student_id = #{studentId}
+    </select>
+
+    <select id="selectCourseKlassByStudentId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               k.id 'kid',
+               k.course_id,
+               k.grade,
+               k.klass_serial,
+               k.klass_time,
+               k.klass_location
+        FROM course c
+        LEFT JOIN klass_student ks ON ks.course_id = c.id
+        LEFT JOIN klass k ON k.course_id = c.id
+        WHERE ks.student_id = #{studentId}
+    </select>
+
+    <select id="selcetByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               k.id 'kid',
+               k.course_id,
+               k.grade,
+               k.klass_serial,
+               k.klass_time,
+               k.klass_location
+        FROM course c
+                 LEFT JOIN klass k ON k.course_id = c.id
+        WHERE c.id = #{courseId}
+    </select>
+
+    <select id="selcetCourseSubCourseByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               k.id 'kid',
+               k.course_id,
+               k.grade,
+               k.klass_serial,
+               k.klass_time,
+               k.klass_location
+        FROM course c
+                 LEFT JOIN klass k ON k.course_id = c.id
+        WHERE c.id = #{courseId} OR c.seminar_main_course_id = #{courseId}
+    </select>
+
+    <select id="selectCanShareSeminar" resultMap="BaseResultMap">
+        select id,
+               teacher_id,
+               course_name,
+               introduction,
+               presentation_percentage,
+               question_percentage,
+               report_percentage,
+               team_start_time,
+               team_end_time,
+               team_main_course_id,
+               seminar_main_course_id
+        from course
+        where seminar_main_course_id is null
+        and id != #{courseId}
+    </select>
+
+    <select id="selectCanShareTeam" resultMap="BaseResultMap">
+        select id,
+               teacher_id,
+               course_name,
+               introduction,
+               presentation_percentage,
+               question_percentage,
+               report_percentage,
+               team_start_time,
+               team_end_time,
+               team_main_course_id,
+               seminar_main_course_id
+        from course
+        where team_main_course_id is null
+          and id != #{courseId}
+    </select>
+
+    <select id="selectDateByTeamId" resultMap="BaseResultMap">
+        select course.team_end_time
+        from course
+        left join team on course.id = team.course_id
+        where team.id = #{teamId}
+    </select>
+
+    <select id="selectTeamStrategyListByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               ts.course_id 'cid',
+               ts.strategy_serial,
+               ts.strategy_name,
+               ts.strategy_id
+        FROM course c
+        LEFT JOIN team_strategy ts ON ts.course_id = c.id
+        WHERE c.id = #{courseId}
+    </select>
+
+    <select id="selectRoundListByCourseId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.presentation_percentage,
+               c.question_percentage,
+               c.report_percentage,
+               c.report_percentage,
+               c.team_start_time,
+               c.team_end_time,
+               c.team_main_course_id,
+               c.seminar_main_course_id,
+               r.id 'rid',
+               r.course_id,
+               r.round_serial,
+               r.presentation_score_method,
+               r.question_score_method,
+               r.question_score_method,
+               s.id 'sid',
+               s.course_id 'scid',
+               s.round_id,
+               s.seminar_name,
+               s.introduction 'sint',
+               s.max_team,
+               s.is_visible,
+               s.seminar_serial,
+               s.enroll_end_time,
+               s.enroll_start_time
+        FROM course c
+        LEFT JOIN round r ON r.course_id = c.id
+        LEFT JOIN seminar s ON c.id = s.course_id
+        WHERE c.id = #{courseId}
+    </select>
+
+
+</mapper>
