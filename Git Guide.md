@@ -77,27 +77,43 @@ type：commit的类型
 
 1. src/main/resources/mybatis-generator/init.propeties未上传。示例如下：
 ```propeties
-server.port=8080
-#server.servlet.context-path=/test
-
-
-# 数据源配置 - Druid采用默认配置
-spring.datasource.url = jdbc:mysql://127.0.0.1:3306/flipped_class?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
-spring.datasource.username = root
-spring.datasource.password = Ab123456
-# driver-class-name 非必填可根据url推断
-# spring.datasource.driver-class-name = com.mysql.jdbc.Driver
+# 根据数据库中的表生成对应的实体类、mapper、xml文件
+# project : 实体类 和 Mapper类的位置 ; resources: xml文件的位置
+project=D:/mabatis-generator/java
+resources=D:/mabatis-generator/resources
+#project =src/main/java
+#resources=src/main/resources
+#
+# jdbc
+jdbc_driver=com.mysql.jdbc.Driver
+jdbc_url=jdbc:mysql://127.0.0.1:3306/flipped_class?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+jdbc_user=你的账号
+jdbc_password=你的密码
 ```
 2. src/main/resources/config/application-*（dev、pro、test）未上传。示例如下：
 ```propeties
+#
 server.port=8080
-#server.servlet.context-path=/test
-
-
+#
 # 数据源配置 - Druid采用默认配置
-spring.datasource.url=jdbc:mysql://127.0.0.1:3306/flipped_class_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
-spring.datasource.username = root
-spring.datasource.password = Ab123456
-# driver-class-name 非必填可根据url推断
-# spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/flipped_class?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+spring.datasource.username=你的账号
+spring.datasource.password=你的密码
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+#
+# mail
+spring.mail.host=smtp.163.com
+spring.mail.username=你的邮箱
+spring.mail.password=你的授权码
+spring.mail.default-encoding=UTF-8
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+#
+# actuator TODO: 和spring security 配合还需要一些配置(可能是类),CORS可能要配置
+management.server.port=9999
+management.endpoints.web.exposure.include=*
+#
+# mybatis test
+logging.level.online.templab.flippedclass.mapper=debug
 ```
