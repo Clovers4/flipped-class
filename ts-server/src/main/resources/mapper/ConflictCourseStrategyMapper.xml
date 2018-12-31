@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.ConflictCourseStrategyMapper">
+  <!-- <cache/>-->
+  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.ConflictCourseStrategy">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="course_id" jdbcType="BIGINT" property="courseId" />
+  </resultMap>
+
+  <select id="getMaxId" resultType="Integer">
+    select ifnull(max(id), 0) as serial
+    from conflict_course_strategy
+  </select>
+
+  <insert id="myInsert" useGeneratedKeys="true" keyProperty="id" parameterType="ConflictCourseStrategy" keyColumn="id">
+    insert into conflict_course_strategy(id,course_id)
+    values(#{id},#{courseId})
+  </insert>
+
+</mapper>

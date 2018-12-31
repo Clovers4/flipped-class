@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.AttendanceMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Attendance">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="klass_seminar_id" jdbcType="BIGINT" property="klassSeminarId"/>
+        <result column="team_id" jdbcType="BIGINT" property="teamId"/>
+        <result column="team_order" jdbcType="TINYINT" property="sn"/>
+        <result column="is_present" jdbcType="TINYINT" property="presenting"/>
+        <result column="report_name" jdbcType="VARCHAR" property="reportName"/>
+        <result column="report_url" jdbcType="VARCHAR" property="reportFile"/>
+        <result column="ppt_name" jdbcType="VARCHAR" property="pptName"/>
+        <result column="ppt_url" jdbcType="VARCHAR" property="preFile"/>
+        <association property="team" javaType="Team">
+            <id column="tid" jdbcType="BIGINT" property="id" />
+            <result column="klass_id" jdbcType="BIGINT" property="klassId" />
+            <result column="course_id" jdbcType="BIGINT" property="courseId" />
+            <result column="leader_id" jdbcType="BIGINT" property="leaderId" />
+            <result column="team_name" jdbcType="VARCHAR" property="teamName" />
+            <result column="team_serial" jdbcType="TINYINT" property="serial" />
+            <result column="klass_serial" jdbcType="TINYINT" property="klassSerial" />
+            <result column="status" jdbcType="TINYINT" property="status" />
+        </association>
+    </resultMap>
+
+
+    <select id="selectByKlassSeminarId" resultMap="BaseResultMap">
+        SELECT a.id,
+               a.team_id,
+               a.klass_seminar_id,
+               a.team_order,
+               a.is_present,
+               a.report_name,
+               a.report_url,
+               a.ppt_url,
+               a.ppt_name,
+               t.id 'tid',
+               t.course_id,
+               t.klass_id,
+               t.leader_id,
+               t.team_name,
+               t.team_serial,
+               t.status,
+               t.klass_serial
+        FROM attendance a
+                 left join team t on a.team_id = t.id
+        where a.klass_seminar_id = #{klassSeminarId}
+    </select>
+
+    <select id="selectPresenting" resultMap="BaseResultMap">
+        select id, klass_seminar_id
+        from attendance
+        where team_id = #{teamId}
+          and is_present = 1
+    </select>
+
+</mapper>

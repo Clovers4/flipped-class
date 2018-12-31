@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.TeamStrategyMapper">
+  <!-- <cache/>-->
+  <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.TeamStrategy">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="course_id" jdbcType="BIGINT" property="courseId" />
+    <id column="strategy_serial" jdbcType="TINYINT" property="strategySerial" />
+    <result column="strategy_name" jdbcType="VARCHAR" property="strategyName" />
+    <result column="strategy_id" jdbcType="BIGINT" property="strategyId" />
+  </resultMap>
+
+    <select id="getMaxStrategySerial" resultType="Integer">
+        select ifnull(max(strategy_serial), 0) as serial
+        from team_strategy
+    </select>
+
+</mapper>

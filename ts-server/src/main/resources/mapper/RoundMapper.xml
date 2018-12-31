@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.RoundMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Round">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+        <result column="round_serial" jdbcType="TINYINT" property="roundNum"/>
+        <result column="presentation_score_method" jdbcType="TINYINT" property="preScoreType"/>
+        <result column="report_score_method" jdbcType="TINYINT" property="reportScoreType"/>
+        <result column="question_score_method" jdbcType="TINYINT" property="quesScoreType"/>
+        <collection property="seminars" ofType="Seminar">
+            <id column="sid" jdbcType="BIGINT" property="id"/>
+            <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+            <result column="round_id" jdbcType="BIGINT" property="roundId"/>
+            <result column="seminar_name" jdbcType="VARCHAR" property="theme"/>
+            <result column="introduction" jdbcType="VARCHAR" property="content"/>
+            <result column="max_team" jdbcType="TINYINT" property="maxTeam"/>
+            <result column="is_visible" jdbcType="TINYINT" property="visible"/>
+            <result column="seminar_serial" jdbcType="TINYINT" property="serial"/>
+            <result column="enroll_start_time" jdbcType="TIMESTAMP" property="enrollStartDate"/>
+            <result column="enroll_end_time" jdbcType="TIMESTAMP" property="enrollEndDate"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateByRoundIdSelective" parameterType="Round">
+        update round r
+        <set>
+            <if test="courseId !=null">
+                `course_id` = #{courseId},
+            </if>
+            <if test="roundNum != null">
+                `round_serial` = #{roundNum},
+            </if>
+            <if test="preScoreType != null">
+                `presentation_score_method` = #{preScoreType},
+            </if>
+            <if test="reportScoreType != null">
+                `report_score_method` = #{reportScoreType},
+            </if>
+            <if test="quesScoreType != null">
+                `question_score_method` = #{quesScoreType}
+            </if>
+        </set>
+        where `id` = #{id}
+    </update>
+
+
+    <update id="updateRoundSerial">
+        update round
+        SET round_serial = round_serial - 1
+        where `course_id` = #{courseId}
+          AND `round_serial` > #{roundSerial}
+    </update>
+
+
+  <select id="selectByCourseId" parameterType="long" resultMap="BaseResultMap">
+    SELECT r.id ,
+           r.course_id,
+           r.round_serial,
+           r.presentation_score_method,
+           r.report_score_method,
+           r.question_score_method,
+           s.id 'sid',
+           s.course_id,
+           s.round_id,
+           s.seminar_name,
+           s.introduction,
+           s.max_team,
+           s.is_visible,
+           s.seminar_serial,
+           s.enroll_start_time,
+           s.enroll_end_time
+    FROM round r left join seminar s
+            on r.id =s.round_id
+    WHERE r.course_id = #{courseId}
+  </select>
+
+    <select id="getOne" parameterType="long" resultMap="BaseResultMap">
+        SELECT r.id,
+               r.course_id,
+               r.round_serial,
+               r.presentation_score_method,
+               r.report_score_method,
+               r.question_score_method,
+               s.id 'sid',
+               s.course_id,
+               s.round_id,
+               s.seminar_name,
+               s.introduction,
+               s.max_team,
+               s.is_visible,
+               s.seminar_serial,
+               s.enroll_start_time,
+               s.enroll_end_time
+        FROM round r
+                 LEFT JOIN seminar s ON r.id = s.round_id
+        WHERE r.id = #{id}
+    </select>
+
+    <select id="getMaxId" resultType="Integer">
+        select ifnull(max(id), 0) as serial
+        from round
+    </select>
+
+</mapper>

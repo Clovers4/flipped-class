@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.TeamStudentMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.TeamStudent">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="team_id" jdbcType="BIGINT" property="teamId"/>
+        <id column="student_id" jdbcType="BIGINT" property="studentId"/>
+    </resultMap>
+
+    <insert id="insertList">
+        insert into team_student(team_id,student_id)
+        values
+        <foreach collection="studentNum" item="stuId" separator=",">
+            (#{teamId},#{stuId})
+        </foreach>
+    </insert>
+
+    <select id="selectCountByKlassIdTeamId" resultType="long">
+        select count(ts.student_id)
+        from team_student ts,
+             klass_student ks
+        where ts.team_id = #{teamId}
+          and ks.klass_id = #{klassId}
+          and ks.student_id = ts.student_id
+    </select>
+</mapper>

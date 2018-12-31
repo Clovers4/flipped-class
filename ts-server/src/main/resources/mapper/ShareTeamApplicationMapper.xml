@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.ShareTeamApplicationMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.ShareTeamApplication">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="main_course_id" jdbcType="BIGINT" property="mainCourseId"/>
+        <result column="sub_course_id" jdbcType="BIGINT" property="subCourseId"/>
+        <result column="sub_course_teacher_id" jdbcType="BIGINT" property="teacherId"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <association property="mainTeacher" javaType="Teacher">
+            <id column="tid" jdbcType="BIGINT" property="id"/>
+            <result column="account" jdbcType="VARCHAR" property="teacherNum"/>
+            <result column="teacher_name" jdbcType="VARCHAR" property="teacherName"/>
+            <result column="is_active" jdbcType="TINYINT" property="activated"/>
+            <result column="email" jdbcType="VARCHAR" property="email"/>
+        </association>
+        <association property="mainCourse" javaType="Course">
+            <id column="cid" jdbcType="BIGINT" property="id"/>
+            <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+        </association>
+        <association property="subCourse" javaType="Course">
+            <id column="scid" jdbcType="BIGINT" property="id"/>
+            <result column="sub_name" jdbcType="VARCHAR" property="courseName"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectShareTeamApplication" parameterType="Long" resultMap="BaseResultMap">
+        SELECT s.id,
+               s.sub_course_id,
+               s.sub_course_teacher_id,
+               s.main_course_id,
+               s.status,
+               t.id             'tid',
+               t.account,
+               t.teacher_name,
+               t.is_active,
+               t.email,
+               c.id             'cid',
+               c.course_name,
+               subc.id          'scid',
+               subc.course_name 'sub_name'
+        FROM share_team_application s,
+             course c,
+             teacher t,
+             course subc
+        where s.sub_course_teacher_id = #{teacherId}
+          and c.id = s.main_course_id
+          and t.id = c.teacher_id
+          and subc.id = s.sub_course_id
+          and s.status IS NULL
+    </select>
+</mapper>

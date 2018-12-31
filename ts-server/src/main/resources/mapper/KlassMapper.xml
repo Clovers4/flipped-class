@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.templab.flippedclass.mapper.KlassMapper">
+    <!-- <cache/>-->
+    <resultMap id="BaseResultMap" type="online.templab.flippedclass.entity.Klass">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="course_id" jdbcType="BIGINT" property="courseId"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="klass_serial" jdbcType="TINYINT" property="serial"/>
+        <result column="klass_time" jdbcType="VARCHAR" property="time"/>
+        <result column="klass_location" jdbcType="VARCHAR" property="location"/>
+        <association property="course" javaType="Course">
+            <id column="cid" jdbcType="BIGINT" property="id"/>
+            <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
+            <result column="course_name" jdbcType="VARCHAR" property="courseName"/>
+            <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+            <result column="team_main_course_id" jdbcType="BIGINT" property="teamMainCourseId"/>
+            <result column="seminar_main_course_id" jdbcType="BIGINT" property="seminarMainCourseId"/>
+        </association>
+    </resultMap>
+
+    <select id="selectIdByCourseId" parameterType="Long" resultType="Long">
+        select id
+        from klass
+        where course_id = #{courseId}
+    </select>
+
+    <!--<select id="selectBySubKlassIdCourseId" resultMap="BaseResultMap" >-->
+        <!--SELECT k1.id,-->
+               <!--k1.course_id,-->
+               <!--k1.grade,-->
+               <!--k1.klass_serial,-->
+               <!--k1.klass_time,-->
+               <!--k1.klass_location-->
+        <!--FROM klass k1, klass k2-->
+        <!--WHERE  k1.course_id = #{courseId}  AND k2.id = #{subKlassId} AND k1.klass_serial = k2.klass_serial-->
+    <!--</select>-->
+
+    <select id="listByStudentId" parameterType="Long" resultMap="BaseResultMap">
+        select k.id,
+               k.course_id,
+               k.grade,
+               k.klass_location,
+               k.klass_serial,
+               k.klass_time,
+               c.id 'cid',
+               c.teacher_id,
+               c.course_name,
+               c.introduction,
+               c.team_main_course_id,
+               c.seminar_main_course_id
+        from klass k
+                 left join course c on k.course_id = c.id
+                 left join klass_student ks on ks.klass_id = k.id
+        where ks.student_id = #{studentId}
+    </select>
+</mapper>
