@@ -8,8 +8,8 @@
 5. [任务 & 代码规范](#task-and-code-standard)
 6. [项目总结](#project-summary)
 
-<div id = "main-function" />
-## 主要功能 
+
+## <div id = "main-function" /> 主要功能 
 
 #### 老师
 
@@ -28,12 +28,10 @@
 
 1. 管理（CRUD）老师 / 学生账号
 
-<div id = "demo-picture" />
-## 演示图片 
+##  <div id = "demo-picture" />演示图片 
 详见：[demo-picture](/Demo Picture.md)
 
-<div id = "project-tech-stack" />
-## 项目技术栈 
+## <div id = "project-tech-stack" /> 项目技术栈 
 
 #### 工具
 
@@ -86,8 +84,7 @@
 + p3c —— 要求通过阿里规约检测，Critical级别及以上必须处理（除非有正当理由，在本项目中只出现了NoOpPasswordEncoder导致Critical，当然，之后可以很方面地切换到BCyptPsswordEncoder等加密器）。Major级别在时间允许的情况尽量处理。
 + lombok —— 要求pojo的字段getter、setter、hashcode、equal、toString方法均使用lombok注解处理；所有类使用日志时必须使用@Slf4j注解。
 
-<div id = "directory-structure" />
-## 目录结构
+##  <div id = "directory-structure" />目录结构
 
 #### 代码层
 
@@ -133,12 +130,12 @@
 
 参考资料：[spring boot 项目开发常用目录结构](https://blog.csdn.net/Auntvt/article/details/80381756)
 
-<div id = "task-and-code-standard" />
-## 任务 & 代码规范 
+
+##  <div id = "task-and-code-standard" /> 任务 & 代码规范 
 详见：[Task & Code Standard](/Task & Code Standard.md)
 
-<div id = "project-summary" />
-## 项目总结 
+
+## <div id = "project-summary" />  项目总结 
 
 #### 完成情况
 1. 全部功能开发完毕，核心功能点经测试均可行，非核心的功能点测试没有完全覆盖。
